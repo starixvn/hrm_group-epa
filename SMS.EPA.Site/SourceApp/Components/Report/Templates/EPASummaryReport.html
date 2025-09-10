@@ -1,0 +1,55 @@
+﻿<div class="epa-summary-report" ng-controller="EPASummaryReportController as epaSummaryReportCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="EPASummaryReport"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <form novalidate class="form-filter" role="form">
+            <div class="form-group">
+                <label class="label-form" data-translate="EvaluationPeriod"></label>
+                <div class="select-form">
+                    <epa-add-class-to-role-filter class="multi-select" multi-select input-model="epaSummaryReportCtrl.periods" button-label="Name"
+                                                  helper-elements="all reset filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
+                    </epa-add-class-to-role-filter>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="label-form" data-translate="Team"></label>
+                <div class="select-form">
+                    <multi-select-tree-view selected-items="epaSummaryReportCtrl.filter.teamIds"
+                                            is-selected-all="true" has-search-box="true"
+                                            options="epaSummaryReportCtrl.orgChart" on-select="epaSummaryReportCtrl.onSelectTeam"></multi-select-tree-view>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="label-form" data-translate="Category"></label>
+                <select class="form-control select-form" ng-model="epaSummaryReportCtrl.filter.isLocal">
+                    <option value="">-- {{"All" | translate}} --</option>
+                    <option value="false">{{"Expat" | translate}}</option>
+                    <option value="true">{{"Local" | translate}}</option>
+                </select>
+            </div>
+            <div class="form-group"></div>
+            <div class="form-group">
+                <label class="label-form" data-translate="Employee"></label>
+                <input class="form-control input-form" ng-model="epaSummaryReportCtrl.searchKeyword"
+                       placeholder="Enter full name or nick name" search-auto-complete search-employees="epaSummaryReportCtrl.getEmployee()"
+                       ng-change="epaSummaryReportCtrl.unSelectEmployee()" employee="epaSummaryReportCtrl.filter.employee" />
+            </div>
+            <div class="form-group">
+                <label class="label-form"></label>
+                <button class="btn btn-primary" ng-click="epaSummaryReportCtrl.query(epaSummaryReportCtrl.filter)" data-translate="Search"></button>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-12">
+        <div class="freegrid" data-export-epa-summary-report data-grid-epa-summary-report
+             data-grid-data="epaSummaryReportCtrl.epaSummary" data-grid-expand-height="300"
+             data-on-sort-changing="epaSummaryReportCtrl.sortChanging"
+             data-sort-column-name="epaSummaryReportCtrl.filter.sortColumnName"
+             data-sort-direction="epaSummaryReportCtrl.filter.sortDirection"
+             data-export-report="epaSummaryReportCtrl.exportReport"
+             data-page-option="epaSummaryReportCtrl.filter"></div>
+    </div>
+</div>

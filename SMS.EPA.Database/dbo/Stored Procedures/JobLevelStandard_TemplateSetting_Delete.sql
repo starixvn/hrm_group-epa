@@ -1,0 +1,47 @@
+﻿
+CREATE PROCEDURE [dbo].[JobLevelStandard_TemplateSetting_Delete] @ObjectId INT
+	,@ObjectTypeId TINYINT
+	,@ModifiedBy INT
+	,@ErrCode INT = 0 OUTPUT
+	,@ErrMsg NVARCHAR(200) = '' OUTPUT
+AS
+/*
+Created: 2023-05-23@Frankie.Nguyen
+Task: Delete Template of JobLevelStandard
+DB: SMSEPA
+Original:
+
+Revisions:
+Param's Explanation:
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @oldData NVARCHAR(MAX)
+		,@xml XML
+
+	SET @xml = (
+			SELECT ts.TemplateId AS '@TemplateId'
+				,@ObjectTypeId AS '@ObjectTypeId'
+				,@ObjectId AS '@ObjectId'
+			FROM dbo.JobLevelStandard_TemplateSetting AS ts WITH (NOLOCK)
+			WHERE ObjectId = @ObjectId
+				AND ObjectTypeId = @ObjectTypeId
+			FOR XML PATH('r')
+				,TYPE
+			)
+	SET @oldData = REPLACE(CONVERT(NVARCHAR(MAX), @xml), '" />', '"/"')
+
+	DELETE
+	FROM dbo.JobLevelStandard_TemplateSetting WITH (ROWLOCK, UPDLOCK)
+	WHERE ObjectId = @ObjectId
+		AND ObjectTypeId = @ObjectTypeId
+
+	EXEC dbo.LogDetail_Insert @ActorId = @ModifiedBy
+		,@SpName = 'JobLevelStandard_TemplateSetting_Delete'
+		,@ObjectId = @ObjectId
+		,@ObjectTypeId = @ObjectTypeId
+		,@Data = NULL
+		,@OldData = @oldData
+		,@ObjectIds = NULL
+END

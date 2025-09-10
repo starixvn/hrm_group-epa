@@ -1,0 +1,67 @@
+﻿@using SMS.EPA.Resources
+@using SMS.EPA.Model
+@using Microsoft.AspNetCore.Hosting
+@inject IWebHostEnvironment WebHostEnvironment
+
+@model EPAEmployeeInfo
+
+@{
+    string GetAvatarPath(string code)
+    {
+        var avatarPath = Path.Combine(WebHostEnvironment.WebRootPath, "avatars", "avatar.jpg");
+        var defaultPath = File.Exists(avatarPath) ? "/avatars/avatar.jpg" : string.Empty;
+
+        var codeWithExtension = code + ".jpg";
+        var specificAvatarPath = Path.Combine(WebHostEnvironment.WebRootPath, "avatars", codeWithExtension);
+        
+        if (File.Exists(specificAvatarPath))
+        {
+            return "/avatars/" + codeWithExtension;
+        }
+
+        return defaultPath;
+    }
+}
+
+<table class="general-info">
+    <thead>
+        <tr class="table-title">
+            <th colspan="5">@Lang.GeneralInfo</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="4" class="border-b-l">
+                @{
+                    var avatarPath = GetAvatarPath(Model.Code);
+                }
+                @if (!string.IsNullOrEmpty(avatarPath))
+                {
+                    <img src="@avatarPath" height="60" />
+                }
+            </td>
+            <td class="border-b-l" width="10%">@Lang.EmployeeCode</td>
+            <td class="border-b" width="20%">@Model.Code</td>
+            <td class="border-b" width="10%">@Lang.NickName</td>
+            <td class="border-r-b" width="20%">@Model.NickName</td>
+        </tr>
+        <tr>
+            <td class="border-b-l">@Lang.FullName</td>
+            <td class="border-b">@Model.FullName</td>
+            <td class="border-b">@Lang.JobTitle</td>
+            <td class="border-r-b">@Model.JobTitleName</td>
+        </tr>
+        <tr>
+            <td class="border-b-l">@Lang.Section</td>
+            <td class="border-b">@Model.Section</td>
+            <td class="border-b">@Lang.JobLevel</td>
+            <td class="border-r-b">@Model.JobLevel</td>
+        </tr>
+        <tr>
+            <td class="border-b-l">@Lang.Team</td>
+            <td class="border-b">@Model.GroupName</td>
+            <td class="border-b">@Lang.GroupDate</td>
+            <td class="border-r-b">@Model.JoinedDate.ToString("dd MMM, yyyy")</td>
+        </tr>
+    </tbody>
+</table>

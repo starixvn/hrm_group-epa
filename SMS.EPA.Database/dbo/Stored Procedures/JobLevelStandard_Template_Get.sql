@@ -1,0 +1,40 @@
+﻿
+CREATE PROCEDURE [dbo].[JobLevelStandard_Template_Get] @IsActive TINYINT = NULL
+AS
+/*
+Created: 2023-04-24@Frankie.Nguyen
+Task: Get JobLevelStandard Template
+DB: SMSEPA
+Original:
+
+Revisions:
+Param's Explanation:
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	CREATE TABLE #tmpTemplate (
+		TemplateId INT PRIMARY KEY
+		,KPIs INT
+		)
+
+	INSERT INTO #tmpTemplate (
+		TemplateId
+		,KPIs
+		)
+	SELECT TemplateId
+		,COUNT(1) AS KPIs
+	FROM dbo.JobLevelStandard_TemplateKPI WITH (NOLOCK)
+	GROUP BY TemplateId
+
+	SELECT k.TemplateId
+		,NAME
+		,IsActive
+		,ISNULL(tk.KPIs, 0) AS KPIs
+	FROM dbo.JobLevelStandard_Template AS k WITH (NOLOCK)
+		LEFT JOIN #tmpTemplate AS tk ON k.TemplateId = tk.TemplateId
+	WHERE @IsActive IS NULL
+		OR k.IsActive = @IsActive
+
+	DROP TABLE #tmpTemplate
+END

@@ -1,0 +1,230 @@
+﻿.table {
+    &.table-job-level-standard-period, &.table-job-level-assessment {
+        thead tr {
+            th {
+                border-width: 0 1px 1px 0;
+                border-bottom: 1px solid @header-border-color;
+            }
+        }
+    }
+
+    &.table-job-level-setting {
+        max-width: 1300px;
+    }
+
+    &.table-job-level-assessment {
+        margin-bottom: 20px;
+
+        .grid-title-label {
+            font-size: 1em;
+            height: 18px;
+            padding-left: 4px;
+            padding-top: 5px;
+            font-weight: bold;
+        }
+
+        thead {
+            .btn-approve-multi {
+                margin-top: 4px;
+                margin-left: 5px;
+            }
+
+            .col-fullname {
+                min-width: 140px;
+            }
+
+            .col-los {
+                min-width: 90px;
+                max-width: 90px;
+            }
+
+            .col-doc, .col-current-joblevel, .col-system-propose {
+                min-width: 80px;
+                max-width: 80px;
+            }
+
+            .col-department, .col-section, .col-team, .col-template {
+                min-width: 120px;
+                min-width: 140px;
+            }
+
+            .col-level, .col-weight {
+                min-width: 45px;
+                max-width: 60px;
+            }
+
+            .col-action {
+                min-width: 60px;
+                max-width: 80px;
+            }
+        }
+
+        tbody {
+            .col-input {
+                padding-left: 4px;
+                padding-right: 4px;
+            }
+
+            .col-action {
+                .btn-group {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    .btn {
+                        padding: 2px 3px;
+                        font-size: 11px;
+
+                        &.btn-cancel {
+                            margin-left: 8px;
+                        }
+                    }
+                }
+            }
+        }
+
+        input.form-control {
+            height: 21px;
+            font-size: 13px;
+            border-width: 0 0 1px 0;
+            padding: 4px 2px;
+            background-color: transparent;
+
+            &:focus {
+                box-shadow: none;
+            }
+
+            &:disabled {
+                background-color: transparent;
+                border-width: 0;
+            }
+        }
+
+        tr {
+            &.under-standard {
+                td {
+                    &.difference {
+                        background-color: rgba(214, 101, 69, 0.8) !important;
+                        color: #fff;
+                    }
+                }
+            }
+
+            &.promotion {
+                td {
+                    &.difference {
+                        background-color: rgba(76, 175, 80, 0.8) !important;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.edit-job-level-standard-period-form {
+    width: 768px;
+}
+
+.job-level-standard-period-modal {
+    .calendar-input-group {
+        margin-bottom: 0;
+    }
+}
+
+.edit-employee-setting-modal {
+    .modal-dialog {
+        width: 768px;
+
+        .employee-info {
+            margin-top: 7px;
+        }
+    }
+
+    .table-edit-employee-setting {
+        .chosen-container {
+            .chosen-choices {
+                border: 1px solid #ccc;
+                border-radius: 0;
+                background-image: none;
+            }
+
+            &.chosen-container-multi {
+                .chosen-choices {
+                    border: 1px solid #ccc;
+                }
+            }
+
+            &.chosen-container-active {
+                .chosen-choices {
+                    border: 1px solid #5897fb;
+                    box-shadow: none;
+                }
+            }
+        }
+
+        .calendar-input-group {
+            margin: 0;
+        }
+
+        .template-col {
+            text-align: left;
+
+            select {
+                height: 26px;
+                width: 180px;
+                color: #555;
+            }
+        }
+    }
+}
+
+.job-level-assessment-container, .job-level-assessment-report-container {
+    .no-data {
+        background-color: #ebe4d4;
+        font-size: 15px;
+        margin: 10px 0;
+        font-weight: bold;
+        padding: 10px 12px;
+        text-shadow: none;
+        color: #333;
+    }
+}
+
+.job-level-standard-kpi, .job-level-standard-template {
+    max-width: 1024px;
+
+    .form-filter {
+        max-width: 1024px;
+        width: unset;
+    }
+
+    .table {
+        .col-active, .col-action {
+            width: 10%;
+        }
+    }
+
+    &.detail-target-template {
+        .kpi-content {
+            ul {
+                margin-bottom: 5px;
+            }
+        }
+    }
+}
+
+.popover-assessment-kpi {
+    .popover-assessment-title {
+        border-bottom: 1px dashed #808080;
+        margin-bottom: 8px;
+    }
+
+    .kpis {
+        font-size: 13px;
+    }
+}
+
+.blur-string {
+    opacity: 0.6 !important;
+}

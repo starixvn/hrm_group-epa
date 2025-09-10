@@ -1,0 +1,11 @@
+﻿<div>&ensp;</div>
+<table class="table table-bordered table-standard-grade">
+    <tbody>
+        <tr>
+            <td data-translate="EPAResultGuideline"></td>
+            <td ng-repeat="finalGrade in performanceGradeCtrl.finalGrades">
+                {{finalGrade.Code}}. {{finalGrade.Name}}: {{finalGrade.LeftScore | customScore}} ~ {{finalGrade.RightScore | customScore}}
+            </td>
+        </tr>
+    </tbody>
+</table>

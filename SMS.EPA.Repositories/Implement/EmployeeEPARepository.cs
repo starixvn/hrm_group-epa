@@ -1,0 +1,529 @@
+﻿namespace SMS.EPA.Repositories;
+
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using Fanex.Data;
+using Fanex.Data.Repository;
+using SMS.EPA.Core.Enumerations;
+using SMS.EPA.Core.Services;
+using SMS.EPA.Model;
+
+[SuppressMessage("Minor Code Smell", "S1192:String literals should not be duplicated", Justification = "<Pending>")]
+public class EmployeeEPARepository(ICryptographyService cryptographyService) : IEmployeeEPARepository
+{
+    private readonly ICryptographyService cryptographyService = cryptographyService ?? new CryptographyService();
+
+    public EmployeeEPARepository() : this(null)
+    {
+    }
+
+    public IEnumerable<EPAModel> GetEPA(ICriteria criteria)
+    {
+        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+        {
+            using (IMultiResultReader multi = db.QueryMultiple(criteria))
+            {
+                var epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    (epaInfo, employee, ratingType, period, scoreRatingType) =>
+                    {
+                        epaInfo.Employee = employee;
+                        epaInfo.RatingType = ratingType;
+                        epaInfo.ScoreRatingType = scoreRatingType;
+                        epaInfo.Period = period;
+
+                        return epaInfo;
+                    },
+                    "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId");
+
+                var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
+                    (process, evaluator, modifiedBy) =>
+                    {
+                        process.EvaluatorInfo = evaluator;
+                        process.ModifiedBy = modifiedBy;
+
+                        return process;
+                    },
+                    "EvaluatorId, ModifiedById");
+
+                var lastPerformProcess = multi.Read<EPAProcessModel>().ToList();
+
+                GroupEPAProcessByEPA(epaInfos, processes);
+                GroupLastEPAProcessByEPA(epaInfos, lastPerformProcess);
+
+                foreach (EPAModel epaInfo in epaInfos)
+                {
+                    DecryptAllScore(epaInfo);
+                }
+
+                return epaInfos;
+            }
+        }
+    }
+
+    public EPAModel GetEPAInfo(ICriteria criteria)
+    {
+        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+        {
+            using (IMultiResultReader multi = db.QueryMultiple(criteria))
+            {
+                var epaInfo = multi.Read<EPAModel, EPAEmployeeInfo, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    (info, employee, ratingType, period, scoreRatingType) =>
+                    {
+                        info.Employee = employee;
+                        info.RatingType = ratingType;
+                        info.ScoreRatingType = scoreRatingType;
+                        info.Period = period;
+
+                        return info;
+                    },
+                    "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId").FirstOrDefault();
+
+                if (epaInfo != null)
+                {
+                    var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
+                        (process, evaluator, modifiedBy) =>
+                        {
+                            process.EvaluatorInfo = evaluator;
+                            process.ModifiedBy = modifiedBy;
+
+                            return process;
+                        },
+                        "EvaluatorId, ModifiedById");
+
+                    epaInfo.KPIGroups = multi.Read<EPAKpiGroupModel>().ToList();
+
+                    var kpis = multi.Read<EPAKpiModel>();
+                    var evaluations = multi.Read<EvaluationModel>();
+
+                    epaInfo.LastProcesses = multi.Read<EPAProcessModel>().ToList();
+
+                    GroupEPAProcessByEPA(epaInfo, processes);
+                    GroupKPIByKPIGroup(epaInfo.KPIGroups, kpis);
+
+                    foreach (EPAKpiGroupModel kpiGroup in epaInfo.KPIGroups)
+                    {
+                        GroupEvaluationOnEachKPI(kpiGroup.KPIs, evaluations);
+                    }
+
+                    DecryptAllScore(epaInfo);
+                }
+
+                return epaInfo;
+            }
+        }
+    }
+
+    public IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(ICriteria criteria)
+    {
+        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+        {
+            using (IMultiResultReader multi = db.QueryMultiple(criteria))
+            {
+                var epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, EPAPeriodModel, EPAModel>(
+                    (epaInfo, emp, period) =>
+                    {
+                        epaInfo.Employee = emp;
+                        epaInfo.Period = period;
+
+                        return epaInfo;
+                    },
+                    "EmployeeId, PeriodId");
+
+                var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
+                    (process, evaluator, modifiedBy) =>
+                    {
+                        process.EvaluatorInfo = evaluator;
+                        process.ModifiedBy = modifiedBy;
+
+                        return process;
+                    },
+                    "EvaluatorId, ModifiedById");
+
+                GroupEPAProcessByEPA(epaInfos, processes);
+
+                foreach (EPAModel epaInfo in epaInfos)
+                {
+                    DecryptAllScore(epaInfo);
+                }
+
+                return epaInfos;
+            }
+        }
+    }
+
+    public IList<EPAModel> GetEPAToUpdateFinalScore(ICriteria criteria)
+    {
+        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+        {
+            using (IMultiResultReader multi = db.QueryMultiple(criteria))
+            {
+                IList<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, EPAPeriodModel, EPAModel>(
+                    (epaInfo, emp, period) =>
+                    {
+                        epaInfo.Employee = emp;
+                        epaInfo.Period = period;
+
+                        return epaInfo;
+                    },
+                    "EmployeeId, PeriodId").ToList();
+
+                var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
+                    (process, evaluator, modifiedBy) =>
+                    {
+                        process.EvaluatorInfo = evaluator;
+                        process.ModifiedBy = modifiedBy;
+
+                        return process;
+                    },
+                    "EvaluatorId, ModifiedById");
+
+                GroupEPAProcessByEPA(epaInfos, processes);
+
+                foreach (EPAModel epaInfo in epaInfos)
+                {
+                    DecryptAllScore(epaInfo);
+                }
+
+                return epaInfos;
+            }
+        }
+    }
+
+    public DashboardModel GetDashboard(ICriteria criteria)
+    {
+        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+        {
+            using (IMultiResultReader multi = db.QueryMultiple(criteria))
+            {
+                var result = new DashboardModel
+                {
+                    MyEpaInfos = multi.Read<EPAModel, EPAPeriodModel, EPAModel>(
+                        (epa, period) =>
+                        {
+                            epa.Period = period;
+
+                            return epa;
+                        },
+                        "PeriodId")
+                };
+
+                var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
+                    (process, evaluator, modifiedBy) =>
+                    {
+                        process.EvaluatorInfo = evaluator;
+                        process.ModifiedBy = modifiedBy;
+
+                        return process;
+                    },
+                    "EvaluatorId, ModifiedById");
+
+                GroupEPAProcessByEPA(result.MyEpaInfos, processes);
+
+                foreach (EPAModel epaInfo in result.MyEpaInfos)
+                {
+                    DecryptAllScore(epaInfo);
+                }
+
+                return result;
+            }
+        }
+    }
+
+    #region Rating By KPI
+
+    public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(ICriteria criteria)
+    {
+        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+        {
+            return db.Query<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+                (kpi, gr) =>
+                {
+                    kpi.KPIGroup = gr;
+
+                    return kpi;
+                },
+                "KPIGroupId",
+                criteria);
+        }
+    }
+
+    public IEnumerable<TemporaryKPIModel> GetKPIToView(ICriteria criteria)
+    {
+        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+        {
+            return db.Query<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+                (kpi, gr) =>
+                {
+                    kpi.KPIGroup = gr;
+
+                    return kpi;
+                },
+                "KPIGroupId",
+                criteria);
+        }
+    }
+
+    public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(ICriteria criteria)
+    {
+        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+        {
+            using (IMultiResultReader multi = db.QueryMultiple(criteria))
+            {
+                var epaInfos = multi.Read<RatingByKPIModel, EPAEmployeeInfo, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
+                    (epaInfo, employee, type, kgr) =>
+                    {
+                        epaInfo.Employee = employee;
+                        epaInfo.RatingType = type;
+                        epaInfo.KPIGroup = kgr;
+                        return epaInfo;
+                    },
+                    "EmployeeId, RatingTypeId, KPIGroupId");
+
+                var kpis = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+                    (kpi, kgr) =>
+                    {
+                        kpi.KPIGroup = kgr;
+                        return kpi;
+                    },
+                    "KPIGroupId");
+
+                var kpisBySelf = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+                    (kpi, kgr) =>
+                    {
+                        kpi.KPIGroup = kgr;
+                        return kpi;
+                    },
+                    "KPIGroupId");
+
+                GroupKPIByEPA(epaInfos, kpis);
+                GroupKPIBySelf(epaInfos, kpisBySelf);
+                DecryptAllScore(epaInfos);
+
+                return epaInfos;
+            }
+        }
+    }
+
+    #endregion Rating By KPI
+
+    private static void GroupEPAProcessByEPA(EPAModel epaInfo, IEnumerable<EPAProcessModel> processes)
+    {
+        foreach (EPAProcessModel process in processes.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
+        {
+            epaInfo.AllProcesses.Add(process);
+
+            switch (process.ProcessId)
+            {
+                case (byte)ProcessType.HumanResource:
+                    epaInfo.Process.HumanResources.Add(process);
+                    break;
+
+                case (byte)ProcessType.Self:
+                    epaInfo.Process.Self = process;
+                    break;
+
+                case (byte)ProcessType.Evaluator:
+                    epaInfo.Process.Evaluators.Add(process);
+                    break;
+
+                case (byte)ProcessType.Reviewer:
+                    epaInfo.Process.Reviewers.Add(process);
+                    break;
+
+                case (byte)ProcessType.Management:
+                    epaInfo.Process.Managements.Add(process);
+                    break;
+
+                default:
+                    continue;
+            }
+        }
+    }
+
+    private static void GroupEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> processes)
+    {
+        foreach (EPAModel epaInfo in epaInfos)
+        {
+            if (processes != null && processes.Any())
+            {
+                GroupEPAProcessByEPA(epaInfo, processes);
+            }
+        }
+    }
+
+    private static void GroupLastEPAProcessByEPA(EPAModel epaInfo, IEnumerable<EPAProcessModel> lastProcesses)
+    {
+        foreach (EPAProcessModel process in lastProcesses.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
+        {
+            epaInfo.LastProcesses.Add(process);
+        }
+    }
+
+    private static void GroupLastEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> lastProcesses)
+    {
+        foreach (EPAModel epaInfo in epaInfos)
+        {
+            if (lastProcesses != null && lastProcesses.Any())
+            {
+                GroupLastEPAProcessByEPA(epaInfo, lastProcesses);
+            }
+        }
+    }
+
+    private static void GroupKPIByKPIGroup(IList<EPAKpiGroupModel> kpiGroups, IEnumerable<EPAKpiModel> kpis)
+    {
+        foreach (var kpiGroup in kpiGroups)
+        {
+            var tempkpis = kpis.Where(x => x.EPAId == kpiGroup.EPAId && x.KPIGroupId == kpiGroup.KPIGroupId).ToList();
+            foreach (var kpi in tempkpis)
+            {
+                kpiGroup.KPIs.Add(kpi);
+            }
+        }
+    }
+
+    private static void GroupEvaluationOnEachKPI(IEnumerable<EPAKpiModel> kpis, IEnumerable<EvaluationModel> evaluations)
+    {
+        foreach (var kpi in kpis)
+        {
+            var tempEvaluations = evaluations.Where(x => x.EPAId == kpi.EPAId && x.KPIGroupId == kpi.KPIGroupId && x.KPIId == kpi.KPIId).ToList();
+            foreach (var evaluation in tempEvaluations)
+            {
+                switch (evaluation.ProcessId)
+                {
+                    case (byte)ProcessType.Self:
+                        kpi.EvaluationBySelf = evaluation;
+                        break;
+
+                    case (byte)ProcessType.Evaluator:
+                        kpi.EvaluationByEvaluators.Add(evaluation);
+                        break;
+
+                    default:
+                        continue;
+                }
+            }
+        }
+    }
+
+    private static void GroupKPIByEPA(IEnumerable<RatingByKPIModel> epaInfos, IEnumerable<TemporaryKPIModel> kpis)
+    {
+        foreach (RatingByKPIModel epaInfo in epaInfos)
+        {
+            IEnumerable<TemporaryKPIModel> tempkpis =
+                kpis.Where(x => x.EPAId.Equals(epaInfo.EPAId) && x.KPIGroup.KPIGroupId.Equals(epaInfo.KPIGroup.KPIGroupId));
+            foreach (TemporaryKPIModel kpi in tempkpis)
+            {
+                epaInfo.KPIGroup.KPIs.Add(kpi);
+            }
+        }
+    }
+
+    private static void GroupKPIBySelf(IEnumerable<RatingByKPIModel> epaInfos, IEnumerable<TemporaryKPIModel> kpis)
+    {
+        foreach (RatingByKPIModel epaInfo in epaInfos)
+        {
+            IEnumerable<TemporaryKPIModel> tempkpis =
+                kpis.Where(x => x.EPAId.Equals(epaInfo.EPAId) && x.KPIGroup.KPIGroupId.Equals(epaInfo.KPIGroup.KPIGroupId));
+            foreach (TemporaryKPIModel kpi in tempkpis)
+            {
+                epaInfo.KPIGroup.KPIsBySelf.Add(kpi);
+            }
+        }
+    }
+
+    private void DecryptAllScore(EPAModel epaInfo)
+    {
+        epaInfo.LastFinalScore = cryptographyService.Decrypt(epaInfo.LastFinalScore);
+        epaInfo.LastGrade = cryptographyService.Decrypt(epaInfo.LastGrade);
+        epaInfo.FinalScore = cryptographyService.Decrypt(epaInfo.FinalScore);
+        epaInfo.Grade = cryptographyService.Decrypt(epaInfo.Grade);
+        epaInfo.OldFinalScore = cryptographyService.Decrypt(epaInfo.OldFinalScore);
+        DecryptTotalScore(epaInfo.Process.Self);
+        DecryptTotalScore(epaInfo.Process.Evaluators);
+        DecryptTotalScore(epaInfo.Process.Reviewers);
+        DecryptTotalScore(epaInfo.Process.Managements);
+        DecryptTotalScore(epaInfo.LastProcesses);
+
+        foreach (EPAKpiModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
+        {
+            DecryptScore(kpi.EvaluationBySelf);
+            DecryptScore(kpi.EvaluationByEvaluators);
+        }
+    }
+
+    private void DecryptAllScore(IEnumerable<RatingByKPIModel> epaInfos)
+    {
+        foreach (RatingByKPIModel epaInfo in epaInfos)
+        {
+            epaInfo.TotalScore = cryptographyService.Decrypt(epaInfo.TotalScore);
+
+            foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIs)
+            {
+                float rate = 0;
+                if (!string.IsNullOrEmpty(kpi.RateEncrypt))
+                {
+                    rate = float.Parse(cryptographyService.Decrypt(kpi.RateEncrypt));
+                }
+
+                kpi.Score = GetKPIScore(cryptographyService.Decrypt(kpi.Score));
+                kpi.Rate = rate;
+            }
+
+            foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIsBySelf)
+            {
+                float rate = 0;
+                if (!string.IsNullOrEmpty(kpi.RateEncrypt))
+                {
+                    rate = float.Parse(cryptographyService.Decrypt(kpi.RateEncrypt));
+                }
+
+                kpi.Score = GetKPIScore(cryptographyService.Decrypt(kpi.Score));
+                kpi.Rate = rate;
+            }
+        }
+    }
+
+    private void DecryptTotalScore(EPAProcessModel process)
+    {
+        if (process != null)
+        {
+            process.TotalScore = cryptographyService.Decrypt(process.TotalScore);
+            process.AdjustScore = cryptographyService.Decrypt(process.AdjustScore);
+        }
+    }
+
+    private void DecryptTotalScore(IList<EPAProcessModel> processes)
+    {
+        foreach (EPAProcessModel process in processes)
+        {
+            DecryptTotalScore(process);
+        }
+    }
+
+    private void DecryptScore(EvaluationModel evaluation)
+    {
+        if (evaluation != null)
+        {
+            float rate = 0;
+            if (!string.IsNullOrEmpty(evaluation.RateEncrypt))
+            {
+                rate = float.Parse(cryptographyService.Decrypt(evaluation.RateEncrypt));
+            }
+
+            evaluation.Score = GetKPIScore(cryptographyService.Decrypt(evaluation.Score));
+            evaluation.Rate = rate;
+        }
+    }
+
+    private void DecryptScore(IList<EvaluationModel> evaluations)
+    {
+        foreach (EvaluationModel evaluation in evaluations)
+        {
+            DecryptScore(evaluation);
+        }
+    }
+
+    private static string GetKPIScore(string score) => !string.IsNullOrWhiteSpace(score) ? score.Split('_')[0] : score;
+}

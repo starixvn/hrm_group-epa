@@ -1,0 +1,269 @@
+﻿
+CREATE PROCEDURE [dbo].[JobLevelStandard_PeriodEmployeeSetting_Update] @PeriodId INT
+	,@TemplateId INT = NULL
+	,@SettingXml NVARCHAR(MAX) = NULL
+	,@ModifiedBy INT = NULL
+	,@ErrCode INT = 0 OUTPUT
+	,@ErrMsg NVARCHAR(MAX) = '' OUTPUT
+AS
+/*
+Created: 2022-08-10@Tim.Trinh
+Task: update employee setting
+DB: SMSEPA
+Original:
+
+Revisions:
+Param's Explanation:
+	@SettingXml: <Root><Row EmployeeId='' ProcessId='' EvaluatorId='' FromDate='' ToDate='' /></Root>
+*/
+BEGIN
+	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
+
+	DECLARE @pendingStatusId TINYINT = 1
+		,@verifiedStatusId TINYINT = 2
+		,@approvedStatusId TINYINT = 3
+		,@logData NVARCHAR(MAX)
+		,@logDataOld NVARCHAR(MAX)
+		,@xml XML
+		,@today DATE = GETDATE()
+		,@modifiedDate DATETIME = GETDATE()
+	DECLARE @DocHandler INT
+
+	CREATE TABLE #tmpEmployeeSetting (
+		ProcessId TINYINT
+		,EmployeeId INT
+		,EvaluatorId INT
+		,FromDate DATE
+		,ToDate DATE
+		)
+
+	EXEC sp_xml_preparedocument @DocHandler OUTPUT
+		,@SettingXml
+
+	INSERT INTO #tmpEmployeeSetting (
+		EmployeeId
+		,EvaluatorId
+		,ProcessId
+		,FromDate
+		,ToDate
+		)
+	SELECT EmployeeId
+		,EvaluatorId
+		,ProcessId
+		,FromDate
+		,ToDate
+	FROM OPENXML(@DocHandler, '/Root/Row', 1) WITH (EmployeeId INT, EvaluatorId INT, ProcessId TINYINT, FromDate DATE, ToDate DATE) AS Data
+
+	EXEC sp_xml_removedocument @DocHandler
+
+	SET @xml = (
+			SELECT pes.PeriodId AS '@PeriodId'
+				,pes.TemplateId AS '@TemplateId'
+				,pes.EmployeeId AS '@EmployeeId'
+				,ja.AssessmentId AS '@AssessmentId'
+				,ja.TotalWeight AS '@TotalWeight'
+				,ja.CurrentJobLevelId AS '@CurrentJobLevelId'
+				,ja.NewJobLevelId AS '@NewJobLevelId'
+				,ja.StatusId AS '@StatusId'
+				,(
+					SELECT EvaluatorId AS '@EvaluatorId'
+						,ProcessId AS '@ProcessId'
+						,FromDate AS '@FromDate'
+						,ToDate AS '@ToDate'
+					FROM dbo.JobLevelStandard_PeriodProcessSetting WITH (NOLOCK)
+					WHERE PeriodId = @PeriodId
+						AND EmployeeId = pes.EmployeeId
+					FOR XML PATH('evaluator')
+						,TYPE
+					)
+				,(
+					SELECT KPIId AS '@KPIId'
+						,[Level] AS '@Level'
+						,[Weight] AS '@Weight'
+					FROM dbo.JobLevelStandard_AssessmentKPI WITH (NOLOCK)
+					WHERE AssessmentId = ja.AssessmentId
+					FOR XML PATH('kpi')
+						,TYPE
+					)
+			FROM dbo.JobLevelStandard_PeriodEmployeeSetting AS pes WITH (NOLOCK)
+				LEFT JOIN dbo.JobLevelStandard_Assessment AS ja WITH (NOLOCK) ON ja.EmployeeId = pes.EmployeeId
+				AND ja.PeriodId = pes.PeriodId
+			WHERE pes.PeriodId = @PeriodId
+				AND EXISTS (
+					SELECT 1
+					FROM #tmpEmployeeSetting AS tmp WITH (NOLOCK)
+					WHERE pes.EmployeeId = tmp.EmployeeId
+					)
+			FOR XML PATH('r')
+				,TYPE
+			)
+	SET @logDataOld = REPLACE(CONVERT(NVARCHAR(MAX), @xml), '" />', '"/"')
+
+	DELETE pps
+	FROM dbo.JobLevelStandard_PeriodProcessSetting AS pps WITH (ROWLOCK, UPDLOCK)
+	WHERE pps.PeriodId = @PeriodId
+		AND EXISTS (
+			SELECT 1
+			FROM #tmpEmployeeSetting AS tmp WITH (NOLOCK)
+			WHERE tmp.EmployeeId = pps.EmployeeId
+			)
+		AND NOT EXISTS (
+			SELECT 1
+			FROM #tmpEmployeeSetting AS tmp WITH (NOLOCK)
+			WHERE tmp.ProcessId = pps.ProcessId
+				AND tmp.EmployeeId = pps.EmployeeId
+				AND tmp.EvaluatorId = pps.EvaluatorId
+			)
+
+	UPDATE pps
+	SET pps.FromDate = tmp.FromDate
+		,pps.ToDate = tmp.ToDate
+		,pps.ModifiedBy = @ModifiedBy
+		,pps.ModifiedDate = @modifiedDate
+	FROM dbo.JobLevelStandard_PeriodProcessSetting AS pps WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN #tmpEmployeeSetting AS tmp WITH (NOLOCK) ON pps.ProcessId = tmp.ProcessId
+		AND pps.EmployeeId = tmp.EmployeeId
+		AND pps.EvaluatorId = tmp.EvaluatorId
+	WHERE pps.PeriodId = @PeriodId
+		AND (
+			pps.FromDate != tmp.FromDate
+			OR pps.ToDate != tmp.ToDate
+			)
+
+	INSERT INTO dbo.JobLevelStandard_PeriodProcessSetting (
+		PeriodId
+		,ProcessId
+		,EmployeeId
+		,EvaluatorId
+		,FromDate
+		,ToDate
+		,CreatedBy
+		,CreatedDate
+		)
+	SELECT @PeriodId
+		,ProcessId
+		,EmployeeId
+		,EvaluatorId
+		,FromDate
+		,ToDate
+		,@ModifiedBy
+		,@modifiedDate
+	FROM #tmpEmployeeSetting AS tmp WITH (NOLOCK)
+	WHERE NOT EXISTS (
+			SELECT 1
+			FROM dbo.JobLevelStandard_PeriodProcessSetting AS pps WITH (NOLOCK)
+			WHERE pps.PeriodId = @PeriodId
+				AND pps.ProcessId = tmp.ProcessId
+				AND pps.EmployeeId = tmp.EmployeeId
+				AND pps.EvaluatorId = tmp.EvaluatorId
+			)
+
+	UPDATE a
+	SET a.StatusId = @pendingStatusId
+		,a.ModifiedBy = @ModifiedBy
+		,a.ModifiedDate = @modifiedDate
+	FROM dbo.JobLevelStandard_Assessment AS a WITH (ROWLOCK, UPDLOCK)
+	WHERE a.PeriodId = @PeriodId
+		AND a.StatusId IN (@verifiedStatusId, @approvedStatusId)
+		AND EXISTS (
+			SELECT 1
+			FROM dbo.JobLevelStandard_PeriodProcessSetting AS ps WITH (NOLOCK)
+				INNER JOIN #tmpEmployeeSetting AS tmp WITH (NOLOCK) ON ps.EmployeeId = tmp.EmployeeId
+				AND ps.EvaluatorId = tmp.EvaluatorId
+				AND ps.ProcessId = tmp.ProcessId
+			WHERE a.PeriodId = ps.PeriodId
+				AND a.EmployeeId = tmp.EmployeeId
+				AND ps.ProcessId = 1
+				AND ps.ToDate >= @today
+			)
+
+	IF @TemplateId <> - 1
+	BEGIN
+		DELETE ja_kpi
+		FROM [dbo].[JobLevelStandard_PeriodEmployeeSetting] AS pes WITH (NOLOCK)
+			INNER JOIN #tmpEmployeeSetting AS tmp WITH (NOLOCK) ON pes.EmployeeId = tmp.EmployeeId
+			INNER JOIN dbo.JobLevelStandard_Assessment AS ja WITH (NOLOCK) ON ja.EmployeeId = pes.EmployeeId
+			AND ja.PeriodId = pes.PeriodId
+			INNER JOIN dbo.JobLevelStandard_AssessmentKPI AS ja_kpi WITH (NOLOCK) ON ja.AssessmentId = ja_kpi.AssessmentId
+		WHERE tmp.ProcessId = @verifiedStatusId
+			AND pes.PeriodId = @PeriodId
+			AND pes.TemplateId <> @TemplateId
+
+		DELETE ja
+		FROM [dbo].[JobLevelStandard_PeriodEmployeeSetting] AS pes WITH (NOLOCK)
+			INNER JOIN #tmpEmployeeSetting AS tmp WITH (NOLOCK) ON pes.EmployeeId = tmp.EmployeeId
+			INNER JOIN JobLevelStandard_Assessment AS ja WITH (NOLOCK) ON ja.EmployeeId = pes.EmployeeId
+			AND ja.PeriodId = pes.PeriodId
+		WHERE tmp.ProcessId = @verifiedStatusId
+			AND pes.PeriodId = @PeriodId
+			AND pes.TemplateId <> @TemplateId
+
+		UPDATE pes
+		SET pes.TemplateId = @TemplateId
+		FROM [dbo].[JobLevelStandard_PeriodEmployeeSetting] AS pes WITH (ROWLOCK, UPDLOCK)
+			INNER JOIN #tmpEmployeeSetting AS tmp WITH (NOLOCK) ON pes.EmployeeId = tmp.EmployeeId
+		WHERE tmp.ProcessId = @verifiedStatusId
+			AND pes.PeriodId = @PeriodId
+			AND (
+				pes.TemplateId <> @TemplateId
+				OR pes.TemplateId IS NULL
+				)
+
+		EXEC dbo.JobLevelStandard_Assessment_SyncPrevAssessment @PeriodId = @PeriodId
+	END
+
+	-- write log
+	SET @xml = (
+			SELECT pes.PeriodId AS '@PeriodId'
+				,pes.TemplateId AS '@TemplateId'
+				,pes.EmployeeId AS '@EmployeeId'
+				,ja.AssessmentId AS '@AssessmentId'
+				,ja.TotalWeight AS '@TotalWeight'
+				,ja.CurrentJobLevelId AS '@CurrentJobLevelId'
+				,ja.NewJobLevelId AS '@NewJobLevelId'
+				,ja.StatusId AS '@StatusId'
+				,(
+					SELECT EvaluatorId AS '@EvaluatorId'
+						,ProcessId AS '@ProcessId'
+						,FromDate AS '@FromDate'
+						,ToDate AS '@ToDate'
+					FROM dbo.JobLevelStandard_PeriodProcessSetting WITH (NOLOCK)
+					WHERE PeriodId = @PeriodId
+						AND EmployeeId = pes.EmployeeId
+					FOR XML PATH('evaluator')
+						,TYPE
+					)
+				,(
+					SELECT KPIId AS '@KPIId'
+						,[Level] AS '@Level'
+						,[Weight] AS '@Weight'
+					FROM dbo.JobLevelStandard_AssessmentKPI WITH (NOLOCK)
+					WHERE AssessmentId = ja.AssessmentId
+					FOR XML PATH('kpi')
+						,TYPE
+					)
+			FROM dbo.JobLevelStandard_PeriodEmployeeSetting AS pes WITH (NOLOCK)
+				LEFT JOIN dbo.JobLevelStandard_Assessment AS ja WITH (NOLOCK) ON ja.EmployeeId = pes.EmployeeId
+				AND ja.PeriodId = pes.PeriodId
+			WHERE pes.PeriodId = @PeriodId
+				AND EXISTS (
+					SELECT 1
+					FROM #tmpEmployeeSetting AS tmp WITH (NOLOCK)
+					WHERE pes.EmployeeId = tmp.EmployeeId
+					)
+			FOR XML PATH('r')
+				,TYPE
+			)
+	SET @logData = REPLACE(CONVERT(NVARCHAR(MAX), @xml), '" />', '"/"')
+
+	EXEC dbo.LogDetail_Insert @ActorId = @ModifiedBy
+		,@SpName = 'JobLevelStandard_PeriodEmployeeSetting_Update'
+		,@ObjectId = @PeriodId
+		,@ObjectTypeId = NULL
+		,@Data = @logData
+		,@OldData = @logDataOld
+		,@ObjectIds = NULL
+
+	DROP TABLE #tmpEmployeeSetting
+END

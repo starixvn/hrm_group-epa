@@ -1,0 +1,176 @@
+﻿<div class="col-sm-12 job-level-assessment-container" ng-controller="AssessmentController as assessmentCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li data-translate="JobLevelStandard"></li>
+            <li class="current">Assessment</li>
+        </ul>
+    </div>
+    <form novalidate class="form-filter" ng-show="assessmentCtrl.periods && assessmentCtrl.periods.length > 0">
+        <div class="form-group">
+            <label class="label-form" data-translate="Period"></label>
+            <select class="form-control select-form" ng-model="assessmentCtrl.filter.periodId"
+                    ng-options="opt.PeriodId as opt.Name for opt in assessmentCtrl.periods">
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="label-form" data-translate="Section"></label>
+            <div class="select-form">
+                <multi-select-tree-view selected-items="assessmentCtrl.filter.sectionIds"
+                                        is-selected-all="true" has-search-box="true"
+                                        options="assessmentCtrl.orgChart"
+                                        on-select="assessmentCtrl.onSelectSection"></multi-select-tree-view>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="label-form" data-translate="Status"></label>
+            <select class="form-control select-form" ng-model="assessmentCtrl.filter.statusId"
+                    ng-options="opt.StatusId as opt.Name for opt in assessmentCtrl.statusOptions">
+                <option value="">-- {{"All" | translate}} --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" data-translate="Search" ng-click="assessmentCtrl.query()"></button>
+        </div>
+    </form>
+    <table class="row table table-bordered table-striped table-job-level-assessment"
+           ng-show="assessmentCtrl.periods && assessmentCtrl.periods.length > 0" float-thead>
+        <thead>
+            <tr class="header-table">
+                <th colspan="{{18 + assessmentCtrl.kpis.length * 2}}">
+                    <a class="pull-left btn btn-primary btn-approve-multi" ng-click="assessmentCtrl.approveAll()"
+                       ng-show="assessmentCtrl.showApproveAll" data-translate="Review">
+                    </a>
+                    <input type="text" class="search-inline-textbox search pull-right"
+                           ng-model="assessmentCtrl.searchKey" ng-change="assessmentCtrl.search()" />
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th rowspan="3" ng-show="assessmentCtrl.showApproveAll">
+                    <input type="checkbox" ng-model="assessmentCtrl.selectedAll" ng-click="assessmentCtrl.onSellectAll()" />
+                </th>
+                <th rowspan="3" data-translate="SymbolCount"></th>
+                <th rowspan="2" colspan="11">Employee Info</th>
+                <th ng-if="assessmentCtrl.kpis.length > 0" colspan="{{assessmentCtrl.kpis.length * 2}}">
+                    Job Level Standards (Assessment by Department P.I.C)
+                </th>
+                <th colspan="3" rowspan="2">Review by Unit Head</th>
+                <!--<th rowspan="3" data-translate="Remark"></th>-->
+                <th rowspan="3" data-translate="Status"></th>
+                <th class="col-action" rowspan="3" data-translate="Action"></th>
+            </tr>
+            <tr>
+                <th ng-repeat="kpi in assessmentCtrl.kpis" ng-bind="kpi.KPIName" colspan="2"></th>
+            </tr>
+            <tr>
+                <th data-translate="Code"></th>
+                <th class="col-fullname" data-translate="FullName"></th>
+                <th data-translate="Nickname"></th>
+                <th class="col-doc">DOC</th>
+                <th class="col-los" data-translate="LengthOfService"></th>
+                <th class="col-department" data-translate="Department"></th>
+                <th class="col-section" data-translate="Section"></th>
+                <th class="col-team" data-translate="Team"></th>
+                <th class="col-template" data-translate="Template"></th>
+                <th class="col-current-joblevel" data-translate="CurrentJobLevel"></th>
+                <th data-translate="RequirementMinScore"></th>
+                <th ng-repeat-start="kpi in assessmentCtrl.kpis" class="col-level" data-translate="Level"></th>
+                <th ng-repeat-end class="col-weight" data-translate="Weight"></th>
+                <th data-translate="TotalWeight"></th>
+                <th data-translate="Difference"></th>
+                <th class="col-system-propose" data-translate="SystemPropose"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr dir-paginate="assessment in assessmentCtrl.filteredItems | itemsPerPage: assessmentCtrl.pageSize"
+                current-page="assessmentCtrl.currentPage" ng-class="assessment.CssClass">
+                <td ng-show="assessmentCtrl.showApproveAll">
+                    <input type="checkbox" ng-show="assessment.ShowCheckbox" ng-model="assessment.Selected" />
+                </td>
+                <td class="text-center" ng-bind="assessmentCtrl.getIndex($index, assessmentCtrl.currentPage, assessmentCtrl.pageSize)"></td>
+                <td class="text-center" ng-bind="assessment.Code"></td>
+                <td ng-bind="assessment.FullName"></td>
+                <td ng-bind="assessment.Nickname"></td>
+                <td class="text-center" ng-bind="assessment.JoinedDate | date: assessmentCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="assessment.LengthOfService"></td>
+                <td ng-bind="assessment.Department"></td>
+                <td ng-bind="assessment.Section"></td>
+                <td ng-bind="assessment.Team"></td>
+                <td>
+                    <div popover-assessment-kpis kpis="{{assessment.KPIs}}">{{assessment.Template}}</div>
+                </td>
+                <td class="text-center" ng-bind="assessment.CurrentJobLevel"></td>
+                <td class="text-center" ng-bind="assessment.RequirementMinScore"></td>
+                <td ng-repeat-start="kpi in assessmentCtrl.kpis" class="col-input col-level text-center">
+                    <div ng-repeat="akpi in assessment.KPIs | filter: {KPIId: kpi.KPIId}" ng-show="$first">
+                        <span ng-class="{'blur-string' : akpi.Level === akpi.OldLevel}"
+                              ng-show="!assessment.IsHost || assessment.CurrentProcessId !== assessmentCtrl.process.Evaluator || !assessment.IsEdit">
+                            {{akpi.Level}}
+                        </span>
+
+                        <input type="text" class="text-center form-control"
+                               ng-class="assessmentCtrl.cssOldWeight(akpi, assessment)"
+                               ng-show="assessment.IsHost && assessment.CurrentProcessId === assessmentCtrl.process.Evaluator && assessment.IsEdit"
+                               ng-change="assessmentCtrl.inputLevel(akpi, assessment)"
+                               ng-model="akpi.Level"
+                               numeric decimals="0" min="0" max="5" autocomplete="off" />
+                    </div>
+                </td>
+                <td ng-repeat-end class="col-input col-weight text-center">
+                    <div ng-repeat="akpi in assessment.KPIs | filter: {KPIId: kpi.KPIId}" ng-show="$first">
+                        <span ng-class="{'blur-string' : akpi.Weight === akpi.OldWeight}">
+                            {{assessmentCtrl.getDisplayKpiWeight(akpi.Weight)}}
+                        </span>
+                    </div>
+                </td>
+                <td class="text-center" ng-bind="assessment.TotalWeight"></td>
+                <td class="text-center difference" ng-bind="assessment.SystemPropose"></td>
+                <td class="text-center" ng-bind="assessment.NewJobLevel"></td>
+                <td class="text-center">
+                    <span ng-show="assessment.StatusId === assessmentCtrl.status.Pending" data-translate="Pending"></span>
+                    <span ng-show="assessment.StatusId === assessmentCtrl.status.Verified" data-translate="Verified"></span>
+                    <span ng-show="assessment.StatusId === assessmentCtrl.status.Approved" data-translate="Reviewed"></span>
+                </td>
+                <td class="text-center col-action">
+                    <div class="btn-group">
+                        <button class="btn btn-primary glyphicon glyphicon-edit" title="Edit" ng-click="assessmentCtrl.edit(assessment)"
+                                ng-if="assessment.IsHost && assessment.CurrentProcessId === assessmentCtrl.process.Evaluator && (assessment.StatusId === null || assessment.StatusId === assessmentCtrl.status.Pending) && !assessment.IsEdit"
+                                ng-disabled="assessmentCtrl.isEditing && assessmentCtrl.selectedAssessment && assessmentCtrl.selectedAssessment.EmployeeId !== assessment.EmployeeId">
+                        </button>
+                        <button class="btn btn-primary glyphicon glyphicon-ok" title="Save"
+                                ng-click="assessmentCtrl.save(assessment)" ng-show="assessment.IsEdit"></button>
+                        <button class="btn btn-cancel glyphicon glyphicon-remove" title="Cancel"
+                                ng-click="assessmentCtrl.cancel(assessment)" ng-show="assessment.IsEdit"></button>
+                        <button class="btn btn-primary" data-translate="Verify"
+                                ng-click="assessmentCtrl.verify(assessment)"
+                                ng-if="assessment.IsHost && assessment.CurrentProcessId === assessmentCtrl.process.Employee && assessment.StatusId === assessmentCtrl.status.Pending"></button>
+                        <button class="btn btn-primary" data-translate="Review"
+                                ng-click="assessmentCtrl.approve(assessment)"
+                                ng-if="assessment.IsHost && assessment.CurrentProcessId === assessmentCtrl.process.Management && assessment.StatusId === assessmentCtrl.status.Verified"></button>
+                        <button class="btn btn-primary" data-translate="Reset"
+                                ng-click="assessmentCtrl.reset(assessment)"
+                                ng-if="assessment.IsHost && assessment.CurrentProcessId === assessmentCtrl.process.Management && assessment.StatusId === assessmentCtrl.status.Approved"></button>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-show="assessmentCtrl.filteredItems.length === 0">
+                <td class="empty-result" colspan="{{18 + assessmentCtrl.kpis.length * 2}}" data-translate="ThereIsNoData"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="{{18 + assessmentCtrl.kpis.length * 2}}" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="assessmentCtrl.pageSize"
+                            ng-options="entry for entry in assessmentCtrl.entries" ng-change="assessmentCtrl.currentPage = 1"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <ul uib-pagination total-items="assessmentCtrl.filteredItems.length" items-per-page="assessmentCtrl.pageSize"
+                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="assessmentCtrl.currentPage"
+                            class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="text-center no-data" ng-show="assessmentCtrl.periods && assessmentCtrl.periods.length === 0" data-translate="ThereIsNoData"></div>
+</div>

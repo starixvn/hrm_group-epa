@@ -1,0 +1,45 @@
+﻿<div class="row dashboard" ng-controller="DashboardController as dashboardCtrl">
+    <div ng-include src="'/SourceApp/Components/Dashboard/Templates/announcement.html'"></div>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading" data-toggle="collapse" data-target=".personal-profile">
+                <h4 class="panel-title text-uppercase" data-translate="PersonalProfile"></h4>
+            </div>
+            <div class="panel-collapse collapse in personal-profile">
+                <div class="panel-body" ng-include src="'/SourceApp/Components/Dashboard/Templates/personalProfile.html'"></div>
+            </div>
+        </div>
+    </div>
+    <div ng-include src="'/SourceApp/Components/Dashboard/Templates/evaluationProcess.html'"></div>
+    <div ng-include src="'/SourceApp/Components/Dashboard/Templates/todoList.html'"></div>
+    <div ng-include src="'/SourceApp/Components/Dashboard/Templates/JLSDashboard.html'"></div>
+    <div class="row">
+        <div class="panel panel-default" ng-if="!dashboardCtrl.employee.HasMonthlyEPA">
+            <div class="panel-heading" data-toggle="collapse" data-target=".my-epas">
+                <h4 class="panel-title" data-translate="MyEPAs"></h4>
+            </div>
+            <div class="panel-collapse my-epas collapse in">
+                <div class="panel-body" ng-include src="'/SourceApp/Components/Dashboard/Templates/myEPA.html'"></div>
+            </div>
+        </div>
+        <div class="panel panel-default" ng-if="dashboardCtrl.employee.HasMonthlyEPA">
+            <div class="panel-heading" data-toggle="collapse" data-target=".epas">
+                <h4 class="panel-title" data-translate="EPAs"></h4>
+            </div>
+            <div class="panel-collapse epas collapse in">
+                <div class="panel-body">
+                    <div class="target-tabset">
+                        <uib-tabset id="EPATab">
+                            <uib-tab heading="My EPAs" class="tab-cursor">
+                                <div ng-include src="'/SourceApp/Components/Dashboard/Templates/myEPA.html'"></div>
+                            </uib-tab>
+                            <uib-tab heading="Monthly EPAs" class="tab-cursor">
+                                <div ng-include src="'/SourceApp/Components/Dashboard/Templates/monthlyEPA.html'"></div>
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

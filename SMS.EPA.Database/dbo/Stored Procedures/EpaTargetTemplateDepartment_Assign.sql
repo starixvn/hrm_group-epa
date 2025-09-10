@@ -1,0 +1,207 @@
+﻿
+CREATE PROCEDURE [dbo].[EpaTargetTemplateDepartment_Assign] @TargetTemplateId INT
+	,@Departments VARCHAR(MAX)
+	,@ModifiedBy INT = NULL
+	,@ErrCode INT = 0 OUTPUT
+	,@ErrMsg NVARCHAR(200) = '' OUTPUT
+AS
+/*
+Created: 2015-06-12@Josh.Phan
+Task: Assign target template to department and group.
+DB: Redmine
+Original: 
+
+Revisions:  
+Param's Explanation:
+	@Departments = <ROOT>
+			<Department DepartmentId='1' IsGroup='1'></Department>
+			<Department DepartmentId='1' IsGroup='0'></Department>
+		</ROOT>
+*/
+BEGIN
+	SET NOCOUNT ON
+
+	DECLARE @TargetTypeId INT
+		,@AllowMultiple BIT
+		,@DocHandler INT
+
+	SELECT @TargetTypeId = tarTemp.TargetTypeId
+	FROM dbo.TargetTemplate AS tarTemp WITH (NOLOCK)
+		INNER JOIN dbo.TargetType AS tar WITH (NOLOCK) ON tarTemp.TargetTypeId = tar.TargetTypeId
+	WHERE tarTemp.TargetTemplateId = @TargetTemplateId
+
+	SELECT @AllowMultiple = tar.AllowMultiple
+	FROM dbo.TargetTemplate AS tarTemp WITH (NOLOCK)
+		INNER JOIN dbo.TargetType AS tar WITH (NOLOCK) ON tarTemp.TargetTypeId = tar.TargetTypeId
+	WHERE tarTemp.TargetTemplateId = @TargetTemplateId
+
+	CREATE TABLE #DepartmentSetting (
+		DepartmentId INT
+		,IsGroup BIT
+		,TargetTemplateId INT
+		)
+
+	EXEC sp_xml_preparedocument @DocHandler OUTPUT
+		,@Departments
+
+	INSERT INTO #DepartmentSetting (
+		DepartmentId
+		,IsGroup
+		,TargetTemplateId
+		)
+	SELECT DepartmentId
+		,IsGroup
+		,@TargetTemplateId
+	FROM OPENXML(@DocHandler, '/ROOT/Department', 1) WITH (DepartmentId INT, IsGroup BIT) AS Data
+
+	EXEC sp_xml_removedocument @DocHandler
+
+	DECLARE @OldData NVARCHAR(MAX)
+		,@DepartmentId INT
+		,@IsGroup BIT
+		,@Dept CURSOR
+		,@DeptLogDetail NVARCHAR(MAX)
+
+	SET @OldData = '<r>'
+	SET @Dept = CURSOR
+	FOR
+
+	SELECT DepartmentId
+		,IsGroup
+	FROM #DepartmentSetting WITH (NOLOCK)
+
+	OPEN @Dept
+
+	FETCH NEXT
+	FROM @Dept
+	INTO @DepartmentId
+		,@IsGroup
+
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		SET @DeptLogDetail = ''
+
+		EXEC @DeptLogDetail = dbo.fncGetDataForWriteLog_TargetTemplateSetting_Department @DepartmentId = @DepartmentId
+			,@IsGroup = @IsGroup
+
+		SET @OldData = @OldData + @DeptLogDetail
+
+		FETCH NEXT
+		FROM @Dept
+		INTO @DepartmentId
+			,@IsGroup
+	END
+
+	CLOSE @Dept
+
+	DEALLOCATE @Dept
+
+	SET @OldData = @OldData + '</r>'
+
+	BEGIN TRY
+		BEGIN TRANSACTION
+
+		SELECT @AllowMultiple
+
+		IF @AllowMultiple = 1
+		BEGIN
+			DELETE tt
+			FROM [dbo].[TargetTemplateDepartment] AS tt
+			WHERE EXISTS (
+					SELECT 1
+					FROM #DepartmentSetting AS deptSet WITH (NOLOCK)
+					WHERE tt.[DepartmentId] = deptSet.DepartmentId
+						AND tt.[IsGroup] = deptSet.IsGroup
+						AND tt.TargetTemplateId = @TargetTemplateId
+					)
+		END
+
+		IF ISNULL(@AllowMultiple, '') = ''
+		BEGIN
+			DELETE tt
+			FROM [dbo].[TargetTemplateDepartment] AS tt
+			WHERE EXISTS (
+					SELECT 1
+					FROM #DepartmentSetting AS deptSet WITH (NOLOCK)
+					WHERE tt.[DepartmentId] = deptSet.[DepartmentId]
+						AND tt.[IsGroup] = deptSet.[IsGroup]
+						AND tt.[TargetTemplateId] IN (
+							SELECT [TargetTemplateId]
+							FROM [dbo].[TargetTemplate] WITH (NOLOCK)
+							WHERE [TargetTypeId] = @TargetTypeId
+							)
+					)
+		END
+
+		INSERT INTO [dbo].[TargetTemplateDepartment] (
+			[TargetTemplateId]
+			,[DepartmentId]
+			,[IsGroup]
+			,[ModifiedBy]
+			,[ModifiedDate]
+			)
+		SELECT @TargetTemplateId
+			,[DepartmentId]
+			,[IsGroup]
+			,@ModifiedBy
+			,GETDATE()
+		FROM #DepartmentSetting WITH (NOLOCK)
+
+		DECLARE @Data NVARCHAR(MAX)
+
+		SET @Data = '<r>'
+		SET @Dept = CURSOR
+		FOR
+
+		SELECT [DepartmentId]
+			,[IsGroup]
+		FROM #DepartmentSetting WITH (NOLOCK)
+
+		OPEN @Dept
+
+		FETCH NEXT
+		FROM @Dept
+		INTO @DepartmentId
+			,@IsGroup
+
+		WHILE @@FETCH_STATUS = 0
+		BEGIN
+			SET @DeptLogDetail = ''
+
+			EXEC @DeptLogDetail = [dbo].[fncGetDataForWriteLog_TargetTemplateSetting_Department] @DepartmentId = @DepartmentId
+				,@IsGroup = @IsGroup
+
+			SET @Data = @Data + @DeptLogDetail
+
+			FETCH NEXT
+			FROM @Dept
+			INTO @DepartmentId
+				,@IsGroup
+		END
+
+		CLOSE @Dept
+
+		DEALLOCATE @Dept
+
+		SET @Data = @Data + '</r>'
+
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'EpaTargetTemplateDepartment_Assign'
+			,@ObjectId = NULL
+			,@ObjectTypeId = 7
+			,@Data = @Data
+			,@OldData = @OldData
+			,@ObjectIds = NULL
+
+		COMMIT TRANSACTION
+
+		DROP TABLE #DepartmentSetting
+	END TRY
+
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+
+		SELECT @ErrCode = 1
+			,@ErrMsg = N'Setting target template to department unsuccessfully.'
+	END CATCH
+END

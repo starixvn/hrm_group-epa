@@ -1,0 +1,88 @@
+﻿
+CREATE PROCEDURE [dbo].[Sync_UserMapping] @UserMappingXml NVARCHAR(MAX)
+	,@ErrCode INT = 0 OUTPUT
+	,@ErrMsg NVARCHAR(200) = '' OUTPUT
+AS
+/*
+Created: 20221129@Otis.Vu
+Task: update userId and syncdate
+DB: SMSHRM
+Original: 
+
+Revisions:  
+Param's Explanation:
+	- @UserMappingXml
+		<Root>
+			<Row UserId="5" RefId="527" NewUserId="19" ModifiedDate="2022-11-22 02:12:29.857" />
+		</Root>
+*/
+BEGIN
+	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
+
+	DECLARE @idoc INT
+		,@syncDate DATETIME = GETDATE()
+		,@xml NVARCHAR(MAX)
+
+	EXEC sp_xml_preparedocument @idoc OUTPUT
+		,@UserMappingXml
+
+	CREATE TABLE #tblUserMapping (
+		UserId INT
+		,RefId INT
+		,NewUserId INT NULL
+		,ModifiedDate DATETIME
+		)
+
+	CREATE TABLE #tblUpdatedEmployee (
+		EmpId INT
+		,OldUserId INT
+		,NewUserId INT
+		)
+
+	INSERT INTO #tblUserMapping (
+		UserId
+		,RefId
+		,NewUserId
+		,ModifiedDate
+		)
+	SELECT UserId
+		,RefId
+		,NewUserId
+		,ModifiedDate
+	FROM OPENXML(@idoc, '/Root/Row', 1) WITH (UserId INT, RefId INT, NewUserId INT, ModifiedDate DATETIME) AS Data
+
+	UPDATE emp
+	SET emp.UserId = ISNULL(us.NewUserId, us.UserId)
+		,emp.ModifiedDate = @syncDate
+		,emp.UC_ModifiedDate = us.ModifiedDate
+		,emp.UC_SyncDate = @syncDate
+	OUTPUT INSERTED.EmployeeId
+		,DELETED.UserId
+		,INSERTED.UserId
+	INTO #tblUpdatedEmployee(EmpId, OldUserId, NewUserId)
+	FROM dbo.Employee AS emp WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN #tblUserMapping AS us WITH (ROWLOCK) ON emp.EmployeeId = us.RefId
+	WHERE emp.IsSpecialUser = 1
+
+	SET @xml = CAST((
+				SELECT EmpId AS '@EmpId'
+					,OldUserId AS '@OldUserId'
+					,NewUserId AS '@NewUserId'
+				FROM #tblUpdatedEmployee WITH (NOLOCK)
+				FOR XML PATH('Row')
+					,ROOT('Root')
+				) AS NVARCHAR(MAX))
+
+	EXEC dbo.LogDetail_Insert @ActorId = NULL
+		,@SpName = 'Sync_UserMapping'
+		,@ObjectId = NULL
+		,@ObjectTypeId = NULL
+		,@Data = @xml
+		,@OldData = NULL
+		,@ObjectIds = NULL
+
+	DROP TABLE #tblUserMapping
+
+	DROP TABLE #tblUpdatedEmployee
+END

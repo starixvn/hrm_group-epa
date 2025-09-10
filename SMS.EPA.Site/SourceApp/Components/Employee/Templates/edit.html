@@ -1,0 +1,82 @@
+﻿<div class="modal-header">
+    <div class="popup-header">
+        {{"EditUser" | translate}}
+        <span class="close-popup" ng-click="editEmployeeCtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" role="form">
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="UserName"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="editEmployeeCtrl.employee.Username" required disabled />
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="NickName"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="editEmployeeCtrl.employee.NickName" required />
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="FullName"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="editEmployeeCtrl.employee.FullName" required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Team"></label>
+            <div class="col-sm-8 field">
+                <multi-select-tree-view selected-items="editEmployeeCtrl.employee.GroupId"
+                                        single-selection="true"
+                                        options="editEmployeeCtrl.orgChart" on-select="editEmployeeCtrl.onSelectTeam"></multi-select-tree-view>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Email"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="editEmployeeCtrl.employee.Email" required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3" data-translate="Category"></label>
+            <div class="col-sm-8 field">
+                <select class="form-control" ng-model="editEmployeeCtrl.employee.IsLocal">
+                    <option value="true">{{"Local" | translate}}</option>
+                    <option value="false">{{"Expat" | translate}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="JobTitle"></label>
+            <div class="col-sm-8 field">
+                <select ng-model="editEmployeeCtrl.employee.JobTitleId"
+                        ng-options="jobTitle.JobTitleId as jobTitle.JobTitleName for jobTitle in editEmployeeCtrl.jobTitleOptions"
+                        required class="form-control">
+                    <option value="">-- {{"Select" | translate}} --</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="JobLevel"></label>
+            <div class="col-sm-8 field">
+                <select ng-model="editEmployeeCtrl.employee.JobLevelId"
+                        ng-options="jobLevel.JobLevelId as jobLevel.Name for jobLevel in editEmployeeCtrl.jobLevelOptions"
+                        required class="form-control">
+                    <option value="">-- {{"Select" | translate}} --</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label side-dish-active-label" data-translate="Enabled"></label>
+            <div class="col-sm-8 field employee-active-div">
+                <input type="checkbox" ng-model="editEmployeeCtrl.employee.Enabled" />
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" data-translate="Submit" ng-click="editEmployeeCtrl.save()"></button>
+    <button class="btn btn-cancel" ng-click="editEmployeeCtrl.cancel()" data-translate="Cancel"></button>
+</div>

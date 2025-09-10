@@ -1,0 +1,187 @@
+﻿<div class="col-sm-12" ng-controller="DisciplineSummaryForOtherSystemController as disciplineCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="DisciplineSummary"></li>
+        </ul>
+    </div>
+    <form novalidate class="form-filter">
+        <div class="form-group">
+            <label class="label-form" data-translate="Team"></label>
+            <div class="select-form">
+                <multi-select-tree-view selected-items="disciplineCtrl.filter.teamIds"
+                                        is-selected-all="true" has-search-box="true"
+                                        options="disciplineCtrl.orgChart" on-select="disciplineCtrl.onSelectTeam"></multi-select-tree-view>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="label-form" data-translate="Category"></label>
+            <select class="form-control select-form" ng-model="disciplineCtrl.filter.isLocal">
+                <option value="">-- {{"All" | translate}} --</option>
+                <option value="false">{{"Expat" | translate}}</option>
+                <option value="true">{{"Local" | translate}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="label-form" data-translate="Employee"></label>
+            <input class="form-control input-form" ng-model="disciplineCtrl.searchKeyword"
+                   placeholder="Enter full name or nick name" search-auto-complete search-employees="disciplineCtrl.getEmployee()"
+                   ng-change="disciplineCtrl.unSelectEmployee()" employee="disciplineCtrl.filter.employee" />
+        </div>
+        <div class="form-group">
+            <label class="label-form" data-translate="Reason"></label>
+            <select class="form-control select-form" ng-model="disciplineCtrl.filter.reasonId"
+                    ng-options="opt.Id as opt.Name for opt in disciplineCtrl.disciplineTypes">
+                <option value="">-- Select a Reason --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="label-form" data-translate="StartDate"></label>
+            <div class="input-form">
+                <div class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control date-detail-discipline" type="text"
+                           ng-model="disciplineCtrl.filter.startDate" uib-datepicker-popup
+                           ng-click="disciplineCtrl.openPopupStartDate($event)"
+                           is-open="disciplineCtrl.calendar.startDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="disciplineCtrl.openPopupStartDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="label-form" data-translate="EndDate"></label>
+            <div class="input-form">
+                <div class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control date-detail-discipline" type="text"
+                           ng-model="disciplineCtrl.filter.endDate" uib-datepicker-popup
+                           ng-click="disciplineCtrl.openPopupEndDate($event)"
+                           is-open="disciplineCtrl.calendar.endDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="disciplineCtrl.openPopupEndDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="label-form"></label>
+            <button class="btn btn-primary" ng-click="disciplineCtrl.query(disciplineCtrl.filter)" data-translate="Search"></button>
+        </div>
+    </form>
+    <table class="row table table-bordered table-striped">
+        <thead>
+            <tr class="header-table">
+                <th colspan="19">
+                    <input class="btnExcel pull-right" export-discipline-summary-for-other-system-report
+                           ng-click="disciplineCtrl.exportReport(disciplineCtrl.filter)"
+                           type="button" title="Export to Excel">
+                    <input type="text" ng-model="disciplineCtrl.searchKey" ng-change="disciplineCtrl.search()" class="search-inline-textbox search pull-right">
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="Code"></th>
+                <th data-translate="NickName"></th>
+                <th data-translate="FullName"></th>
+                <th data-translate="Section"></th>
+                <th data-translate="Team"></th>
+                <th data-translate="CheckInOut"></th>
+                <th data-translate="WorkingUndertime"></th>
+                <th data-translate="LateIn"></th>
+                <th data-translate="EarlyOut"></th>
+                <th data-translate="Absent"></th>
+                <th data-translate="UnpaidLeaveShort"></th>
+                <th data-translate="UnpaidLeaveAbsentShort"></th>
+                <th data-translate="ChangeShift"></th>
+                <th data-translate="SoccerLeavePolicy"></th>
+                <th data-translate="WeekendLeave"></th>
+                <th data-translate="SevenDaysLeave"></th>
+                <th data-translate="OtherDiscipline"></th>
+                <th data-translate="Disciplinary"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr dir-paginate="discipline in disciplineCtrl.filteredItems | itemsPerPage: disciplineCtrl.pageSize" pagination-id="summary" current-page="disciplineCtrl.currentPage">
+                <td class="text-center" ng-bind="disciplineCtrl.getIndex($index, disciplineCtrl.currentPage, disciplineCtrl.pageSize)"></td>
+                <td class="text-left" ng-bind="discipline.Code"></td>
+                <td ng-bind="discipline.Nickname"></td>
+                <td ng-bind="discipline.FullName"></td>
+                <td class="text-left" ng-bind="discipline.Section"></td>
+                <td class="text-left" ng-bind="discipline.Team"></td>
+                <td class="text-right">
+                    <span ng-if="discipline.MissingCheckInOut > 0" class="red">-{{discipline.MissingCheckInOut | number: 1}}</span>
+                    <span ng-if="discipline.MissingCheckInOut === 0">{{discipline.MissingCheckInOut | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="discipline.WorkingUndertime > 0" class="red">-{{discipline.WorkingUndertime | number: 1}}</span>
+                    <span ng-if="discipline.WorkingUndertime === 0">{{discipline.WorkingUndertime | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="discipline.LateIn > 0" class="red">-{{discipline.LateIn | number: 1}}</span>
+                    <span ng-if="discipline.LateIn === 0">{{discipline.LateIn | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="discipline.EarlyOut > 0" class="red">-{{discipline.EarlyOut | number: 1}}</span>
+                    <span ng-if="discipline.EarlyOut === 0">{{discipline.EarlyOut | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="discipline.Absent > 0" class="red">-{{discipline.Absent | number: 1}}</span>
+                    <span ng-if="discipline.Absent === 0">{{discipline.Absent | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="discipline.UnpaidLeave > 0" class="red">-{{discipline.UnpaidLeave | number: 1}}</span>
+                    <span ng-if="discipline.UnpaidLeave === 0">{{discipline.UnpaidLeave | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="discipline.UnpaidLeaveAbsent > 0" class="red">-{{discipline.UnpaidLeaveAbsent | number: 1}}</span>
+                    <span ng-if="discipline.UnpaidLeaveAbsent === 0">{{discipline.UnpaidLeaveAbsent | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="discipline.ChangeShift > 0" class="red">-{{discipline.ChangeShift | number: 1}}</span>
+                    <span ng-if="discipline.ChangeShift === 0">{{discipline.ChangeShift | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="discipline.UnplannedLeave > 0" class="red">-{{discipline.UnplannedLeave | number: 1}}</span>
+                    <span ng-if="discipline.UnplannedLeave === 0">{{discipline.UnplannedLeave | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="discipline.WeekendLeave > 0" class="red">-{{discipline.WeekendLeave | number: 1}}</span>
+                    <span ng-if="discipline.WeekendLeave === 0">{{discipline.WeekendLeave | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="discipline.SevenDaysLeave > 0" class="red">-{{discipline.SevenDaysLeave | number: 1}}</span>
+                    <span ng-if="discipline.SevenDaysLeave === 0">{{discipline.SevenDaysLeave | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="discipline.OtherDisciplines > 0" class="red">-{{discipline.OtherDisciplines | number: 1}}</span>
+                    <span ng-if="discipline.OtherDisciplines === 0">{{discipline.OtherDisciplines | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="discipline.ApproverSubtractScore > 0" class="red">-{{discipline.ApproverSubtractScore | number: 1}}</span>
+                    <span ng-if="discipline.ApproverSubtractScore === 0">{{discipline.ApproverSubtractScore | number: 1}}</span>
+                </td>
+            </tr>
+            <tr ng-show="disciplineCtrl.filteredItems.length === 0">
+                <td class="empty-result" colspan="19" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="19" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="disciplineCtrl.pageSize"
+                            ng-options="entry for entry in disciplineCtrl.entries" ng-change="disciplineCtrl.currentPage = 1"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <ul uib-pagination total-items="disciplineCtrl.filteredItems.length" items-per-page="disciplineCtrl.pageSize"
+                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="disciplineCtrl.currentPage"
+                            class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

@@ -1,0 +1,23 @@
+﻿
+CREATE PROCEDURE [dbo].[JobLevelStandard_KPI_Get] @IsActive BIT = NULL
+AS
+/*
+Created: 2023-4-19@Frankie.Nguyen
+Task: Get all JobLevelStandard KPI.
+DB: SMSEPA
+Original:
+
+Revisions:
+Param's Explanation:
+
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT k.KPIId
+		,k.[Name]
+		,k.[IsActive]
+	FROM dbo.JobLevelStandard_KPI AS k WITH (NOLOCK)
+	WHERE @IsActive IS NULL
+		OR k.IsActive = @IsActive
+END

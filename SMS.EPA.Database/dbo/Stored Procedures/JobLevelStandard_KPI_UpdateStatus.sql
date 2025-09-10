@@ -1,0 +1,94 @@
+﻿
+CREATE PROCEDURE [dbo].[JobLevelStandard_KPI_UpdateStatus] @KPIId INT
+	,@IsActive BIT = 0
+	,@ModifiedBy INT
+	,@ErrCode INT = 0 OUTPUT
+	,@ErrMsg VARCHAR(200) = '' OUTPUT
+AS
+/*
+Created: 2023-04-20@Frankie.Nguyen
+Task: Update status of JobLevelStandard KPI.
+DB: SMSEPA
+Original:
+
+Revisions:
+Param's Explanation:
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRY
+		BEGIN TRANSACTION;
+
+		DECLARE @logData NVARCHAR(MAX)
+			,@logDataOld NVARCHAR(MAX)
+			,@xml XML
+			,@LogNo VARCHAR(20) = CONVERT(VARCHAR(8), GETDATE(), 112) + REPLACE(CONVERT(VARCHAR(12), GETDATE(), 114), ':', '')
+			,@ModifiedDate DATETIME = GETDATE()
+
+		-- write log
+		SET @xml = (
+				SELECT [Name] AS '@Name'
+					,LogNo AS '@LogNo'
+					,IsActive AS '@IsActive'
+					,ModifiedBy AS '@ModifiedBy'
+					,ModifiedDate AS '@ModifiedDate'
+				FROM dbo.JobLevelStandard_KPI WITH (NOLOCK)
+				WHERE KPIId = @KPIId
+				FOR XML PATH('r')
+					,TYPE
+				)
+		SET @logDataOld = REPLACE(CONVERT(NVARCHAR(MAX), @xml), '" />', '"/"')
+
+		UPDATE dbo.JobLevelStandard_KPI WITH (ROWLOCK, UPDLOCK)
+		SET LogNo = @LogNo
+			,IsActive = @IsActive
+			,ModifiedBy = @ModifiedBy
+			,ModifiedDate = @ModifiedDate
+		WHERE KPIId = @KPIId
+
+		INSERT INTO dbo.JobLevelStandard_KPILog (
+			KPIId
+			,LogNo
+			,[Name]
+			,IsActive
+			)
+		SELECT KPIId
+			,LogNo
+			,[Name]
+			,IsActive
+		FROM dbo.JobLevelStandard_KPI WITH (NOLOCK)
+		WHERE KPIId = @KPIId
+
+		-- write log
+		SET @xml = (
+				SELECT [Name] AS '@Name'
+					,LogNo AS '@LogNo'
+					,IsActive AS '@IsActive'
+					,ModifiedBy AS '@ModifiedBy'
+					,ModifiedDate AS '@ModifiedDate'
+				FROM dbo.JobLevelStandard_KPI WITH (NOLOCK)
+				WHERE KPIId = @KPIId
+				FOR XML PATH('r')
+					,TYPE
+				)
+		SET @logData = REPLACE(CONVERT(NVARCHAR(MAX), @xml), '" />', '"/"')
+
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'JobLevelStandard_KPI_UpdateStatus'
+			,@ObjectId = @KPIId
+			,@ObjectTypeId = NULL
+			,@Data = @logData
+			,@OldData = @logDataOld
+			,@ObjectIds = NULL
+
+		COMMIT TRANSACTION;
+	END TRY
+
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+
+		SELECT @ErrCode = 1
+			,@ErrMsg = N'Update KPI unsuccessfully.'
+	END CATCH
+END

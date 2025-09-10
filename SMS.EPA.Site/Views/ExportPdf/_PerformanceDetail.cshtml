@@ -1,0 +1,171 @@
+﻿@using SMS.EPA.Core.Enumerations
+@using SMS.EPA.Resources
+@using SMS.EPA.Model
+
+@model EPAModel
+
+@{
+    int rowspan = Model.Process.Evaluators.Count;
+}
+
+@if (Model.IsSemiHasMonthly)
+{
+    <table class="performance-detail">
+        <thead>
+            <tr class="table-title">
+                <th colspan="4">@Lang.MonthlyEPA</th>
+            </tr>
+            <tr>
+                <th>@Lang.SymbolCount</th>
+                <th>@Lang.EmployeeScore</th>
+                <th>@Lang.EvaluatorScore</th>
+                <th>@Lang.ReviewerScore</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (EPAModel monthly in Model.MonthlyEPA.MonthlyEPAs)
+            {
+                <tr>
+                    <td class="border-r-b-l">@monthly.Period.Name</td>
+                    <td class="border-r-b align-center">
+                        @(!string.IsNullOrWhiteSpace(monthly.Process.Self.TotalScore) ? monthly.Process.Self.TotalScore : Lang.NotAvailable)
+                    </td>
+                    <td class="border-r-b align-center">
+                        @(monthly.Process.AverageScoreByEvaluators.HasValue ? monthly.Process.AverageScoreByEvaluators.Value.ToString() : Lang.NotAvailable)
+                    </td>
+                    <td class="border-r-b align-center">
+                        @(monthly.Process.AverageScoreByReviewers.HasValue ? monthly.Process.AverageScoreByReviewers.Value.ToString() : Lang.NotAvailable)
+                    </td>
+                </tr>
+            }
+
+            <tr>
+                <td class="border-r-b-l" style="text-align: right;">@Lang.MonthlyAverage</td>
+                <td class="border-r-b align-center">
+                    @(Model.MonthlyEPA.AverageSelfScore.HasValue
+                        ? Model.MonthlyEPA.AverageSelfScore.Value + " / " + Model.MonthlyEPA.MonthlyEPAs.First().ScoreRatingType.SelfEvaluated
+                        : Lang.NotAvailable)
+                </td>
+                <td class="border-r-b align-center">
+                    @(Model.MonthlyEPA.AverageEvaluatorScores.HasValue
+                        ? Model.MonthlyEPA.AverageEvaluatorScores.Value + " / " + Model.MonthlyEPA.MonthlyEPAs.First().ScoreRatingType.Evaluator
+                        : Lang.NotAvailable)
+                </td>
+                <td class="border-r-b align-center">
+                    @(Model.MonthlyEPA.AverageReviewerScores.HasValue
+                        ? Model.MonthlyEPA.AverageReviewerScores.Value + " / " + Model.MonthlyEPA.MonthlyEPAs.First().ScoreRatingType.Reviewer
+                        : Lang.NotAvailable)
+                </td>
+            </tr>
+            <tr>
+                <td class="border-r-b-l" style="text-align: right;">@Lang.SemiAverage</td>
+                <td class="border-r-b align-center">
+                    @(Model.MonthlyEPA.AverageSelfScoreConverted.HasValue
+                        ? Model.MonthlyEPA.AverageSelfScoreConverted.Value + " / " + Model.ScoreRatingType.SelfEvaluated
+                        : Lang.NotAvailable)
+                </td>
+                <td class="border-r-b align-center">
+                    @(Model.MonthlyEPA.AverageEvaluatorScoreConverted.HasValue
+                        ? Model.MonthlyEPA.AverageEvaluatorScoreConverted.Value + " / " + Model.ScoreRatingType.Evaluator
+                        : Lang.NotAvailable)
+                </td>
+                <td class="border-r-b align-center">
+                    @(Model.MonthlyEPA.AverageReviewerScoreConverted.HasValue
+                        ? Model.MonthlyEPA.AverageReviewerScoreConverted.Value + " / " + Model.ScoreRatingType.Reviewer
+                        : Lang.NotAvailable)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+else
+{
+    foreach (EPAKpiGroupModel kpiGroup in Model.KPIGroups)
+    {
+        int index = 1;
+        <table class="performance-detail">
+            <thead>
+                <tr class="table-title">
+                    <th colspan="7">@(kpiGroup.Name + " (" + kpiGroup.Weight + " pts)")</th>
+                </tr>
+                <tr>
+                    <th rowspan="2" width="2%">@Lang.SymbolCount</th>
+                    <th rowspan="2" width="40%">@Lang.KPI</th>
+                    <th colspan="2">@Lang.Employee</th>
+                    <th colspan="3">@Lang.Evaluator</th>
+                </tr>
+                <tr>
+                    <th>@Lang.Score</th>
+                    <th>@Lang.Comment</th>
+                    <th>@Lang.NickName</th>
+                    <th>@Lang.Score</th>
+                    <th>@Lang.Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (EPAKpiModel kpi in kpiGroup.KPIs)
+                {
+                    for (int i = 0; i < rowspan; i++)
+                    {
+                        EvaluationModel evaluator = kpi.EvaluationByEvaluators[i];
+                        var selfClass = "";
+                        var selfScore = Lang.NotAvailable;
+                        var evaluatorClass = "";
+                        var evaluatorScore = Lang.NotAvailable;
+
+                        <tr>
+                            @if (i == 0)
+                            {
+                                <td rowspan="@rowspan" class="border-r-b-l align-center">@(index++)</td>
+                                <td rowspan="@rowspan" class="border-r-b">
+                                    @kpi.Name
+                                    @if (kpiGroup.NumberKPIOptional == 0)
+                                    {
+                                        <strong>(@kpi.WeightToDisplay pts)</strong>
+                                    }
+
+                                    @if (kpi.IsRequiredEvaluate)
+                                    {
+                                        <span class="red">(*)</span>
+                                    }
+                                </td>
+
+                                if (!Model.Process.Self.IsEndProcess)
+                                {
+                                    selfClass = "red";
+                                }
+
+                                if (Model.Process.Self.IsEndProcess && !string.IsNullOrWhiteSpace(kpi.EvaluationBySelf.Score))
+                                {
+                                    selfScore = kpi.EvaluationBySelf.ScoreToDisplay + " pts";
+                                }
+
+                                <td rowspan="@rowspan" class="border-r-b @selfClass align-center">
+                                    @selfScore
+                                </td>
+                                <td rowspan="@rowspan" class="border-r-b">@(Model.Process.Self.IsEndProcess ? kpi.EvaluationBySelf.Comment : string.Empty)</td>
+                            }
+
+                            <td class="border-r-b align-center">@evaluator.NickName</td>
+
+                            @if (!Model.Process.Evaluators[i].IsEndProcess)
+                            {
+                                evaluatorClass = "red";
+                            }
+
+                            @if (Model.Process.Evaluators[i].IsEndProcess && !string.IsNullOrWhiteSpace(evaluator.Score))
+                            {
+                                evaluatorScore = evaluator.ScoreToDisplay + " pts";
+                            }
+
+                            <td class="border-r-b @evaluatorClass align-center">
+                                @evaluatorScore
+                            </td>
+                            <td class="border-r-b">@(Model.Process.Evaluators[i].IsEndProcess ? evaluator.Comment : string.Empty)</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    }
+}

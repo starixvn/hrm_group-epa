@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>SMS.EPA.ClientHRM</RootNamespace>
+    <AssemblyName>SMS.EPA.ClientHRM</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="Fanex.Data" Version="4.3.4.5" />
+    <PackageReference Include="Fanex.Data.Repository" Version="4.3.4.5" />
+    <PackageReference Include="Fanex.Data.SqlServer" Version="4.3.4.5" />
+    <PackageReference Include="jose-jwt" Version="5.2.0" />
+    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
+    <PackageReference Include="Quartz" Version="3.8.0" />
+    <PackageReference Include="SimpleInjector" Version="5.4.2" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.12.0.78982">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Resources.Extensions" Version="9.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj" />
+    <ProjectReference Include="..\SMS.EPA.Models\SMS.EPA.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="AppConfigs\App.PRO.hm.config" />
+    <Content Include="AppConfigs\App.PRO.sms.config" />
+    <Content Include="App_Data\SpNames.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="logs\log.txt" />
+  </ItemGroup>
+
+</Project>

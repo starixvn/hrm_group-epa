@@ -1,0 +1,76 @@
+﻿@using SMS.EPA.Core.Enumerations;
+@using Microsoft.Extensions.Configuration;
+@inject IConfiguration Configuration
+
+<!DOCTYPE html>
+<html data-ng-app="appModule">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    @{
+        var title = string.Empty;
+        byte siteId = 1;
+        //byte siteId = 0;
+        //byte.TryParse(Configuration["SiteId"], out siteId);
+    }
+
+    @switch (siteId)
+    {
+        case (byte)SiteId.SMS:
+            title = "SMS EPA";
+            break;
+        case (byte)SiteId.HM:
+            title = "HM EPA";
+            break;
+        case (byte)SiteId.GWI:
+            title = "GWI EPA";
+            break;
+        case (byte)SiteId.GROUP:
+            title = "Group EPA";
+            break;
+        case (byte)SiteId.LEXFIN:
+            title = "LEXFIN EPA";
+            break;
+        case (byte)SiteId.CTI:
+            title = "CTI EPA";
+            break;
+        case (byte)SiteId.CTS:
+            title = "CTS EPA";
+            break;
+    }
+
+    <title>@title</title>
+    <link href="~/Content/Common/css.min.css" rel="stylesheet" />
+    <link href="~/bundles/less.min.css" rel="stylesheet" />
+    @RenderSection("Head", false)
+    <base href="@Url.Content("~/")" />
+</head>
+<body ng-cloak>
+    <div class="container-fluid page">
+        @Html.AntiForgeryToken()
+        @RenderBody()
+    </div>
+    <div id="loadingProcess" class="loading-process" style="display: none;">
+        <svg class="icon-loading" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="64" height="64" fill="#439ff0">
+            <circle transform="translate(8 0)" cx="0" cy="16" r="0">
+                <animate attributeName="r" values="0; 4; 0; 0" dur="1.2s" repeatCount="indefinite" begin="0"
+                         keytimes="0;0.2;0.7;1" keySplines="0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8" calcMode="spline" />
+            </circle>
+            <circle transform="translate(16 0)" cx="0" cy="16" r="0">
+                <animate attributeName="r" values="0; 4; 0; 0" dur="1.2s" repeatCount="indefinite" begin="0.3"
+                         keytimes="0;0.2;0.7;1" keySplines="0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8" calcMode="spline" />
+            </circle>
+            <circle transform="translate(24 0)" cx="0" cy="16" r="0">
+                <animate attributeName="r" values="0; 4; 0; 0" dur="1.2s" repeatCount="indefinite" begin="0.6"
+                         keytimes="0;0.2;0.7;1" keySplines="0.2 0.2 0.4 0.8;0.2 0.6 0.4 0.8;0.2 0.6 0.4 0.8" calcMode="spline" />
+            </circle>
+        </svg>
+    </div>
+    <script src="~/bundles/vendor.min.js"></script>
+    <script src="~/bundles/app.min.js"></script>
+    <script src="~/bundles/common/js.min.js"></script>
+
+    <script>window.jobLevelExtendProbations = '@Configuration["JobLevelExtendProbations"]';</script>
+</body>
+</html>

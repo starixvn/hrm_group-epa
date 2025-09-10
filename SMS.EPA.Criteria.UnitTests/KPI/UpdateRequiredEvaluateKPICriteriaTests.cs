@@ -1,0 +1,41 @@
+namespace SMS.EPA.Criteria.UnitTests
+{
+    using Criteria;
+    using NUnit.Framework;
+
+    [TestFixture]
+    public class UpdateRequiredEvaluateKPICriteriaTests
+    {
+        [Test]
+        public void GetSettingKey_ReturnCorrectSettingKey()
+        {
+            // Arrange
+            var criteria = new UpdateRequiredEvaluateKPICriteria();
+            string expected = "KPI_UpdateRequiredEvaluate";
+
+            // Act
+            string actual = criteria.GetSettingKey();
+
+            // Assert
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+
+        [TestCase(1, 1, true)]
+        [TestCase(0, 0, false)]
+        public void IsValid_CheckParameter_ReturnAsExpected(int kpiId, int modifiedBy, bool expected)
+        {
+            // Arrange
+            var criteria = new UpdateRequiredEvaluateKPICriteria
+            {
+                KPIId = kpiId,
+                ModifiedBy = modifiedBy
+            };
+
+            // Act
+            bool actual = criteria.IsValid();
+
+            // Assert
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+    }
+}

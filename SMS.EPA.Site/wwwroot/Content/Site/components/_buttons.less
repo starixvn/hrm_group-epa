@@ -1,0 +1,91 @@
+﻿.btn-save {
+    background: url(../images/save_submit.png) no-repeat;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+}
+
+.button-icon {
+    background: #dfdfdf;
+    color: #000;
+    display: inline-block;
+    font-size: 12px;
+    height: 24px;
+    line-height: 24px;
+    padding: 0 8px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: none;
+    cursor: pointer;
+
+    a {
+        color: #000;
+        height: 100%;
+        padding: 0 8px 0 5px;
+        z-index: 2;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    &:hover {
+        text-decoration: none;
+    }
+
+    .icon-edit, .icon-back, .icon-plus {
+        color: #3394d3;
+        font-weight: normal;
+        line-height: 24px;
+        top: 0;
+    }
+
+    .icon-add {
+        color: #3394d3;
+    }
+
+    .icon-back {
+        font-weight: normal;
+    }
+
+    .button-text {
+        padding: 0 8px 0 5px;
+    }
+}
+
+.btn {
+    padding: 3px 12px;
+    font-size: 13px;
+    .border-radius(0);
+    text-shadow: none;
+    .box-shadow(none);
+
+    &.btn-primary {
+        color: #fff;
+        background: #337ab7;
+        border-color: #2e6da4;
+    }
+
+    &.btn-cancel {
+        background: #767885;
+        color: #fff;
+    }
+
+    &.btn-warning {
+        color: #fff;
+        background: #f0ad4e;
+        border-color: #eea236;
+    }
+
+    &.btn-delete {
+        color: #fff;
+        background: #d9534f;
+        border-color: #d43f3a;
+    }
+
+    &:active, &:focus {
+        outline: none;
+        outline-offset: unset;
+    }
+}

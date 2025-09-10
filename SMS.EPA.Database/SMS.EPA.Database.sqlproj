@@ -1,0 +1,468 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>SMS.EPA.Database</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{c955a995-c0a5-4c6f-a5b7-46f75852cd43}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>SMS.EPA.Database</RootNamespace>
+    <AssemblyName>SMS.EPA.Database</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Exclude the project from analysis -->
+    <SonarQubeExclude>true</SonarQubeExclude>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Views\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\User Defined Types\" />
+    <Folder Include="scripts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\EvaluationGlobalSetting.sql" />
+    <Build Include="dbo\Tables\EPA.sql" />
+    <Build Include="dbo\Tables\SemiEPADetail.sql" />
+    <Build Include="dbo\Tables\SemiPeriodSetting.sql" />
+    <Build Include="dbo\Tables\EPAProcess.sql" />
+    <Build Include="dbo\Tables\SemiPeriodSettingDetail.sql" />
+    <Build Include="dbo\Tables\EPASummaryImport.sql" />
+    <Build Include="dbo\Tables\EPADetail.sql" />
+    <Build Include="dbo\Tables\Department.sql" />
+    <Build Include="dbo\Tables\Employee.sql" />
+    <Build Include="dbo\Tables\EmployeeRole.sql" />
+    <Build Include="dbo\Tables\ScoreRatingType.sql" />
+    <Build Include="dbo\Tables\OtherViolationType.sql" />
+    <Build Include="dbo\Tables\FlowTemplate.sql" />
+    <Build Include="dbo\Tables\FunctionKey.sql" />
+    <Build Include="dbo\Tables\Group.sql" />
+    <Build Include="dbo\Tables\EmployeeIpAddress.sql" />
+    <Build Include="dbo\Tables\HRMEmployeeSupervisor.sql" />
+    <Build Include="dbo\Tables\HRMGroupSupervisor.sql" />
+    <Build Include="dbo\Tables\HRMJobTitle.sql" />
+    <Build Include="dbo\Tables\KPI.sql" />
+    <Build Include="dbo\Tables\KPIDetail.sql" />
+    <Build Include="dbo\Tables\KPIGroup.sql" />
+    <Build Include="dbo\Tables\KPIGroupHistory.sql" />
+    <Build Include="dbo\Tables\KPIHistory.sql" />
+    <Build Include="dbo\Tables\Menu.sql" />
+    <Build Include="dbo\Tables\LogDetail.sql" />
+    <Build Include="dbo\Tables\Period.sql" />
+    <Build Include="dbo\Tables\LogAction.sql" />
+    <Build Include="dbo\Tables\PeriodExcludedEmployee.sql" />
+    <Build Include="dbo\Tables\LogActionType.sql" />
+    <Build Include="dbo\Tables\PeriodFlowSetting.sql" />
+    <Build Include="dbo\Tables\PeriodProcessSetting.sql" />
+    <Build Include="dbo\Tables\PeriodTargetSetting.sql" />
+    <Build Include="dbo\Tables\RoleFunction.sql" />
+    <Build Include="dbo\Tables\SettingDepartmentFlow.sql" />
+    <Build Include="dbo\Tables\SettingEmployeeFlow.sql" />
+    <Build Include="dbo\Tables\TargetTemplate.sql" />
+    <Build Include="dbo\Tables\TargetTemplateDepartment.sql" />
+    <Build Include="dbo\Tables\TargetTemplateEmployee.sql" />
+    <Build Include="dbo\Tables\TargetTemplateKPI.sql" />
+    <Build Include="dbo\Tables\TargetTemplateKPIGroup.sql" />
+    <Build Include="dbo\Tables\TargetType.sql" />
+    <Build Include="dbo\Tables\StandardGrade.sql" />
+    <Build Include="dbo\Views\HierarchyDepartment.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_Employee_ChangePassWord.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_EPA_AdjustScore.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_EPA_UpdateScore.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_EPA_UpdateScoreByKPI.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_Flow_DepartmentSetting.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_Flow_EmployeeSetting.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_Period_AddEmployee.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_Period_EmployeeSetting.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_Period_GenerateEPA.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_Period_IncludeExcludeEmployee.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_Period_ProcessSetting.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_Role_AssignFunctionToRole.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_TargetTemplate_SetKPIGroup.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_TargetTemplate_UpdateKPI.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_TargetTemplateSetting_Department.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_TargetTemplateSetting_Employee.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_UpdateKPIRequiredEvaluate.sql" />
+    <Build Include="dbo\User Defined Types\IntId.sql" />
+    <Build Include="dbo\User Defined Types\ProcessTable.sql" />
+    <Build Include="dbo\Tables\TeamDisciplinePermission.sql" />
+    <Build Include="dbo\Tables\EmployeeDisciplineSummary.sql" />
+    <Build Include="dbo\Tables\EmployeeDisciplinePermission.sql" />
+    <Build Include="dbo\Tables\EmployeeDiscipline.sql" />
+    <Build Include="dbo\Tables\DisciplineType.sql" />
+    <Build Include="dbo\Functions\fncGetDisciplineScoreById.sql" />
+    <Build Include="dbo\Stored Procedures\TargetType_Get.sql" />
+    <Build Include="dbo\Stored Procedures\TargetTemplateEmployee_Get.sql" />
+    <Build Include="dbo\Stored Procedures\TargetTemplate_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\TargetTemplate_UpdateBasicInformation.sql" />
+    <Build Include="dbo\Stored Procedures\TargetTemplate_Update.sql" />
+    <Build Include="dbo\Stored Procedures\TargetTemplate_SetKPIGroup.sql" />
+    <Build Include="dbo\Stored Procedures\TargetTemplate_RemoveKPIGroup.sql" />
+    <Build Include="dbo\Stored Procedures\TargetTemplate_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\TargetTemplate_GetKPIGroup.sql" />
+    <Build Include="dbo\Stored Procedures\TargetTemplate_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\TargetTemplate_GetAllKPIByKPIGroups.sql" />
+    <Build Include="dbo\Stored Procedures\TargetTemplate_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\TargetTemplate_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_TeamDisciplinePermission_GetMaxModifiedDate.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_TeamDisciplinePermission.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_JobTitle.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_Group_GetMaxModifiedDate.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_Group.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_EmployeeDisciplinePermission_GetMaxModifiedDate.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_EmployeeDisciplinePermission.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_EmployeeDiscipline_GetMaxModifiedDate.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_EmployeeDiscipline_GetFromDate.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_EmployeeDiscipline.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_Employee_GetMaxModifiedDate.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_Employee.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_DisciplineSummary_GetLastModifiedDate.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_DisciplineSummary.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_Department_GetMaxModifiedDate.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_Department.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_CalculateLeftRightGroupDepartment.sql" />
+    <Build Include="dbo\Stored Procedures\SettingEmployeeFlow_Set.sql" />
+    <Build Include="dbo\Stored Procedures\SettingEmployeeFlow_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\SettingEmployeeFlow_Get.sql" />
+    <Build Include="dbo\Stored Procedures\SettingEmployeeFlow_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\SettingDepartmentFlow_Set.sql" />
+    <Build Include="dbo\Stored Procedures\SettingDepartmentFlow_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\SettingDepartmentFlow_Get.sql" />
+    <Build Include="dbo\Stored Procedures\SettingDepartmentFlow_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\Report_MonthlyEPASummary.sql" />
+    <Build Include="dbo\Stored Procedures\Report_MonthlyEPADetail.sql" />
+    <Build Include="dbo\Stored Procedures\Report_EPASummary.sql" />
+    <Build Include="dbo\Stored Procedures\Report_EPADetail.sql" />
+    <Build Include="dbo\Stored Procedures\Menu_GetByEmployeeId.sql" />
+    <Build Include="dbo\Stored Procedures\Menu_Get.sql" />
+    <Build Include="dbo\Stored Procedures\Login_GetEmployee.sql" />
+    <Build Include="dbo\Stored Procedures\LogDetail_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\KPIGroup_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\KPIGroup_Update.sql" />
+    <Build Include="dbo\Stored Procedures\KPIGroup_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\KPIGroup_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\KPIGroup_Get.sql" />
+    <Build Include="dbo\Stored Procedures\KPIGroup_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\KPI_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\KPI_UpdateRequiredEvaluate.sql" />
+    <Build Include="dbo\Stored Procedures\KPI_Update.sql" />
+    <Build Include="dbo\Stored Procedures\KPI_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\KPI_Get.sql" />
+    <Build Include="dbo\Stored Procedures\KPI_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\GetFlowAndTargetTemplateSetting.sql" />
+    <Build Include="dbo\Stored Procedures\FlowTemplate_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\FlowTemplate_Update.sql" />
+    <Build Include="dbo\Stored Procedures\FlowTemplate_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\FlowTemplate_GetDepartmentHasSetting.sql" />
+    <Build Include="dbo\Stored Procedures\FlowTemplate_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\FlowTemplate_Get.sql" />
+    <Build Include="dbo\Stored Procedures\FlowTemplate_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\EpaTargetTemplateEmployee_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EpaTargetTemplateEmployee_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\EpaTargetTemplateEmployee_Assign.sql" />
+    <Build Include="dbo\Stored Procedures\EpaTargetTemplateDepartment_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EpaTargetTemplateDepartment_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\EpaTargetTemplateDepartment_Assign.sql" />
+    <Build Include="dbo\Stored Procedures\EPASummaryImport_Update.sql" />
+    <Build Include="dbo\Stored Procedures\EPASummaryImport_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EpaScoreRatingType_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EpaRole_GetFunctionByRoleId.sql" />
+    <Build Include="dbo\Stored Procedures\EpaRole_AssignFunctionToRole.sql" />
+    <Build Include="dbo\Stored Procedures\EpaRatingType_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_UpdateProcessSetting.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_UpdateIncludeStatusEmployeeToPeriod.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_UpdateBasicInformation.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_GetProcessSetting.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_GetEmployeeSetting.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_GetAllPeriodIncludeImport.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_EditEmployeeSetting_CheckEmployeeOverlap.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_EditEmployeeSetting.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\EPAPeriod_CheckSelfProcessStarted.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_AddEmployee_CheckEmployeeOverlap.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_AddEmployee_CheckEmployeeExisted.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_AddEmployee.sql" />
+    <Build Include="dbo\Stored Procedures\EpaMonthlyPeriod_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\EpaMonthlyPeriod_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EpaJobTitle_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EpaGroup_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EpaEmployeeIpAddress_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\EpaEmployeeFlowSetting_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EpaEmployee_UpdateHasMonthlyEPA.sql" />
+    <Build Include="dbo\Stored Procedures\EpaEmployee_Update.sql" />
+    <Build Include="dbo\Stored Procedures\EpaEmployee_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\EpaEmployee_GetPasswordByEmpId.sql" />
+    <Build Include="dbo\Stored Procedures\EpaEmployee_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\EpaEmployee_GetByDomainUsername.sql" />
+    <Build Include="dbo\Stored Procedures\EpaEmployee_GetByCode.sql" />
+    <Build Include="dbo\Stored Procedures\EpaEmployee_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EpaEmployee_ChangePassword.sql" />
+    <Build Include="dbo\Stored Procedures\EpaEmployee_AssignRoleToEmployee.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_UpdateStatusEndEvaluationPeriod.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_UpdateIsEndProcess.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_UpdateFinalScoreEndEvaluation.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_SemiAnnual_UpdateTotalScore.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_SemiAnnual_GetPeriodStartedToday.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_SemiAnnual_AddEmployeeToPeriod.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_Promotion_GetEmployees.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_Probation_GetEmployees.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_Probation_AddEmployeeToPeriod.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_Monthly_InsertPeriod.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_Monthly_GetPeriodStartedToday.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_Monthly_AddEmployeeToPeriod.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_GetEPAEndEvaluationPeriod.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_GetEmployeeSettingToSendMail.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_GenerateEPA.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_CheckTotalScoreIsNull.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_CheckSendMailAllWhenPeriodStarted.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_CheckLastestEndEvaluationPeriod.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_CheckEndProcess.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_CheckEndEvaluationPeriod.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_CheckEndEmployeeEvaluationPeriod.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_UpdateScore.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_UpdateFinalScoreEndEvaluation.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_SemiAnnual_GetMonthly.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_ResetScore.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_UpdateKPIScore.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetTargetTemplateToView.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetTargetTemplateByEvaluator.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetPeriodToView.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetPeriodByEvaluator.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetKPIToView.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetKPIByTargetTemplate.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetGroup.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetEvaluatorByTargetTemplate.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetEmployeeToView.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetStandardGrade.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetProcess.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetPeriodToUpdateFinalScore.sql" />
+    <Build Include="dbo\Stored Procedures\Epa_GetMonthlyEPAHistory.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetMember.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetLastScoreProcess.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetLastScore.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetLastPerformanceScore.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetKPIGroup.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetKPI.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetInfoByReviewer.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetInfoByManagement.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetInfoById.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetInfoByEvaluator.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetInfoByEmployee.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetGroup.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetGeneralInfo.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetEvaluator.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetEvaluation.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetEPAToUpdateFinalScore.sql" />
+    <Build Include="dbo\Stored Procedures\Epa_GetEPAHistory.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetEmployeeToUpdateFinalScore.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetByReviewer.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetByManagement.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetByEvaluator.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetByEmployee.sql" />
+    <Build Include="dbo\Stored Procedures\Epa_Dashboard.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_CheckPermission.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_AdjustScoreByReviewerOrManagement.sql" />
+    <Build Include="dbo\Stored Procedures\Department_Get.sql" />
+    <Build Include="dbo\Tables\JobGrade.sql" />
+    <Build Include="dbo\Tables\EPARecommendation.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_EPA_UpdateFinalScore.sql" />
+    <Build Include="dbo\Stored Procedures\JobGrade_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetRecommendationById.sql" />
+    <Build Include="dbo\Stored Procedures\Dashboard_GetToDoList.sql" />
+    <Build Include="dbo\Stored Procedures\Report_GetEmployees.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_Probation_InsertPeriod.sql" />
+    <Build Include="dbo\Tables\RefResource.sql" />
+    <Build Include="dbo\Tables\DisciplineSummary.sql" />
+    <Build Include="dbo\Stored Procedures\DisciplineSummary_GetForOtherSystem.sql" />
+    <Build Include="dbo\Stored Procedures\DisciplineSummary_GetByEPA.sql" />
+    <Build Include="dbo\Stored Procedures\DisciplineSummary_Get.sql" />
+    <Build Include="dbo\Tables\PeriodDisciplineSetting.sql" />
+    <Build Include="dbo\Functions\fnc_strSplit.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetPeriodByActorId.sql" />
+    <None Include="scripts\require-comment-on-max-score-for-evaluator.sql" />
+    <Build Include="dbo\Stored Procedures\Report_EPAComment.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetLastPerformanceScoreProcess.sql" />
+    <Build Include="dbo\Tables\ProbationExtendedQuestion.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetExtendedQuestion.sql" />
+    <Build Include="dbo\Stored Procedures\Report_EPARecommendation.sql" />
+    <Build Include="dbo\Stored Procedures\TargetTemplate_GetAllByDepartment.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetDetail.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetByEPA.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_UpdateProbationExtendedQuestion.sql" />
+    <Build Include="dbo\Tables\JobLevel.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_JobLevel_GetMaxModifiedDate.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_JobLevel.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevel_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevel_Get.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevel_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevel_Update.sql" />
+    <Build Include="dbo\Stored Procedures\EpaEmployee_UpdateJobLevel.sql" />
+    <Build Include="dbo\Tables\JobDescription_Item.sql" />
+    <Build Include="dbo\Tables\JobDescription_GroupSetting.sql" />
+    <Build Include="dbo\Tables\JobDescription_GroupItem.sql" />
+    <Build Include="dbo\Tables\JobDescription_EmployeeSetting.sql" />
+    <Build Include="dbo\Stored Procedures\JobDescription_UpdateItem.sql" />
+    <Build Include="dbo\Stored Procedures\JobDescription_UpdateGroupSetting.sql" />
+    <Build Include="dbo\Stored Procedures\JobDescription_UpdateGroupItem.sql" />
+    <Build Include="dbo\Stored Procedures\JobDescription_UpdateEmployeeSetting.sql" />
+    <Build Include="dbo\Stored Procedures\JobDescription_InsertItem.sql" />
+    <Build Include="dbo\Stored Procedures\JobDescription_InsertGroupItem.sql" />
+    <Build Include="dbo\Stored Procedures\JobDescription_GetGroupSettingById.sql" />
+    <Build Include="dbo\Stored Procedures\JobDescription_GetGroupSetting.sql" />
+    <Build Include="dbo\Stored Procedures\JobDescription_GetEmployeeSettingById.sql" />
+    <Build Include="dbo\Stored Procedures\JobDescription_GetEmployeeSetting.sql" />
+    <Build Include="dbo\Stored Procedures\JobDescription_DeleteItem.sql" />
+    <Build Include="dbo\Stored Procedures\JobDescription_DeleteGroupItem.sql" />
+    <Build Include="dbo\Stored Procedures\JobDescription_CopyGroupSetting.sql" />
+    <Build Include="dbo\Stored Procedures\JobDescription_CopyEmployeeSetting.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetJobDescriptiontionById.sql" />
+    <Build Include="dbo\Tables\EPAJobDescription.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_UpdateTotalScoreOfProcess.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_UpdateJobLevelAndJobDescription.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetDataToUpdateTotalScoreOfProcess.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetDataToUpdateFinalScore.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_UpdateUserId.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_GetByUserId.sql" />
+    <Build Include="dbo\Tables\JobLevelStandard_TemplateKPI.sql" />
+    <Build Include="dbo\Tables\JobLevelStandard_Template.sql" />
+    <Build Include="dbo\Tables\JobLevelStandard_PeriodSetting.sql" />
+    <Build Include="dbo\Tables\JobLevelStandard_PeriodProcessSetting.sql" />
+    <Build Include="dbo\Tables\JobLevelStandard_PeriodJobLevelSetting.sql" />
+    <Build Include="dbo\Tables\JobLevelStandard_PeriodEmployeeSetting.sql" />
+    <Build Include="dbo\Tables\JobLevelStandard_Period.sql" />
+    <Build Include="dbo\Tables\JobLevelStandard_KPILog.sql" />
+    <Build Include="dbo\Tables\JobLevelStandard_KPI.sql" />
+    <Build Include="dbo\Tables\JobLevelStandard_JobLevelSetting.sql" />
+    <Build Include="dbo\Tables\JobLevelStandard_AssessmentKPI.sql" />
+    <Build Include="dbo\Tables\JobLevelStandard_Assessment.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_Update.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Report_GetPeriod.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Report_GetOrgChartByActorId.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_PeriodJobLevelSetting_Update.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_PeriodJobLevelSetting_GetBySectionId.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_PeriodJobLevelSetting_GetByPeriodId.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_PeriodJobLevelSetting_Get.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_PeriodJobLevelSetting_CopyFromDefault.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_PeriodEmployeeSetting_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_PeriodEmployeeSetting_Update.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_PeriodEmployeeSetting_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_PeriodEmployeeSetting_Get.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Period_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Period_Update.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Period_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Period_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Period_Get.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Period_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_KPI_Update.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_KPI_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_JobLevelSetting_Update.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_JobLevelSetting_GetBySectionId.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_JobLevelSetting_Get.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_AssessmentReport_Get.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Assessment_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Assessment_Update.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Assessment_GetPeriodByActorId.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Assessment_GetOrgChartByActorId.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Assessment_GetKPIByPeriodId.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Assessment_GetByActorId.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_Search.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_Get.sql" />
+    <Build Include="dbo\Stored Procedures\Department_GetOrgChart.sql" />
+    <Build Include="dbo\Stored Procedures\Dashboard_GetAnnouncement.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_JobLevelStandard_GetEmployeeSettingToSendMail.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Period_UpdateJobLevel.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_GetDashboard.sql" />
+    <Build Include="dbo\Tables\JobLevelStandard_TemplateSetting.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_UserMapping_GetLastModifiedDate.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_GetKPI.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_KPI_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Assessment_SyncPrevAssessment.sql" />
+    <Build Include="dbo\Stored Procedures\API_GO_GetTodolistJobLevelStandardByUserId.sql" />
+    <Build Include="dbo\Stored Procedures\API_GO_GetTodolistEPAByUserId.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_UserMapping.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_KPI_Get.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_KPI_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_UpdateKPI.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_TemplateSetting_Assign.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_TemplateSetting_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_TemplateSetting_Get.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_Get.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_GetById.sql" />
+    <Build Include="dbo\Tables\Unit.sql" />
+    <Build Include="dbo\Tables\Section.sql" />
+    <Build Include="dbo\Tables\Department_New.sql" />
+    <Build Include="dbo\Stored Procedures\Unit_Get.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_UpdateStatus.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="scripts\auto-add-staff-into-semi-period.sql" />
+    <None Include="scripts\extended-question-for-probation-period.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="SMS.EPA.Database.refactorlog" />
+  </ItemGroup>
+</Project>

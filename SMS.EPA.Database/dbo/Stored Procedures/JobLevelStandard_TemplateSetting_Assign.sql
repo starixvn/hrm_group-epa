@@ -1,0 +1,98 @@
+﻿
+CREATE PROCEDURE [dbo].[JobLevelStandard_TemplateSetting_Assign] @ObjectIds VARCHAR(MAX)
+	,@ObjectTypeId TINYINT
+	,@TemplateId INT
+	,@ModifiedBy INT = NULL
+	,@ErrCode INT = 0 OUTPUT
+	,@ErrMsg NVARCHAR(200) = '' OUTPUT
+AS
+/*
+Created: 2023-05-23@Frankie.Nguyen
+Task: Assign Template for JobLevelStandard
+DB: SMSEPA
+Original:
+
+Revisions:
+Param's Explanation:
+
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	CREATE TABLE #tmpObject (ObjectId INT)
+
+	IF ISNULL(@ObjectIds, '') <> ''
+	BEGIN
+		INSERT INTO #tmpObject (ObjectId)
+		SELECT DISTINCT val
+		FROM fnc_strSplit(@ObjectIds, ',')
+
+		DECLARE @newData NVARCHAR(MAX)
+			,@oldData NVARCHAR(MAX)
+			,@xml XML
+
+		SET @xml = (
+				SELECT ts.TemplateId AS '@TemplateId'
+					,@ObjectTypeId AS '@ObjectTypeId'
+					,tmp.ObjectId AS '@ObjectId'
+				FROM dbo.JobLevelStandard_TemplateSetting AS ts WITH (NOLOCK)
+					RIGHT JOIN #tmpObject AS tmp WITH (NOLOCK) ON tmp.ObjectId = ts.ObjectId
+				WHERE ts.ObjectTypeId = @ObjectTypeId
+				FOR XML PATH('ts')
+					,TYPE
+				)
+		SET @oldData = '<r>' + REPLACE(CONVERT(NVARCHAR(MAX), @xml), '" />', '"/"') + '</r>'
+
+		--update if exist
+		UPDATE ts
+		SET ts.TemplateId = @TemplateId
+			,ts.ModifiedBy = @ModifiedBy
+			,ts.ModifiedDate = GETDATE()
+		FROM dbo.JobLevelStandard_TemplateSetting AS ts WITH (ROWLOCK, UPDLOCK)
+			INNER JOIN #tmpObject AS tmp WITH (NOLOCK) ON tmp.ObjectId = ts.ObjectId
+		WHERE ts.ObjectTypeId = @ObjectTypeId
+
+		--insert if not exist
+		INSERT INTO dbo.JobLevelStandard_TemplateSetting (
+			TemplateId
+			,ObjectTypeId
+			,ObjectId
+			,ModifiedBy
+			,ModifiedDate
+			)
+		SELECT @TemplateId
+			,@ObjectTypeId
+			,tmp.ObjectId
+			,@ModifiedBy
+			,GETDATE()
+		FROM #tmpObject AS tmp WITH (NOLOCK)
+		WHERE NOT EXISTS (
+				SELECT 1
+				FROM dbo.JobLevelStandard_TemplateSetting WITH (NOLOCK)
+				WHERE ObjectId = tmp.ObjectId
+					AND ObjectTypeId = @ObjectTypeId
+				)
+
+		SET @xml = (
+				SELECT ts.TemplateId AS '@TemplateId'
+					,@ObjectTypeId AS '@ObjectTypeId'
+					,tmp.ObjectId AS '@ObjectId'
+				FROM dbo.JobLevelStandard_TemplateSetting AS ts WITH (NOLOCK)
+					RIGHT JOIN #tmpObject AS tmp WITH (NOLOCK) ON tmp.ObjectId = ts.ObjectId
+				WHERE ts.ObjectTypeId = @ObjectTypeId
+				FOR XML PATH('ts')
+					,TYPE
+				)
+		SET @newData = '<r>' + REPLACE(CONVERT(NVARCHAR(MAX), @xml), '" />', '"/"') + '</r>'
+
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'JobLevelStandard_TemplateSetting_Assign'
+			,@ObjectId = NULL
+			,@ObjectTypeId = NULL
+			,@Data = @newData
+			,@OldData = @oldData
+			,@ObjectIds = @ObjectIds
+
+		DROP TABLE #tmpObject
+	END
+END

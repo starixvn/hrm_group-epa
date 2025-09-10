@@ -1,0 +1,68 @@
+﻿
+CREATE PROCEDURE [dbo].[TargetTemplate_UpdateStatus] @TargetTemplateId INT
+	,@IsActive BIT = 0
+	,@ModifiedBy INT
+	,@ErrCode INT = 0 OUTPUT
+	,@ErrMsg VARCHAR(200) = '' OUTPUT
+AS
+/*
+Created: 20140317@Quinn.Vo
+Task: Update status of Target template.
+DB: SMSEPA
+Original: 
+
+Revisions:  
+Param's Explanation:
+
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	IF NOT EXISTS (
+			SELECT 1
+			FROM dbo.EmployeeRole WITH (NOLOCK)
+			WHERE EmployeeId = @ModifiedBy
+				AND RoleId = 1
+			)
+	BEGIN
+		SELECT @ErrCode = 1
+			,@ErrMsg = N'You are not authorized to update status target template'
+
+		RETURN
+	END
+
+	IF NOT EXISTS (
+			SELECT 1
+			FROM dbo.TargetTemplate WITH (NOLOCK)
+			WHERE TargetTemplateId = @TargetTemplateId
+			)
+	BEGIN
+		SELECT @ErrCode = 1
+			,@ErrMsg = N'Target template does not exists '
+
+		RETURN
+	END
+
+	DECLARE @Data NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
+
+	EXEC @OldData = [dbo].[fncGetDataForWriteLog_UpdateStatus] @ObjectId = @TargetTemplateId
+		,@ObjectType = 3
+
+	UPDATE dbo.TargetTemplate WITH (ROWLOCK, UPDLOCK)
+	SET IsActive = @IsActive
+		,ModifiedBy = @ModifiedBy
+		,ModifiedDate = GETDATE()
+	WHERE TargetTemplateId = @TargetTemplateId
+
+	EXEC @Data = [dbo].[fncGetDataForWriteLog_UpdateStatus] @ObjectId = @TargetTemplateId
+		,@ObjectType = 3
+
+	EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+		,@SpName = 'TargetTemplate_UpdateStatus'
+		,@ObjectId = @TargetTemplateId
+		,@ObjectTypeId = 3
+		,@Data = @Data
+		,@OldData = @OldData
+		,@ObjectIds = NULL
+END

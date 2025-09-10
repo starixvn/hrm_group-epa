@@ -1,0 +1,65 @@
+﻿
+CREATE PROCEDURE [dbo].[JobLevelStandard_Template_Delete] @TemplateId INT
+	,@ModifiedBy INT
+	,@ErrCode INT = 0 OUTPUT
+	,@ErrMsg VARCHAR(200) = '' OUTPUT
+AS
+/*
+Created: 2023-04-25@Frankie.Nguyen
+Task: Delete JobLevelStandard Template.
+DB: SMSEPA
+Original:
+
+Revisions:
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @oldData NVARCHAR(MAX)
+		,@xml XML
+
+	IF EXISTS (
+			SELECT 1
+			FROM dbo.JobLevelStandard_TemplateSetting WITH (NOLOCK)
+			WHERE TemplateId = @TemplateId
+			)
+	BEGIN
+		SELECT @ErrCode = 1
+			,@ErrMsg = N'Can not delete because template is being used'
+
+		RETURN
+	END
+
+	-- write log
+	SET @xml = (
+			SELECT t.TemplateId AS '@TemplateId'
+				,[Name] AS '@TemplateName'
+				,(	SELECT [KPIId] AS '@KPIId'
+						,[Weight] AS '@Weight'
+					FROM dbo.JobLevelStandard_TemplateKPI WITH (NOLOCK)
+					WHERE TemplateId = t.TemplateId
+					FOR XML PATH('z')
+						,TYPE)
+			FROM dbo.JobLevelStandard_Template t WITH (NOLOCK)
+			WHERE t.TemplateId = @TemplateId
+			FOR XML PATH('r')
+				,TYPE
+			)
+	SET @oldData = REPLACE(CONVERT(NVARCHAR(MAX), @xml), '" />', '"/"')
+
+	DELETE
+	FROM dbo.JobLevelStandard_Template WITH (ROWLOCK, UPDLOCK)
+	WHERE TemplateId = @TemplateId
+
+	DELETE
+	FROM dbo.JobLevelStandard_TemplateKPI WITH (ROWLOCK, UPDLOCK)
+	WHERE TemplateId = @TemplateId
+
+	EXEC dbo.LogDetail_Insert @ActorId = @ModifiedBy
+		,@SpName = 'JobLevelStandard_Template_Delete'
+		,@ObjectId = @TemplateId
+		,@ObjectTypeId = NULL
+		,@Data = NULL
+		,@OldData = @oldData
+		,@ObjectIds = NULL
+END
