@@ -437,8 +437,8 @@
         });
     }
 
-        initialize();
-    }
+    initialize();
+}
 
     angular.module('epaModule').controller('ModalConfirmSaveChangesController', ModalConfirmSaveChangesController);
     ModalConfirmSaveChangesController.$inject = ['$translate', '$uibModalInstance', 'RatingByKPIModel', 'kpiSelected', 'epaInfos'];

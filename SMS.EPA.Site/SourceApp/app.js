@@ -19,7 +19,7 @@
                 'epaHistoryModule',
                 'monthlyPeriodModule',
                 'disciplineModule',
-                //'jobDescriptionModule',
+                'jobDescriptionModule',
                 'jobLevelModule',
                 'jobLevelStandardModule',
                 'ui.bootstrap.contextMenu',

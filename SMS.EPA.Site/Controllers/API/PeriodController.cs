@@ -32,7 +32,6 @@ public class PeriodController(
     : BaseController(userControlSession)
 {
     [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
-
     public IEnumerable<PeriodModel> GetPeriod(int? targetTypeId = null, bool? isActive = true)
     {
         var criteria = new GetPeriodCriteria

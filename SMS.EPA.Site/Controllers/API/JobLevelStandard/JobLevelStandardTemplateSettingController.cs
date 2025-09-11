@@ -23,8 +23,8 @@ public class JobLevelStandardTemplateSettingController(IUserControlSession userC
     {
     }
 
+    [HttpGet]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplateSetting, Policy = Policy.Read)]
-
     public IEnumerable<JobLevelStandardTemplateSetting> GetTemplateSetting([FromUri] GetJobLevelStandardTemplateSettingCriteria criteria)
     {
         return baseService.GetData<JobLevelStandardTemplateSetting>(criteria).ToList();

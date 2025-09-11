@@ -87,8 +87,8 @@ let epaModule = angular.module('epaModule', ['ngRoute'])
             { templateUrl: baseUrl + 'SourceApp/Components/EPA/Management/Templates/detail.html', caseInsensitiveMatch: true });
         $routeProvider.when('/EPA/Detail/:id',
             { templateUrl: baseUrl + 'SourceApp/Components/EPA/Templates/viewDetail.html', caseInsensitiveMatch: true });
-        //$routeProvider.when('/RatingByKPI/Index',
-        //    { templateUrl: baseUrl + 'SourceApp/Components/EPA/RatingByKPI/Templates/index.html', caseInsensitiveMatch: true });
+        $routeProvider.when('/RatingByKPI/Index',
+            { templateUrl: baseUrl + 'SourceApp/Components/EPA/RatingByKPI/Templates/index.html', caseInsensitiveMatch: true });
         $routeProvider.when('/OldEPA/Convert',
             { templateUrl: baseUrl + 'SourceApp/Components/EPA/Convert/Templates/detail.html', caseInsensitiveMatch: true });
         $routeProvider.when('/EPA/ResetScore/:id',
@@ -155,16 +155,16 @@ angular.module('disciplineModule', ['ngRoute'])
             { templateUrl: baseUrl + 'SourceApp/Components/Discipline/Templates/disciplineSummary.html', caseInsensitiveMatch: true });
     }]);
 
-//angular.module('jobDescriptionModule', ['ngRoute'])
-//    .config(['$routeProvider', function ($routeProvider) {
-//        const baseUrl = $('base').first().attr('href');
-//        $routeProvider.when('/JobDescription/Index',
-//            { templateUrl: baseUrl + 'SourceApp/Components/JobDescription/Templates/index.html', caseInsensitiveMatch: true });
-//        $routeProvider.when('/JobDescription/EditGroup/:id',
-//            { templateUrl: baseUrl + 'SourceApp/Components/JobDescription/Templates/edit-group.html', caseInsensitiveMatch: true });
-//        $routeProvider.when('/JobDescription/EditEmployee/:id',
-//            { templateUrl: baseUrl + 'SourceApp/Components/JobDescription/Templates/edit-personal.html', caseInsensitiveMatch: true });
-//    }]);
+angular.module('jobDescriptionModule', ['ngRoute'])
+    .config(['$routeProvider', function ($routeProvider) {
+        const baseUrl = $('base').first().attr('href');
+        $routeProvider.when('/JobDescription/Index',
+            { templateUrl: baseUrl + 'SourceApp/Components/JobDescription/Templates/index.html', caseInsensitiveMatch: true });
+        $routeProvider.when('/JobDescription/EditGroup/:id',
+            { templateUrl: baseUrl + 'SourceApp/Components/JobDescription/Templates/edit-group.html', caseInsensitiveMatch: true });
+        $routeProvider.when('/JobDescription/EditEmployee/:id',
+            { templateUrl: baseUrl + 'SourceApp/Components/JobDescription/Templates/edit-personal.html', caseInsensitiveMatch: true });
+    }]);
 
 angular.module('jobLevelModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {

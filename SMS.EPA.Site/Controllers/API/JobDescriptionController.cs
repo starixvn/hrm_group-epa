@@ -23,13 +23,6 @@ public class JobDescriptionController(
     IJobDescriptionService jobDescriptionService)
     : BaseController(userControlSession)
 {
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-    private readonly IJobDescriptionService jobDescriptionService = jobDescriptionService ?? new JobDescriptionService();
-
-    public JobDescriptionController() : this(null, null, null)
-    {
-    }
-
     #region Group
 
     [HttpPost]

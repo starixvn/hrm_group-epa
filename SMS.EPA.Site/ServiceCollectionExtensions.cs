@@ -19,7 +19,11 @@ using SMS.EPA.Repositories.Implement;
 using SMS.EPA.Repositories.Interfaces;
 using SMS.EPA.Services;
 using SMS.EPA.Services.Implement;
+using SMS.EPA.Services.Implement.ExportFile;
+using SMS.EPA.Services.Implement.JobLevelStandard;
 using SMS.EPA.Services.Interfaces;
+using SMS.EPA.Services.Interfaces.ExportFile;
+using SMS.EPA.Services.Interfaces.JobLevelStandard;
 using SMS.EPA.Site.Middlewares;
 using StackExchange.Redis;
 
@@ -129,6 +133,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IEPAProcessService, EPAProcessService>();
         services.AddDIReportServices();
         services.AddDIExcelServices();
+        services.AddDIJobStandardServices();
 
         return services;
     }
@@ -138,6 +143,12 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IDynamicRepository, DynamicRepository>();
         services.AddSingleton<IBaseRepository, BaseRepository>();
         services.AddSingleton<IEmployeeRepository, EmployeeRepository>();
+        return services;
+    }
+    public static IServiceCollection AddDIJobStandardServices(this IServiceCollection services)
+    {
+        services.AddSingleton<IJobLevelAssessmentService, JobLevelAssessmentService>();
+        services.AddSingleton<IJobLevelStandardPeriodService, JobLevelStandardPeriodService>();
         return services;
     }
 
@@ -151,6 +162,12 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddDIExcelServices(this IServiceCollection services)
     {
         services.AddSingleton<IReportService, ReportService>();
+        services.AddSingleton<IEpaDetailReportService, EpaDetailReportService>();
+        services.AddSingleton<IExportCommentReportService, ExportCommentReportService>();
+        services.AddSingleton<IExportExcelService, ExportExcelService>();
+        services.AddSingleton<IExportJobLevelAssessmentService, ExportJobLevelAssessmentService>();
+        services.AddSingleton<IExportRecommendationReportService, ExportRecommendationReportService>();
+        services.AddSingleton<IExportTargetTemplateService, ExportTargetTemplateService>();
 
         return services;
     }

@@ -23,16 +23,8 @@ public class JobLevelStandardPeriodController(
     IJobLevelStandardPeriodService jobLevelStandardPeriodService)
     : BaseController(userControlSession)
 {
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-    private readonly IJobLevelStandardPeriodService jobLevelStandardPeriodService = jobLevelStandardPeriodService ?? new JobLevelStandardPeriodService();
-
-    public JobLevelStandardPeriodController() : this(null, null, null)
-    {
-    }
-
     [HttpPost]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Read)]
-
     public IList<JobLevelStandardPeriod> GetPeriods(GetJobLevelStandardPeriodCriteria criteria)
     {
         (var periods, var settings) = baseService.FetchMultiple<JobLevelStandardPeriod, JobLevelStandardPeriodSetting>(criteria);
@@ -44,8 +36,8 @@ public class JobLevelStandardPeriodController(
         return periods.ToList();
     }
 
+    [HttpGet]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Read)]
-
     public JobLevelStandardPeriod GetById(int periodId)
     {
         var criteria = new GetJobLevelStandardPeriodByIdCriteria { PeriodId = periodId };
@@ -115,7 +107,6 @@ public class JobLevelStandardPeriodController(
 
     [HttpPost]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Read)]
-
     public IList<PeriodEmployeeSetting> GetEmployeeSettings(GetPeriodEmployeeSettingCriteria criteria)
     {
         return jobLevelStandardPeriodService.GetEmployeeSettings(criteria);
@@ -189,7 +180,6 @@ public class JobLevelStandardPeriodController(
 
     [HttpPost]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Read)]
-
     public IList<JobLevelSettingSummary> GetJobLevelSettings(GetPeriodJobLevelSettingSummaryCriteria criteria)
     {
         var settings = baseService.GetData<JobLevelSettingSummary>(criteria);
@@ -198,7 +188,6 @@ public class JobLevelStandardPeriodController(
 
     [HttpPost]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Read)]
-
     public IList<JobLevelSetting> GetJobLevelSettingBySectionId(GetPeriodJobLevelSettingBySectionIdCriteria criteria)
     {
         var settings = baseService.GetData<JobLevelSetting>(criteria);

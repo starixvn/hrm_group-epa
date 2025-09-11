@@ -33,6 +33,7 @@ public class JobLevelAssessmentController(
     {
     }
 
+    [HttpGet]
     public IList<JobLevelStandardPeriod> GetPeriods()
     {
         var criteria = new GetPeriodByActorCriteria
@@ -45,7 +46,6 @@ public class JobLevelAssessmentController(
 
     [HttpPost]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelAssessment, Policy = Policy.Read)]
-
     public object GetAssessments(GetJobLevelAssessmentByActorIdCriteria criteria)
     {
         var today = DateTimeOffset.Now.Date;
@@ -115,6 +115,7 @@ public class JobLevelAssessmentController(
         return commandResult;
     }
 
+    [HttpGet]
     public IList<MultiSelectItem> GetOrgChart(int? periodId = null)
     {
         var criteria = new GetOrgChartByActorIdCriteria { ActorId = CurrentEmployeeId, PeriodId = periodId };

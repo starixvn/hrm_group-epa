@@ -5,13 +5,12 @@
     copyEmployeeSettingController.$inject = ['$uibModalInstance', 'notificationFactory', 'JobDescriptionModel', 'employee'];
 
     function copyEmployeeSettingController($uibModalInstance, notificationFactory, JobDescriptionModel, employee) {
-        let vm = this;
+        var vm = this;
 
         vm.fromEmployeeId = '';
-        vm.employee = {
-            ...employee,
+        vm.employee = angular.extend({}, employee, {
             displayName: employee.FullName + (employee.Nickname ? ' (' + employee.Nickname + ')' : '')
-        };
+        });
         vm.employeeHasSettings = [];
         vm.cancel = cancel;
         vm.save = save;
@@ -22,13 +21,17 @@
             JobDescriptionModel.getEmployeeHasSetting().then(
                 function () {
                     vm.employeeHasSettings = JobDescriptionModel.employeeHasSettings
-                        .filter(item => item.EmployeeId !== vm.employee.EmployeeId)
-                        .map(item => { return { ...item, displayName: item.FullName + (item.Nickname ? ' (' + item.Nickname + ')' : '') }; });
+                        .filter(function(item) { return item.EmployeeId !== vm.employee.EmployeeId; })
+                        .map(function(item) { 
+                            return angular.extend({}, item, { 
+                                displayName: item.FullName + (item.Nickname ? ' (' + item.Nickname + ')' : '') 
+                            }); 
+                        });
                 });
         }
 
         function validate() {
-            let isValid = true;
+            var isValid = true;
             if (vm.fromEmployeeId === '') {
                 isValid = false;
                 notificationFactory.error('', 'Please select employee you want to copy setting.');
@@ -43,7 +46,7 @@
 
         function save() {
             if (validate()) {
-                const setting = { fromEmployeeId: vm.fromEmployeeId, toEmployeeId: vm.employee.EmployeeId };
+                var setting = { fromEmployeeId: vm.fromEmployeeId, toEmployeeId: vm.employee.EmployeeId };
                 JobDescriptionModel.copyEmployeeSetting(setting, $uibModalInstance);
             }
         }

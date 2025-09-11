@@ -16,6 +16,7 @@ using SMS.EPA.Criteria.JobLevelStandard.Template;
 public class JobLevelStandardTemplateController(IUserControlSession userControlSession, IBaseService baseService)
     : BaseController(userControlSession)
 {
+    [HttpGet]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplate, Policy = Policy.Read)]
     public IEnumerable<JobLevelStandardTemplate> GetTemplate([FromUri] GetJobLevelStandardTemplateCriteria criteria)
     {
@@ -54,8 +55,8 @@ public class JobLevelStandardTemplateController(IUserControlSession userControlS
         return commandResult;
     }
 
+    [HttpGet]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplate, Policy = Policy.Read)]
-
     public JobLevelStandardTemplate GetById(int templateId)
     {
         var criteria = new GetJobLevelStandardTemplateByIdCriteria
@@ -73,8 +74,8 @@ public class JobLevelStandardTemplateController(IUserControlSession userControlS
         return baseService.ExecuteNonQuery(criteria);
     }
 
+    [HttpGet]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplate, Policy = Policy.Read)]
-
     public IEnumerable<JobLevelStandardTemplateKPI> GetKPI([FromUri] GetKPIListCriteria criteria)
     {
         return baseService.GetData<JobLevelStandardTemplateKPI>(criteria);

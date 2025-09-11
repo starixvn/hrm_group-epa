@@ -23,15 +23,14 @@ public class JobLevelSettingController(IUserControlSession userControlSession, I
 
     [HttpPost]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelSetting, Policy = Policy.Read)]
-
     public IList<JobLevelSettingSummary> GetSettings(GetJobLevelSettingSummaryCriteria criteria)
     {
         var settings = baseService.GetData<JobLevelSettingSummary>(criteria);
         return settings.ToList();
     }
 
+    [HttpGet]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelSetting, Policy = Policy.Read)]
-
     public IList<JobLevelSetting> GetBySectionId(int sectionId)
     {
         var criteria = new GetJobLevelSettingBySectionIdCriteria { SectionId = sectionId };

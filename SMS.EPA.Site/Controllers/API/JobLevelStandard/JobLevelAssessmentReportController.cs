@@ -29,6 +29,7 @@ public class JobLevelAssessmentReportController(
     {
     }
 
+    [HttpGet]
     public IList<JobLevelStandardPeriod> GetPeriods()
     {
         var criteria = new GetPeriodCriteria();
@@ -36,6 +37,7 @@ public class JobLevelAssessmentReportController(
         return periods.ToList();
     }
 
+    [HttpGet]
     public IList<MultiSelectItem> GetOrgChart(int? periodId = null)
     {
         var criteria = new GetOrgChartByActorIdCriteria
@@ -70,7 +72,6 @@ public class JobLevelAssessmentReportController(
 
     [HttpPost]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelAssessmentReport, Policy = Policy.Read)]
-
     public object GetAssessments(GetJobLevelAssessmentReportCriteria criteria)
     {
         criteria.ActorId = CurrentEmployeeId;
