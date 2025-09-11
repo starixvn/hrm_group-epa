@@ -20,17 +20,10 @@ using NPOI.SS.Util;
 using Resources;
 
 [SuppressMessage("Major Code Smell", "S109:Magic numbers should not be used", Justification = "<Pending>")]
-public abstract class EPADetailReportServiceBase(ICommonService commonService, IEmployeeEPAService employeeEpaService)
-    : IEPADetailReportService
+public abstract class EpaDetailReportServiceBase(ICommonService commonService, IEmployeeEPAService employeeEPAService)
+    : IEpaDetailReportService
 {
     protected const int ExcelColumnWidth = 256;
-
-    private readonly ICommonService commonService = commonService ?? new CommonService();
-    private readonly IEmployeeEPAService employeeEPAService = employeeEpaService ?? new EmployeeEPAService();
-
-    protected EPADetailReportServiceBase() : this(null, null)
-    {
-    }
 
     public abstract IList<string> GetColumnsName { get; }
 
@@ -81,10 +74,8 @@ public abstract class EPADetailReportServiceBase(ICommonService commonService, I
         WriteContentTable();
         Sheet.CreateFreezePane(0, 3);
 
-        using (var output = new MemoryStream())
-        {
-            Workbook.Write(output);
-        }
+        using var output = new MemoryStream();
+        Workbook.Write(output);
     }
 
     protected static string GetEvaluatorScore(EPAModel epaInfo)

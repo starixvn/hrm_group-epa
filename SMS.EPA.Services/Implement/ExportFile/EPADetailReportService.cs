@@ -13,11 +13,12 @@ using SMS.EPA.Resources;
 
 namespace SMS.EPA.Services.Implement.ExportFile;
 
-public class EPADetailReportService : EPADetailReportServiceBase
+public class EpaDetailReportService : EpaDetailReportServiceBase
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public EPADetailReportService(IHttpContextAccessor httpContextAccessor = null)
+    public EpaDetailReportService(IHttpContextAccessor httpContextAccessor = null) 
+        : base(new CommonService(), new EmployeeEPAService())
     {
         _httpContextAccessor = httpContextAccessor;
         SheetTittle = Lang.EPADetailReportSheet;
@@ -64,13 +65,11 @@ public class EPADetailReportService : EPADetailReportServiceBase
             ? $"attachment; filename={Lang.EPADetailReportName}.xls"
             : $"attachment; filename={epaDetail.EpaYear}_{epaDetail.EpaEvaluationPeriod}_{Lang.EPADetailReportName}.xls";
 
-        response.Headers.Add("Content-Disposition", contentDisposition);
+        response.Headers["Content-Disposition"] = contentDisposition;
 
-        using (var stream = new MemoryStream())
-        {
-            Workbook.Write(stream);
-            response.Body.Write(stream.ToArray());
-        }
+        using var stream = new MemoryStream();
+        Workbook.Write(stream);
+        response.Body.Write(stream.ToArray());
     }
 
     public override void WriteContentTable()

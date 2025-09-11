@@ -3,7 +3,7 @@ using SMS.EPA.Models.Report.EPADetail;
 
 namespace SMS.EPA.Services.Interfaces.ExportFile;
 
-public interface IEPADetailReportService
+public interface IEpaDetailReportService
 {
     IList<string> GetColumnsName { get; }
 

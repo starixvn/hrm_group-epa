@@ -4,18 +4,19 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Fanex.MailDeliver.MailClient.API;
 using Fanex.MailDeliver.MailClient.Model;
+using Microsoft.Extensions.Configuration;
 using SMS.EPA.Models.Email;
 using SMS.EPA.Services.Interfaces;
 
 namespace SMS.EPA.Services.Implement;
 
-public class BaseMailService : IBaseMailService
+public class BaseMailService(IConfiguration configuration) : IBaseMailService
 {
     public void SendEmail(MailModel email)
     {
         if (email == null
             || !IsValidEmail(email.ReceiverEmail)
-            || ConfigurationManager.AppSettings["NotSendMail"].Equals("true", StringComparison.OrdinalIgnoreCase))
+            || configuration["NotSendMail"]!.Equals("true", StringComparison.OrdinalIgnoreCase))
         {
             return;
         }
@@ -25,13 +26,11 @@ public class BaseMailService : IBaseMailService
             MailTo = email.ReceiverEmail,
             MailCc = email.MailCC,
             Subject = email.Subject,
-            Title = ConfigurationManager.AppSettings["Email.SenderName"],
+            Title = configuration["Email.SenderName"],
             Body = email.Body
         };
-        using (var client = new MailDeliver())
-        {
-            client.SendMail(mailItem);
-        }
+        using var client = new MailDeliver();
+        client.SendMail(mailItem);
     }
 
     private static bool IsValidEmail(string email)
@@ -47,9 +46,7 @@ public class BaseMailService : IBaseMailService
 
     public string ReadTextFile(string filePath)
     {
-        using (var sr = new StreamReader(filePath))
-        {
-            return sr.ReadToEnd();
-        }
+        using var sr = new StreamReader(filePath);
+        return sr.ReadToEnd();
     }
 }

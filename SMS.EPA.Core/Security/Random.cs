@@ -35,10 +35,8 @@ public static class Random
     public static byte[] RngCrypto(int size)
     {
         byte[] valueArray = new byte[size];
-        using (var crytoService = new RNGCryptoServiceProvider())
-        {
-            crytoService.GetBytes(valueArray);
-        }
+        using var crytoService = new RNGCryptoServiceProvider();
+        crytoService.GetBytes(valueArray);
 
         return valueArray;
     }

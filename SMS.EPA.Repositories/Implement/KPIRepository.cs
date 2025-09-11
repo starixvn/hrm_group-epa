@@ -12,21 +12,17 @@ public class KPIRepository : IKPIRepository
 {
     public IEnumerable<KPIModel> GetKPI(ICriteria criteria)
     {
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        IEnumerable<KPIModel> kpis = multi.Read<KPIModel>();
+        IEnumerable<dynamic> kpiGroups = multi.Read<dynamic>();
+
+        foreach (var kpi in kpis)
         {
-            using (IMultiResultReader multi = db.QueryMultiple(criteria))
-            {
-                IEnumerable<KPIModel> kpis = multi.Read<KPIModel>();
-                IEnumerable<dynamic> kpiGroups = multi.Read<dynamic>();
-
-                foreach (var kpi in kpis)
-                {
-                    kpi.KPIGroups = GroupKPIGroupByKPI(kpi.KPIId, kpiGroups);
-                }
-
-                return kpis;
-            }
+            kpi.KPIGroups = GroupKPIGroupByKPI(kpi.KPIId, kpiGroups);
         }
+
+        return kpis;
     }
 
     private IList<KPIGroupModel> GroupKPIGroupByKPI(int kpiId, IEnumerable<dynamic> kpiGroups)

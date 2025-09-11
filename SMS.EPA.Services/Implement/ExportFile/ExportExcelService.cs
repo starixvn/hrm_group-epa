@@ -64,14 +64,12 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
 
     public void InitializeWithTemplate(string templatePath)
     {
-        using (var fireStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
-        {
-            Workbook = new HSSFWorkbook(fireStream, true);
-            Sheet = Workbook.GetSheetAt(0);
+        using var fireStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
+        Workbook = new HSSFWorkbook(fireStream, true);
+        Sheet = Workbook.GetSheetAt(0);
 
-            ConditionalCellStyles = new List<ConditionalCellStyle>();
-            ColumnsStyles = new List<ICellStyle>();
-        }
+        ConditionalCellStyles = new List<ConditionalCellStyle>();
+        ColumnsStyles = new List<ICellStyle>();
     }
 
     private void WriteTitle()
@@ -194,13 +192,11 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
 
         response.Clear();
         response.ContentType = "application/vnd.ms-excel";
-        response.Headers.Add("Content-Disposition", $"attachment; filename={FileName}.xls");
+        response.Headers["Content-Disposition"] = $"attachment; filename={FileName}.xls";
 
-        using (var stream = new MemoryStream())
-        {
-            Workbook.Write(stream, false);
-            response.Body.Write(stream.ToArray());
-        }
+        using var stream = new MemoryStream();
+        Workbook.Write(stream, false);
+        response.Body.Write(stream.ToArray());
     }
 
     public void ExportWithTemplate(
@@ -232,12 +228,10 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
 
         response.Clear();
         response.ContentType = "application/vnd.ms-excel";
-        response.Headers.Add("Content-Disposition", $"attachment; filename={FileName}.xls");
+        response.Headers["Content-Disposition"] = $"attachment; filename={FileName}.xls";
 
-        using (var stream = new MemoryStream())
-        {
-            Workbook.Write(stream, false);
-            response.Body.Write(stream.ToArray());
-        }
+        using var stream = new MemoryStream();
+        Workbook.Write(stream, false);
+        response.Body.Write(stream.ToArray());
     }
 }

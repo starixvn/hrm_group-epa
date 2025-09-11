@@ -17,69 +17,61 @@ public class PeriodRepository : IPeriodRepository
 {
     public IEnumerable<PeriodModel> GetPeriod(ICriteria criteria)
     {
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-        {
-            return db.Query<PeriodModel, TargetTypeModel, PeriodModel>(
-                (pe, tar) =>
-                {
-                    pe.TargetType = tar;
-                    return pe;
-                },
-                "TargetTypeId",
-                criteria);
-        }
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        return db.Query<PeriodModel, TargetTypeModel, PeriodModel>(
+            (pe, tar) =>
+            {
+                pe.TargetType = tar;
+                return pe;
+            },
+            "TargetTypeId",
+            criteria);
     }
 
     public PeriodModel GetPeriodById(ICriteria criteria)
     {
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-        {
-            return db.QueryEntity<PeriodModel, TargetTypeModel, PeriodModel>(
-                (pe, tar) =>
-                {
-                    pe.TargetType = tar;
-                    return pe;
-                },
-                "TargetTypeId",
-                criteria);
-        }
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        return db.QueryEntity<PeriodModel, TargetTypeModel, PeriodModel>(
+            (pe, tar) =>
+            {
+                pe.TargetType = tar;
+                return pe;
+            },
+            "TargetTypeId",
+            criteria);
     }
 
     public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(ICriteria criteria)
     {
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-        {
-            using (IMultiResultReader multi = db.QueryMultiple(criteria))
-            {
-                var employeeSettings =
-                    multi.Read<PeriodEmployeeSettingModel, EmployeeViewModel, Group, JobTitle, TargetTemplate, PeriodEmployeeSettingModel>(
-                        (pe, emp, gr, job, tar) =>
-                        {
-                            emp.Group = gr;
-                            emp.JobTitle = job;
-                            pe.Employee = emp;
-                            pe.TargetTemplate = tar;
-
-                            return pe;
-                        },
-                        "EmployeeId, GroupId, JobTitleId, TargetTemplateId");
-
-                var flowSettings = multi.Read<PeriodFlowSettingModel, EvaluatorInfoViewModel, PeriodFlowSettingModel>(
-                    (fl, eva) =>
-                    {
-                        fl.EvaluatorInfo = eva;
-                        return fl;
-                    },
-                    "EvaluatorId");
-
-                foreach (PeriodEmployeeSettingModel employeeSetting in employeeSettings)
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        var employeeSettings =
+            multi.Read<PeriodEmployeeSettingModel, EmployeeViewModel, Group, JobTitle, TargetTemplate, PeriodEmployeeSettingModel>(
+                (pe, emp, gr, job, tar) =>
                 {
-                    GetFlowSetting(flowSettings, employeeSetting);
-                }
+                    emp.Group = gr;
+                    emp.JobTitle = job;
+                    pe.Employee = emp;
+                    pe.TargetTemplate = tar;
 
-                return employeeSettings;
-            }
+                    return pe;
+                },
+                "EmployeeId, GroupId, JobTitleId, TargetTemplateId");
+
+        var flowSettings = multi.Read<PeriodFlowSettingModel, EvaluatorInfoViewModel, PeriodFlowSettingModel>(
+            (fl, eva) =>
+            {
+                fl.EvaluatorInfo = eva;
+                return fl;
+            },
+            "EvaluatorId");
+
+        foreach (PeriodEmployeeSettingModel employeeSetting in employeeSettings)
+        {
+            GetFlowSetting(flowSettings, employeeSetting);
         }
+
+        return employeeSettings;
     }
 
     private static void GetFlowSetting(

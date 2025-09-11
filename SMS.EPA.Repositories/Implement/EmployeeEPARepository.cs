@@ -25,289 +25,261 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
 
     public IEnumerable<EPAModel> GetEPA(ICriteria criteria)
     {
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-        {
-            using (IMultiResultReader multi = db.QueryMultiple(criteria))
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        var epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+            (epaInfo, employee, ratingType, period, scoreRatingType) =>
             {
-                var epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
-                    (epaInfo, employee, ratingType, period, scoreRatingType) =>
-                    {
-                        epaInfo.Employee = employee;
-                        epaInfo.RatingType = ratingType;
-                        epaInfo.ScoreRatingType = scoreRatingType;
-                        epaInfo.Period = period;
+                epaInfo.Employee = employee;
+                epaInfo.RatingType = ratingType;
+                epaInfo.ScoreRatingType = scoreRatingType;
+                epaInfo.Period = period;
 
-                        return epaInfo;
-                    },
-                    "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId");
+                return epaInfo;
+            },
+            "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId");
 
-                var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
-                    (process, evaluator, modifiedBy) =>
-                    {
-                        process.EvaluatorInfo = evaluator;
-                        process.ModifiedBy = modifiedBy;
+        var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
+            (process, evaluator, modifiedBy) =>
+            {
+                process.EvaluatorInfo = evaluator;
+                process.ModifiedBy = modifiedBy;
 
-                        return process;
-                    },
-                    "EvaluatorId, ModifiedById");
+                return process;
+            },
+            "EvaluatorId, ModifiedById");
 
-                var lastPerformProcess = multi.Read<EPAProcessModel>().ToList();
+        var lastPerformProcess = multi.Read<EPAProcessModel>().ToList();
 
-                GroupEPAProcessByEPA(epaInfos, processes);
-                GroupLastEPAProcessByEPA(epaInfos, lastPerformProcess);
+        GroupEPAProcessByEPA(epaInfos, processes);
+        GroupLastEPAProcessByEPA(epaInfos, lastPerformProcess);
 
-                foreach (EPAModel epaInfo in epaInfos)
-                {
-                    DecryptAllScore(epaInfo);
-                }
-
-                return epaInfos;
-            }
+        foreach (EPAModel epaInfo in epaInfos)
+        {
+            DecryptAllScore(epaInfo);
         }
+
+        return epaInfos;
     }
 
     public EPAModel GetEPAInfo(ICriteria criteria)
     {
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-        {
-            using (IMultiResultReader multi = db.QueryMultiple(criteria))
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        var epaInfo = multi.Read<EPAModel, EPAEmployeeInfo, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+            (info, employee, ratingType, period, scoreRatingType) =>
             {
-                var epaInfo = multi.Read<EPAModel, EPAEmployeeInfo, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
-                    (info, employee, ratingType, period, scoreRatingType) =>
-                    {
-                        info.Employee = employee;
-                        info.RatingType = ratingType;
-                        info.ScoreRatingType = scoreRatingType;
-                        info.Period = period;
+                info.Employee = employee;
+                info.RatingType = ratingType;
+                info.ScoreRatingType = scoreRatingType;
+                info.Period = period;
 
-                        return info;
-                    },
-                    "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId").FirstOrDefault();
+                return info;
+            },
+            "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId").FirstOrDefault();
 
-                if (epaInfo != null)
+        if (epaInfo != null)
+        {
+            var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
+                (process, evaluator, modifiedBy) =>
                 {
-                    var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
-                        (process, evaluator, modifiedBy) =>
-                        {
-                            process.EvaluatorInfo = evaluator;
-                            process.ModifiedBy = modifiedBy;
+                    process.EvaluatorInfo = evaluator;
+                    process.ModifiedBy = modifiedBy;
 
-                            return process;
-                        },
-                        "EvaluatorId, ModifiedById");
+                    return process;
+                },
+                "EvaluatorId, ModifiedById");
 
-                    epaInfo.KPIGroups = multi.Read<EPAKpiGroupModel>().ToList();
+            epaInfo.KPIGroups = multi.Read<EPAKpiGroupModel>().ToList();
 
-                    var kpis = multi.Read<EPAKpiModel>();
-                    var evaluations = multi.Read<EvaluationModel>();
+            var kpis = multi.Read<EPAKpiModel>();
+            var evaluations = multi.Read<EvaluationModel>();
 
-                    epaInfo.LastProcesses = multi.Read<EPAProcessModel>().ToList();
+            epaInfo.LastProcesses = multi.Read<EPAProcessModel>().ToList();
 
-                    GroupEPAProcessByEPA(epaInfo, processes);
-                    GroupKPIByKPIGroup(epaInfo.KPIGroups, kpis);
+            GroupEPAProcessByEPA(epaInfo, processes);
+            GroupKPIByKPIGroup(epaInfo.KPIGroups, kpis);
 
-                    foreach (EPAKpiGroupModel kpiGroup in epaInfo.KPIGroups)
-                    {
-                        GroupEvaluationOnEachKPI(kpiGroup.KPIs, evaluations);
-                    }
-
-                    DecryptAllScore(epaInfo);
-                }
-
-                return epaInfo;
+            foreach (EPAKpiGroupModel kpiGroup in epaInfo.KPIGroups)
+            {
+                GroupEvaluationOnEachKPI(kpiGroup.KPIs, evaluations);
             }
+
+            DecryptAllScore(epaInfo);
         }
+
+        return epaInfo;
     }
 
     public IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(ICriteria criteria)
     {
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-        {
-            using (IMultiResultReader multi = db.QueryMultiple(criteria))
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        var epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, EPAPeriodModel, EPAModel>(
+            (epaInfo, emp, period) =>
             {
-                var epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, EPAPeriodModel, EPAModel>(
-                    (epaInfo, emp, period) =>
-                    {
-                        epaInfo.Employee = emp;
-                        epaInfo.Period = period;
+                epaInfo.Employee = emp;
+                epaInfo.Period = period;
 
-                        return epaInfo;
-                    },
-                    "EmployeeId, PeriodId");
+                return epaInfo;
+            },
+            "EmployeeId, PeriodId");
 
-                var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
-                    (process, evaluator, modifiedBy) =>
-                    {
-                        process.EvaluatorInfo = evaluator;
-                        process.ModifiedBy = modifiedBy;
+        var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
+            (process, evaluator, modifiedBy) =>
+            {
+                process.EvaluatorInfo = evaluator;
+                process.ModifiedBy = modifiedBy;
 
-                        return process;
-                    },
-                    "EvaluatorId, ModifiedById");
+                return process;
+            },
+            "EvaluatorId, ModifiedById");
 
-                GroupEPAProcessByEPA(epaInfos, processes);
+        GroupEPAProcessByEPA(epaInfos, processes);
 
-                foreach (EPAModel epaInfo in epaInfos)
-                {
-                    DecryptAllScore(epaInfo);
-                }
-
-                return epaInfos;
-            }
+        foreach (EPAModel epaInfo in epaInfos)
+        {
+            DecryptAllScore(epaInfo);
         }
+
+        return epaInfos;
     }
 
     public IList<EPAModel> GetEPAToUpdateFinalScore(ICriteria criteria)
     {
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-        {
-            using (IMultiResultReader multi = db.QueryMultiple(criteria))
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        IList<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, EPAPeriodModel, EPAModel>(
+            (epaInfo, emp, period) =>
             {
-                IList<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, EPAPeriodModel, EPAModel>(
-                    (epaInfo, emp, period) =>
-                    {
-                        epaInfo.Employee = emp;
-                        epaInfo.Period = period;
+                epaInfo.Employee = emp;
+                epaInfo.Period = period;
 
-                        return epaInfo;
-                    },
-                    "EmployeeId, PeriodId").ToList();
+                return epaInfo;
+            },
+            "EmployeeId, PeriodId").ToList();
 
-                var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
-                    (process, evaluator, modifiedBy) =>
-                    {
-                        process.EvaluatorInfo = evaluator;
-                        process.ModifiedBy = modifiedBy;
+        var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
+            (process, evaluator, modifiedBy) =>
+            {
+                process.EvaluatorInfo = evaluator;
+                process.ModifiedBy = modifiedBy;
 
-                        return process;
-                    },
-                    "EvaluatorId, ModifiedById");
+                return process;
+            },
+            "EvaluatorId, ModifiedById");
 
-                GroupEPAProcessByEPA(epaInfos, processes);
+        GroupEPAProcessByEPA(epaInfos, processes);
 
-                foreach (EPAModel epaInfo in epaInfos)
-                {
-                    DecryptAllScore(epaInfo);
-                }
-
-                return epaInfos;
-            }
+        foreach (EPAModel epaInfo in epaInfos)
+        {
+            DecryptAllScore(epaInfo);
         }
+
+        return epaInfos;
     }
 
     public DashboardModel GetDashboard(ICriteria criteria)
     {
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        var result = new DashboardModel
         {
-            using (IMultiResultReader multi = db.QueryMultiple(criteria))
+            MyEpaInfos = multi.Read<EPAModel, EPAPeriodModel, EPAModel>(
+                (epa, period) =>
+                {
+                    epa.Period = period;
+
+                    return epa;
+                },
+                "PeriodId")
+        };
+
+        var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
+            (process, evaluator, modifiedBy) =>
             {
-                var result = new DashboardModel
-                {
-                    MyEpaInfos = multi.Read<EPAModel, EPAPeriodModel, EPAModel>(
-                        (epa, period) =>
-                        {
-                            epa.Period = period;
+                process.EvaluatorInfo = evaluator;
+                process.ModifiedBy = modifiedBy;
 
-                            return epa;
-                        },
-                        "PeriodId")
-                };
+                return process;
+            },
+            "EvaluatorId, ModifiedById");
 
-                var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
-                    (process, evaluator, modifiedBy) =>
-                    {
-                        process.EvaluatorInfo = evaluator;
-                        process.ModifiedBy = modifiedBy;
+        GroupEPAProcessByEPA(result.MyEpaInfos, processes);
 
-                        return process;
-                    },
-                    "EvaluatorId, ModifiedById");
-
-                GroupEPAProcessByEPA(result.MyEpaInfos, processes);
-
-                foreach (EPAModel epaInfo in result.MyEpaInfos)
-                {
-                    DecryptAllScore(epaInfo);
-                }
-
-                return result;
-            }
+        foreach (EPAModel epaInfo in result.MyEpaInfos)
+        {
+            DecryptAllScore(epaInfo);
         }
+
+        return result;
     }
 
     #region Rating By KPI
 
     public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(ICriteria criteria)
     {
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-        {
-            return db.Query<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
-                (kpi, gr) =>
-                {
-                    kpi.KPIGroup = gr;
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        return db.Query<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+            (kpi, gr) =>
+            {
+                kpi.KPIGroup = gr;
 
-                    return kpi;
-                },
-                "KPIGroupId",
-                criteria);
-        }
+                return kpi;
+            },
+            "KPIGroupId",
+            criteria);
     }
 
     public IEnumerable<TemporaryKPIModel> GetKPIToView(ICriteria criteria)
     {
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-        {
-            return db.Query<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
-                (kpi, gr) =>
-                {
-                    kpi.KPIGroup = gr;
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        return db.Query<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+            (kpi, gr) =>
+            {
+                kpi.KPIGroup = gr;
 
-                    return kpi;
-                },
-                "KPIGroupId",
-                criteria);
-        }
+                return kpi;
+            },
+            "KPIGroupId",
+            criteria);
     }
 
     public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(ICriteria criteria)
     {
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-        {
-            using (IMultiResultReader multi = db.QueryMultiple(criteria))
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        var epaInfos = multi.Read<RatingByKPIModel, EPAEmployeeInfo, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
+            (epaInfo, employee, type, kgr) =>
             {
-                var epaInfos = multi.Read<RatingByKPIModel, EPAEmployeeInfo, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
-                    (epaInfo, employee, type, kgr) =>
-                    {
-                        epaInfo.Employee = employee;
-                        epaInfo.RatingType = type;
-                        epaInfo.KPIGroup = kgr;
-                        return epaInfo;
-                    },
-                    "EmployeeId, RatingTypeId, KPIGroupId");
+                epaInfo.Employee = employee;
+                epaInfo.RatingType = type;
+                epaInfo.KPIGroup = kgr;
+                return epaInfo;
+            },
+            "EmployeeId, RatingTypeId, KPIGroupId");
 
-                var kpis = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
-                    (kpi, kgr) =>
-                    {
-                        kpi.KPIGroup = kgr;
-                        return kpi;
-                    },
-                    "KPIGroupId");
+        var kpis = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+            (kpi, kgr) =>
+            {
+                kpi.KPIGroup = kgr;
+                return kpi;
+            },
+            "KPIGroupId");
 
-                var kpisBySelf = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
-                    (kpi, kgr) =>
-                    {
-                        kpi.KPIGroup = kgr;
-                        return kpi;
-                    },
-                    "KPIGroupId");
+        var kpisBySelf = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+            (kpi, kgr) =>
+            {
+                kpi.KPIGroup = kgr;
+                return kpi;
+            },
+            "KPIGroupId");
 
-                GroupKPIByEPA(epaInfos, kpis);
-                GroupKPIBySelf(epaInfos, kpisBySelf);
-                DecryptAllScore(epaInfos);
+        GroupKPIByEPA(epaInfos, kpis);
+        GroupKPIBySelf(epaInfos, kpisBySelf);
+        DecryptAllScore(epaInfos);
 
-                return epaInfos;
-            }
-        }
+        return epaInfos;
     }
 
     #endregion Rating By KPI

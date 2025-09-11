@@ -33,17 +33,12 @@ namespace SMS.EPA.Services.Implement;
 #pragma warning disable S109 // Magic numbers should not be used
 public class ReportService(
     IReportRepository reportRepository,
-    IEmployeeEPARepository employeeEpaRepository,
-    IEmployeeEPAService employeeEpaService,
+    IEmployeeEPARepository employeeEPARepository,
+    IEmployeeEPAService employeeEPAService,
     IBaseService baseService)
     : IReportService
 {
     private const int ExcelColumnWidth = 256;
-    private readonly IEmployeeEPARepository employeeEPARepository = employeeEpaRepository ?? new EmployeeEPARepository();
-    private readonly IEmployeeEPAService employeeEPAService = employeeEpaService ?? new EmployeeEPAService();
-    private readonly IReportRepository reportRepository = reportRepository ?? new ReportRepository();
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-
     public ReportService() : this(null, null, null, null)
     {
     }

@@ -47,9 +47,9 @@ public class ExportReportController : Controller
     private readonly IDisciplineService _disciplineService;
     private readonly IEmployeeEPAService _employeeEPAService;
     private readonly IEmployeeService _employeeService;
-    private readonly IEPADetailReportService _epaDetailReportService;
+    private readonly IEpaDetailReportService _epaDetailReportService;
     private readonly IExportExcelService _exportExcelService;
-    private readonly IEPADetailReportService _monthlyEPADetailReportService;
+    private readonly IEpaDetailReportService _monthlyEpaDetailReportService;
     private readonly IPeriodService _periodService;
     private readonly IPersonalFlowService _personalFlowService;
     private readonly IReportService _reportService;
@@ -70,8 +70,8 @@ public class ExportReportController : Controller
     public ExportReportController(
 #pragma warning restore S1541 // Methods and properties should not be too complex
         IReportService reportService,
-        IEPADetailReportService epaDetailReportService,
-        IEPADetailReportService monthlyEPADetailReportService,
+        IEpaDetailReportService epaDetailReportService,
+        IEpaDetailReportService monthlyEpaDetailReportService,
         IDisciplineService disciplineService,
         IEmployeeEPAService employeeEPAService,
         IExportExcelService exportExcelService,
@@ -86,8 +86,8 @@ public class ExportReportController : Controller
 #pragma warning restore S107 // Methods should not have too many parameters
     {
         _reportService = reportService ?? new ReportService();
-        _epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
-        _monthlyEPADetailReportService = monthlyEPADetailReportService ?? new MonthlyEPADetailReportService();
+        _epaDetailReportService = epaDetailReportService ?? new EpaDetailReportService();
+        _monthlyEpaDetailReportService = monthlyEpaDetailReportService ?? new MonthlyEpaDetailReportService();
         _disciplineService = disciplineService ?? new DisciplineService();
         this.userControlSession = userControlSession;
         this.roleService = roleService ?? new RoleService();
@@ -259,7 +259,7 @@ public class ExportReportController : Controller
         IList<Role> roles = roleService.GetBySiteId(userControlSession.SiteId);
         EPADetailModel epaDetail = _reportService.GetMonthlyEPADetailReport(criteria, criteria.EmployeeId, roles);
         epaDetail.Period = _reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodId?.ToString());
-        _monthlyEPADetailReportService.Render(epaDetail);
+        _monthlyEpaDetailReportService.Render(epaDetail);
 
         return new EmptyResult();
     }

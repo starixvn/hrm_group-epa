@@ -12,8 +12,6 @@ namespace SMS.EPA.Services.Implement;
 
 public class MailService(IBaseMailService baseMailService) : IMailService
 {
-    private readonly IBaseMailService baseMailService = baseMailService ?? new BaseMailService();
-
     public MailService() : this(null)
     {
     }

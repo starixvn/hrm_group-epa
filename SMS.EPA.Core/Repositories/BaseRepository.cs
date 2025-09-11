@@ -11,30 +11,26 @@ public class BaseRepository : IBaseRepository
 {
     public virtual CommandResult ExecuteNonQuery(ICriteria criteria)
     {
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-        {
-            db.SetParameterValue("ErrCode", 0);
-            db.SetParameterValue("ErrMsg", string.Empty);
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        db.SetParameterValue("ErrCode", 0);
+        db.SetParameterValue("ErrMsg", string.Empty);
 
-            db.ExecuteNonQuery(criteria);
-            Hashtable hash = db.GetOutputParams();
+        db.ExecuteNonQuery(criteria);
+        Hashtable hash = db.GetOutputParams();
 
-            return GetCommandResult(hash);
-        }
+        return GetCommandResult(hash);
     }
 
     public virtual async Task<CommandResult> ExecuteNonQueryAsync(ICriteria criteria)
     {
-        using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-        {
-            db.SetParameterValue("ErrCode", 0);
-            db.SetParameterValue("ErrMsg", string.Empty);
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        db.SetParameterValue("ErrCode", 0);
+        db.SetParameterValue("ErrMsg", string.Empty);
 
-            await db.ExecuteNonQueryAsync(criteria);
-            Hashtable hash = db.GetOutputParams();
+        await db.ExecuteNonQueryAsync(criteria);
+        Hashtable hash = db.GetOutputParams();
 
-            return GetCommandResult(hash);
-        }
+        return GetCommandResult(hash);
     }
 
     private CommandResult GetCommandResult(Hashtable hash)

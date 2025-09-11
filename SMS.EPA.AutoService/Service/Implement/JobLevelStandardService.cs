@@ -19,9 +19,6 @@ public class JobLevelStandardService(IBaseService baseService, IBaseMailService 
     private const string StartMailTemplateToEvaluator = "JobLevelStandard\\StartToEvaluator.cshtml";
     private const string StartMailTemplateToManagement = "JobLevelStandard\\StartToManagement.cshtml";
 
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-    private readonly IBaseMailService mailService = mailService ?? new BaseMailService();
-
     public JobLevelStandardService() : this(null, null)
     {
     }

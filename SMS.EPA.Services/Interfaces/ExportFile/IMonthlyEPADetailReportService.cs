@@ -2,7 +2,7 @@
 
 namespace SMS.EPA.Services.Interfaces.ExportFile;
 
-public interface IMonthlyEPADetailReportService
+public interface IMonthlyEpaDetailReportService
 {
     void Export(EPADetailModel epaDetail);
 

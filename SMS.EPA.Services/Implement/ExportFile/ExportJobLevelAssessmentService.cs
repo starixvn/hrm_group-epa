@@ -23,7 +23,6 @@ using SMS.EPA.Services.Interfaces.ExportFile;
 public class ExportJobLevelAssessmentService(IUtilityService utilityService = null) : IExportJobLevelAssessmentService
 {
     private const int ExcelColumnWidth = 256;
-    private readonly IUtilityService utilityService = utilityService ?? new UtilityService(null);
 
     public MemoryStream ExportJoblevelAssessmentReport(List<JobLevelAssessmentKPI> kpis, IList<JobLevelAssessment> assessments, string title)
     {
@@ -112,7 +111,7 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
         return cellStyle;
     }
 
-    private static void StyleMergedRegionHeader(HSSFWorkbook workbook, ISheet sheet, CellRangeAddress region)
+    private static void StyleMergedRegionHeader(ISheet sheet, CellRangeAddress region)
     {
         RegionUtil.SetBorderRight((byte)BorderStyle.Thin, region, sheet);
         RegionUtil.SetRightBorderColor(HSSFColor.White.Index, region, sheet);
@@ -147,7 +146,7 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
         cellEmployeeInfoHeader.SetCellValue(Lang.EmployeeInfo);
         var region = new CellRangeAddress(1, 2, 1, tableHeaderColSpanEmployeeInfor);
         sheet.AddMergedRegion(region);
-        StyleMergedRegionHeader(workbook, sheet, region);
+        StyleMergedRegionHeader(sheet, region);
 
         IRow rowEmployeeInfo = sheet.CreateRow(3);
         for (int i = 0; i < titleHeadersEmployeeInfo.Count; i++)
@@ -165,7 +164,7 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
             cellJobLevelHeader.SetCellValue("Job Level Standards (Assessment by Department P.I.C)");
             region = new CellRangeAddress(1, 1, startAssessmentColumnIndex, totolCellJobLevel);
             sheet.AddMergedRegion(region);
-            StyleMergedRegionHeader(workbook, sheet, region);
+            StyleMergedRegionHeader(sheet, region);
 
             for (int i = 0; i < kpis.Count; i++)
             {
@@ -175,7 +174,7 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
                 cellJobLevel.SetCellValue(kpis[i].KPIName);
                 region = new CellRangeAddress(2, 2, cellIndex, cellIndex + 1);
                 sheet.AddMergedRegion(region);
-                StyleMergedRegionHeader(workbook, sheet, region);
+                StyleMergedRegionHeader(sheet, region);
             }
 
             var reviewedHeaderIndex = startAssessmentColumnIndex + kpis.Count * 2;
@@ -184,7 +183,7 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
             cellReviewedHeader.SetCellValue(Lang.ReviewbyUnitHead);
             region = new CellRangeAddress(1, 2, reviewedHeaderIndex, reviewedHeaderIndex + 2);
             sheet.AddMergedRegion(region);
-            StyleMergedRegionHeader(workbook, sheet, region);
+            StyleMergedRegionHeader(sheet, region);
 
             for (int i = 0; i < titleHeadersReview.Count; i++)
             {

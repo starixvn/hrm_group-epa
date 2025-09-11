@@ -80,17 +80,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddDIServices(this IServiceCollection services, IConfiguration configuration)
     {
-        //var appSettings = configuration.GetSection("AppSettings").Get<AppSettings>();
-        //services.AddSingleton(appSettings);
-
-        //var letstalkSettings = configuration.GetSection("LetstalkSettings").Get<LetstalkSettings>();
-        //services.AddSingleton(letstalkSettings);
-
-        //var s3Config = configuration.GetSection("AmazonStorageConfig").Get<AmazonStorageConfig>();
-        //services.AddSingleton(s3Config);
-
-        //var nexConfig = configuration.GetSection("NexConfig").Get<NexConfig>();
-        //services.AddSingleton(nexConfig);
+        ConfigurationManagerService.SetConfiguration(configuration);
 
         services.AddSingleton<ILogger, Logger>();
 
@@ -125,15 +115,14 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IPeriodMailService, PeriodMailService>();
         services.AddSingleton<IPeriodService, PeriodService>();
         services.AddSingleton<IPersonalFlowService, PersonalFlowService>();
-        services.AddSingleton<IReportService, ReportService>();
         services.AddSingleton<IReviewerEPAService, ReviewerEPAService>();
+        services.AddSingleton<IEmployeeEPARepository, EmployeeEPARepository>();
         services.AddSingleton<ISelfEvaluationService, SelfEvaluationService>();
         services.AddSingleton<ITargetEmployeeSettingService, TargetEmployeeSettingService>();
         services.AddSingleton<ITargetTemplateService, TargetTemplateService>();
         services.AddSingleton<IUnitService, UnitService>();
         services.AddDIReportServices();
         services.AddDIExcelServices();
-        services.AddSyncFnBService();
 
         return services;
     }
@@ -158,10 +147,5 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IReportService, ReportService>();
 
         return services;
-    }
-
-    private static void AddSyncFnBService(this IServiceCollection services)
-    {
-        //services.AddScoped<Services.Interfaces.FnB.IEmployeeService, Services.Implement.FnB.EmployeeService>();
     }
 }

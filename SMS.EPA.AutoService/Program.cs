@@ -7,7 +7,6 @@ using System;
 using Fanex.Logging;
 using Fanex.Logging.Sentry.RavenClient;
 using SharpRaven;
-using SMS.EPA.AutoService.Service;
 
 public static class Program
 {

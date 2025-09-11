@@ -39,22 +39,18 @@ public class ExportCommentReportService(IHttpContextAccessor httpContextAccessor
 
         response.Clear();
         response.ContentType = "application/vnd.ms-excel";
-        response.Headers.Add("Content-Disposition", $"attachment; filename={FileName}.xls");
+        response.Headers["Content-Disposition"] = $"attachment; filename={FileName}.xls";
 
-        using (var stream = new MemoryStream())
-        {
-            Workbook.Write(stream, false);
-            response.Body.Write(stream.ToArray());
-        }
+        using var stream = new MemoryStream();
+        Workbook.Write(stream, false);
+        response.Body.Write(stream.ToArray());
     }
 
     private void InitializeWithTemplate(string templatePath)
     {
-        using (var fireStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
-        {
-            Workbook = new HSSFWorkbook(fireStream, true);
-            Sheet = Workbook.GetSheetAt(0);
-        }
+        using var fireStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
+        Workbook = new HSSFWorkbook(fireStream, true);
+        Sheet = Workbook.GetSheetAt(0);
     }
 
     private void GetData(EPASummaryCommentReportModel data)
