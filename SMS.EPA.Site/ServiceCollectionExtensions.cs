@@ -1,11 +1,14 @@
 using System;
 using System.Threading.Tasks;
+using Fanex.Caching.Redis;
 using Fanex.Data.Repository;
 using Fanex.Logging;
 using GO.UserControl.Client.Core.Services;
 using GO.UserControl.Client.Core.Session;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SMS.EPA.Core.Repositories;
@@ -18,6 +21,7 @@ using SMS.EPA.Services;
 using SMS.EPA.Services.Implement;
 using SMS.EPA.Services.Interfaces;
 using SMS.EPA.Site.Middlewares;
+using StackExchange.Redis;
 
 namespace SMS.EPA.Site;
 
@@ -48,20 +52,20 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
     {
-        //services.AddRedisCache(configuration.GetSection("fanex.caching.redis"));
+        services.AddRedisCache(configuration.GetSection("fanex.caching.redis"));
 
-        //var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
-        //var redisMultiplexer = ConnectionMultiplexer.Connect(redisConfig);
+        var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
+        var redisMultiplexer = ConnectionMultiplexer.Connect(redisConfig);
 
-        //services.AddDataProtection().PersistKeysToStackExchangeRedis(redisMultiplexer, "HRM.Website:ProtectionKeys");
+        services.AddDataProtection().PersistKeysToStackExchangeRedis(redisMultiplexer, "HRM.Website:ProtectionKeys");
 
-        //services.AddSingleton(redisMultiplexer);
+        services.AddSingleton(redisMultiplexer);
 
-        //services.AddStackExchangeRedisCache(options =>
-        //{
-        //    options.Configuration = redisConfig;
-        //    options.InstanceName = "HRM.Website:Session:";
-        //});
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = redisConfig;
+            options.InstanceName = "HRM.Website:Session:";
+        });
 
         return services;
     }
