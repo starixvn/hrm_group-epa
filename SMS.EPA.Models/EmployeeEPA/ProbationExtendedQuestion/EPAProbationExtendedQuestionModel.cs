@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Model;
+﻿using System.Collections.Generic;
 
-using System.Collections.Generic;
+namespace SMS.EPA.Models.EmployeeEPA.ProbationExtendedQuestion;
 
 public class EPAProbationExtendedQuestionModel
 {

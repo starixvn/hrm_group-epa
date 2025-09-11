@@ -1,9 +1,8 @@
-﻿namespace SMS.EPA.Model;
-
-using System;
+﻿using System;
 using System.Xml.Serialization;
-using SMS.EPA.Core.Enumerations;
-using SMS.EPA.Core.Extensions;
+using SMS.EPA.Core.Extensions.XML;
+
+namespace SMS.EPA.Models.AutoService;
 
 [Serializable]
 [XmlName("Row")]
@@ -21,7 +20,7 @@ public class AutoEvaluationProcessModel
     public bool HasMonthlyEPA { get; set; }
 
     [XmlIgnore]
-    public bool IsSemiHasMonthly => TargetTypeId == (byte)TargetType.SemiAnnual && HasMonthlyEPA;
+    public bool IsSemiHasMonthly => TargetTypeId == (byte)Core.Enumerations.TargetType.SemiAnnual && HasMonthlyEPA;
 
     [XmlIgnore]
     public bool IsChanged { get; set; }

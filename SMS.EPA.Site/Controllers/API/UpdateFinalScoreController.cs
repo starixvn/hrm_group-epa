@@ -1,4 +1,9 @@
 using GO.UserControl.Client.Core.Session;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.EmployeeEPA;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Services.Implement;
+using SMS.EPA.Services.Interfaces;
 
 namespace SMS.EPA.Site.Controllers.API;
 
@@ -10,8 +15,6 @@ using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Model;
 using SMS.EPA.Core.Services;
 using SMS.EPA.Criteria;
-using SMS.EPA.Model;
-using SMS.EPA.Model.EmployeeEPA;
 using SMS.EPA.Services;
 
 public class UpdateFinalScoreController : BaseController

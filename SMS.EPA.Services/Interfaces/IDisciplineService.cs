@@ -1,8 +1,10 @@
-﻿namespace SMS.EPA.Services.Interfaces;
+﻿using SMS.EPA.Criteria.Discipline;
+using SMS.EPA.Models.Discipline;
+
+namespace SMS.EPA.Services.Interfaces;
 
 using System.Collections.Generic;
 using Criteria;
-using Model.Discipline;
 
 public interface IDisciplineService
 {

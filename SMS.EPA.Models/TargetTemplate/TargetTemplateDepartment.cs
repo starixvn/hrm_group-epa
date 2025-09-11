@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model;
+﻿namespace SMS.EPA.Models.TargetTemplate;
 
 public class TargetTemplateDepartment
 {

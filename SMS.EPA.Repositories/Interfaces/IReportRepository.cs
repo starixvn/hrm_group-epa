@@ -1,7 +1,8 @@
-﻿namespace SMS.EPA.Repositories;
+﻿using Fanex.Data.Repository;
+using SMS.EPA.Models.Report.EPADetail;
+using SMS.EPA.Models.Report.EPASummary;
 
-using Fanex.Data.Repository;
-using Model;
+namespace SMS.EPA.Repositories.Interfaces;
 
 public interface IReportRepository
 {

@@ -1,4 +1,8 @@
-﻿namespace SMS.EPA.Services.Implement.ExportFile;
+﻿using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Models.Report.EPADetail;
+using SMS.EPA.Services.Interfaces.ExportFile;
+
+namespace SMS.EPA.Services.Implement.ExportFile;
 
 using System;
 using System.Collections.Generic;
@@ -9,7 +13,6 @@ using System.Linq;
 using Core.Constants;
 using Core.Enumerations;
 using Interfaces;
-using Model;
 using NPOI.HSSF.UserModel;
 using NPOI.HSSF.Util;
 using NPOI.SS.UserModel;
@@ -350,7 +353,7 @@ public abstract class EPADetailReportServiceBase(ICommonService commonService, I
         IRow rowTitle = Sheet.CreateRow(CurrentRow);
         IFont font = Workbook.CreateFont();
         font.FontHeightInPoints = 18;
-        font.Boldweight = (short)FontBoldWeight.Bold;
+        font.IsBold = true;
 
         ICell cell = rowTitle.CreateCell(0);
         cell.SetCellValue(SheetTittle + " - " + EpaDetail.Period.Name);
@@ -367,7 +370,7 @@ public abstract class EPADetailReportServiceBase(ICommonService commonService, I
         IFont font = Workbook.CreateFont();
         font.FontHeightInPoints = 11;
         font.Color = HSSFColor.White.Index;
-        font.Boldweight = (short)FontBoldWeight.Bold;
+        font.IsBold = true;
 
         ICellStyle cellStyle = Workbook.CreateCellStyle();
         cellStyle.FillForegroundColor = HSSFColor.Grey80Percent.Index;

@@ -1,12 +1,13 @@
-﻿namespace SMS.EPA.Criteria;
-
-using System.Text;
-using Core.Constants;
-using Core.Enumerations;
-using Core.Services;
+﻿using System.Text;
 using Fanex.Data;
 using Fanex.Data.Repository;
-using Model;
+using SMS.EPA.Core.Constants;
+using SMS.EPA.Core.Enumerations;
+using SMS.EPA.Core.Services;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Models.EmployeeEPA;
+
+namespace SMS.EPA.Criteria.EmployeeEPA;
 
 public class ResetScoreCriteria : CriteriaBase
 {

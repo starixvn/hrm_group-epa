@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.Report.EPASummary;
+﻿namespace SMS.EPA.Models.Report.EPASummary;
 
 public class EPASummaryDetailScoreModel
 {

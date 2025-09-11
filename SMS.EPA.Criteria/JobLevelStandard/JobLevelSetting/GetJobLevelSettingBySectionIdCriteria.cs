@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Criteria.JobLevelStandard;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace SMS.EPA.Criteria.JobLevelStandard.JobLevelSetting;
 
 public class GetJobLevelSettingBySectionIdCriteria : CriteriaBase
 {

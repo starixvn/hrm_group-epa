@@ -1,8 +1,9 @@
-﻿namespace SMS.EPA.Model;
+﻿using System.Globalization;
+using SMS.EPA.Core.Constants;
+using SMS.EPA.Core.Services;
+using SMS.EPA.Core.Services.Interfaces;
 
-using System.Globalization;
-using Core.Constants;
-using Core.Services;
+namespace SMS.EPA.Models.EmployeeEPA;
 
 public class EvaluationModel
 {

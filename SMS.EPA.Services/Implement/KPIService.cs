@@ -1,9 +1,11 @@
-﻿namespace SMS.EPA.Services;
+﻿using System.Collections.Generic;
+using SMS.EPA.Criteria.KPI;
+using SMS.EPA.Models.KPI;
+using SMS.EPA.Repositories.Implement;
+using SMS.EPA.Repositories.Interfaces;
+using SMS.EPA.Services.Interfaces;
 
-using System.Collections.Generic;
-using SMS.EPA.Criteria;
-using SMS.EPA.Model;
-using SMS.EPA.Repositories;
+namespace SMS.EPA.Services.Implement;
 
 public class KPIService(IKPIRepository kpiRepository) : IKPIService
 {

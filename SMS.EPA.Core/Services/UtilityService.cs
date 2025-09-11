@@ -1,4 +1,6 @@
-﻿namespace SMS.EPA.Core.Services;
+﻿using SMS.EPA.Core.Services.Interfaces;
+
+namespace SMS.EPA.Core.Services;
 
 using System;
 using System.IO;

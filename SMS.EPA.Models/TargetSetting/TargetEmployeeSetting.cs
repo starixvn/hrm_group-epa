@@ -1,8 +1,9 @@
-﻿namespace SMS.EPA.Model;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Report;
+using SMS.EPA.Models.Report;
+using SMS.EPA.Models.TargetTemplate;
+
+namespace SMS.EPA.Models.TargetSetting;
 
 public class TargetEmployeeSetting : IExcelRecord
 {

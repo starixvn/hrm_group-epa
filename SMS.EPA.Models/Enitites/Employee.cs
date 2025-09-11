@@ -1,15 +1,14 @@
-﻿using GO.UserControl.Client.Core.Models.Role;
-
-namespace SMS.EPA.Model.Enitites;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-    
+using GO.UserControl.Client.Core.Models.Role;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Model.Report;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Models.Report;
+
+namespace SMS.EPA.Models.Enitites;
 
 [Serializable]
 public class Employee : IExcelRecord
@@ -76,7 +75,7 @@ public class Employee : IExcelRecord
 
     public JobTitle JobTitle { get; set; }
 
-    public JobLevel JobLevel { get; set; }
+    public JobLevel.JobLevel JobLevel { get; set; }
 
     public string Department { get; set; }
 

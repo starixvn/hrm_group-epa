@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Model.JobLevelStandard.Period;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
+
+namespace SMS.EPA.Models.JobLevelStandard.Period;
 
 [Serializable]
 public class JobLevelStandardPeriod

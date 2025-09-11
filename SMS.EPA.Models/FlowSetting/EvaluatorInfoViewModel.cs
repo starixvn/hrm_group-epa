@@ -1,6 +1,7 @@
-﻿namespace SMS.EPA.Model;
+﻿using SMS.EPA.Core.Services;
+using SMS.EPA.Core.Services.Interfaces;
 
-using Core.Services;
+namespace SMS.EPA.Models.FlowSetting;
 
 public class EvaluatorInfoViewModel
 {

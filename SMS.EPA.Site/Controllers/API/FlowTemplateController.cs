@@ -1,3 +1,8 @@
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.FlowSetting;
+using SMS.EPA.Criteria.FlowTemplate;
+using SMS.EPA.Models.FlowTemplate;
+
 namespace SMS.EPA.Site.Controllers.API;
 
 using System.Collections.Generic;
@@ -9,7 +14,6 @@ using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Model;
 using SMS.EPA.Core.Services;
 using SMS.EPA.Criteria;
-using SMS.EPA.Model;
 using SMS.EPA.Services.Implement;
 using SMS.EPA.Services.Interfaces;
 

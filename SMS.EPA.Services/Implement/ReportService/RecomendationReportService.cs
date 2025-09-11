@@ -1,9 +1,11 @@
-﻿namespace SMS.EPA.Services.Implement;
-
-using SMS.EPA.Core.Services;
+﻿using SMS.EPA.Core.Services;
+using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Criteria.Report;
-using SMS.EPA.Model;
+using SMS.EPA.Models.Report.EPARecommendation;
 using SMS.EPA.Services.Interfaces;
+using SMS.EPA.Services.Interfaces.ReportService;
+
+namespace SMS.EPA.Services.Implement.ReportServices;
 
 public class RecomendationReportService(IPeriodService periodService, IBaseService baseService)
     : IRecomendationReportService

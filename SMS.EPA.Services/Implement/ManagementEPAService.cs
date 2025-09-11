@@ -1,10 +1,14 @@
-﻿namespace SMS.EPA.Services.Implement;
+﻿using SMS.EPA.Criteria.EmployeeEPA;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Repositories.Implement;
+using SMS.EPA.Repositories.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
 
 using System.Collections.Generic;
 using System.Linq;
 using Criteria;
 using Interfaces;
-using Model;
 using Repositories;
 
 public class ManagementEPAService(

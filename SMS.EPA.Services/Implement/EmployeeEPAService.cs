@@ -1,22 +1,24 @@
-﻿using GO.UserControl.Client.Core.Models.Role;
-
-namespace SMS.EPA.Services;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-    
+using GO.UserControl.Client.Core.Models.Role;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Core.Model;
 using SMS.EPA.Core.Services;
+using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Core.Utilities;
-using SMS.EPA.Criteria;
 using SMS.EPA.Criteria.EmployeeEPA;
-using SMS.EPA.Model;
-using SMS.EPA.Repositories;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Models.EmployeeEPA.ProbationExtendedQuestion;
+using SMS.EPA.Models.ScoreRatingType;
+using SMS.EPA.Repositories.Implement;
+using SMS.EPA.Repositories.Interfaces;
 using SMS.EPA.Resources;
+using SMS.EPA.Services.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
 
 public class EmployeeEPAService(
     IEmployeeEPARepository employeeEpaRepository,

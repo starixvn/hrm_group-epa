@@ -1,14 +1,15 @@
-﻿namespace SMS.EPA.Criteria;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
-using Core.Constants;
-using Core.Services;
 using Fanex.Data;
 using Fanex.Data.Repository;
-using Model;
+using SMS.EPA.Core.Constants;
+using SMS.EPA.Core.Services;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Models.EmployeeEPA;
+
+namespace SMS.EPA.Criteria.EmployeeEPA;
 
 public class AdjustScoreByReviewerOrManagementCriteria : CriteriaBase
 {

@@ -1,4 +1,7 @@
-﻿namespace SMS.EPA.AutoService;
+﻿using SMS.EPA.AutoService.Service.Implement;
+using SMS.EPA.AutoService.Service.Interfaces;
+
+namespace SMS.EPA.AutoService;
 
 using System;
 using Fanex.Logging;

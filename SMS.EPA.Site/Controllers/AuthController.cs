@@ -1,4 +1,8 @@
 ﻿using System.Threading.Tasks;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.Authentication;
+using SMS.EPA.Models.Authentication;
+
 namespace SMS.EPA.Site.Controllers;
 
 using System;
@@ -15,7 +19,6 @@ using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Model;
 using SMS.EPA.Core.Services;
 using SMS.EPA.Criteria;
-using SMS.EPA.Model.Authentication;
 using Microsoft.Extensions.Configuration;
 
 public class AuthController(

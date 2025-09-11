@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model;
+﻿namespace SMS.EPA.Models.JobLevel;
 
 public class JobLevel
 {

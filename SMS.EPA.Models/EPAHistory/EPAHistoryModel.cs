@@ -1,4 +1,6 @@
-﻿namespace SMS.EPA.Model.EPAHistory;
+﻿using SMS.EPA.Models.EmployeeEPA;
+
+namespace SMS.EPA.Models.EPAHistory;
 
 public class EPAHistoryModel
 {

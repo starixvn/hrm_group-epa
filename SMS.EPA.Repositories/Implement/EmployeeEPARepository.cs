@@ -1,13 +1,18 @@
-﻿namespace SMS.EPA.Repositories;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Fanex.Data;
 using Fanex.Data.Repository;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Model;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Models.Dashboard;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Models.EmployeeEPA.RatingByKPI;
+using SMS.EPA.Models.ScoreRatingType;
+using SMS.EPA.Repositories.Interfaces;
+
+namespace SMS.EPA.Repositories.Implement;
 
 [SuppressMessage("Minor Code Smell", "S1192:String literals should not be duplicated", Justification = "<Pending>")]
 public class EmployeeEPARepository(ICryptographyService cryptographyService) : IEmployeeEPARepository

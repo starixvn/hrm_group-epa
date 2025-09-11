@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Model.Authentication;
+﻿using System.ComponentModel.DataAnnotations;
 
-using System.ComponentModel.DataAnnotations;
+namespace SMS.EPA.Models.Authentication;
 
 public class LoginModel
 {

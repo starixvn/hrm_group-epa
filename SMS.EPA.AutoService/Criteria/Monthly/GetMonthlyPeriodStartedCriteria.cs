@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.AutoService.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace SMS.EPA.AutoService.Criteria.Monthly;
 
 public class GetMonthlyPeriodStartedCriteria : CriteriaBase
 {

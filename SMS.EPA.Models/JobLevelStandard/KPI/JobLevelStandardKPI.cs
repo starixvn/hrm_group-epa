@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Model.JobLevelStandard;
+﻿using System;
 
-using System;
+namespace SMS.EPA.Models.JobLevelStandard.KPI;
 
 [Serializable]
 public class JobLevelStandardKPI

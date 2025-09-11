@@ -1,4 +1,6 @@
-﻿namespace SMS.EPA.Criteria.FlowSetting;
+﻿using SMS.EPA.Models.FlowSetting;
+
+namespace SMS.EPA.Criteria.FlowSetting;
 
 using System.Linq;
 using System.Text;
@@ -6,7 +8,6 @@ using Core.Constants;
 using Core.Enumerations;
 using Fanex.Data;
 using Fanex.Data.Repository;
-using Model;
 
 public class CreateFlowCriteriaBase : CriteriaBase
 {

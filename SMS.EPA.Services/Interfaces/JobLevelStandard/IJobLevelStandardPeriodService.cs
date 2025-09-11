@@ -1,8 +1,8 @@
-﻿namespace SMS.EPA.Services;
+﻿using System.Collections.Generic;
+using SMS.EPA.Criteria.JobLevelStandard.Period;
+using SMS.EPA.Models.JobLevelStandard.Period;
 
-using System.Collections.Generic;
-using SMS.EPA.Criteria.JobLevelStandard;
-using SMS.EPA.Model.JobLevelStandard;
+namespace SMS.EPA.Services.Interfaces.JobLevelStandard;
 
 public interface IJobLevelStandardPeriodService
 {

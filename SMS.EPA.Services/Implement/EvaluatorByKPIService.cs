@@ -1,9 +1,13 @@
-﻿namespace SMS.EPA.Services.Implement;
+﻿using SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
+using SMS.EPA.Models.EmployeeEPA.RatingByKPI;
+using SMS.EPA.Repositories.Implement;
+using SMS.EPA.Repositories.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
 
 using System.Collections.Generic;
 using Criteria;
 using Interfaces;
-using Model;
 using Repositories;
 
 public class EvaluatorByKPIService(IEmployeeEPARepository evaluationRepository) : IEvaluatorByKPIService

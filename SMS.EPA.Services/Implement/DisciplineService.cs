@@ -1,9 +1,12 @@
-﻿namespace SMS.EPA.Services.Implement;
+﻿using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.Discipline;
+using SMS.EPA.Models.Discipline;
+
+namespace SMS.EPA.Services.Implement;
 
 using System.Collections.Generic;
 using Criteria;
 using Interfaces;
-using Model.Discipline;
 using SMS.EPA.Core.Services;
 
 public class DisciplineService(IBaseService baseService) : IDisciplineService

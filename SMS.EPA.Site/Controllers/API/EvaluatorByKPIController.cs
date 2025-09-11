@@ -1,5 +1,11 @@
 using GO.UserControl.Client.Core.Enumerables;
 using GO.UserControl.Client.Core.Session;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Models.EmployeeEPA.RatingByKPI;
+using SMS.EPA.Models.Enitites;
+using SMS.EPA.Models.TargetTemplate;
 
 namespace SMS.EPA.Site.Controllers.API;
 
@@ -10,8 +16,6 @@ using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Model;
 using SMS.EPA.Core.Services;
 using SMS.EPA.Criteria;
-using SMS.EPA.Model;
-using SMS.EPA.Model.Enitites;
 using SMS.EPA.Services.Implement;
 using SMS.EPA.Services.Interfaces;
 

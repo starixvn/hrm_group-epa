@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Services;
+﻿using SMS.EPA.Models.Email;
 
-using Model.Email;
+namespace SMS.EPA.Services.Interfaces;
 
 public interface IBaseMailService
 {

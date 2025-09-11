@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Services.Interfaces;
+﻿using SMS.EPA.Models.Report.EPAComment;
 
-using SMS.EPA.Model;
+namespace SMS.EPA.Services.Interfaces.ExportFile;
 
 public interface IExportCommentReportService
 {

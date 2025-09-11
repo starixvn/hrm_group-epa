@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.JobDescription;
+﻿namespace SMS.EPA.Models.JobDescription;
 
 public class JobDescriptionGroupInfo
 {

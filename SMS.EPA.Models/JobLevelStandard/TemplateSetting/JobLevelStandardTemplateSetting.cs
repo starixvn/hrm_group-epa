@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Model.JobLevelStandard.TemplateSetting;
+﻿using SMS.EPA.Models.Report;
 
-using SMS.EPA.Model.Report;
+namespace SMS.EPA.Models.JobLevelStandard.TemplateSetting;
 
 public class JobLevelStandardTemplateSetting : IExcelRecord
 {

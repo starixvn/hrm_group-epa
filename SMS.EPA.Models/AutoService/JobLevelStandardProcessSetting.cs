@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Model.AutoService;
+﻿using System;
 
-using System;
+namespace SMS.EPA.Models.AutoService;
 
 public class JobLevelStandardProcessSetting
 {

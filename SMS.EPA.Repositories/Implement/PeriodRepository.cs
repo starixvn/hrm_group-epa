@@ -1,12 +1,17 @@
-﻿namespace SMS.EPA.Repositories;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Core.Enumerations;
 using Fanex.Data;
 using Fanex.Data.Repository;
-using SMS.EPA.Model;
-using SMS.EPA.Model.Enitites;
+using SMS.EPA.Core.Enumerations;
+using SMS.EPA.Models.Employee;
+using SMS.EPA.Models.Enitites;
+using SMS.EPA.Models.FlowSetting;
+using SMS.EPA.Models.Period;
+using SMS.EPA.Models.TargetTemplate;
+using SMS.EPA.Models.TargetType;
+using SMS.EPA.Repositories.Interfaces;
+
+namespace SMS.EPA.Repositories.Implement;
 
 public class PeriodRepository : IPeriodRepository
 {

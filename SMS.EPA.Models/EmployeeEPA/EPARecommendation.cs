@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Model;
+﻿using SMS.EPA.Core.Enumerations;
 
-using Core.Enumerations;
+namespace SMS.EPA.Models.EmployeeEPA;
 
 public class EPARecommendation
 {

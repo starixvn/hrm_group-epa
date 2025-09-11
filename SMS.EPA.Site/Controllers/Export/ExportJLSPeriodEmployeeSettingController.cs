@@ -1,11 +1,15 @@
 ﻿
+using SMS.EPA.Criteria.JobLevelStandard.Period;
+using SMS.EPA.Models.JobLevelStandard.Period;
+using SMS.EPA.Services.Implement.JobLevelStandard;
+using SMS.EPA.Services.Interfaces.JobLevelStandard;
+
 namespace SMS.EPA.Site.Controllers.Export;
 
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using SMS.EPA.Model.JobLevelStandard;
 using SMS.EPA.Services;
 using SMS.EPA.Services.Implement.ExportFile;
 using SMS.EPA.Services.Interfaces.ExportFile;
@@ -17,16 +21,11 @@ public class ExportJLSPeriodEmployeeSettingController(
     : Controller
 {
     private const int DefaultContentRowStartIndexForTemplate = 3;
-    private const string EmployeeSettingJLSPeriodTemplate = @"~\ExcelTemplates\EmployeeSettingJLSPeriodTemplate.xls";
+    private const string EmployeeSettingJLSPeriodTemplate = "ExcelTemplates/EmployeeSettingJLSPeriodTemplate.xls";
     private readonly IJobLevelStandardPeriodService periodService = periodService ?? new JobLevelStandardPeriodService();
     private readonly IExportExcelService exportExcelService = exportExcelService ?? new ExportExcelService();
 
-    public ExportJLSPeriodEmployeeSettingController()
-        : this(null, null, null)
-    {
-    }
-
-    public ActionResult ExportExcel(Criteria.JobLevelStandard.GetPeriodEmployeeSettingCriteria criteria)
+    public ActionResult ExportExcel(GetPeriodEmployeeSettingCriteria criteria)
     {
         IList<PeriodEmployeeSetting> employees = periodService.GetEmployeeSettings(criteria);
 
@@ -35,7 +34,7 @@ public class ExportJLSPeriodEmployeeSettingController(
         exportExcelService.Title = string.Format("{0}- Employee Setting", criteria.PeriodName);
         exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
-        exportExcelService.InitializeWithTemplate(Path.Combine(webHostEnvironment.WebRootPath, "ExcelTemplates", "EmployeeSettingJLSPeriodTemplate.xls"));
+        exportExcelService.InitializeWithTemplate(Path.Combine(webHostEnvironment.WebRootPath, EmployeeSettingJLSPeriodTemplate));
 
         exportExcelService.ExportWithTemplate(employees, true, true);
 

@@ -6,6 +6,24 @@ using GO.UserControl.Client.Core.Session;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.Department;
+using SMS.EPA.Criteria.Employee;
+using SMS.EPA.Criteria.JobLevel;
+using SMS.EPA.Criteria.KPI;
+using SMS.EPA.Criteria.KPIGroup;
+using SMS.EPA.Criteria.Period;
+using SMS.EPA.Criteria.TargetTemplate;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Models.Enitites;
+using SMS.EPA.Models.JobLevel;
+using SMS.EPA.Models.JobLevelStandard.Template;
+using SMS.EPA.Models.KPI;
+using SMS.EPA.Models.KPIGroup;
+using SMS.EPA.Models.Period;
+using SMS.EPA.Models.TargetTemplate;
+using SMS.EPA.Models.TargetType;
+using SMS.EPA.Services.Interfaces;
 
 namespace SMS.EPA.Site.Controllers.API;
 
@@ -17,9 +35,6 @@ using Criteria;
 using Criteria.EPAHistory;
 using SMS.EPA.Criteria.JobLevelStandard.Template;
 using Criteria.TargetType;
-using Model;
-using Model.Enitites;
-using SMS.EPA.Model.JobLevelStandard.Template;
 using Services;
 
 public class CommonController(

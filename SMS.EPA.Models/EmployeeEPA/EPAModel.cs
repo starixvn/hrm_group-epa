@@ -1,12 +1,14 @@
-﻿namespace SMS.EPA.Model;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Core.Constants;
-using Core.Enumerations;
 using Newtonsoft.Json;
-using Report;
-using SMS.EPA.Model.JobDescription;
+using SMS.EPA.Core.Constants;
+using SMS.EPA.Core.Enumerations;
+using SMS.EPA.Models.EmployeeEPA.ProbationExtendedQuestion;
+using SMS.EPA.Models.JobDescription;
+using SMS.EPA.Models.Report;
+using SMS.EPA.Models.ScoreRatingType;
+
+namespace SMS.EPA.Models.EmployeeEPA;
 
 public class EPAModel : IExcelRecord
 {
@@ -47,15 +49,15 @@ public class EPAModel : IExcelRecord
 
     public bool IsEndProcessBySelf { get; set; }
 
-    public bool IsMonthly => Period.TargetTypeId == (byte)TargetType.Monthly;
+    public bool IsMonthly => Period.TargetTypeId == (byte)Core.Enumerations.TargetType.Monthly;
 
-    public bool IsProbation => Period.TargetTypeId == (byte)TargetType.Probation;
+    public bool IsProbation => Period.TargetTypeId == (byte)Core.Enumerations.TargetType.Probation;
 
-    public bool IsPromotion => Period.TargetTypeId == (byte)TargetType.Promotion;
+    public bool IsPromotion => Period.TargetTypeId == (byte)Core.Enumerations.TargetType.Promotion;
 
-    public bool IsSemiAnnual => Period.TargetTypeId == (byte)TargetType.SemiAnnual;
+    public bool IsSemiAnnual => Period.TargetTypeId == (byte)Core.Enumerations.TargetType.SemiAnnual;
 
-    public bool IsSemiHasMonthly => HasMonthlyEPA && Period.TargetTypeId == (byte)TargetType.SemiAnnual;
+    public bool IsSemiHasMonthly => HasMonthlyEPA && Period.TargetTypeId == (byte)Core.Enumerations.TargetType.SemiAnnual;
 
     public IList<EPAKpiGroupModel> KPIGroups { get; set; } = new List<EPAKpiGroupModel>();
 

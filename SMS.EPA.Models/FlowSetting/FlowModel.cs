@@ -1,6 +1,7 @@
-﻿namespace SMS.EPA.Model;
+﻿using System;
+using SMS.EPA.Models.FlowTemplate;
 
-using System;
+namespace SMS.EPA.Models.FlowSetting;
 
 [Serializable]
 public class FlowModel

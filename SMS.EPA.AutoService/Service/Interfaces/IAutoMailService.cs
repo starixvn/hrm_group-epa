@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.AutoService.Service;
+﻿namespace SMS.EPA.AutoService.Service.Interfaces;
 
 public interface IAutoMailService
 {

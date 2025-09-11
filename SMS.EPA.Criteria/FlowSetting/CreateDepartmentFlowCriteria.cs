@@ -1,6 +1,4 @@
-﻿namespace SMS.EPA.Criteria;
-
-using FlowSetting;
+﻿namespace SMS.EPA.Criteria.FlowSetting;
 
 public class CreateDepartmentFlowCriteria : CreateFlowCriteriaBase
 {

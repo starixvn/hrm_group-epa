@@ -1,8 +1,8 @@
-﻿namespace SMS.EPA.Repositories;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Fanex.Data.Repository;
-using Model;
+using SMS.EPA.Models.KPI;
+
+namespace SMS.EPA.Repositories.Interfaces;
 
 public interface IKPIRepository
 {

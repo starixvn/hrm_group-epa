@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Criteria;
-
-using Fanex.Data;
+﻿using Fanex.Data;
 using Fanex.Data.Repository;
+
+namespace SMS.EPA.Criteria.Employee;
 
 public class CreateSpecialEmployeeCriteria : CriteriaBase
 {

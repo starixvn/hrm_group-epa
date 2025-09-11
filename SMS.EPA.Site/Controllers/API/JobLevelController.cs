@@ -1,3 +1,5 @@
+using SMS.EPA.Core.Services.Interfaces;
+
 namespace SMS.EPA.Site.Controllers.API;
 
 using System.Web.Http;

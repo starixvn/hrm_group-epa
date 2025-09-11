@@ -1,11 +1,10 @@
-﻿namespace SMS.EPA.Services;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GO.UserControl.Client.Core.Models.Role;
-    
 using SMS.EPA.Core.Model;
-using SMS.EPA.Criteria;
-using SMS.EPA.Model.Enitites;
+using SMS.EPA.Criteria.Employee;
+using SMS.EPA.Models.Enitites;
+
+namespace SMS.EPA.Services.Interfaces;
 
 public interface IEmployeeService
 {

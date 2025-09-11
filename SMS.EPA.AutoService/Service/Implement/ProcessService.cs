@@ -1,12 +1,14 @@
-﻿namespace SMS.EPA.AutoService.Service;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SMS.EPA.AutoService.Criteria;
-using SMS.EPA.Core.Extensions;
+using SMS.EPA.AutoService.Service.Interfaces;
+using SMS.EPA.Core.Extensions.XML;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Model;
-using SMS.EPA.Services;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Models.AutoService;
+using SMS.EPA.Services.Implement;
+
+namespace SMS.EPA.AutoService.Service.Implement;
 
 public class ProcessService(
     ICryptographyService cryptographyService,

@@ -1,12 +1,14 @@
-﻿using GO.UserControl.Client.Core.Models.Role;
-
-namespace SMS.EPA.Services;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-    
+using GO.UserControl.Client.Core.Models.Role;
 using SMS.EPA.Criteria.Report;
-using SMS.EPA.Model;
+using SMS.EPA.Models.Dashboard;
+using SMS.EPA.Models.Employee;
+using SMS.EPA.Models.Period;
+using SMS.EPA.Models.Report.EPADetail;
+using SMS.EPA.Models.Report.EPASummary;
+
+namespace SMS.EPA.Services.Interfaces;
 
 public interface IReportService
 {

@@ -4,6 +4,9 @@ using GO.UserControl.Client.Core.Models.User;
 using GO.UserControl.Client.Core.Services;
 using GO.UserControl.Client.Core.Session;
 using Microsoft.AspNetCore.Mvc;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Models.Enitites;
+using SMS.EPA.Services.Interfaces;
 
 namespace SMS.EPA.Site.Controllers.API;
 
@@ -17,7 +20,6 @@ using SMS.EPA.Core.Model;
 using SMS.EPA.Core.Services;
 using SMS.EPA.Criteria;
 using SMS.EPA.Criteria.Employee;
-using SMS.EPA.Model.Enitites;
 using SMS.EPA.Services;
 
 public class EmployeeController(

@@ -1,4 +1,10 @@
 using GO.UserControl.Client.Core.Models.Role;
+using SMS.EPA.Models.Employee;
+using SMS.EPA.Models.Period;
+using SMS.EPA.Models.Report.EPADetail;
+using SMS.EPA.Models.Report.EPASummary;
+using SMS.EPA.Services.Implement;
+using SMS.EPA.Services.Interfaces;
 
 namespace SMS.EPA.Site.Controllers.API;
 
@@ -14,7 +20,6 @@ using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Criteria.EPAHistory;
 using SMS.EPA.Criteria.Report;
-using SMS.EPA.Model;
 using SMS.EPA.Services;
 
 public class ReportController(

@@ -1,10 +1,10 @@
-﻿namespace SMS.EPA.Model;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Constants;
-using Core.Enumerations;
+using SMS.EPA.Core.Constants;
+using SMS.EPA.Core.Enumerations;
+
+namespace SMS.EPA.Models.EmployeeEPA;
 
 public class MonthlyEPAModel
 {

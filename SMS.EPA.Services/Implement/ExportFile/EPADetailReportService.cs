@@ -1,17 +1,17 @@
-﻿namespace SMS.EPA.Services.Implement;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
-using Core.Constants;
-using Core.Enumerations;
-using ExportFile;
-using Model;
 using NPOI.SS.UserModel;
-using Resources;
+using SMS.EPA.Core.Constants;
+using SMS.EPA.Core.Enumerations;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Models.Report.EPADetail;
+using SMS.EPA.Resources;
+
+namespace SMS.EPA.Services.Implement.ExportFile;
 
 public class EPADetailReportService : EPADetailReportServiceBase
 {

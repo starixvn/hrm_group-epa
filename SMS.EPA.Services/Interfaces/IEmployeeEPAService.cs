@@ -1,12 +1,12 @@
-﻿using GO.UserControl.Client.Core.Models.Role;
-
-namespace SMS.EPA.Services;
-
-using System.Collections.Generic;
-    
+﻿using System.Collections.Generic;
+using GO.UserControl.Client.Core.Models.Role;
 using SMS.EPA.Core.Model;
-using SMS.EPA.Criteria;
-using SMS.EPA.Model;
+using SMS.EPA.Criteria.EmployeeEPA;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Models.EmployeeEPA.ProbationExtendedQuestion;
+using SMS.EPA.Models.ScoreRatingType;
+
+namespace SMS.EPA.Services.Interfaces;
 
 public interface IEmployeeEPAService
 {

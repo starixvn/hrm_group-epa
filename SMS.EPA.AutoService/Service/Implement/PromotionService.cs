@@ -1,8 +1,9 @@
-﻿namespace SMS.EPA.AutoService.Service;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SMS.EPA.AutoService.Criteria;
-using SMS.EPA.Model;
+using SMS.EPA.AutoService.Service.Interfaces;
+using SMS.EPA.Models.AutoService;
+
+namespace SMS.EPA.AutoService.Service.Implement;
 
 public class PromotionService : BasePeriodService, IPromotionService
 {

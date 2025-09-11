@@ -1,10 +1,10 @@
-﻿namespace SMS.EPA.Core.Services;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fanex.Data.Repository;
-using Model;
+using SMS.EPA.Core.Model;
+
+namespace SMS.EPA.Core.Services.Interfaces;
 
 public interface IBaseService
 {

@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Model.Dashboard;
+﻿using System;
 
-using System;
+namespace SMS.EPA.Models.Dashboard;
 
 public class JobLevelStandardProcessSetting
 {

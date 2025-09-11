@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace SMS.EPA.Criteria.FlowTemplate;
 
 public class DeleteFlowTemplateCriteria : CriteriaBase
 {

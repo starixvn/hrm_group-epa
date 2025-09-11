@@ -1,9 +1,8 @@
-﻿namespace SMS.EPA.Criteria.JobLevelStandard;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Fanex.Data;
 using Fanex.Data.Repository;
-using SMS.EPA.Model.JobLevelStandard;
+
+namespace SMS.EPA.Criteria.JobLevelStandard.Period;
 
 public class EditPeriodJobLevelSettingCommand : CriteriaBase
 {
@@ -11,7 +10,7 @@ public class EditPeriodJobLevelSettingCommand : CriteriaBase
     public string SectionIds { get; set; }
 
     [SpParam(Ignored = true)]
-    public IList<JobLevelSetting> Settings { get; set; }
+    public IList<Models.JobLevelStandard.JobLevelSetting.JobLevelSetting> Settings { get; set; }
 
     public string SettingXml { get; set; }
     public int ModifiedBy { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using SMS.EPA.Models.Period;
 
-namespace SMS.EPA.Model;
+namespace SMS.EPA.Models.Report.EPARecommendation;
 
 public class EPASummaryRecommendationReportModel
 {

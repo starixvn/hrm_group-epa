@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Criteria.JobLevelStandard;
-
-using Fanex.Data;
+﻿using Fanex.Data;
 using Fanex.Data.Repository;
+
+namespace SMS.EPA.Criteria.JobLevelStandard.Period;
 
 public class GetPeriodEmployeeSettingCriteria : CriteriaBase
 {

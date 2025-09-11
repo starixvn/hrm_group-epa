@@ -1,3 +1,6 @@
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Models.JobLevelStandard.Template;
+
 namespace SMS.EPA.Site.Controllers.API.JobLevelStandard;
 
 using System.Collections.Generic;
@@ -9,7 +12,6 @@ using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Model;
 using SMS.EPA.Core.Services;
 using SMS.EPA.Criteria.JobLevelStandard.Template;
-using SMS.EPA.Model.JobLevelStandard.Template;
 
 public class JobLevelStandardTemplateController(IUserControlSession userControlSession, IBaseService baseService)
     : BaseController(userControlSession)

@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Core.Services;
+﻿using Microsoft.AspNetCore.Mvc;
 
-using Microsoft.AspNetCore.Mvc;
+namespace SMS.EPA.Core.Services.Interfaces;
 
 public interface IRazorRenderService
 {

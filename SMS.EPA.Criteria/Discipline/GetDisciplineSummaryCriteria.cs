@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Criteria;
-
-using System;
+﻿using System;
 using Fanex.Data.Repository;
+
+namespace SMS.EPA.Criteria.Discipline;
 
 public class GetDisciplineSummaryCriteria : CriteriaBase
 {

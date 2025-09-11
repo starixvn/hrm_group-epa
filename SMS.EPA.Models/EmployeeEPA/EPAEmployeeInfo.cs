@@ -1,7 +1,8 @@
-﻿namespace SMS.EPA.Model;
+﻿using System;
+using SMS.EPA.Core.Services;
+using SMS.EPA.Core.Services.Interfaces;
 
-using System;
-using Core.Services;
+namespace SMS.EPA.Models.EmployeeEPA;
 
 [Serializable]
 public class EPAEmployeeInfo

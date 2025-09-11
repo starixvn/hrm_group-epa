@@ -1,14 +1,17 @@
-﻿namespace SMS.EPA.AutoService.Service;
-
-using System;
+﻿using System;
 using System.IO;
 using SMS.EPA.AutoService.Criteria.JobLevelStandard;
+using SMS.EPA.AutoService.Service.Interfaces;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Model.AutoService;
-using SMS.EPA.Model.Email;
-using SMS.EPA.Services;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Models.AutoService;
+using SMS.EPA.Models.Email;
+using SMS.EPA.Services.Implement;
+using SMS.EPA.Services.Interfaces;
+
+namespace SMS.EPA.AutoService.Service.Implement;
 
 public class JobLevelStandardService(IBaseService baseService, IBaseMailService mailService) : IJobLevelStandardService
 {

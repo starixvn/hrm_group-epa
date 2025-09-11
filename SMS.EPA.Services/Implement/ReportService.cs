@@ -1,14 +1,10 @@
-﻿using GO.UserControl.Client.Core.Models.Role;
-
-namespace SMS.EPA.Services;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-    
+using GO.UserControl.Client.Core.Models.Role;
 using NPOI.HSSF.UserModel;
 using NPOI.HSSF.Util;
 using NPOI.SS.UserModel;
@@ -16,11 +12,23 @@ using NPOI.SS.Util;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.Dashboard;
+using SMS.EPA.Criteria.EmployeeEPA;
+using SMS.EPA.Criteria.Period;
 using SMS.EPA.Criteria.Report;
-using SMS.EPA.Model;
-using SMS.EPA.Repositories;
+using SMS.EPA.Models.Dashboard;
+using SMS.EPA.Models.Employee;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Models.Period;
+using SMS.EPA.Models.Report.EPADetail;
+using SMS.EPA.Models.Report.EPASummary;
+using SMS.EPA.Repositories.Implement;
+using SMS.EPA.Repositories.Interfaces;
 using SMS.EPA.Resources;
+using SMS.EPA.Services.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
 
 #pragma warning disable S109 // Magic numbers should not be used
 public class ReportService(
@@ -291,7 +299,7 @@ public class ReportService(
 
         IFont font = workbook.CreateFont();
         font.FontHeightInPoints = fontHeight;
-        font.Boldweight = (short)FontBoldWeight.Bold;
+        font.IsBold = true;
 
         ICell cell = rowTitle.CreateCell(0);
         cell.SetCellValue(title);
@@ -473,7 +481,7 @@ public class ReportService(
         IFont font = workbook.CreateFont();
         font.FontHeightInPoints = fontHeight;
         font.Color = HSSFColor.White.Index;
-        font.Boldweight = (short)FontBoldWeight.Bold;
+        font.IsBold = true;
 
         ICellStyle cellStyle = workbook.CreateCellStyle();
         cellStyle.FillForegroundColor = HSSFColor.Grey80Percent.Index;

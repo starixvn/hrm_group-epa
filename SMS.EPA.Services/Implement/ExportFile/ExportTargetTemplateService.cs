@@ -1,8 +1,4 @@
-﻿using SMS.EPA.Core.Utilities.NPOIExtensions;
-
-namespace SMS.EPA.Services.Implement;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
@@ -10,8 +6,12 @@ using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Model;
-using SMS.EPA.Services.Interfaces;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Core.Utilities.NPOIExtensions;
+using SMS.EPA.Models.TargetTemplate;
+using SMS.EPA.Services.Interfaces.ExportFile;
+
+namespace SMS.EPA.Services.Implement.ExportFile;
 
 public class ExportTargetTemplateService(IHttpContextAccessor httpContextAccessor = null) : IExportTargetTemplateService
 {

@@ -1,9 +1,10 @@
-﻿namespace SMS.EPA.Model;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
-using Core.Constants;
-using Core.Services;
+using SMS.EPA.Core.Constants;
+using SMS.EPA.Core.Services;
+using SMS.EPA.Core.Services.Interfaces;
+
+namespace SMS.EPA.Models.EmployeeEPA;
 
 public class EPAKpiModel
 {

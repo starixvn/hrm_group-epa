@@ -1,8 +1,9 @@
-﻿namespace SMS.EPA.Repositories;
-
-using Fanex.Data;
+﻿using Fanex.Data;
 using Fanex.Data.Repository;
-using SMS.EPA.Model;
+using SMS.EPA.Models.EmployeeEPA.ProbationExtendedQuestion;
+using SMS.EPA.Repositories.Interfaces;
+
+namespace SMS.EPA.Repositories.Implement;
 
 public class ProbationExtendedQuestionRepository : IProbationExtendedQuestionRepository
 {

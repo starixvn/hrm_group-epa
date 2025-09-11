@@ -1,9 +1,11 @@
-﻿namespace SMS.EPA.Repositories;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Fanex.Data;
 using Fanex.Data.Repository;
-using Model;
+using SMS.EPA.Models.KPI;
+using SMS.EPA.Models.KPIGroup;
+using SMS.EPA.Repositories.Interfaces;
+
+namespace SMS.EPA.Repositories.Implement;
 
 public class TargetTemplateRepository : ITargetTemplateRepository
 {

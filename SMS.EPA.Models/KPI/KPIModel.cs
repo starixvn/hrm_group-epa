@@ -1,7 +1,9 @@
-﻿namespace SMS.EPA.Model;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
+using SMS.EPA.Models.KPIGroup;
+using SMS.EPA.Models.TargetType;
+
+namespace SMS.EPA.Models.KPI;
 
 public class KPIModel
 {

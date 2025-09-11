@@ -1,11 +1,11 @@
-﻿namespace SMS.EPA.Model;
+﻿using System.Collections.Generic;
+using SMS.EPA.Models.EmployeeEPA;
 
-using System.Collections.Generic;
-using Enitites;
+namespace SMS.EPA.Models.Dashboard;
 
 public class DashboardModel
 {
-    public Employee Employee { get; set; }
+    public Enitites.Employee Employee { get; set; }
 
     public IEnumerable<EPAModel> MyEpaInfos { get; set; }
 

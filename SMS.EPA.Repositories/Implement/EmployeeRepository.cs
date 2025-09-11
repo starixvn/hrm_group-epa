@@ -1,14 +1,14 @@
-﻿using GO.UserControl.Client.Core.Models.Role;
-
-namespace SMS.EPA.Repositories;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Fanex.Data;
 using Fanex.Data.Repository;
-    
-using SMS.EPA.Model;
-using SMS.EPA.Model.Enitites;
+using GO.UserControl.Client.Core.Models.Role;
+using SMS.EPA.Models.Employee;
+using SMS.EPA.Models.Enitites;
+using SMS.EPA.Models.JobLevel;
+using SMS.EPA.Repositories.Interfaces;
+
+namespace SMS.EPA.Repositories.Implement;
 
 public class EmployeeRepository : IEmployeeRepository
 {

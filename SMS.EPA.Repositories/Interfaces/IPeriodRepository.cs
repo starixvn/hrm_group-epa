@@ -1,8 +1,8 @@
-﻿namespace SMS.EPA.Repositories;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Fanex.Data.Repository;
-using SMS.EPA.Model;
+using SMS.EPA.Models.Period;
+
+namespace SMS.EPA.Repositories.Interfaces;
 
 public interface IPeriodRepository
 {

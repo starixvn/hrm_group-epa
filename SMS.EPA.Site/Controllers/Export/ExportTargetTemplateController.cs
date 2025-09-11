@@ -1,4 +1,10 @@
-﻿namespace SMS.EPA.Site.Controllers.Export;
+﻿using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.TargetTemplate;
+using SMS.EPA.Models.TargetTemplate;
+using SMS.EPA.Services.Implement.ExportFile;
+using SMS.EPA.Services.Interfaces.ExportFile;
+
+namespace SMS.EPA.Site.Controllers.Export;
 
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +12,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using SMS.EPA.Core.Services;
 using SMS.EPA.Criteria;
-using SMS.EPA.Model;
 using SMS.EPA.Services.Implement;
 using SMS.EPA.Services.Interfaces;
 

@@ -1,9 +1,13 @@
-﻿namespace SMS.EPA.Services.Implement;
+﻿using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Repositories.Implement;
+using SMS.EPA.Repositories.Interfaces;
+using SMS.EPA.Services.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
 
 using System.Collections.Generic;
 using System.Linq;
 using Fanex.Data.Repository;
-using Model;
 using Repositories;
 
 public abstract class BaseActorEPAService(

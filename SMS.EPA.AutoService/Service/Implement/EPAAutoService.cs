@@ -1,8 +1,9 @@
-﻿namespace SMS.EPA.AutoService.Service;
-
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Fanex.Logging;
+using SMS.EPA.AutoService.Service.Interfaces;
+
+namespace SMS.EPA.AutoService.Service.Implement;
 
 public class EPAAutoService : IEPAAutoService
 {

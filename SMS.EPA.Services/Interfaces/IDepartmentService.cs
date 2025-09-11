@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Services;
+﻿using System.Collections.Generic;
+using SMS.EPA.Models.Enitites;
 
-using System.Collections.Generic;
-using Model.Enitites;
+namespace SMS.EPA.Services.Interfaces;
 
 public interface IDepartmentService
 {

@@ -1,8 +1,9 @@
-﻿namespace SMS.EPA.Services.Interfaces.ExportFile;
+﻿using SMS.EPA.Models.JobLevelStandard.Assessment;
+
+namespace SMS.EPA.Services.Interfaces.ExportFile;
 
 using System.Collections.Generic;
 using System.IO;
-using SMS.EPA.Model.JobLevelStandard;
 
 public interface IExportJobLevelAssessmentService
 {

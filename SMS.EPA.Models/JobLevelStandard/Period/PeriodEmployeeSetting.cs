@@ -1,12 +1,12 @@
-﻿namespace SMS.EPA.Model.JobLevelStandard;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Core.Utilities;
-using SMS.EPA.Model.Report;
+using SMS.EPA.Models.Report;
+
+namespace SMS.EPA.Models.JobLevelStandard.Period;
 
 [Serializable]
 public class PeriodEmployeeSetting : IExcelRecord

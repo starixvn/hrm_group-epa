@@ -1,11 +1,13 @@
-﻿namespace SMS.EPA.Site.Controllers;
-
-using System.IO;
+﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Model;
-using Services.Implement;
-using Services.Interfaces;
+using SMS.EPA.Models.Report.EPARecommendation;
+using SMS.EPA.Services.Implement.ExportFile;
+using SMS.EPA.Services.Implement.ReportServices;
+using SMS.EPA.Services.Interfaces.ExportFile;
+using SMS.EPA.Services.Interfaces.ReportService;
+
+namespace SMS.EPA.Site.Controllers.Export;
 
 public class ExportRecommendationReportController(
     IRecomendationReportService recomendationReportService,

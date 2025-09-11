@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Criteria.JobLevelStandard;
-
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 using SMS.EPA.Core.Enumerations;
+
+namespace SMS.EPA.Criteria.JobLevelStandard.Assessment;
 
 public class EditStatusJobLevelAssessmentCommand : CriteriaBase
 {

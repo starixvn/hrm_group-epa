@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Model.API;
+﻿using System;
 
-using System;
+namespace SMS.EPA.Models.API;
 
 public class Team
 {

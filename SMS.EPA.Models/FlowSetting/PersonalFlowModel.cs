@@ -1,8 +1,8 @@
-﻿namespace SMS.EPA.Model;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using SMS.EPA.Model.Report;
+using SMS.EPA.Models.Report;
+
+namespace SMS.EPA.Models.FlowSetting;
 
 public class PersonalFlowModel : IExcelRecord
 {

@@ -1,3 +1,8 @@
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.KPI;
+using SMS.EPA.Models.KPI;
+using SMS.EPA.Services.Interfaces;
+
 namespace SMS.EPA.Site.Controllers.API;
 
 using System.Collections.Generic;
@@ -9,7 +14,6 @@ using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Model;
 using SMS.EPA.Core.Services;
 using SMS.EPA.Criteria;
-using SMS.EPA.Model;
 using SMS.EPA.Services;
 
 public class KPIController(IUserControlSession userControlSession, IKPIService kpiService, IBaseService baseService)

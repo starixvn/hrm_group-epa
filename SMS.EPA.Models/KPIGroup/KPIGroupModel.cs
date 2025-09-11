@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Model;
+﻿using System;
 
-using System;
+namespace SMS.EPA.Models.KPIGroup;
 
 public class KPIGroupModel
 {

@@ -1,16 +1,25 @@
-﻿using GO.UserControl.Client.Core.Models.Role;
-
-namespace SMS.EPA.Services;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-    
-using SMS.EPA.Criteria;
+using GO.UserControl.Client.Core.Models.Role;
+using SMS.EPA.Criteria.Employee;
 using SMS.EPA.Criteria.EPAHistory;
+using SMS.EPA.Criteria.KPI;
+using SMS.EPA.Criteria.KPIGroup;
+using SMS.EPA.Criteria.Period;
+using SMS.EPA.Criteria.ScoreRatingType;
+using SMS.EPA.Criteria.TargetTemplate;
 using SMS.EPA.Criteria.TargetType;
-using SMS.EPA.Model;
-using SMS.EPA.Model.Enitites;
-using SMS.EPA.Model.JobDescription;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Models.Enitites;
+using SMS.EPA.Models.JobDescription;
+using SMS.EPA.Models.KPI;
+using SMS.EPA.Models.KPIGroup;
+using SMS.EPA.Models.Period;
+using SMS.EPA.Models.ScoreRatingType;
+using SMS.EPA.Models.TargetTemplate;
+using SMS.EPA.Models.TargetType;
+
+namespace SMS.EPA.Services.Interfaces;
 
 public interface ICommonService
 {

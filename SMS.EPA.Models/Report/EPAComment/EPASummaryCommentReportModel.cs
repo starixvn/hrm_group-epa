@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SMS.EPA.Model;
+namespace SMS.EPA.Models.Report.EPAComment;
 
 public class EPASummaryCommentReportModel
 {

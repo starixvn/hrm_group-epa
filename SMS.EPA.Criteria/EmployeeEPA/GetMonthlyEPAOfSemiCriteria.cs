@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Criteria;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace SMS.EPA.Criteria.EmployeeEPA;
 
 public class GetMonthlyEPAOfSemiCriteria : CriteriaBase
 {

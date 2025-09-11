@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Core.Services;
+﻿namespace SMS.EPA.Core.Services.Interfaces;
 
 public interface IUtilityService
 {

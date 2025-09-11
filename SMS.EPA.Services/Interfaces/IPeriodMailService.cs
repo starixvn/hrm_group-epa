@@ -1,9 +1,9 @@
-﻿namespace SMS.EPA.Services;
-
-using System.Collections.Generic;
-using Model;
+﻿using System.Collections.Generic;
 using SMS.EPA.Core.Enumerations;
-using SMS.EPA.Model.AutoService;
+using SMS.EPA.Models.AutoService;
+using SMS.EPA.Models.EmployeeEPA;
+
+namespace SMS.EPA.Services.Interfaces;
 
 public interface IPeriodMailService
 {

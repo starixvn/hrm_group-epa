@@ -1,4 +1,9 @@
-﻿namespace SMS.EPA.Services.Implement;
+﻿using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Models.EPAHistory;
+using SMS.EPA.Repositories.Implement;
+using SMS.EPA.Repositories.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
 
 using System;
 using System.Collections.Generic;
@@ -6,7 +11,6 @@ using System.Linq;
 using Core.Services;
 using Criteria.EPAHistory;
 using Interfaces;
-using Model.EPAHistory;
 using Repositories;
 
 public class EPAHistoryService(

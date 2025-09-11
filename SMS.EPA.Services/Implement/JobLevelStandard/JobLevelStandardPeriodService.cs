@@ -1,11 +1,13 @@
-﻿namespace SMS.EPA.Services;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria.JobLevelStandard;
-using SMS.EPA.Model.JobLevelStandard;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.JobLevelStandard.Period;
+using SMS.EPA.Models.JobLevelStandard.Period;
+using SMS.EPA.Services.Interfaces.JobLevelStandard;
+
+namespace SMS.EPA.Services.Implement.JobLevelStandard;
 
 public class JobLevelStandardPeriodService(IBaseService baseService) : IJobLevelStandardPeriodService
 {

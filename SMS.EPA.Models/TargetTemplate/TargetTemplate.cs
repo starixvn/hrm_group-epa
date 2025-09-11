@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Model;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
+
+namespace SMS.EPA.Models.TargetTemplate;
 
 [Serializable]
 public class TargetTemplate

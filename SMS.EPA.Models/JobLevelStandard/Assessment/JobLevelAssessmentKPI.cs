@@ -1,8 +1,8 @@
-﻿namespace SMS.EPA.Model.JobLevelStandard;
-
-using System;
+﻿using System;
 using System.Xml.Serialization;
-using SMS.EPA.Core.Extensions;
+using SMS.EPA.Core.Extensions.XML;
+
+namespace SMS.EPA.Models.JobLevelStandard.Assessment;
 
 [Serializable]
 [XmlName("Row")]

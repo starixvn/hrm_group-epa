@@ -1,8 +1,7 @@
-﻿using GO.UserControl.Client.Core.Models;
+﻿using System.Collections.Generic;
+using GO.UserControl.Client.Core.Models;
 
-namespace SMS.EPA.Model;
-
-using System.Collections.Generic;
+namespace SMS.EPA.Models.RoleManagement;
 
 public class AssignFunctionToRole
 {

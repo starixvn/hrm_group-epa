@@ -1,11 +1,13 @@
-﻿namespace SMS.EPA.Services.Implement;
+﻿using SMS.EPA.Criteria.EmployeeEPA;
+using SMS.EPA.Models.EmployeeEPA;
+
+namespace SMS.EPA.Services.Implement;
 
 using System.Collections.Generic;
 using System.Linq;
 using Criteria;
 using Fanex.Data.Repository;
 using Interfaces;
-using Model;
 using SMS.EPA.Core.Enumerations;
 
 public class EvaluatorEPAService(ICommonService commonService) : BaseActorEPAService(null, null), IEvaluatorEPAService

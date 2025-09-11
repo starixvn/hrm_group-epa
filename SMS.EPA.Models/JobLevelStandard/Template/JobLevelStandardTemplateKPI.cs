@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.JobLevelStandard.Template;
+﻿namespace SMS.EPA.Models.JobLevelStandard.Template;
 
 public class JobLevelStandardTemplateKPI
 {

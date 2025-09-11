@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Model.Discipline;
+﻿using System;
 
-using System;
+namespace SMS.EPA.Models.Discipline;
 
 public class DisciplineSummaryBase
 {

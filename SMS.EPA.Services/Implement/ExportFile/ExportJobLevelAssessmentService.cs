@@ -1,4 +1,8 @@
-﻿namespace SMS.EPA.Services.Implement.ExportFile;
+﻿using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Models.JobLevelStandard.Assessment;
+using SMS.EPA.Models.JobLevelStandard.Period;
+
+namespace SMS.EPA.Services.Implement.ExportFile;
 
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,7 +16,6 @@ using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Services;
 using SMS.EPA.Core.Utilities;
 using SMS.EPA.Core.Utilities.NPOIExtensions;
-using SMS.EPA.Model.JobLevelStandard;
 using SMS.EPA.Resources;
 using SMS.EPA.Services.Interfaces.ExportFile;
 
@@ -57,7 +60,7 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
 
         IFont font = workbook.CreateFont();
         font.FontHeightInPoints = FontHeight;
-        font.Boldweight = (short)FontBoldWeight.Bold;
+        font.IsBold = true;
 
         ICell cell = rowTitle.CreateCell(0);
         cell.SetCellValue(title);
@@ -92,7 +95,7 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
         IFont font = workbook.CreateFont();
         font.FontHeightInPoints = FontHeight;
         font.Color = HSSFColor.White.Index;
-        font.Boldweight = (short)FontBoldWeight.Bold;
+        font.IsBold = true;
 
         ICellStyle cellStyle = workbook.CreateCellStyle();
         cellStyle.FillForegroundColor = HSSFColor.Grey80Percent.Index;

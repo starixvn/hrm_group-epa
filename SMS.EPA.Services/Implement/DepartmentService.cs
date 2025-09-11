@@ -1,10 +1,12 @@
-﻿namespace SMS.EPA.Services;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Model.Enitites;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.Department;
+using SMS.EPA.Models.Enitites;
+using SMS.EPA.Services.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
 
 public class DepartmentService(IBaseService baseService = null) : IDepartmentService
 {

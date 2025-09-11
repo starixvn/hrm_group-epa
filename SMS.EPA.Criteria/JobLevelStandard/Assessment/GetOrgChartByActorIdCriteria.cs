@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Criteria.JobLevelStandard;
+﻿using Fanex.Data.Repository;
 
-using Fanex.Data.Repository;
+namespace SMS.EPA.Criteria.JobLevelStandard.Assessment;
 
 public class GetOrgChartByActorIdCriteria : CriteriaBase
 {

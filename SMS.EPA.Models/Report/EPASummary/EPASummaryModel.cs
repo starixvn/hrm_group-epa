@@ -1,8 +1,8 @@
-﻿namespace SMS.EPA.Model;
+﻿using System.Collections.Generic;
+using SMS.EPA.Core.Constants;
+using SMS.EPA.Models.Period;
 
-using System.Collections.Generic;
-using Core.Constants;
-using Report;
+namespace SMS.EPA.Models.Report.EPASummary;
 
 public class EPASummaryModel : EPAReportConditionalFilename
 {

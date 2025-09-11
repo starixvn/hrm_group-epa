@@ -1,5 +1,6 @@
 using GO.UserControl.Client.Core.Models.Role;
 using GO.UserControl.Client.Core.Session;
+using SMS.EPA.Models.EPAHistory;
 
 namespace SMS.EPA.Site.Controllers.API;
 
@@ -12,7 +13,6 @@ using SMS.EPA.Core.Attribute;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Criteria.EPAHistory;
-using SMS.EPA.Model.EPAHistory;
 using SMS.EPA.Services.Implement;
 using SMS.EPA.Services.Interfaces;
 

@@ -1,7 +1,8 @@
-﻿namespace SMS.EPA.Services.Interfaces.ExportFile;
+﻿using SMS.EPA.Models.Report;
+
+namespace SMS.EPA.Services.Interfaces.ExportFile;
 
 using System.Collections.Generic;
-using Model.Report;
 using NPOI.SS.UserModel;
 
 public interface IExportExcelService

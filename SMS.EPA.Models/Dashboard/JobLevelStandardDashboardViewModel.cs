@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Model.Dashboard;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+
+namespace SMS.EPA.Models.Dashboard;
 
 public class JobLevelStandardDashboardViewModel
 {

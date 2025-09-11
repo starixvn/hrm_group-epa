@@ -1,18 +1,20 @@
-namespace SMS.EPA.Site.Controllers.API;
-
 using System.Collections.Generic;
-using GO.UserControl.Client.Core.Session;
 using System.Linq;
 using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
+using GO.UserControl.Client.Core.Session;
 using SMS.EPA.Core.Attribute;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Services;
+using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Criteria.JobLevelStandard.Report;
-using SMS.EPA.Model.Enitites;
-using SMS.EPA.Model.JobLevelStandard;
-using SMS.EPA.Model.JobLevelStandard.Period;
-using SMS.EPA.Services;
+using SMS.EPA.Models.Enitites;
+using SMS.EPA.Models.JobLevelStandard.Assessment;
+using SMS.EPA.Models.JobLevelStandard.Period;
+using SMS.EPA.Services.Implement.JobLevelStandard;
+using SMS.EPA.Services.Interfaces.JobLevelStandard;
+
+namespace SMS.EPA.Site.Controllers.API.JobLevelStandard;
 
 public class JobLevelAssessmentReportController(
     IUserControlSession userControlSession,

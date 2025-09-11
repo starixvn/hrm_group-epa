@@ -1,8 +1,8 @@
-﻿namespace SMS.EPA.Criteria;
-
-using System;
+﻿using System;
 using Fanex.Data;
 using Fanex.Data.Repository;
+
+namespace SMS.EPA.Criteria.Employee;
 
 public class ChangePasswordCriteria : CriteriaBase
 {

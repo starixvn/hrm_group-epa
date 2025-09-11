@@ -1,10 +1,10 @@
-﻿namespace SMS.EPA.Services;
+﻿using System.Collections.Generic;
+using SMS.EPA.Core.Model;
+using SMS.EPA.Criteria.Period;
+using SMS.EPA.Models.AutoService;
+using SMS.EPA.Models.Period;
 
-using System.Collections.Generic;
-using Core.Model;
-using Criteria;
-using Model;
-using SMS.EPA.Model.AutoService;
+namespace SMS.EPA.Services.Interfaces;
 
 public interface IPeriodService
 {

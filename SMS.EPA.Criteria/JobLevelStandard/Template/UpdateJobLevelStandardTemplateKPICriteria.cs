@@ -1,11 +1,12 @@
-﻿namespace SMS.EPA.Criteria.JobLevelStandard.Template;
+﻿using SMS.EPA.Models.JobLevelStandard.Template;
+
+namespace SMS.EPA.Criteria.JobLevelStandard.Template;
 
 using System.Collections.Generic;
 using System.Text;
 using Fanex.Data;
 using Fanex.Data.Repository;
 using SMS.EPA.Core.Constants;
-using SMS.EPA.Model.JobLevelStandard.Template;
 
 public class UpdateJobLevelStandardTemplateKPICriteria : CriteriaBase
 {

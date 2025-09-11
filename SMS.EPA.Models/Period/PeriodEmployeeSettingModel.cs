@@ -1,12 +1,12 @@
-﻿namespace SMS.EPA.Model;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Enumerations;
-using SMS.EPA.Model.Report;
+using SMS.EPA.Models.Employee;
+using SMS.EPA.Models.Report;
+
+namespace SMS.EPA.Models.Period;
 
 [Serializable]
 public class PeriodEmployeeSettingModel : IExcelRecord
@@ -33,7 +33,7 @@ public class PeriodEmployeeSettingModel : IExcelRecord
 
     public bool IsIncluded { get; set; }
 
-    public TargetTemplate TargetTemplate { get; set; }
+    public TargetTemplate.TargetTemplate TargetTemplate { get; set; }
 
     public int NumberEvaluators => SelfEvaluators.Count + Evaluators.Count + Reviewers.Count + Managements.Count;
 
@@ -41,7 +41,7 @@ public class PeriodEmployeeSettingModel : IExcelRecord
         Employee != null
         && Employee.HasMonthlyEPA
         && TargetTemplate != null
-        && TargetTemplate.TargetTypeId == (byte)TargetType.SemiAnnual;
+        && TargetTemplate.TargetTypeId == (byte)Core.Enumerations.TargetType.SemiAnnual;
 
     private static string GetEvaluator(IList<PeriodFlowModel> evaluators)
     {

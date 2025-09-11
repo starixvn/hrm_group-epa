@@ -1,3 +1,8 @@
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Models.JobDescription;
+using SMS.EPA.Services.Implement;
+using SMS.EPA.Services.Interfaces;
+
 namespace SMS.EPA.Site.Controllers.API;
 
 using System.Collections.Generic;
@@ -10,7 +15,6 @@ using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Model;
 using SMS.EPA.Core.Services;
 using SMS.EPA.Criteria.JobDescription;
-using SMS.EPA.Model.JobDescription;
 using SMS.EPA.Services;
 
 public class JobDescriptionController(

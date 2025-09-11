@@ -1,12 +1,12 @@
-﻿namespace SMS.EPA.Core.Extensions;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+
+namespace SMS.EPA.Core.Extensions.XML;
 
 public static class XmlExtensions
 {

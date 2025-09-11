@@ -1,9 +1,9 @@
-﻿namespace SMS.EPA.Criteria.JobLevelStandard;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Fanex.Data;
 using Fanex.Data.Repository;
-using SMS.EPA.Model.JobLevelStandard.Period;
+using SMS.EPA.Models.JobLevelStandard.Period;
+
+namespace SMS.EPA.Criteria.JobLevelStandard.Period;
 
 public class EditJobLevelStandardPeriodCommand : CriteriaBase
 {

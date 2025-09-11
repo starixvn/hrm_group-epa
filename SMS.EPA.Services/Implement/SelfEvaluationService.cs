@@ -1,10 +1,12 @@
-﻿namespace SMS.EPA.Services;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Criteria;
-using Model;
-using Repositories;
+using SMS.EPA.Criteria.EmployeeEPA;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Repositories.Implement;
+using SMS.EPA.Repositories.Interfaces;
+using SMS.EPA.Services.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
 
 public class SelfEvaluationService(
     IEmployeeEPARepository employeeEpaRepository,

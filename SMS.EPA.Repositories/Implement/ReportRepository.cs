@@ -1,14 +1,19 @@
-﻿namespace SMS.EPA.Repositories;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Core.Enumerations;
-using Core.Services;
 using Fanex.Data;
 using Fanex.Data.Repository;
-using Model;
-using Model.Enitites;
-using Model.Report.EPASummary;
+using SMS.EPA.Core.Enumerations;
+using SMS.EPA.Core.Services;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Models.Enitites;
+using SMS.EPA.Models.Period;
+using SMS.EPA.Models.Report.EPADetail;
+using SMS.EPA.Models.Report.EPASummary;
+using SMS.EPA.Models.ScoreRatingType;
+using SMS.EPA.Repositories.Interfaces;
+
+namespace SMS.EPA.Repositories.Implement;
 
 public class ReportRepository(ICryptographyService cryptographyService) : IReportRepository
 {

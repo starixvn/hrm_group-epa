@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.API;
+﻿namespace SMS.EPA.Models.API;
 
 public class Photo
 {

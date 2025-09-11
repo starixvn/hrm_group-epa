@@ -1,3 +1,5 @@
+using SMS.EPA.Models.RoleManagement;
+
 namespace SMS.EPA.Site.Controllers.API;
 
 using System.Collections.Generic;
@@ -9,7 +11,6 @@ using GO.UserControl.Client.Core.Services;
 using GO.UserControl.Client.Core.Session;
 using SMS.EPA.Core.Attribute;
 using SMS.EPA.Core.Constants;
-using SMS.EPA.Model;
 
 public class RoleController(
     IUserControlSession userControlSession,

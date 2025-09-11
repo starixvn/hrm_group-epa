@@ -1,8 +1,8 @@
-﻿namespace SMS.EPA.Repositories;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Fanex.Data.Repository;
-using Model.EPAHistory;
+using SMS.EPA.Models.EPAHistory;
+
+namespace SMS.EPA.Repositories.Interfaces;
 
 public interface IEPAHistoryRepository
 {

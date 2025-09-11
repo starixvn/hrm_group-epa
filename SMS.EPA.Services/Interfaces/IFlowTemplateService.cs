@@ -1,8 +1,10 @@
-﻿namespace SMS.EPA.Services.Interfaces;
+﻿using SMS.EPA.Criteria.FlowTemplate;
+using SMS.EPA.Models.FlowTemplate;
+
+namespace SMS.EPA.Services.Interfaces;
 
 using System.Collections.Generic;
 using Criteria;
-using Model;
 
 public interface IFlowTemplateService
 {

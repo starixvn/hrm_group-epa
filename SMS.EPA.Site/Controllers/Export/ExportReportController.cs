@@ -1,44 +1,49 @@
-﻿using GO.UserControl.Client.Core.Models.Role;
-
-namespace SMS.EPA.Site.Controllers;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using GO.UserControl.Client.Core.Models.Role;
 using GO.UserControl.Client.Core.Services;
 using GO.UserControl.Client.Core.Session;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using NPOI.HSSF.Util;
 using NPOI.SS.UserModel;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Enumerations;
-using SMS.EPA.Criteria;
+using SMS.EPA.Criteria.Discipline;
+using SMS.EPA.Criteria.Employee;
+using SMS.EPA.Criteria.EmployeeEPA;
+using SMS.EPA.Criteria.Period;
 using SMS.EPA.Criteria.Report;
-using SMS.EPA.Model;
-using SMS.EPA.Model.Discipline;
-using SMS.EPA.Model.Enitites;
-using SMS.EPA.Model.Report;
+using SMS.EPA.Criteria.TargetEmployeeSetting;
+using SMS.EPA.Models.Discipline;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Models.Enitites;
+using SMS.EPA.Models.FlowSetting;
+using SMS.EPA.Models.Report;
+using SMS.EPA.Models.Report.EPADetail;
+using SMS.EPA.Models.Report.EPASummary;
+using SMS.EPA.Models.TargetSetting;
 using SMS.EPA.Resources;
-using SMS.EPA.Services;
 using SMS.EPA.Services.Implement;
 using SMS.EPA.Services.Implement.ExportFile;
 using SMS.EPA.Services.Interfaces;
 using SMS.EPA.Services.Interfaces.ExportFile;
-    
+
+namespace SMS.EPA.Site.Controllers.Export;
 
 public class ExportReportController : Controller
 {
     private const int DefaultContentRowStartIndexForTemplate = 3;
 
-    private const string DisciplineSummaryByPeriodTemplatePath = @"~\ExcelTemplates\DisciplineSummaryByPeriodReport.xls";
-    private const string DisciplineSummaryTemplatePath = @"~\ExcelTemplates\DisciplineSummaryReport.xls";
-    private const string EmployeeBasicInfoTemplate = @"~\ExcelTemplates\EmployeeBasicInfoTemplate.xls";
-    private const string EmployeeFlowSettingTemplate = @"~\ExcelTemplates\EmployeeFlowSettingTemplate.xls";
-    private const string DepartmentFlowSettingTemplate = @"~\ExcelTemplates\DepartmentFlowSettingTemplate.xls";
-    private const string PersonalFlowSettingTemplate = @"~\ExcelTemplates\PersonalFlowSettingTemplate.xls";
-    private const string TargetPersonnelSettingTemplate = @"~\ExcelTemplates\TargetPersonnelSettingTemplate.xls";
-    private const string UpdateFinalScoreTemplatePath = @"~\ExcelTemplates\UpdateFinalScore.xls";
+    private const string DisciplineSummaryByPeriodTemplatePath = "ExcelTemplates/DisciplineSummaryByPeriodReport.xls";
+    private const string DisciplineSummaryTemplatePath = "ExcelTemplates/DisciplineSummaryReport.xls";
+    private const string EmployeeBasicInfoTemplate = "ExcelTemplates/EmployeeBasicInfoTemplate.xls";
+    private const string EmployeeFlowSettingTemplate = "ExcelTemplates/EmployeeFlowSettingTemplate.xls";
+    private const string DepartmentFlowSettingTemplate = "ExcelTemplates/DepartmentFlowSettingTemplate.xls";
+    private const string PersonalFlowSettingTemplate = "ExcelTemplates/PersonalFlowSettingTemplate.xls";
+    private const string TargetPersonnelSettingTemplate = "ExcelTemplates/TargetPersonnelSettingTemplate.xls";
+    private const string UpdateFinalScoreTemplatePath = "ExcelTemplates/UpdateFinalScore.xls";
     private readonly IDisciplineService _disciplineService;
     private readonly IEmployeeEPAService _employeeEPAService;
     private readonly IEmployeeService _employeeService;
@@ -109,7 +114,7 @@ public class ExportReportController : Controller
                 _exportExcelService.SheetName = "Discipline Summary";
                 _exportExcelService.Title = "Discipline Summary Report";
 
-                _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, "ExcelTemplates", "DisciplineSummaryByPeriodReport.xls"));
+                _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, DisciplineSummaryByPeriodTemplatePath));
 
                 _exportExcelService.ContentRowStartIndex = contentFirstRowIndex;
                 CreateRedStyleForDisciplineSummaryByPeriodReport();
@@ -135,7 +140,7 @@ public class ExportReportController : Controller
                 _exportExcelService.SheetName = Lang.AttendanceSummaryReportSheet;
                 _exportExcelService.Title = GetDisciplineSummaryReportTitle(criteria);
 
-                _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, "ExcelTemplates", "DisciplineSummaryReport.xls"));
+                _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, DisciplineSummaryTemplatePath));
                 _exportExcelService.ContentRowStartIndex = contentFirstRowIndex;
 
                 CreateRedStyleForDisciplineSummaryReport();
@@ -156,7 +161,7 @@ public class ExportReportController : Controller
         _exportExcelService.Title = string.Format(Lang.EmployeeFlowSettingReportTitle, criteria.PeriodName);
         _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
-        _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, "ExcelTemplates", "EmployeeFlowSettingTemplate.xls"));
+        _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, EmployeeFlowSettingTemplate));
 
         _exportExcelService.ExportWithTemplate(employeeFlowSettings, true, true);
 
@@ -175,7 +180,7 @@ public class ExportReportController : Controller
                 _exportExcelService.FileName = "Employee_Infomation";
                 _exportExcelService.SheetName = "Employee Infomation";
 
-                _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, "ExcelTemplates", "EmployeeBasicInfoTemplate.xls"));
+                _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, EmployeeBasicInfoTemplate));
 
                 _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
@@ -201,7 +206,7 @@ public class ExportReportController : Controller
                 _exportExcelService.SheetName = "Update Final Score";
                 _exportExcelService.Title = criteria.PeriodName;
 
-                _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, "ExcelTemplates", "UpdateFinalScore.xls"));
+                _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, UpdateFinalScoreTemplatePath));
 
                 _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
@@ -282,7 +287,7 @@ public class ExportReportController : Controller
             _exportExcelService.SheetName = "Personal Flow";
             _exportExcelService.Title = $"{flowTemplateName} - Personal Flow Setting";
 
-            _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, "ExcelTemplates", "PersonalFlowSettingTemplate.xls"));
+            _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, PersonalFlowSettingTemplate));
 
             _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
@@ -302,7 +307,7 @@ public class ExportReportController : Controller
             _exportExcelService.SheetName = "Department Flow";
             _exportExcelService.Title = $"{flowTemplateName} - Department Flow Setting";
 
-            _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, "ExcelTemplates", "DepartmentFlowSettingTemplate.xls"));
+            _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, DepartmentFlowSettingTemplate));
 
             _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
@@ -322,7 +327,7 @@ public class ExportReportController : Controller
             _exportExcelService.SheetName = "Target Personnel Setting";
             _exportExcelService.Title = "Target Personnel Setting";
 
-            _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, "ExcelTemplates", "TargetPersonnelSettingTemplate.xls"));
+            _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, TargetPersonnelSettingTemplate));
             _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
             _exportExcelService.ExportWithTemplate(datas, true);

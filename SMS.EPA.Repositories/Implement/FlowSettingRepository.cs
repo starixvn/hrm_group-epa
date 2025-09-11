@@ -1,9 +1,11 @@
-﻿namespace SMS.EPA.Repositories;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Fanex.Data;
 using Fanex.Data.Repository;
-using SMS.EPA.Model;
+using SMS.EPA.Models.FlowSetting;
+using SMS.EPA.Models.FlowTemplate;
+using SMS.EPA.Repositories.Interfaces;
+
+namespace SMS.EPA.Repositories.Implement;
 
 public class FlowSettingRepository : IFlowSettingRepository
 {

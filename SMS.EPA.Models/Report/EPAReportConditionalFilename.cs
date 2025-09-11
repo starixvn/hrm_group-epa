@@ -1,4 +1,6 @@
-﻿namespace SMS.EPA.Model.Report;
+﻿using SMS.EPA.Models.Period;
+
+namespace SMS.EPA.Models.Report;
 
 public class EPAReportConditionalFilename
 {

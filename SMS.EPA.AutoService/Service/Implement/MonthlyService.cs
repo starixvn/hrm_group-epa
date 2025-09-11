@@ -1,15 +1,16 @@
-﻿namespace SMS.EPA.AutoService.Service;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Fanex.Logging;
-using SMS.EPA.AutoService.Criteria;
+using SMS.EPA.AutoService.Criteria.Monthly;
+using SMS.EPA.AutoService.Service.Interfaces;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Core.Model;
-using SMS.EPA.Criteria;
-using SMS.EPA.Model;
+using SMS.EPA.Criteria.Period;
+using SMS.EPA.Models.FlowSetting;
+
+namespace SMS.EPA.AutoService.Service.Implement;
 
 public class MonthlyService : BasePeriodService, IMonthlyService
 {

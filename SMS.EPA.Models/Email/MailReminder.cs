@@ -1,11 +1,11 @@
-﻿namespace SMS.EPA.Model.Email;
-
-using System;
+﻿using System;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Model.AutoService;
+using SMS.EPA.Models.AutoService;
 using SMS.EPA.Resources;
+
+namespace SMS.EPA.Models.Email;
 
 public class MailReminder
 {

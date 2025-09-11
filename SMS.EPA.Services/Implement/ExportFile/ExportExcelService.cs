@@ -1,4 +1,5 @@
 ﻿using SMS.EPA.Core.Utilities.NPOIExtensions;
+using SMS.EPA.Models.Report;
 
 namespace SMS.EPA.Services.Implement.ExportFile;
 
@@ -9,7 +10,6 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Interfaces.ExportFile;
-using Model.Report;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 

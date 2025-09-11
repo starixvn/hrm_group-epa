@@ -1,6 +1,7 @@
-﻿namespace SMS.EPA.Model;
+﻿using System.Collections.Generic;
+using SMS.EPA.Models.TargetTemplate;
 
-using System.Collections.Generic;
+namespace SMS.EPA.Models.TargetSetting;
 
 public class TargetDepartmentSetting
 {

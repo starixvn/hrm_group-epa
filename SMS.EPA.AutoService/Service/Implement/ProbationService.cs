@@ -1,10 +1,11 @@
-﻿namespace SMS.EPA.AutoService.Service;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Fanex.Logging;
 using SMS.EPA.AutoService.Criteria;
+using SMS.EPA.AutoService.Service.Interfaces;
 using SMS.EPA.Core.Model;
-using SMS.EPA.Model;
+using SMS.EPA.Models.AutoService;
+
+namespace SMS.EPA.AutoService.Service.Implement;
 
 public class ProbationService : BasePeriodService, IProbationService
 {

@@ -1,3 +1,6 @@
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Models.JobLevelStandard.KPI;
+
 namespace SMS.EPA.Site.Controllers.API.JobLevelStandard;
 
 using System.Collections.Generic;
@@ -10,7 +13,6 @@ using SMS.EPA.Core.Model;
 using SMS.EPA.Core.Services;
 using SMS.EPA.Criteria;
 using SMS.EPA.Criteria.JobLevelStandard.KPI;
-using SMS.EPA.Model.JobLevelStandard;
 
 public class JobLevelStandardKPIController(IUserControlSession userControlSession, IBaseService baseService)
     : BaseController(userControlSession)

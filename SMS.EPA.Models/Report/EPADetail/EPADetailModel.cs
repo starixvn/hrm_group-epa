@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Model;
+﻿using System.Collections.Generic;
+using SMS.EPA.Models.EmployeeEPA;
 
-using System.Collections.Generic;
-using Report;
+namespace SMS.EPA.Models.Report.EPADetail;
 
 public class EPADetailModel : EPAReportConditionalFilename
 {

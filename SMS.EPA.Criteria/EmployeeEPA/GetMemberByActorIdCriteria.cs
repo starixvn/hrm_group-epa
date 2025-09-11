@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Criteria;
+﻿using Fanex.Data.Repository;
+using SMS.EPA.Core.Enumerations;
 
-using Core.Enumerations;
-using Fanex.Data.Repository;
+namespace SMS.EPA.Criteria.EmployeeEPA;
 
 public class GetMemberByActorIdCriteria : CriteriaBase
 {

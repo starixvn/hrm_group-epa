@@ -1,4 +1,6 @@
-﻿namespace SMS.EPA.Criteria.JobDescription;
+﻿using SMS.EPA.Models.JobDescription;
+
+namespace SMS.EPA.Criteria.JobDescription;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +8,6 @@ using System.Text;
 using Fanex.Data;
 using Fanex.Data.Repository;
 using SMS.EPA.Core.Constants;
-using SMS.EPA.Model.JobDescription;
 
 public class EditGroupSettingJobDescriptionCriteria : CriteriaBase
 {

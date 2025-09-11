@@ -1,3 +1,7 @@
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.KPIGroup;
+using SMS.EPA.Models.KPIGroup;
+
 namespace SMS.EPA.Site.Controllers.API;
 
 using System.Collections.Generic;
@@ -9,7 +13,6 @@ using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Model;
 using SMS.EPA.Core.Services;
 using SMS.EPA.Criteria;
-using SMS.EPA.Model;
 
 public class KPIGroupController(IUserControlSession userControlSession, IBaseService baseService)
     : BaseController(userControlSession)

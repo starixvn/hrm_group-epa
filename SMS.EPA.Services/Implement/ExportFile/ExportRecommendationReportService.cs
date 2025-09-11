@@ -1,8 +1,4 @@
-﻿using SMS.EPA.Core.Utilities.NPOIExtensions;
-
-namespace SMS.EPA.Services.Implement;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore.Http;
@@ -10,8 +6,12 @@ using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 using SMS.EPA.Core.Enumerations;
-using SMS.EPA.Model;
-using SMS.EPA.Services.Interfaces;
+using SMS.EPA.Core.Utilities.NPOIExtensions;
+using SMS.EPA.Models.Period;
+using SMS.EPA.Models.Report.EPARecommendation;
+using SMS.EPA.Services.Interfaces.ExportFile;
+
+namespace SMS.EPA.Services.Implement.ExportFile;
 
 public class ExportRecommendationReportService(IHttpContextAccessor httpContextAccessor = null)
     : IExportRecommendationReportService

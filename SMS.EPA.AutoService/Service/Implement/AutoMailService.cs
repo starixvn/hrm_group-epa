@@ -1,9 +1,11 @@
-﻿namespace SMS.EPA.AutoService.Service;
+﻿using System.Collections.Generic;
+using SMS.EPA.AutoService.Service.Interfaces;
+using SMS.EPA.Core.Enumerations;
+using SMS.EPA.Models.AutoService;
+using SMS.EPA.Services.Implement;
+using SMS.EPA.Services.Interfaces;
 
-using System.Collections.Generic;
-using Core.Enumerations;
-using SMS.EPA.Model.AutoService;
-using SMS.EPA.Services;
+namespace SMS.EPA.AutoService.Service.Implement;
 
 public class AutoMailService(
     IPeriodService periodService,

@@ -1,12 +1,12 @@
-﻿namespace SMS.EPA.Criteria;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Core.Constants;
 using Fanex.Data;
 using Fanex.Data.Repository;
-using Model;
+using SMS.EPA.Core.Constants;
+using SMS.EPA.Models.EmployeeEPA;
+
+namespace SMS.EPA.Criteria.EmployeeEPA;
 
 public class UpdateFinalScoreEPAEndEvaluationCriteria : CriteriaBase
 {

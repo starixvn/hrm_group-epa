@@ -1,6 +1,4 @@
-﻿namespace SMS.EPA.AutoService.Service;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fanex.Data.Repository;
@@ -8,10 +6,13 @@ using Fanex.Logging;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Core.Model;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Model;
-using SMS.EPA.Model.AutoService;
-using SMS.EPA.Services;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.Period.GenerationEvaluation;
+using SMS.EPA.Models.AutoService;
+using SMS.EPA.Services.Implement;
+using SMS.EPA.Services.Interfaces;
+
+namespace SMS.EPA.AutoService.Service.Implement;
 
 public class BasePeriodService(
     IPeriodService periodService,

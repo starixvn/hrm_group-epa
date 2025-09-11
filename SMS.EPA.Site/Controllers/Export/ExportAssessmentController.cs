@@ -1,4 +1,7 @@
 ﻿using GO.UserControl.Client.Core.Session;
+using SMS.EPA.Models.JobLevelStandard.Assessment;
+using SMS.EPA.Services.Implement.JobLevelStandard;
+using SMS.EPA.Services.Interfaces.JobLevelStandard;
 
 namespace SMS.EPA.Site.Controllers.Export;
 
@@ -8,7 +11,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Criteria.JobLevelStandard.Report;
-using SMS.EPA.Model.JobLevelStandard;
 using SMS.EPA.Resources;
 using SMS.EPA.Services;
 using SMS.EPA.Services.Implement.ExportFile;

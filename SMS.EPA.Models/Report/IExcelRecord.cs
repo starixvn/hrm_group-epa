@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.Report;
+﻿namespace SMS.EPA.Models.Report;
 
 public interface IExcelRecord
 {

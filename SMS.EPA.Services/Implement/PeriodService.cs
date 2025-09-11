@@ -1,14 +1,18 @@
-﻿namespace SMS.EPA.Services;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Core.Model;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Model;
-using SMS.EPA.Model.AutoService;
-using SMS.EPA.Repositories;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.Period;
+using SMS.EPA.Criteria.Period.GenerationEvaluation;
+using SMS.EPA.Models.AutoService;
+using SMS.EPA.Models.Period;
+using SMS.EPA.Repositories.Implement;
+using SMS.EPA.Repositories.Interfaces;
+using SMS.EPA.Services.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
 
 public class PeriodService(
     IPeriodRepository periodRepository,

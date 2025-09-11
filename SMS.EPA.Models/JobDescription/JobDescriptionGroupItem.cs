@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Model.JobDescription;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+
+namespace SMS.EPA.Models.JobDescription;
 
 public class JobDescriptionGroupItem
 {

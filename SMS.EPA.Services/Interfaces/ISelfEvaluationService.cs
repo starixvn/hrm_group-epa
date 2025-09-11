@@ -1,8 +1,8 @@
-﻿namespace SMS.EPA.Services;
+﻿using System.Collections.Generic;
+using SMS.EPA.Criteria.EmployeeEPA;
+using SMS.EPA.Models.EmployeeEPA;
 
-using System.Collections.Generic;
-using Criteria;
-using Model;
+namespace SMS.EPA.Services.Interfaces;
 
 public interface ISelfEvaluationService
 {

@@ -1,13 +1,13 @@
-﻿namespace SMS.EPA.Criteria;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Fanex.Data;
 using Fanex.Data.Repository;
 using SMS.EPA.Core.Constants;
-using SMS.EPA.Model;
+using SMS.EPA.Models.Period;
+
+namespace SMS.EPA.Criteria.Period;
 
 public class UpdateEmployeeSettingOfPeriodCriteria : CriteriaBase
 {

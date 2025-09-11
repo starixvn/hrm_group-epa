@@ -10,7 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SMS.EPA.Core.Repositories;
 using SMS.EPA.Core.Services;
+using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Repositories;
+using SMS.EPA.Repositories.Implement;
+using SMS.EPA.Repositories.Interfaces;
 using SMS.EPA.Services;
 using SMS.EPA.Services.Implement;
 using SMS.EPA.Services.Interfaces;
@@ -159,7 +162,6 @@ public static class ServiceCollectionExtensions
 
     private static void AddSyncFnBService(this IServiceCollection services)
     {
-        services.AddSingleton<IApiKeyValidator, ApiKeyValidator>();
         //services.AddScoped<Services.Interfaces.FnB.IEmployeeService, Services.Implement.FnB.EmployeeService>();
     }
 }

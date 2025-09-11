@@ -1,3 +1,7 @@
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Models.Dashboard;
+using SMS.EPA.Services.Interfaces;
+
 namespace SMS.EPA.Site.Controllers.API;
 
 using System.Collections.Generic;
@@ -10,8 +14,6 @@ using Core.Enumerations;
 using SMS.EPA.Core.Services;
 using Criteria;
 using Criteria.Dashboard;
-using Model;
-using Model.Dashboard;
 using Services;
 
 public class DashboardController(

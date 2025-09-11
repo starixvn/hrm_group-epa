@@ -1,13 +1,14 @@
-﻿namespace SMS.EPA.Services;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Core.Enumerations;
-using Core.Services;
-using Model;
-using SMS.EPA.Model.AutoService;
+using SMS.EPA.Core.Enumerations;
+using SMS.EPA.Core.Services;
+using SMS.EPA.Models.AutoService;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Services.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
 
 public class PeriodMailService(IMailService mailService) : IPeriodMailService
 {

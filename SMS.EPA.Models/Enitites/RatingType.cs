@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.Enitites;
+﻿namespace SMS.EPA.Models.Enitites;
 
 public class RatingType
 {

@@ -1,6 +1,4 @@
-﻿namespace SMS.EPA.Model;
-
-using Core.Enumerations;
+﻿namespace SMS.EPA.Models.Dashboard;
 
 public class EPAToDoList
 {
@@ -22,5 +20,5 @@ public class EPAToDoList
 
     public int UnfinishedByManagement { get; set; }
 
-    public bool IsMonthly => TargetTypeId == (byte)TargetType.Monthly;
+    public bool IsMonthly => TargetTypeId == (byte)Core.Enumerations.TargetType.Monthly;
 }

@@ -1,9 +1,13 @@
-﻿namespace SMS.EPA.Services.Implement;
+﻿using SMS.EPA.Criteria.FlowTemplate;
+using SMS.EPA.Models.FlowTemplate;
+using SMS.EPA.Repositories.Implement;
+using SMS.EPA.Repositories.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
 
 using System.Collections.Generic;
 using Criteria;
 using Interfaces;
-using Model;
 using Repositories;
 
 public class FlowTemplateService(IFlowTemplateRepository flowTemplateRepository) : IFlowTemplateService

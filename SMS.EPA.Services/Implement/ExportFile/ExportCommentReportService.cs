@@ -1,6 +1,4 @@
-﻿namespace SMS.EPA.Services.Implement;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
@@ -8,8 +6,10 @@ using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 using SMS.EPA.Core.Enumerations;
-using SMS.EPA.Model;
-using SMS.EPA.Services.Interfaces;
+using SMS.EPA.Models.Report.EPAComment;
+using SMS.EPA.Services.Interfaces.ExportFile;
+
+namespace SMS.EPA.Services.Implement.ExportFile;
 
 public class ExportCommentReportService(IHttpContextAccessor httpContextAccessor = null) : IExportCommentReportService
 {

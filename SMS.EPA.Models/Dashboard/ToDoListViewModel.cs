@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.Dashboard;
+﻿namespace SMS.EPA.Models.Dashboard;
 
 public class ToDoListViewModel
 {

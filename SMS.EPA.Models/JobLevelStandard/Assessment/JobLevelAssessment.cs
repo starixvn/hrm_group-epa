@@ -1,10 +1,11 @@
-﻿namespace SMS.EPA.Model.JobLevelStandard;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using SMS.EPA.Core.Enumerations;
+using SMS.EPA.Models.JobLevelStandard.Period;
+
+namespace SMS.EPA.Models.JobLevelStandard.Assessment;
 
 [Serializable]
 public class JobLevelAssessment

@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Services;
+﻿using SMS.EPA.Models.JobDescription;
 
-using SMS.EPA.Model.JobDescription;
+namespace SMS.EPA.Services.Interfaces;
 
 public interface IJobDescriptionService
 {

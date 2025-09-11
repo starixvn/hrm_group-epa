@@ -1,11 +1,18 @@
-﻿namespace SMS.EPA.Services.Implement;
+﻿using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.TargetTemplate;
+using SMS.EPA.Models.KPI;
+using SMS.EPA.Models.KPIGroup;
+using SMS.EPA.Models.TargetTemplate;
+using SMS.EPA.Repositories.Implement;
+using SMS.EPA.Repositories.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
 
 using System.Collections.Generic;
 using System.Linq;
 using Core.Services;
 using Criteria;
 using Interfaces;
-using Model;
 using Repositories;
 
 public class TargetTemplateService(ITargetTemplateRepository targetTemplateRepository, IBaseService baseService)

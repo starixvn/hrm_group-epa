@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.EmployeeEPA;
+﻿namespace SMS.EPA.Models.EmployeeEPA;
 
 public class UpdateFinalScoreParam
 {

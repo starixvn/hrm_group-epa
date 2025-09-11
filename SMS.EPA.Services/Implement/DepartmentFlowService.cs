@@ -1,12 +1,15 @@
-﻿namespace SMS.EPA.Services;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Model;
-using SMS.EPA.Repositories;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.FlowSetting;
+using SMS.EPA.Models.FlowSetting;
+using SMS.EPA.Repositories.Implement;
+using SMS.EPA.Repositories.Interfaces;
+using SMS.EPA.Services.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
 
 public class DepartmentFlowService(
     IBaseService baseService,

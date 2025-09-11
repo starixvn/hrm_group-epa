@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Services.Interfaces;
+﻿using SMS.EPA.Models.Report.EPADetail;
 
-using Model;
+namespace SMS.EPA.Services.Interfaces.ExportFile;
 
 public interface IMonthlyEPADetailReportService
 {

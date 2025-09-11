@@ -1,8 +1,8 @@
-﻿namespace SMS.EPA.Model.Discipline;
-
-using System;
+﻿using System;
 using SMS.EPA.Core.Constants;
-using SMS.EPA.Model.Report;
+using SMS.EPA.Models.Report;
+
+namespace SMS.EPA.Models.Discipline;
 
 [Serializable]
 public class DisciplineSummaryModel : DisciplineSummaryBase, IExcelRecord

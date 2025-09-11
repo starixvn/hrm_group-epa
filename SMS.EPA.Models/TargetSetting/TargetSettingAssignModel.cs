@@ -1,9 +1,9 @@
-﻿namespace SMS.EPA.Model;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
-using Core.Constants;
-using Enitites;
+using SMS.EPA.Core.Constants;
+using SMS.EPA.Models.Enitites;
+
+namespace SMS.EPA.Models.TargetSetting;
 
 public class TargetSettingAssignModel
 {

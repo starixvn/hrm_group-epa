@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Model.JobLevelStandard;
+﻿using System;
 
-using System;
+namespace SMS.EPA.Models.JobLevelStandard.JobLevelSetting;
 
 [Serializable]
 public class JobLevelSettingSummary

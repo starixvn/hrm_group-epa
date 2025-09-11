@@ -1,8 +1,8 @@
-﻿namespace SMS.EPA.Model;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Enitites;
+using SMS.EPA.Models.Enitites;
+
+namespace SMS.EPA.Models.Report.EPASummary;
 
 public class EPASummaryEmployeeModel
 {

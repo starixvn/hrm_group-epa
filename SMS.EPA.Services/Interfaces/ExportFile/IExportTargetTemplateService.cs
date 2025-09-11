@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Services.Interfaces;
+﻿using System.Collections.Generic;
+using SMS.EPA.Models.TargetTemplate;
 
-using System.Collections.Generic;
-using SMS.EPA.Model;
+namespace SMS.EPA.Services.Interfaces.ExportFile;
 
 public interface IExportTargetTemplateService
 {

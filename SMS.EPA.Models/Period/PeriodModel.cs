@@ -1,6 +1,7 @@
-﻿namespace SMS.EPA.Model;
+﻿using System;
+using SMS.EPA.Models.TargetType;
 
-using System;
+namespace SMS.EPA.Models.Period;
 
 public class PeriodModel
 {

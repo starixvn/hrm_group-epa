@@ -1,10 +1,11 @@
-﻿namespace SMS.EPA.Services.Implement;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SMS.EPA.Core.Services;
+using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Criteria.Report;
-using SMS.EPA.Model;
-using SMS.EPA.Services.Interfaces;
+using SMS.EPA.Models.Report.EPAComment;
+using SMS.EPA.Services.Interfaces.ReportService;
+
+namespace SMS.EPA.Services.Implement.ReportServices;
 
 public class CommentReportService(IBaseService baseService) : ICommentReportService
 {

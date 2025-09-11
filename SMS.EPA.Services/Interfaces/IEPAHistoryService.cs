@@ -1,8 +1,9 @@
-﻿namespace SMS.EPA.Services.Interfaces;
+﻿using SMS.EPA.Models.EPAHistory;
+
+namespace SMS.EPA.Services.Interfaces;
 
 using System.Collections.Generic;
 using Criteria.EPAHistory;
-using Model.EPAHistory;
 
 public interface IEPAHistoryService
 {

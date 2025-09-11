@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Model.Enitites;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
+
+namespace SMS.EPA.Models.Enitites;
 
 [Serializable]
 public class MultiSelectItem

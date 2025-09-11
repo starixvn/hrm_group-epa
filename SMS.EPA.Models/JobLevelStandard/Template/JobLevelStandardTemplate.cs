@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Model.JobLevelStandard.Template;
+﻿using System;
 
-using System;
+namespace SMS.EPA.Models.JobLevelStandard.Template;
 
 public class JobLevelStandardTemplate
 {

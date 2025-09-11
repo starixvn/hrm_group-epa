@@ -1,9 +1,10 @@
-﻿namespace SMS.EPA.Model;
-
-using System.Collections.Generic;
-using Core.Enumerations;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using Report.EPASummary;
+using SMS.EPA.Core.Enumerations;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Models.ScoreRatingType;
+
+namespace SMS.EPA.Models.Report.EPASummary;
 
 public class EPASummaryPeriodModel
 {
@@ -31,7 +32,7 @@ public class EPASummaryPeriodModel
 
     public bool IsClosed => StatusId == (byte)EpaStatus.Closed;
 
-    public bool IsSemiHasMonthly => HasMonthlyEPA && TargetTypeId == (byte)TargetType.SemiAnnual;
+    public bool IsSemiHasMonthly => HasMonthlyEPA && TargetTypeId == (byte)Core.Enumerations.TargetType.SemiAnnual;
 
     [JsonIgnore]
     public IList<EPASummaryDetailScoreModel> DetailScores { get; set; } = new List<EPASummaryDetailScoreModel>();

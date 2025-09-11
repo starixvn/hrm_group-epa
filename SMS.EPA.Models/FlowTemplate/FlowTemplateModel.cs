@@ -1,4 +1,6 @@
-﻿namespace SMS.EPA.Model;
+﻿using SMS.EPA.Models.TargetType;
+
+namespace SMS.EPA.Models.FlowTemplate;
 
 public class FlowTemplateModel
 {

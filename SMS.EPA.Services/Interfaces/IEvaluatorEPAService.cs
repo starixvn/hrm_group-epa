@@ -1,8 +1,10 @@
-﻿namespace SMS.EPA.Services.Interfaces;
+﻿using SMS.EPA.Criteria.EmployeeEPA;
+using SMS.EPA.Models.EmployeeEPA;
+
+namespace SMS.EPA.Services.Interfaces;
 
 using System.Collections.Generic;
 using Criteria;
-using Model;
 
 public interface IEvaluatorEPAService
 {

@@ -1,13 +1,14 @@
-﻿namespace SMS.EPA.Services;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Model;
-using SMS.EPA.Model.AutoService;
-using SMS.EPA.Model.Email;
+using SMS.EPA.Models.AutoService;
+using SMS.EPA.Models.Email;
+using SMS.EPA.Models.EmployeeEPA;
 using SMS.EPA.Resources;
+using SMS.EPA.Services.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
 
 public class MailService(IBaseMailService baseMailService) : IMailService
 {

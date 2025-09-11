@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Model.Report;
+﻿using System;
 
-using System;
+namespace SMS.EPA.Models.Report;
 
 public class ConditionalCellStyle
 {

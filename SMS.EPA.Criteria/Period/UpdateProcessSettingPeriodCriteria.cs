@@ -1,11 +1,11 @@
-﻿namespace SMS.EPA.Criteria;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
-using Core.Constants;
 using Fanex.Data;
 using Fanex.Data.Repository;
-using Model;
+using SMS.EPA.Core.Constants;
+using SMS.EPA.Models.FlowSetting;
+
+namespace SMS.EPA.Criteria.Period;
 
 public class UpdateProcessSettingPeriodCriteria : CriteriaBase
 {

@@ -1,8 +1,10 @@
-﻿namespace SMS.EPA.Services.Interfaces;
+﻿using SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
+using SMS.EPA.Models.EmployeeEPA.RatingByKPI;
+
+namespace SMS.EPA.Services.Interfaces;
 
 using System.Collections.Generic;
 using Criteria;
-using Model;
 
 public interface IEvaluatorByKPIService
 {

@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Services.Interfaces;
+﻿using System.Collections.Generic;
+using SMS.EPA.Models.Report.EPADetail;
 
-using System.Collections.Generic;
-using Model;
+namespace SMS.EPA.Services.Interfaces.ExportFile;
 
 public interface IEPADetailReportService
 {

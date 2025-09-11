@@ -1,5 +1,7 @@
 using GO.UserControl.Client.Core.Enumerables;
 using GO.UserControl.Client.Core.Session;
+using SMS.EPA.Criteria.Discipline;
+using SMS.EPA.Models.Discipline;
 
 namespace SMS.EPA.Site.Controllers.API;
 
@@ -8,7 +10,6 @@ using System.Web.Http;
 using SMS.EPA.Core.Attribute;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Criteria;
-using SMS.EPA.Model.Discipline;
 using SMS.EPA.Services.Interfaces;
 
 
