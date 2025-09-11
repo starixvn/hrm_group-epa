@@ -20,17 +20,10 @@ using SMS.EPA.Services.Interfaces;
 
 public class ReviewerEPAController(
     IUserControlSession userControlSession,
-    IReviewerEPAService reviewerEpaService,
+    IReviewerEPAService reviewerEPAService,
     IBaseService baseService)
     : BaseController(userControlSession)
 {
-    private readonly IReviewerEPAService reviewerEPAService = reviewerEpaService ?? new ReviewerEPAService();
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-
-    public ReviewerEPAController() : this(null, null, null)
-    {
-    }
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
 
     public IEnumerable<EPAPeriodModel> GetPeriodByReviewer()

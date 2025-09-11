@@ -16,14 +16,7 @@ using SMS.EPA.Criteria.JobLevelStandard.Template;
 public class JobLevelStandardTemplateController(IUserControlSession userControlSession, IBaseService baseService)
     : BaseController(userControlSession)
 {
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-
-    public JobLevelStandardTemplateController() : this(null, null)
-    {
-    }
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplate, Policy = Policy.Read)]
-
     public IEnumerable<JobLevelStandardTemplate> GetTemplate([FromUri] GetJobLevelStandardTemplateCriteria criteria)
     {
         return baseService.GetData<JobLevelStandardTemplate>(criteria);

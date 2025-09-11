@@ -19,13 +19,6 @@ using SMS.EPA.Services.Interfaces;
 public class EPAHistoryController(IUserControlSession userControlSession, IEPAHistoryService epaHistoryService)
     : BaseController(userControlSession)
 {
-    private readonly IEPAHistoryService epaHistoryService = epaHistoryService ?? new EPAHistoryService();
-
-    public EPAHistoryController()
-        : this(null, null)
-    {
-    }
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAHistory, Policy = Policy.Read)]
 
     public IList<EPAHistoryModel> GetEPAHistory([FromUri] GetEPAHistoryCriteria criteria)

@@ -13,32 +13,32 @@
   background-repeat: no-repeat;
 }
 .icon.plus {
-  background: url(../images/sprite_ico_2012-05-15.png) 0 -72px;
+  background: url(../Site/images/sprite_ico_2012-05-15.png) 0 -72px;
   height: 24px;
   width: 24px;
 }
 .icon.assign {
-  background: url(../images/sprite_ico_2012-05-15.png) -217px -192px;
+  background: url(../Site/images/sprite_ico_2012-05-15.png) -217px -192px;
   height: 24px;
   width: 20px;
 }
 .icon.back {
-  background: url(../images/sprite_ico_2012-05-15.png) -5px -53px;
+  background: url(../Site/images/sprite_ico_2012-05-15.png) -5px -53px;
   height: 14px;
   width: 14px;
 }
 .icon.email {
-  background: url('../images/sprite_ico_2012-05-15.png') -124px -30px;
+  background: url('../Site/images/sprite_ico_2012-05-15.png') -124px -30px;
   height: 24px;
   width: 24px;
 }
 .icon-description {
-  background: url('../images/sprite_ico_2012-05-15.png') no-repeat -172px -197px;
+  background: url('../Site/images/sprite_ico_2012-05-15.png') no-repeat -172px -197px;
   width: 16px;
   height: 16px;
 }
 .icon-sorting-bg {
-  background-image: url('../images/sort-icon.png') !important;
+  background-image: url('../Site/images/sort-icon.png') !important;
   background-position: 0 -5px;
   background-repeat: no-repeat !important;
   cursor: pointer;
@@ -53,31 +53,31 @@
   background-position: 0 -53px !important;
 }
 .icon-view {
-  background: url('../images/sprite_ico_2012-05-15.png') no-repeat -4px -100px;
+  background: url('../Site/images/sprite_ico_2012-05-15.png') no-repeat -4px -100px;
   width: 16px;
   height: 16px;
   display: inline-block;
   cursor: pointer;
 }
 .search-inline-textbox {
-  background: url(../images/icon-search.png) #fff no-repeat right center;
+  background: url(../Site/images/icon-search.png) #fff no-repeat right center;
   border: 1px solid #ccc;
 }
 .icon-save-submit {
-  background: url('../images/save_submit.png') no-repeat;
+  background: url('../Site/images/save_submit.png') no-repeat;
   display: inline-block;
   width: 16px;
   height: 16px;
   vertical-align: middle;
 }
 .icon-pencil {
-  background: url('../images/sprite_ico_2012-05-15.png') no-repeat -148px -171px;
+  background: url('../Site/images/sprite_ico_2012-05-15.png') no-repeat -148px -171px;
   width: 16px;
   height: 16px;
   display: inline-block;
 }
 .icon-excel {
-  background: rgba(0, 0, 0, 0) url("../images/excel-icon.png") no-repeat scroll 0 -26px;
+  background: rgba(0, 0, 0, 0) url("../Site/images/excel-icon.png") no-repeat scroll 0 -26px;
   height: 17px;
   width: 18px;
   margin: 2px 5px 2px;
@@ -86,7 +86,7 @@
   display: inline-block;
 }
 .icon-pdf {
-  background: url('../images/pdf-icon.png') no-repeat;
+  background: url('../Site/images/pdf-icon.png') no-repeat;
   display: inline-block;
   width: 16px;
   height: 16px;
@@ -95,10 +95,10 @@
 .icon-pdf:hover,
 .icon-pdf:focus {
   cursor: pointer;
-  background: url('../images/pdf-icon-inactive.png') no-repeat;
+  background: url('../Site/images/pdf-icon-inactive.png') no-repeat;
 }
 .icon-alert {
-  background: url('../images/icon-alert.png') no-repeat;
+  background: url('../Site/images/icon-alert.png') no-repeat;
   display: inline-block;
   width: 16px;
   height: 16px;
@@ -112,10 +112,10 @@
   cursor: pointer;
 }
 .icon-plus {
-  background: url('../images/plus-icon.gif');
+  background: url('../Site/images/plus-icon.gif');
 }
 .icon-minus {
-  background: url('../images/minus-icon.gif');
+  background: url('../Site/images/minus-icon.gif');
 }
 .calendar-input-group {
   max-width: 120px;
@@ -1025,7 +1025,7 @@ a.button:hover {
   cursor: pointer;
 }
 .btn-save {
-  background: url(../images/save_submit.png) no-repeat;
+  background: url(../Site/images/save_submit.png) no-repeat;
   width: 16px;
   height: 16px;
   display: inline-block;
@@ -1267,7 +1267,7 @@ textarea.form-control {
   color: #5e5e5e;
   padding: 9px 15px;
   text-shadow: 0 1px 0 #f5f5f5;
-  background: url(../images/line-menu.png) top right no-repeat;
+  background: url(../Site/images/line-menu.png) top right no-repeat;
 }
 .header .top-menu li a.no-bg {
   background: none;
@@ -1452,7 +1452,7 @@ textarea.form-control {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 .modal-dialog .modal-header .popup-header .close-popup {
-  background: url(../images/icon_sprite.png);
+  background: url(../Site/images/icon_sprite.png);
   height: 15px;
   width: 16px;
   position: absolute;
@@ -1574,7 +1574,7 @@ textarea.form-control {
   font-weight: normal;
 }
 .table thead tr.header-table th .btnExcel {
-  background: rgba(0, 0, 0, 0) url("../images/excel-icon.png") no-repeat scroll 0 -26px;
+  background: rgba(0, 0, 0, 0) url("../Site/images/excel-icon.png") no-repeat scroll 0 -26px;
   cursor: pointer;
   font-size: 11px;
   width: 18px;
@@ -1585,7 +1585,7 @@ textarea.form-control {
   border: 0;
 }
 .table thead tr.header-table th .btnExcel.disabled {
-  background: rgba(0, 0, 0, 0) url("../images/excel-icon.png") no-repeat scroll 0 0;
+  background: rgba(0, 0, 0, 0) url("../Site/images/excel-icon.png") no-repeat scroll 0 0;
 }
 .table thead tr.header-table th .table-entries,
 .table thead tr.header-table th .search {
@@ -1611,7 +1611,7 @@ textarea.form-control {
   margin: 0;
 }
 .table thead tr.header-table th .search-inline-textbox {
-  background: url(../images/icon-search.png) #fff no-repeat 188px center;
+  background: url(../Site/images/icon-search.png) #fff no-repeat 188px center;
   border: 1px solid #ccc;
   width: 210px;
   height: 23px;
@@ -1750,7 +1750,7 @@ textarea.form-control {
   top: 0px;
 }
 #toast-container .toast-success {
-  background: url(../images/success.png) #cae3bf no-repeat 10px center !important;
+  background: url(../Site/images/success.png) #cae3bf no-repeat 10px center !important;
   border: 1px solid #9DB886;
   color: #3C763D;
   padding: 10px 15px 10px 50px;
@@ -2513,7 +2513,7 @@ input[type="checkbox"]:focus {
   border-color: #d6d6d6 #d6d6d6 #d6d6d6 transparent;
 }
 .evaluation-process-section ul.evaluation-process li.open .icon-process {
-  background: url(../images/sprite_process.png);
+  background: url(../Site/images/sprite_process.png);
   background-position: -15px 0;
   display: inline-block;
   height: 15px;
@@ -2533,7 +2533,7 @@ input[type="checkbox"]:focus {
   border-color: #f5a07d #f5a07d #f5a07d transparent;
 }
 .evaluation-process-section ul.evaluation-process li.end-process .icon-process {
-  background: url(../images/sprite_process.png);
+  background: url(../Site/images/sprite_process.png);
   background-position: 0 0;
   display: inline-block;
   height: 15px;
@@ -2553,7 +2553,7 @@ input[type="checkbox"]:focus {
   border-color: #70c9ea #70c9ea #70c9ea transparent;
 }
 .evaluation-process-section ul.evaluation-process li.in-process .icon-process {
-  background: url(../images/sprite_process.png);
+  background: url(../Site/images/sprite_process.png);
   background-position: -30px 0;
   display: inline-block;
   height: 15px;
@@ -3670,7 +3670,7 @@ table .col-description {
   max-width: 300px;
 }
 .search-textbox {
-  background: #fff url("../images/icon-search.png") no-repeat scroll 188px center;
+  background: #fff url("../Site/images/icon-search.png") no-repeat scroll 188px center;
   border: 1px solid #ccc;
   box-shadow: none;
   color: #555;

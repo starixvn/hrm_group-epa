@@ -24,13 +24,6 @@ public class EvaluatorEPAController(
     IBaseService baseService)
     : BaseController(userControlSession)
 {
-    private readonly IEvaluatorEPAService evaluatorService = evaluatorService ?? new EvaluatorEPAService();
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-
-    public EvaluatorEPAController() : this(null, null, null)
-    {
-    }
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
 
     public IEnumerable<EPAPeriodModel> GetPeriodByEvaluator()

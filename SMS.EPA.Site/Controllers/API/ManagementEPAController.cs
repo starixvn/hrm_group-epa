@@ -20,17 +20,10 @@ using SMS.EPA.Services.Interfaces;
 
 public class ManagementEPAController(
     IUserControlSession userControlSession,
-    IManagementEPAService managementEpaService,
+    IManagementEPAService managementEPAService,
     IBaseService baseService)
     : BaseController(userControlSession)
 {
-    private readonly IManagementEPAService managementEPAService = managementEpaService ?? new ManagementEPAService();
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-
-    public ManagementEPAController() : this(null, null, null)
-    {
-    }
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
 
     public IEnumerable<EPAPeriodModel> GetPeriodByManagement()

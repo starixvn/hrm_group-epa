@@ -1,9 +1,11 @@
-﻿'use strict';
-/*global epaModule*/
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
 
-epaModule.controller('RatingByKPIController',
-['$timeout', '$translate', 'RatingByKPIModel', 'EvaluationModel', 'CommonModel', 'utilitiesFactory', 'baseUrl', 'historyFactory',
-function ($timeout, $translate, RatingByKPIModel, EvaluationModel, CommonModel, utilitiesFactory, baseUrl, historyFactory) {
+    angular.module('epaModule').controller('RatingByKPIController', RatingByKPIController);
+    RatingByKPIController.$inject = ['$timeout', '$translate', 'RatingByKPIModel', 'EvaluationModel', 'CommonModel', 'utilitiesFactory', 'baseUrl', 'historyFactory'];
+
+    function RatingByKPIController($timeout, $translate, RatingByKPIModel, EvaluationModel, CommonModel, utilitiesFactory, baseUrl, historyFactory) {
     var vm = this;
 
     vm.periods = [];
@@ -435,12 +437,13 @@ function ($timeout, $translate, RatingByKPIModel, EvaluationModel, CommonModel, 
         });
     }
 
-    initialize();
-}]);
+        initialize();
+    }
 
-epaModule.controller('ModalConfirmSaveChangesController',
-['$translate', '$uibModalInstance', 'RatingByKPIModel', 'kpiSelected', 'epaInfos',
-function ($translate, $uibModalInstance, RatingByKPIModel, kpiSelected, epaInfos) {
+    angular.module('epaModule').controller('ModalConfirmSaveChangesController', ModalConfirmSaveChangesController);
+    ModalConfirmSaveChangesController.$inject = ['$translate', '$uibModalInstance', 'RatingByKPIModel', 'kpiSelected', 'epaInfos'];
+
+    function ModalConfirmSaveChangesController($translate, $uibModalInstance, RatingByKPIModel, kpiSelected, epaInfos) {
     var vm = this;
 
     vm.confirmResult = 0;
@@ -467,7 +470,8 @@ function ($translate, $uibModalInstance, RatingByKPIModel, kpiSelected, epaInfos
         vm.evaluateEPAInvalidMessage = message;
     });
 
-    $translate('RequiredCommentForRatingMaxScore').then(function (message) {
-        vm.requiredCommentForRatingMaxScore = message;
-    });
-}]);
+        $translate('RequiredCommentForRatingMaxScore').then(function (message) {
+            vm.requiredCommentForRatingMaxScore = message;
+        });
+    }
+})(angular);

@@ -21,17 +21,10 @@ using SMS.EPA.Services.Interfaces;
 
 public class EvaluatorByKPIController(
     IUserControlSession userControlSession,
-    IEvaluatorByKPIService evaluatorByKpiService,
+    IEvaluatorByKPIService evaluatorByKPIService,
     IBaseService baseService)
     : BaseController(userControlSession)
 {
-    private readonly IEvaluatorByKPIService evaluatorByKPIService = evaluatorByKpiService ?? new EvaluatorByKPIService();
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-
-    public EvaluatorByKPIController() : this(null, null, null)
-    {
-    }
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
 
     public IEnumerable<EPAPeriodModel> GetPeriodByEvaluator()

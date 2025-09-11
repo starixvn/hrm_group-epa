@@ -125,6 +125,8 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ITargetEmployeeSettingService, TargetEmployeeSettingService>();
         services.AddSingleton<ITargetTemplateService, TargetTemplateService>();
         services.AddSingleton<IUnitService, UnitService>();
+        services.AddSingleton<ICryptographyService, CryptographyService>();
+        services.AddSingleton<IEPAProcessService, EPAProcessService>();
         services.AddDIReportServices();
         services.AddDIExcelServices();
 

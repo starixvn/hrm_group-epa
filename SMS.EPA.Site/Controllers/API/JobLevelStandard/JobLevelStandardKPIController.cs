@@ -17,12 +17,6 @@ using SMS.EPA.Criteria.JobLevelStandard.KPI;
 public class JobLevelStandardKPIController(IUserControlSession userControlSession, IBaseService baseService)
     : BaseController(userControlSession)
 {
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-
-    public JobLevelStandardKPIController() : this(null, null)
-    {
-    }
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardKPI, Policy = Policy.Read)]
 
     public IEnumerable<JobLevelStandardKPI> GetKPI([FromUri] GetJobLevelStandardKPICriteria criteria)

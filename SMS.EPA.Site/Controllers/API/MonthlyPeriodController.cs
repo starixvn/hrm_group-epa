@@ -28,15 +28,7 @@ public class MonthlyPeriodController(
     IBaseService baseService)
     : BaseController(userControlSession)
 {
-    private readonly IPeriodService periodService = periodService ?? new PeriodService();
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-
-    public MonthlyPeriodController() : this(null, null, null)
-    {
-    }
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
-
     public IEnumerable<PeriodModel> GetMonthlyPeriod(
         DateTime fromDate,
         DateTime toDate)

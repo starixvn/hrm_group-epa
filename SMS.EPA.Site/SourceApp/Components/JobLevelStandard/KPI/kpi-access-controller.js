@@ -2,8 +2,9 @@
     'use strict';
     /* jshint latedef:nofunc */
     /* jshint validthis:true */
+    angular.module('jobLevelStandardModule', [])
+        .controller('JobLevelStandardKPIController', kpiController);
 
-    angular.module('jobLevelStandardModule').controller('JobLevelStandardKPIController', kpiController);
     kpiController.$inject = ['JobLevelStandardKPIModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
     function kpiController(KPIModel, CommonModel, utilitiesFactory, lockScreenService) {

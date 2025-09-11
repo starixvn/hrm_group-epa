@@ -20,7 +20,6 @@ public class KPIController(IUserControlSession userControlSession, IKPIService k
     : BaseController(userControlSession)
 {
     [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Read)]
-
     public IEnumerable<KPIModel> GetKPI(
         int? kpiGroupId = null,
         bool? isActive = null,

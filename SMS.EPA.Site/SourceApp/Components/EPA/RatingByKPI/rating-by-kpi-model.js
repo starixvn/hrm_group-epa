@@ -1,9 +1,11 @@
-﻿'use strict';
-/*global epaModule*/
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
 
-epaModule.factory('RatingByKPIModel',
-['$uibModal', 'ratingByKPIFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
-function ($uibModal, ratingByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) {
+    angular.module('epaModule').factory('RatingByKPIModel', ratingByKPIModel);
+    ratingByKPIModel.$inject = ['$uibModal', 'ratingByKPIFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
+
+    function ratingByKPIModel($uibModal, ratingByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var ratingByKPIModel = this;
 
     ratingByKPIModel.periods = [];
@@ -214,5 +216,6 @@ function ($uibModal, ratingByKPIFactory, utilitiesFactory, notificationFactory, 
         });
     };
 
-    return ratingByKPIModel;
-}]);
+        return ratingByKPIModel;
+    }
+})(angular);

@@ -14,10 +14,6 @@ using SMS.EPA.Criteria.JobLevel;
 public class JobLevelController(IUserControlSession userControlSession, IBaseService baseService)
     : BaseController(userControlSession)
 {
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-
-    public JobLevelController() : this(null, null) { }
-
     [HttpPost]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevel, Policy = Policy.Host)]
     public CommandResult Create(CreateJobLevelCriteria criteria)

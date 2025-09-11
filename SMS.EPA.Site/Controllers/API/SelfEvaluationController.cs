@@ -21,18 +21,10 @@ using SMS.EPA.Services;
 public class SelfEvaluationController(
     IUserControlSession userControlSession,
     ISelfEvaluationService selfEvaluationService,
-    IEmployeeEPAService employeeEpaService,
+    IEmployeeEPAService employeeEPAService,
     IBaseService baseService)
     : BaseController(userControlSession)
 {
-    private readonly ISelfEvaluationService selfEvaluationService = selfEvaluationService ?? new SelfEvaluationService();
-    private readonly IEmployeeEPAService employeeEPAService = employeeEpaService ?? new EmployeeEPAService();
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-
-    public SelfEvaluationController() : this(null, null, null, null)
-    {
-    }
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Read)]
 
     public IEnumerable<EPAModel> GetEPAByEmployee()
