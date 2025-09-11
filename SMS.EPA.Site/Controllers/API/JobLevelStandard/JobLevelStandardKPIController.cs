@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using NPOI.SS.Util;
 using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Models.JobLevelStandard.KPI;
 
@@ -18,11 +15,9 @@ using SMS.EPA.Criteria;
 using SMS.EPA.Criteria.JobLevelStandard.KPI;
 
 public class JobLevelStandardKPIController(IUserControlSession userControlSession, IBaseService baseService)
-    : Controller
+    : BaseController(userControlSession)
 {
-    private int CurrentEmployeeId = 424;
-    [HttpGet]
-    //[ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardKPI, Policy = Policy.Read)]
+    [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardKPI, Policy = Policy.Read)]
     public IEnumerable<JobLevelStandardKPI> GetKPI([FromUri] GetJobLevelStandardKPICriteria criteria)
     {
         return baseService.GetData<JobLevelStandardKPI>(criteria);
@@ -69,6 +64,6 @@ public class JobLevelStandardKPIController(IUserControlSession userControlSessio
 
     public byte GetUserPermission()
     {
-        return 2; //GetPermissionOnFunction(EPAFunctionKey.JobLevelStandardKPI);
+        return GetPermissionOnFunction(EPAFunctionKey.JobLevelStandardKPI);
     }
 }

@@ -26,13 +26,6 @@ public class JobLevelAssessmentController(
     IJobLevelAssessmentService jobLevelAssessmentService)
     : BaseController(userControlSession)
 {
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-    private readonly IJobLevelAssessmentService jobLevelAssessmentService = jobLevelAssessmentService ?? new JobLevelAssessmentService();
-
-    public JobLevelAssessmentController() : this(null, null, null)
-    {
-    }
-
     [HttpGet]
     public IList<JobLevelStandardPeriod> GetPeriods()
     {

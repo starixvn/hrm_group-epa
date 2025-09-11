@@ -16,11 +16,6 @@ namespace SMS.EPA.Site.Controllers.API.JobLevelStandard;
 public class JobLevelSettingController(IUserControlSession userControlSession, IBaseService baseService)
     : BaseController(userControlSession)
 {
-
-    public JobLevelSettingController() : this(null, null)
-    {
-    }
-
     [HttpPost]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelSetting, Policy = Policy.Read)]
     public IList<JobLevelSettingSummary> GetSettings(GetJobLevelSettingSummaryCriteria criteria)

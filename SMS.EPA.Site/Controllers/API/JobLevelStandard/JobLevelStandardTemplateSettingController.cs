@@ -17,12 +17,6 @@ using SMS.EPA.Criteria.JobLevelStandard.TemplateSetting;
 public class JobLevelStandardTemplateSettingController(IUserControlSession userControlSession, IBaseService baseService)
     : BaseController(userControlSession)
 {
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-
-    public JobLevelStandardTemplateSettingController() : this(null, null)
-    {
-    }
-
     [HttpGet]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplateSetting, Policy = Policy.Read)]
     public IEnumerable<JobLevelStandardTemplateSetting> GetTemplateSetting([FromUri] GetJobLevelStandardTemplateSettingCriteria criteria)
