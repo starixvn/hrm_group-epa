@@ -43,9 +43,9 @@ public class UpdateKPIScoreCriteria : CriteriaBase
     {
         var epaXml = new StringBuilder(Constants.BeginRootTag);
 
-        foreach (RatingByKPIModel epaInfo in epaInfos)
+        foreach (var epaInfo in epaInfos)
         {
-            foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIs)
+            foreach (var kpi in epaInfo.KPIGroup.KPIs)
             {
                 var epaDetailXml = string.IsNullOrEmpty(kpi.AdjustScore)
                                    && (kpi.AdjustRate <= 0)
@@ -53,7 +53,7 @@ public class UpdateKPIScoreCriteria : CriteriaBase
                     ? GenerateEpaDetailXml(kpi, kpi.Score, kpi.Rate)
                     : GenerateEpaDetailXml(kpi, kpi.AdjustScore, kpi.AdjustRate);
 
-                string totalScore = _cryptographyService.Encrypt(epaInfo.TotalScore);
+                var totalScore = _cryptographyService.Encrypt(epaInfo.TotalScore);
                 epaXml.AppendFormat(
                     EPAXmlTemplate,
                     epaInfo.EPAId,
@@ -71,9 +71,9 @@ public class UpdateKPIScoreCriteria : CriteriaBase
 
     private StringBuilder GenerateEpaDetailXml(TemporaryKPIModel kpi, string score, float rate)
     {
-        string kpiRate = rate > 0 ? rate.ToString(CultureInfo.InvariantCulture) : string.Empty;
-        string cipherScore = _cryptographyService.Encrypt(score + "_" + kpi.KPIId);
-        string cipherRate = _cryptographyService.Encrypt(kpiRate);
+        var kpiRate = rate > 0 ? rate.ToString(CultureInfo.InvariantCulture) : string.Empty;
+        var cipherScore = _cryptographyService.Encrypt(score + "_" + kpi.KPIId);
+        var cipherRate = _cryptographyService.Encrypt(kpiRate);
 
         var epaDetailXml = new StringBuilder();
         epaDetailXml.AppendFormat(EPADetailXmlTemplate, kpi.KPIId, cipherRate, cipherScore, kpi.IsMaxScore, HttpUtility.HtmlEncode(kpi.Comment));

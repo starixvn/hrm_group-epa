@@ -7,12 +7,10 @@ using SMS.EPA.Core.Attribute;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Extensions.XML;
 using SMS.EPA.Core.Model;
-using SMS.EPA.Core.Services;
 using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Criteria.JobLevelStandard.Period;
 using SMS.EPA.Models.JobLevelStandard.JobLevelSetting;
 using SMS.EPA.Models.JobLevelStandard.Period;
-using SMS.EPA.Services.Implement.JobLevelStandard;
 using SMS.EPA.Services.Interfaces.JobLevelStandard;
 
 namespace SMS.EPA.Site.Controllers.API.JobLevelStandard;
@@ -159,7 +157,7 @@ public class JobLevelStandardPeriodController(
             SettingXml = settings.ToXML().ToString(),
             ModifiedBy = CurrentEmployeeId
         };
-        CommandResult commandResult = baseService.ExecuteNonQuery(command);
+        var commandResult = baseService.ExecuteNonQuery(command);
 
         return commandResult;
     }

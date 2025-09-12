@@ -12,11 +12,10 @@ using NPOI.HSSF.UserModel;
 using NPOI.HSSF.Util;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Services;
-using SMS.EPA.Core.Utilities;
-using SMS.EPA.Core.Utilities.NPOIExtensions;
-using SMS.EPA.Resources;
+using Core.Constants;
+using Core.Utilities;
+using Core.Utilities.NPOIExtensions;
+using Resources;
 using SMS.EPA.Services.Interfaces.ExportFile;
 
 #pragma warning disable S109 // Magic numbers should not be used
@@ -54,14 +53,14 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
         };
 
         var workbook = new HSSFWorkbook();
-        ISheet sheet = workbook.CreateSheet(Lang.JoblevelAssessmentReportTitle);
-        IRow rowTitle = sheet.CreateRow(0);
+        var sheet = workbook.CreateSheet(Lang.JoblevelAssessmentReportTitle);
+        var rowTitle = sheet.CreateRow(0);
 
-        IFont font = workbook.CreateFont();
+        var font = workbook.CreateFont();
         font.FontHeightInPoints = FontHeight;
         font.IsBold = true;
 
-        ICell cell = rowTitle.CreateCell(0);
+        var cell = rowTitle.CreateCell(0);
         cell.SetCellValue(title);
         cell.CellStyle = workbook.CreateCellStyle();
         cell.CellStyle.Alignment = HorizontalAlignment.Center;
@@ -91,12 +90,12 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
     private static ICellStyle CreateHeaderStyle(HSSFWorkbook workbook)
     {
         const byte FontHeight = 11;
-        IFont font = workbook.CreateFont();
+        var font = workbook.CreateFont();
         font.FontHeightInPoints = FontHeight;
         font.Color = HSSFColor.White.Index;
         font.IsBold = true;
 
-        ICellStyle cellStyle = workbook.CreateCellStyle();
+        var cellStyle = workbook.CreateCellStyle();
         cellStyle.FillForegroundColor = HSSFColor.Grey80Percent.Index;
         cellStyle.FillPattern = FillPattern.SolidForeground;
         cellStyle.FillBackgroundColor = HSSFColor.Grey80Percent.Index;
@@ -131,11 +130,11 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
         const int tableHeaderColSpanEmployeeInfor = 13;
         var startAssessmentColumnIndex = titleHeadersEmployeeInfo.Count + 1;
 
-        ICellStyle cellStyle = CreateHeaderStyle(workbook);
+        var cellStyle = CreateHeaderStyle(workbook);
 
-        IRow row = sheet.CreateRow(1);
-        IRow row2 = sheet.CreateRow(2);
-        IRow row3 = sheet.CreateRow(3);
+        var row = sheet.CreateRow(1);
+        var row2 = sheet.CreateRow(2);
+        var row3 = sheet.CreateRow(3);
         var cell = row.CreateCell(0);
         cell.CellStyle = cellStyle;
         cell.SetCellValue(Lang.SymbolCount);
@@ -148,8 +147,8 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
         sheet.AddMergedRegion(region);
         StyleMergedRegionHeader(sheet, region);
 
-        IRow rowEmployeeInfo = sheet.CreateRow(3);
-        for (int i = 0; i < titleHeadersEmployeeInfo.Count; i++)
+        var rowEmployeeInfo = sheet.CreateRow(3);
+        for (var i = 0; i < titleHeadersEmployeeInfo.Count; i++)
         {
             var cellEmployeeInfo = rowEmployeeInfo.CreateCell(i + 1);
             cellEmployeeInfo.CellStyle = cellStyle;
@@ -166,7 +165,7 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
             sheet.AddMergedRegion(region);
             StyleMergedRegionHeader(sheet, region);
 
-            for (int i = 0; i < kpis.Count; i++)
+            for (var i = 0; i < kpis.Count; i++)
             {
                 var cellIndex = i == 0 ? startAssessmentColumnIndex : startAssessmentColumnIndex + i * 2;
                 var cellJobLevel = row2.CreateCell(cellIndex);
@@ -185,7 +184,7 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
             sheet.AddMergedRegion(region);
             StyleMergedRegionHeader(sheet, region);
 
-            for (int i = 0; i < titleHeadersReview.Count; i++)
+            for (var i = 0; i < titleHeadersReview.Count; i++)
             {
                 var cellReviewedTotalWeight = row3.CreateCell(reviewedHeaderIndex + i);
                 cellReviewedTotalWeight.CellStyle = cellStyle;
@@ -217,8 +216,8 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
         var rowIndex = 4;
         foreach (var assessment in assessments)
         {
-            ICellStyle bodyStyle = CreateBodyStyle(assessment, workbook);
-            ICellStyle bodyColorStyle = CreateBodyStyle(assessment, workbook, true);
+            var bodyStyle = CreateBodyStyle(assessment, workbook);
+            var bodyColorStyle = CreateBodyStyle(assessment, workbook, true);
             const byte StartAssessmentColumnIndex = 14;
             const byte CellNormalWidth = 12;
             sheet = CreateEmployeeInfoCells(
@@ -226,12 +225,12 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
                 rowIndex,
                 assessment,
                 bodyStyle,
-                out IRow row,
-                out ICell cellBody);
+                out var row,
+                out var cellBody);
 
             int cellIndex = StartAssessmentColumnIndex;
 
-            for (int i = 0; i < kpis.Count; i++)
+            for (var i = 0; i < kpis.Count; i++)
             {
                 var kpi = kpis[i];
                 var kpiCell = assessment.KPIs.FirstOrDefault(obj => obj.KPIId == kpi.KPIId);
@@ -379,7 +378,7 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
     {
         var nicknames = evaluators
             .Where(x => !string.IsNullOrWhiteSpace(x.JobLevel) && x.JobLevel[0].ToString() == typeOfSuperior)
-            .Select(x => string.Format("[{0}]", x.Nickname)).ToList();
+            .Select(x => $"[{x.Nickname}]").ToList();
 
         return string.Join(" ", nicknames);
     }
@@ -400,7 +399,7 @@ public class ExportJobLevelAssessmentService(IUtilityService utilityService = nu
             }
             else
             {
-                int currentJobLevelId = assessment.CurrentJobLevelId ?? 0;
+                var currentJobLevelId = assessment.CurrentJobLevelId ?? 0;
                 if (assessment.SystemPropose > 0 && assessment.NewJobLevelId.HasValue && currentJobLevelId != assessment.NewJobLevelId.Value)
                 {
                     bodyStyle.FillForegroundColor = HSSFColor.LightGreen.Index;

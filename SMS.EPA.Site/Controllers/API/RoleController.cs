@@ -9,8 +9,8 @@ using GO.UserControl.Client.Core.Enumerables;
 using GO.UserControl.Client.Core.Models;
 using GO.UserControl.Client.Core.Services;
 using GO.UserControl.Client.Core.Session;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
+using Core.Attribute;
+using Core.Constants;
 
 public class RoleController(
     IUserControlSession userControlSession,
@@ -22,7 +22,7 @@ public class RoleController(
 
     public object GetRoleFunctionByRoleId(short roleId)
     {
-        IList<Function> functions = functionService.GetBySiteId(userControlSession.SiteId);
+        var functions = functionService.GetBySiteId(userControlSession.SiteId);
         var permissions = functionService.GetPermissionBySiteAndRoleId(userControlSession.SiteId, roleId);
         var roleFunctions = new List<RoleFunctionModel>();
         foreach (var function in functions)
@@ -50,7 +50,7 @@ public class RoleController(
     [ApiAuthorize(FunctionKey = EPAFunctionKey.RoleManagement, Policy = Policy.Host)]
     public CommandResult AssignFunctionToRole(AssignFunctionToRole model)
     {
-        CommandResult commandResult = roleService.AssignPermission(userControlSession.SiteId, model.RoleId, model.Permissions);
+        var commandResult = roleService.AssignPermission(userControlSession.SiteId, model.RoleId, model.Permissions);
         return commandResult;
     }
 
@@ -58,7 +58,7 @@ public class RoleController(
     {
         IList<RoleFunctionModel> functionTrees = functions.Where(func => !func.ParentId.HasValue)
             .OrderBy(x => x.DisplayOrder).ToList();
-        foreach (RoleFunctionModel function in functionTrees)
+        foreach (var function in functionTrees)
         {
             function.Level = 0;
             GetChildFunctions(function, functions);
@@ -74,7 +74,7 @@ public class RoleController(
         if (functionItems.Any())
         {
             function.Childs = function.Childs ?? new List<RoleFunctionModel>();
-            foreach (RoleFunctionModel item in functionItems)
+            foreach (var item in functionItems)
             {
                 item.Level = (byte)(function.Level + 1);
                 function.Childs.Add(item);

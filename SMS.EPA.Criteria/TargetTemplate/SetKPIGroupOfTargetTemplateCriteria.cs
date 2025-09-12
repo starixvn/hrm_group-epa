@@ -33,15 +33,15 @@ public class SetKPIGroupOfTargetTemplateCriteria : CriteriaBase
 
     private string ConvertKPIGroupWeightToXml()
     {
-        string kpiGroupXml = string.Empty;
+        var kpiGroupXml = string.Empty;
 
         if (KPIGroups != null)
         {
             var kpiGroupXmlBuilder = new StringBuilder(Constants.BeginRootTag);
 
-            foreach (KPIGroupModel item in KPIGroups)
+            foreach (var item in KPIGroups)
             {
-                int spreadKPI = item.IsSpreadKPI ? 1 : 0;
+                var spreadKPI = item.IsSpreadKPI ? 1 : 0;
                 kpiGroupXmlBuilder.AppendFormat(KPIGroupXmlTemplate, item.KPIGroupId, item.Weight, spreadKPI, item.DisplayOrder);
             }
 

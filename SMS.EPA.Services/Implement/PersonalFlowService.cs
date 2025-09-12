@@ -49,9 +49,9 @@ public class PersonalFlowService(
 
     private static void MappingFlow(IEnumerable<PersonalFlowModel> flows, IEnumerable<ProcessFlowModel> processes)
     {
-        foreach (PersonalFlowModel flow in flows)
+        foreach (var flow in flows)
         {
-            foreach (ProcessFlowModel process in processes.Where(x => x.EmployeeId == flow.EmployeeId))
+            foreach (var process in processes.Where(x => x.EmployeeId == flow.EmployeeId))
             {
                 switch (process.ProcessId)
                 {

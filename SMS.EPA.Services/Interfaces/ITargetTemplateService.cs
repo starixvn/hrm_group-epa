@@ -5,7 +5,6 @@ using SMS.EPA.Models.TargetTemplate;
 namespace SMS.EPA.Services.Interfaces;
 
 using System.Collections.Generic;
-using Criteria;
 
 public interface ITargetTemplateService
 {

@@ -9,7 +9,6 @@ using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Core.Services;
 using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Criteria.EmployeeEPA;
-using SMS.EPA.Models.AutoService;
 using SMS.EPA.Models.EmployeeEPA;
 using SMS.EPA.Services.Implement;
 using SMS.EPA.Services.Interfaces;
@@ -38,7 +37,7 @@ public class EvaluationPeriodService(
     public void CheckEndEvaluationPeriod()
     {
         var criteria = new GetEPAEndEvaluationPeriodCriteria();
-        IEnumerable<EPAModel> epaInfos = employeeEPAService.GetEPAEndEvaluationPeriod(criteria);
+        var epaInfos = employeeEPAService.GetEPAEndEvaluationPeriod(criteria);
         if (epaInfos != null && epaInfos.Any())
         {
             UpdateFinalScoreAndSendMail(epaInfos);
@@ -69,9 +68,9 @@ public class EvaluationPeriodService(
         IList<int> periods = new List<int>();
         var standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
 
-        foreach (EPAModel epaInfo in epaInfos)
+        foreach (var epaInfo in epaInfos)
         {
-            float? performanceScore = GetFinalScoreOfEvalution(epaInfo);
+            var performanceScore = GetFinalScoreOfEvalution(epaInfo);
 
             logfile.InfoFormat("EPAId: {0}\nPerformanceScore: {1}\nHasDisciplineScore: {2}\nDisciplineScore: {3}",
                 epaInfo.EPAId,
@@ -117,7 +116,7 @@ public class EvaluationPeriodService(
     {
         if (AppSetting.SendMailEndPeriod && periods.Any())
         {
-            foreach (int periodId in periods)
+            foreach (var periodId in periods)
             {
                 var criteria = new CheckLastestProcessOfPeriodCriteria
                 {
@@ -126,7 +125,7 @@ public class EvaluationPeriodService(
                 var isEndPeriod = baseService.GetDataEntity<bool>(criteria);
                 if (isEndPeriod)
                 {
-                    IEnumerable<EmployeeSettingToSendMail> employeeSettings =
+                    var employeeSettings =
                         periodService.GetEmployeeSettingToSendMail(periodId, (byte)ProcessType.HumanResource);
                     periodMailService.SendEndEvaluationMailToHumanResourceByPeriod(employeeSettings);
                 }
@@ -140,17 +139,17 @@ public class EvaluationPeriodService(
         int evaluationId,
         string grade)
     {
-        float? finalScore = performanceScore + disciplineScore;
+        var finalScore = performanceScore + disciplineScore;
         if (finalScore.HasValue)
         {
             finalScore = finalScore.Value > Constants.MaxFinalScore ? Constants.MaxFinalScore : finalScore.Value;
         }
 
-        string finalScoreEncrypt = finalScore.HasValue
+        var finalScoreEncrypt = finalScore.HasValue
             ? cryptographyService.Encrypt(finalScore.Value.ToString(CultureInfo.InvariantCulture))
             : string.Empty;
 
-        string gradeEncrypt = cryptographyService.Encrypt(grade);
+        var gradeEncrypt = cryptographyService.Encrypt(grade);
 
         var criteria = new UpdateFinalScoreEndEvaluationCriteria
         {

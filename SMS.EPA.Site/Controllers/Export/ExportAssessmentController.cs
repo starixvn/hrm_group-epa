@@ -1,20 +1,16 @@
 ﻿using GO.UserControl.Client.Core.Session;
-using SMS.EPA.Models.JobLevelStandard.Assessment;
 using SMS.EPA.Services.Implement.JobLevelStandard;
 using SMS.EPA.Services.Interfaces.JobLevelStandard;
 
 namespace SMS.EPA.Site.Controllers.Export;
 
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Criteria.JobLevelStandard.Report;
-using SMS.EPA.Resources;
-using SMS.EPA.Services;
-using SMS.EPA.Services.Implement.ExportFile;
-using SMS.EPA.Services.Interfaces.ExportFile;
+using Core.Constants;
+using Criteria.JobLevelStandard.Report;
+using Resources;
+using Services.Implement.ExportFile;
+using Services.Interfaces.ExportFile;
 
 public class ExportAssessmentController(
     IUserControlSession userControlSession,
@@ -33,9 +29,9 @@ public class ExportAssessmentController(
     public ActionResult ExportJoblevelAssessment(GetJobLevelAssessmentReportCriteria criteria)
     {
         criteria.ActorId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
-        IList<JobLevelAssessment> assessments = jobLevelAssessmentService.GetJobLevelAssessmentReport(criteria);
+        var assessments = jobLevelAssessmentService.GetJobLevelAssessmentReport(criteria);
 
-        List<JobLevelAssessmentKPI> kpis = assessments
+        var kpis = assessments
             .SelectMany(ass => ass.KPIs)
             .GroupBy(kpi => new { kpi.KPIName, kpi.KPIId })
             .Select(kpi => kpi.First())
@@ -43,7 +39,7 @@ public class ExportAssessmentController(
             .ToList();
 
         var title = Lang.JoblevelAssessmentReportTitle + " - " + criteria.PeriodName;
-        MemoryStream output = exportService.ExportJoblevelAssessmentReport(kpis, assessments, title);
+        var output = exportService.ExportJoblevelAssessmentReport(kpis, assessments, title);
 
         return File(output.ToArray(), "application/vnd.ms-excel", $"{Lang.JoblevelAssessmentReportName}.xls");
     }

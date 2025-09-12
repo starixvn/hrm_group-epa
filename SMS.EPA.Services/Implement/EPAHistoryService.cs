@@ -11,7 +11,6 @@ using System.Linq;
 using Core.Services;
 using Criteria.EPAHistory;
 using Interfaces;
-using Repositories;
 
 public class EPAHistoryService(
     IEPAHistoryRepository epaHistoryRepository,
@@ -61,7 +60,7 @@ public class EPAHistoryService(
 
     private void DecodeFinalScoreAndGrade(IList<EPAHistoryModel> epas)
     {
-        foreach (EPAHistoryModel epa in epas)
+        foreach (var epa in epas)
         {
             if (!string.IsNullOrWhiteSpace(epa.EncodeFinalScore))
             {

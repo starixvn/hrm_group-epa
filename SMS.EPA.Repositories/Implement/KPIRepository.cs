@@ -13,9 +13,9 @@ public class KPIRepository : IKPIRepository
     public IEnumerable<KPIModel> GetKPI(ICriteria criteria)
     {
         using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
-        using IMultiResultReader multi = db.QueryMultiple(criteria);
-        IEnumerable<KPIModel> kpis = multi.Read<KPIModel>();
-        IEnumerable<dynamic> kpiGroups = multi.Read<dynamic>();
+        using var multi = db.QueryMultiple(criteria);
+        var kpis = multi.Read<KPIModel>();
+        var kpiGroups = multi.Read<dynamic>();
 
         foreach (var kpi in kpis)
         {

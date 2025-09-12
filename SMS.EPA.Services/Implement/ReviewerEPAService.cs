@@ -5,7 +5,6 @@ namespace SMS.EPA.Services.Implement;
 
 using System.Collections.Generic;
 using System.Linq;
-using Criteria;
 using Fanex.Data.Repository;
 using Interfaces;
 
@@ -27,8 +26,8 @@ public class ReviewerEPAService(ICommonService commonService) : BaseActorEPAServ
         IEnumerable<EPAModel> epaInfos,
         IList<EPAModel> monthlyEPAs)
     {
-        GetEPAByReviewerCriteria getEPAByReviewerCriteria = criteria as GetEPAByReviewerCriteria;
-        foreach (EPAModel epaInfo in epaInfos)
+        var getEPAByReviewerCriteria = criteria as GetEPAByReviewerCriteria;
+        foreach (var epaInfo in epaInfos)
         {
             if (getEPAByReviewerCriteria != null)
             {

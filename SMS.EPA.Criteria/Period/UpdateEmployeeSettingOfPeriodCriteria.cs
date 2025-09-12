@@ -32,7 +32,7 @@ public class UpdateEmployeeSettingOfPeriodCriteria : CriteriaBase
             if (EmployeeAssignments != null && EmployeeAssignments.Any())
             {
                 assignmentXml.Append(Constants.BeginRootTag);
-                foreach (PeriodFlowModel assignment in EmployeeAssignments)
+                foreach (var assignment in EmployeeAssignments)
                 {
                     assignmentXml.AppendFormat(
                         AssignmentXmlTemplate,

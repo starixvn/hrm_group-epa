@@ -1,8 +1,5 @@
-using GO.UserControl.Client.Core.Models.Role;
 using SMS.EPA.Models.Employee;
 using SMS.EPA.Models.Period;
-using SMS.EPA.Models.Report.EPADetail;
-using SMS.EPA.Models.Report.EPASummary;
 using SMS.EPA.Services.Implement;
 using SMS.EPA.Services.Interfaces;
 
@@ -15,12 +12,11 @@ using GO.UserControl.Client.Core.Enumerables;
     
 using GO.UserControl.Client.Core.Services;
 using GO.UserControl.Client.Core.Session;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Enumerations;
-using SMS.EPA.Criteria.EPAHistory;
-using SMS.EPA.Criteria.Report;
-using SMS.EPA.Services;
+using Core.Attribute;
+using Core.Constants;
+using Core.Enumerations;
+using Criteria.EPAHistory;
+using Criteria.Report;
 
 public class ReportController(
     IUserControlSession userControlSession,
@@ -54,7 +50,7 @@ public class ReportController(
             SortDirection = sortDirection
         };
 
-        EPASummaryModel epaInfos = reportService.GetEPASummaryReport(criteria);
+        var epaInfos = reportService.GetEPASummaryReport(criteria);
 
         return Ok(epaInfos);
     }
@@ -82,8 +78,8 @@ public class ReportController(
             SortDirection = sortDirection
         };
 
-        IList<Role> roles = roleService.GetBySiteId(userControlSession.SiteId);
-        EPADetailModel epaInfos = reportService.GetEPADetailReport(criteria, CurrentEmployeeId, roles);
+        var roles = roleService.GetBySiteId(userControlSession.SiteId);
+        var epaInfos = reportService.GetEPADetailReport(criteria, CurrentEmployeeId, roles);
 
         if (string.IsNullOrEmpty(sortColumnName) && epaInfos.EpaInfos.Any())
         {
@@ -116,8 +112,8 @@ public class ReportController(
             SortDirection = sortDirection
         };
 
-        IList<Role> roles = roleService.GetBySiteId(userControlSession.SiteId);
-        EPADetailModel epaInfos = reportService.GetMonthlyEPADetailReport(criteria, CurrentEmployeeId, roles);
+        var roles = roleService.GetBySiteId(userControlSession.SiteId);
+        var epaInfos = reportService.GetMonthlyEPADetailReport(criteria, CurrentEmployeeId, roles);
 
         return Ok(epaInfos);
     }
@@ -141,7 +137,7 @@ public class ReportController(
             SortDirection = sortDirection
         };
 
-        EPASummaryModel epaInfos = reportService.GetMonthlyEPASummaryReport(criteria);
+        var epaInfos = reportService.GetMonthlyEPASummaryReport(criteria);
 
         return Ok(epaInfos);
     }
@@ -149,7 +145,7 @@ public class ReportController(
     public IEnumerable<PeriodModel> GetAllPeriodIncludeImport()
     {
         var criteria = new GetAllPeriodIncludeImportCriteria();
-        IEnumerable<PeriodModel> periods = commonService.GetAllPeriodIncludeImport(criteria);
+        var periods = commonService.GetAllPeriodIncludeImport(criteria);
 
         if (periods.Any())
         {

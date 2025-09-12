@@ -6,7 +6,6 @@ using SMS.EPA.AutoService.Criteria.Monthly;
 using SMS.EPA.AutoService.Service.Interfaces;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Enumerations;
-using SMS.EPA.Core.Model;
 using SMS.EPA.Criteria.Period;
 using SMS.EPA.Models.FlowSetting;
 
@@ -17,7 +16,7 @@ public class MonthlyService : BasePeriodService, IMonthlyService
     public void CheckMonthlyPeriod()
     {
         var monthlyPeriods = BaseService.GetData<int>(new GetMonthlyPeriodStartedCriteria());
-        foreach (int periodId in monthlyPeriods)
+        foreach (var periodId in monthlyPeriods)
         {
             InsertEmployeeToPeriod(periodId, new InsertEmployeeToMonthlyPeriodCriteria(periodId), "Auto add employee to monthly period");
             GenerateEPA(periodId, "Auto generate EPA for monthly period");
@@ -27,12 +26,12 @@ public class MonthlyService : BasePeriodService, IMonthlyService
 
     public void CreateMonthlyPeriod()
     {
-        IEnumerable<FlowModel> processSettings = GetEvaluationGlobalSetting();
+        var processSettings = GetEvaluationGlobalSetting();
 
         if (processSettings != null && processSettings.Any())
         {
             var today = DateTimeOffset.Now.Date;
-            int startDayCreateMonthlyPeriod = AppSetting.StartDayCreateMonthlyPeriod;
+            var startDayCreateMonthlyPeriod = AppSetting.StartDayCreateMonthlyPeriod;
 
             if (today.Day.Equals(startDayCreateMonthlyPeriod))
             {
@@ -42,11 +41,11 @@ public class MonthlyService : BasePeriodService, IMonthlyService
                     StartDate = today,
                     EndDate = today.AddDays(processSettings.Sum(p => p.Duration))
                 };
-                CommandResult commandResult = BaseService.ExecuteNonQuery(criteria);
+                var commandResult = BaseService.ExecuteNonQuery(criteria);
 
                 if (!commandResult.IsSuccessful)
                 {
-                    LogService.Error(string.Format("Error create monthly period: {0}", commandResult.Message));
+                    LogService.Error($"Error create monthly period: {commandResult.Message}");
                 }
             }
         }
@@ -58,7 +57,7 @@ public class MonthlyService : BasePeriodService, IMonthlyService
         {
             TargetTypeId = (byte)TargetType.Monthly
         };
-        IEnumerable<FlowModel> processSettings = BaseService.GetData<FlowModel>(criteria);
+        var processSettings = BaseService.GetData<FlowModel>(criteria);
 
         return processSettings;
     }

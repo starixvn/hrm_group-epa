@@ -26,7 +26,7 @@ public class AdjustScoreByReviewerOrManagementCriteria : CriteriaBase
             ICryptographyService cryptographyService = new CryptographyService();
             var epaXml = new StringBuilder(Constants.BeginRootTag);
 
-            foreach (AdjustScoreViewModel epaInfo in EpaInfos)
+            foreach (var epaInfo in EpaInfos)
             {
                 var totalScoreEncrypt = cryptographyService.Encrypt(epaInfo.TotalScore);
                 var adjustScoreEncrypt = cryptographyService.Encrypt(epaInfo.AdjustScore);
@@ -55,9 +55,9 @@ public class AdjustScoreByReviewerOrManagementCriteria : CriteriaBase
             var result = new StringBuilder(Constants.BeginRootTag);
             if (Recommendations != null && Recommendations.Any())
             {
-                foreach (EPARecommendation recommendation in Recommendations)
+                foreach (var recommendation in Recommendations)
                 {
-                    int? jobLevelId =
+                    var jobLevelId =
                         (!recommendation.JobLevelId.HasValue || !recommendation.JobLevelIncreased) ? (int?)null : recommendation.JobLevelId;
 
                     result.AppendFormat(

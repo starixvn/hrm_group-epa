@@ -8,14 +8,11 @@ using SMS.EPA.Core.Attribute;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Extensions.XML;
 using SMS.EPA.Core.Model;
-using SMS.EPA.Core.Services;
 using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Criteria.JobLevelStandard.Assessment;
 using SMS.EPA.Models.Enitites;
 using SMS.EPA.Models.JobLevelStandard.Assessment;
-using SMS.EPA.Models.JobLevelStandard.JobLevelSetting;
 using SMS.EPA.Models.JobLevelStandard.Period;
-using SMS.EPA.Services.Implement.JobLevelStandard;
 using SMS.EPA.Services.Interfaces.JobLevelStandard;
 
 namespace SMS.EPA.Site.Controllers.API.JobLevelStandard;
@@ -42,10 +39,10 @@ public class JobLevelAssessmentController(
     public object GetAssessments(GetJobLevelAssessmentByActorIdCriteria criteria)
     {
         var today = DateTimeOffset.Now.Date;
-        IList<JobLevelSetting> jobLevelSettings = jobLevelAssessmentService.GetJobLevelSettingByPeriod(criteria.PeriodId);
+        var jobLevelSettings = jobLevelAssessmentService.GetJobLevelSettingByPeriod(criteria.PeriodId);
 
         criteria.ActorId = CurrentEmployeeId;
-        IList<JobLevelAssessment> assessments = jobLevelAssessmentService.GetJobLevelAssessmentByActor(criteria);
+        var assessments = jobLevelAssessmentService.GetJobLevelAssessmentByActor(criteria);
 
         foreach (var assessment in assessments)
         {

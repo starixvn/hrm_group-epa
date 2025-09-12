@@ -75,11 +75,11 @@ public static class HSSFCellExtensions
     {
         // Copy merged cells.
         CellRangeAddress sourceRange = null;
-        int i = 0;
+        var i = 0;
 
         while (sourceRange == null && i < sourceCell.Sheet.NumMergedRegions)
         {
-            CellRangeAddress range = sourceCell.Sheet.GetMergedRegion(i);
+            var range = sourceCell.Sheet.GetMergedRegion(i);
 
             if ((range.FirstColumn <= sourceCell.ColumnIndex)
                 && (range.LastColumn >= sourceCell.ColumnIndex)

@@ -67,11 +67,11 @@ public class ExportCommentReportService(IHttpContextAccessor httpContextAccessor
 
         var staffFields = SummaryComments.GroupBy(comment => new { comment.Code, comment.Nickname, comment.Section, comment.Team, comment.StaffComment })
             .Select(x => x.Key).ToList();
-        int rowIndex = TableContentFirstRowIndex;
+        var rowIndex = TableContentFirstRowIndex;
 
         foreach (var staffField in staffFields)
         {
-            int colIndex = 0;
+            var colIndex = 0;
             var evaluatorRow = new Dictionary<string, int>
             {
                 { "Evaluator", rowIndex },
@@ -89,7 +89,7 @@ public class ExportCommentReportService(IHttpContextAccessor httpContextAccessor
 
             FillEvaluatorFields(evaluatorRow, staffField.Code);
 
-            int nextStaffRowIndex = evaluatorRow.Values.Max();
+            var nextStaffRowIndex = evaluatorRow.Values.Max();
             MergeStaffFields(rowIndex, nextStaffRowIndex - 1);
 
             rowIndex = nextStaffRowIndex;
@@ -105,21 +105,21 @@ public class ExportCommentReportService(IHttpContextAccessor httpContextAccessor
             switch (evaluatorComment.ProcessId)
             {
                 case (byte)ProcessType.Evaluator:
-                    int evaluatorRowIndex = evaluatorRow["Evaluator"];
+                    var evaluatorRowIndex = evaluatorRow["Evaluator"];
                     GetExcelRow(evaluatorRowIndex).CreateCell(EvaluatorColumnIndex).SetCellValue(evaluatorComment.EvaluatorNickName);
                     GetExcelRow(evaluatorRowIndex).CreateCell(EvaluatorColumnIndex + 1).SetCellValue(evaluatorComment.EvaluatorComment);
                     evaluatorRow["Evaluator"] = evaluatorRowIndex + 1;
                     break;
 
                 case (byte)ProcessType.Reviewer:
-                    int reviewerRowIndex = evaluatorRow["Reviewer"];
+                    var reviewerRowIndex = evaluatorRow["Reviewer"];
                     GetExcelRow(reviewerRowIndex).CreateCell(ReviewerColumnIndex).SetCellValue(evaluatorComment.EvaluatorNickName);
                     GetExcelRow(reviewerRowIndex).CreateCell(ReviewerColumnIndex + 1).SetCellValue(evaluatorComment.EvaluatorComment);
                     evaluatorRow["Reviewer"] = reviewerRowIndex + 1;
                     break;
 
                 case (byte)ProcessType.Management:
-                    int managementRowIndex = evaluatorRow["Management"];
+                    var managementRowIndex = evaluatorRow["Management"];
                     GetExcelRow(managementRowIndex).CreateCell(ManagementColumnIndex).SetCellValue(evaluatorComment.EvaluatorNickName);
                     GetExcelRow(managementRowIndex).CreateCell(ManagementColumnIndex + 1).SetCellValue(evaluatorComment.EvaluatorComment);
                     evaluatorRow["Management"] = managementRowIndex + 1;
@@ -133,7 +133,7 @@ public class ExportCommentReportService(IHttpContextAccessor httpContextAccessor
 
     private void MergeStaffFields(int startRowIndex, int lasRowIndex)
     {
-        for (int colIndex = 0; colIndex < TotalStaffInfoField; colIndex++)
+        for (var colIndex = 0; colIndex < TotalStaffInfoField; colIndex++)
         {
             var mergeRegion = new CellRangeAddress(startRowIndex, lasRowIndex, colIndex, colIndex);
             Sheet.AddMergedRegion(mergeRegion);

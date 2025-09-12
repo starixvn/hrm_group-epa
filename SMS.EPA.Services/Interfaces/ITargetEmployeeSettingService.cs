@@ -4,7 +4,6 @@ using SMS.EPA.Models.TargetSetting;
 namespace SMS.EPA.Services.Interfaces;
 
 using System.Collections.Generic;
-using Criteria;
 
 public interface ITargetEmployeeSettingService
 {

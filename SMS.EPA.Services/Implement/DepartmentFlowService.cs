@@ -47,9 +47,9 @@ public class DepartmentFlowService(
 
     private static void MappingFlow(IEnumerable<DepartmentFlowModel> flows, IEnumerable<ProcessFlowModel> processes)
     {
-        foreach (DepartmentFlowModel flow in flows)
+        foreach (var flow in flows)
         {
-            foreach (ProcessFlowModel process in processes.Where(x => x.DepartmentId == flow.DepartmentId))
+            foreach (var process in processes.Where(x => x.DepartmentId == flow.DepartmentId))
             {
                 switch (process.ProcessId)
                 {

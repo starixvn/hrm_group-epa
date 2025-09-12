@@ -18,7 +18,7 @@ public class TargetDepartmentSetting
     {
         get
         {
-            int numberTargetTemplates = TargetTemplates.Count;
+            var numberTargetTemplates = TargetTemplates.Count;
             return numberTargetTemplates != 0 ? numberTargetTemplates : 1;
         }
     }

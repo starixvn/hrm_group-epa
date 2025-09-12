@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using Fanex.Logging;
+﻿using Fanex.Logging;
 using SMS.EPA.AutoService.Criteria;
 using SMS.EPA.AutoService.Service.Interfaces;
-using SMS.EPA.Core.Model;
 using SMS.EPA.Models.AutoService;
 
 namespace SMS.EPA.AutoService.Service.Implement;
@@ -11,9 +9,9 @@ public class ProbationService : BasePeriodService, IProbationService
 {
     public void CheckProbationPeriod()
     {
-        IEnumerable<AutoEmployeePeriodModel> employeePeriods = GetEmployeeEvaluation(new GetEmployeeProbationEvaluationCriteria());
+        var employeePeriods = GetEmployeeEvaluation(new GetEmployeeProbationEvaluationCriteria());
 
-        foreach (AutoEmployeePeriodModel employeePeriod in employeePeriods)
+        foreach (var employeePeriod in employeePeriods)
         {
             if (!string.IsNullOrWhiteSpace(employeePeriod.EmployeeIds) && employeePeriod.PeriodId > 0)
             {
@@ -31,7 +29,7 @@ public class ProbationService : BasePeriodService, IProbationService
             PeriodId = employeePeriod.PeriodId,
             EmployeeIds = employeePeriod.EmployeeIds
         };
-        CommandResult commandResult = BaseService.ExecuteNonQuery(criteria);
+        var commandResult = BaseService.ExecuteNonQuery(criteria);
 
         if (!commandResult.IsSuccessful)
         {

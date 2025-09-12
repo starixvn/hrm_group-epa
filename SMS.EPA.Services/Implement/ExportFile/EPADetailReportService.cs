@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
-using NPOI.SS.UserModel;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Models.EmployeeEPA;
@@ -75,19 +74,19 @@ public class EpaDetailReportService : EpaDetailReportServiceBase
     public override void WriteContentTable()
     {
         CreateDefaultStyles();
-        int currentRow = 1;
+        var currentRow = 1;
 
-        foreach (EPAModel epaInfo in EpaDetail.EpaInfos)
+        foreach (var epaInfo in EpaDetail.EpaInfos)
         {
             BodyStyle = ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 
-            IRow row = Sheet.CreateRow(CurrentRow);
+            var row = Sheet.CreateRow(CurrentRow);
 
-            int currentColumn = WriteCommonCells(epaInfo, row, currentRow++);
+            var currentColumn = WriteCommonCells(epaInfo, row, currentRow++);
 
             BodyStyle = ApplyEvenOddBodyStyle(EvenStyleLeft, OddStyleLeft);
 
-            ICell cell = row.CreateCell(currentColumn++);
+            var cell = row.CreateCell(currentColumn++);
             cell.CellStyle = BodyStyle;
             cell.SetCellValue(epaInfo.Period.TargetTypeName);
 
@@ -97,7 +96,7 @@ public class EpaDetailReportService : EpaDetailReportServiceBase
 
             BodyStyle = ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 
-            dynamic score = CalculateScore(epaInfo);
+            var score = CalculateScore(epaInfo);
 
             currentColumn = WriteScoreCells(epaInfo, currentColumn, row, score);
 
@@ -179,7 +178,7 @@ public class EpaDetailReportService : EpaDetailReportServiceBase
 
     private static string GetManagementScore(EPAModel epaInfo)
     {
-        string managementScore = Lang.NotAvailable;
+        var managementScore = Lang.NotAvailable;
 
         if (epaInfo.Process.Managements.Any())
         {

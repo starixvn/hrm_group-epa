@@ -3,7 +3,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
@@ -60,7 +59,7 @@ public class ExcelTemplateWriter(HSSFWorkbook template, string excelFileName, st
 
     public void AutosizeColumns(int from, int to)
     {
-        for (int i = from; i <= to; i++)
+        for (var i = from; i <= to; i++)
         {
             _sheet.AutoSizeColumn(i, false);
         }
@@ -77,7 +76,7 @@ public class ExcelTemplateWriter(HSSFWorkbook template, string excelFileName, st
 
     public void SyncColumnsWidth(int from, int to)
     {
-        for (int i = from; i <= to; i++)
+        for (var i = from; i <= to; i++)
         {
             _sheet.SetColumnWidth(i, _templateSheet.GetColumnWidth(i));
         }
@@ -94,7 +93,7 @@ public class ExcelTemplateWriter(HSSFWorkbook template, string excelFileName, st
 
     public void WriteRow(int rowIndex, object[] values)
     {
-        IRow row = CreateRow(rowIndex);
+        var row = CreateRow(rowIndex);
         row.WriteCells(0, values);
     }
 
@@ -104,7 +103,7 @@ public class ExcelTemplateWriter(HSSFWorkbook template, string excelFileName, st
         {
             var list = new List<object>();
 
-            foreach (PropertyInfo propertyInfo in value.GetType().GetProperties())
+            foreach (var propertyInfo in value.GetType().GetProperties())
             {
                 list.Add(propertyInfo.GetValue(value, null));
             }
@@ -117,9 +116,9 @@ public class ExcelTemplateWriter(HSSFWorkbook template, string excelFileName, st
     {
         if (arrayList != null && arrayList.Count > 0)
         {
-            int total = arrayList.Count;
-            IRow row = CreateRows(rowIndex, total);
-            for (int i = 0; i < total; i++)
+            var total = arrayList.Count;
+            var row = CreateRows(rowIndex, total);
+            for (var i = 0; i < total; i++)
             {
                 row.WriteCells(0, arrayList[i]);
                 row = _sheet.GetRow(row.RowNum + 1);

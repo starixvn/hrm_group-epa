@@ -2,8 +2,8 @@
 
 using Microsoft.AspNetCore.Mvc;
 using GO.UserControl.Client.Core.Session;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Model;
+using Core.Constants;
+using Core.Model;
 using Microsoft.Extensions.Configuration;
 
 public class HomeController(IUserControlSession userControlSession, IConfiguration configuration)
@@ -13,7 +13,7 @@ public class HomeController(IUserControlSession userControlSession, IConfigurati
 
     public ActionResult Index()
     {
-        byte.TryParse(configuration["SiteId"], out byte siteId);
+        byte.TryParse(configuration["SiteId"], out var siteId);
         ViewBag.SiteId = siteId;
         var employee = userControlSession.Get<UserSession>(Constants.CurrentEmployeeKey);
 

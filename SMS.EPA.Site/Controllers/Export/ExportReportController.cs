@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using GO.UserControl.Client.Core.Models.Role;
 using GO.UserControl.Client.Core.Services;
 using GO.UserControl.Client.Core.Session;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using NPOI.HSSF.Util;
-using NPOI.SS.UserModel;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Criteria.Discipline;
@@ -16,14 +14,9 @@ using SMS.EPA.Criteria.EmployeeEPA;
 using SMS.EPA.Criteria.Period;
 using SMS.EPA.Criteria.Report;
 using SMS.EPA.Criteria.TargetEmployeeSetting;
-using SMS.EPA.Models.Discipline;
-using SMS.EPA.Models.EmployeeEPA;
 using SMS.EPA.Models.Enitites;
-using SMS.EPA.Models.FlowSetting;
 using SMS.EPA.Models.Report;
-using SMS.EPA.Models.Report.EPADetail;
 using SMS.EPA.Models.Report.EPASummary;
-using SMS.EPA.Models.TargetSetting;
 using SMS.EPA.Resources;
 using SMS.EPA.Services.Implement;
 using SMS.EPA.Services.Implement.ExportFile;
@@ -106,7 +99,7 @@ public class ExportReportController : Controller
         const int contentFirstRowIndex = 3;
         if (criteria != null)
         {
-            IEnumerable<DisciplineSummaryForOtherSystem> employeeDisciplines = _disciplineService.GetDisciplineSummaryForOtherSystem(criteria);
+            var employeeDisciplines = _disciplineService.GetDisciplineSummaryForOtherSystem(criteria);
 
             if (employeeDisciplines != null && employeeDisciplines.Any())
             {
@@ -132,7 +125,7 @@ public class ExportReportController : Controller
         if (criteria != null)
         {
             criteria.ApproverId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
-            IEnumerable<DisciplineSummaryModel> employeeDisciplines = _disciplineService.GetDisciplineSummary(criteria);
+            var employeeDisciplines = _disciplineService.GetDisciplineSummary(criteria);
 
             if (employeeDisciplines != null && employeeDisciplines.Any())
             {
@@ -172,7 +165,7 @@ public class ExportReportController : Controller
     {
         if (criteria != null)
         {
-            IList<Role> roles = roleService.GetBySiteId(userControlSession.SiteId);
+            var roles = roleService.GetBySiteId(userControlSession.SiteId);
             IEnumerable<Employee> employees = _employeeService.GetEmployee(criteria, roles);
 
             if (employees.Any())
@@ -195,8 +188,8 @@ public class ExportReportController : Controller
     {
         if (criteria != null)
         {
-            IList<EPAModel> epaInfos = _employeeEPAService.GetEPAToUpdateFinalScore(criteria);
-            string[] employeeIds = criteria.EmployeeIds.Split(',');
+            var epaInfos = _employeeEPAService.GetEPAToUpdateFinalScore(criteria);
+            var employeeIds = criteria.EmployeeIds.Split(',');
             epaInfos = epaInfos.Join(employeeIds, x => x.Employee.EmployeeId.ToString(), y => y, (x, y) => x)
                 .ToList();
 
@@ -221,8 +214,8 @@ public class ExportReportController : Controller
     {
         criteria.ActorId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
-        IList<Role> roles = roleService.GetBySiteId(userControlSession.SiteId);
-        EPADetailModel epaDetail = _reportService.GetEPADetailReport(criteria, criteria.ActorId, roles);
+        var roles = roleService.GetBySiteId(userControlSession.SiteId);
+        var epaDetail = _reportService.GetEPADetailReport(criteria, criteria.ActorId, roles);
 
         epaDetail.Period = _reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodId?.ToString());
 
@@ -242,12 +235,12 @@ public class ExportReportController : Controller
     {
         criteria.ActorId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
-        EPASummaryModel epaSummary = _reportService.GetEPASummaryReport(criteria);
+        var epaSummary = _reportService.GetEPASummaryReport(criteria);
         epaSummary.Period = _reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodIds);
 
-        MemoryStream output = _reportService.ExportEPASummaryReport(epaSummary);
+        var output = _reportService.ExportEPASummaryReport(epaSummary);
 
-        string fileName = GetEPASummaryReportFilename(epaSummary);
+        var fileName = GetEPASummaryReportFilename(epaSummary);
 
         return File(output.ToArray(), "application/vnd.ms-excel", fileName);
     }
@@ -256,8 +249,8 @@ public class ExportReportController : Controller
     {
         criteria.EmployeeId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
-        IList<Role> roles = roleService.GetBySiteId(userControlSession.SiteId);
-        EPADetailModel epaDetail = _reportService.GetMonthlyEPADetailReport(criteria, criteria.EmployeeId, roles);
+        var roles = roleService.GetBySiteId(userControlSession.SiteId);
+        var epaDetail = _reportService.GetMonthlyEPADetailReport(criteria, criteria.EmployeeId, roles);
         epaDetail.Period = _reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodId?.ToString());
         _monthlyEpaDetailReportService.Render(epaDetail);
 
@@ -266,13 +259,13 @@ public class ExportReportController : Controller
 
     public ActionResult ExportMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria)
     {
-        string fileName = Lang.MonthlyEPASummaryReportName + ".xls";
+        var fileName = Lang.MonthlyEPASummaryReportName + ".xls";
 
         criteria.EmployeeId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
-        EPASummaryModel epaSummary = _reportService.GetMonthlyEPASummaryReport(criteria);
+        var epaSummary = _reportService.GetMonthlyEPASummaryReport(criteria);
 
-        MemoryStream output = _reportService.ExportMonthlyEPASummaryReport(epaSummary);
+        var output = _reportService.ExportMonthlyEPASummaryReport(epaSummary);
 
         return File(output.ToArray(), "application/vnd.ms-excel", fileName);
     }
@@ -281,7 +274,7 @@ public class ExportReportController : Controller
     {
         if (flowTemplateId > 0 && !string.IsNullOrEmpty(flowTemplateName))
         {
-            IEnumerable<PersonalFlowModel> flowSettings = _personalFlowService.GetByFlowTemplateId(flowTemplateId);
+            var flowSettings = _personalFlowService.GetByFlowTemplateId(flowTemplateId);
 
             _exportExcelService.FileName = "Personal_Flow_Setting";
             _exportExcelService.SheetName = "Personal Flow";
@@ -301,7 +294,7 @@ public class ExportReportController : Controller
     {
         if (flowTemplateId > 0 && !string.IsNullOrEmpty(flowTemplateName))
         {
-            IEnumerable<DepartmentFlowModel> flowSettings = departmentFlowService.GetByFlowTemplateId(flowTemplateId);
+            var flowSettings = departmentFlowService.GetByFlowTemplateId(flowTemplateId);
 
             _exportExcelService.FileName = "Department_Flow_Setting";
             _exportExcelService.SheetName = "Department Flow";
@@ -321,7 +314,7 @@ public class ExportReportController : Controller
     {
         if (criteria != null)
         {
-            IList<TargetEmployeeSetting> datas = _targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
+            var datas = _targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
 
             _exportExcelService.FileName = "Target_Personnel_Setting";
             _exportExcelService.SheetName = "Target Personnel Setting";
@@ -344,7 +337,7 @@ public class ExportReportController : Controller
             Condition = currentObject =>
             {
                 var value = currentObject.GetType().GetProperties()[columnIndex].GetValue(currentObject, null);
-                if (!float.TryParse(value.ToString(), out float number))
+                if (!float.TryParse(value.ToString(), out var number))
                 {
                     return false;
                 }
@@ -365,7 +358,7 @@ public class ExportReportController : Controller
 
     private static string GetEPASummaryReportFilename(EPASummaryModel epaSummary)
     {
-        string fileName = $"{Lang.EPASummaryReportName}.xls";
+        var fileName = $"{Lang.EPASummaryReportName}.xls";
 
         if (!string.IsNullOrEmpty(epaSummary.EpaYear) && !string.IsNullOrEmpty(epaSummary.EpaEvaluationPeriod))
         {
@@ -384,15 +377,15 @@ public class ExportReportController : Controller
     {
         const int lastCollumnIndex = 20;
         // Style
-        int redStyleIndex = _exportExcelService.CreateNewColumnStyle();
-        ICellStyle style = _exportExcelService.ColumnsStyles[redStyleIndex];
-        IFont redFont = _exportExcelService.Workbook.CreateFont();
+        var redStyleIndex = _exportExcelService.CreateNewColumnStyle();
+        var style = _exportExcelService.ColumnsStyles[redStyleIndex];
+        var redFont = _exportExcelService.Workbook.CreateFont();
         redFont.Color = HSSFColor.Red.Index;
         style.SetFont(redFont);
 
-        for (int i = 8; i <= lastCollumnIndex; i++)
+        for (var i = 8; i <= lastCollumnIndex; i++)
         {
-            ConditionalCellStyle redStyle = CreateCellStyleIfLessThanZero(redStyleIndex, i);
+            var redStyle = CreateCellStyleIfLessThanZero(redStyleIndex, i);
             _exportExcelService.ConditionalCellStyles.Add(redStyle);
         }
     }

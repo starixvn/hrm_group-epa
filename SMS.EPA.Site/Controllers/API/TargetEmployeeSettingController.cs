@@ -8,13 +8,10 @@ using System.Collections.Generic;
 using GO.UserControl.Client.Core.Session;
 using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Model;
-using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Services.Implement;
-using SMS.EPA.Services.Interfaces;
+using Core.Attribute;
+using Core.Constants;
+using Core.Model;
+using Services.Interfaces;
 
 public class TargetEmployeeSettingController(
     IUserControlSession userControlSession,
@@ -46,7 +43,7 @@ public class TargetEmployeeSettingController(
     public CommandResult AssignTargetTemplateToEmployee(AssignTargetTemplateToEmployeeCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -63,7 +60,7 @@ public class TargetEmployeeSettingController(
             EmployeeId = employeeId,
             ModifiedBy = CurrentEmployeeId
         };
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -81,7 +78,7 @@ public class TargetEmployeeSettingController(
             TargetTypeId = targetTypeId,
             ShowAll = showAll
         };
-        IList<TargetDepartmentSetting> targetDepartments = targetEmployeeSettingService.GetTargetDepartmentSetting(criteria);
+        var targetDepartments = targetEmployeeSettingService.GetTargetDepartmentSetting(criteria);
 
         return targetDepartments;
     }
@@ -122,7 +119,7 @@ public class TargetEmployeeSettingController(
             IsGroup = isGroup,
             ModifiedBy = CurrentEmployeeId
         };
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }

@@ -188,7 +188,7 @@ public class EmployeeEPAService(
             return grade;
         }
 
-        float finalScore = performanceScore.Value + disciplineScore;
+        var finalScore = performanceScore.Value + disciplineScore;
 
         var finalGrade = standardGrades
             .FirstOrDefault(x => x.Type == (int)GradeType.Final && x.LeftScore <= finalScore && x.RightScore >= finalScore);
@@ -253,12 +253,12 @@ public class EmployeeEPAService(
             PeriodId = periodId,
             EmployeeIds = employeeIds
         };
-        IEnumerable<EPAModel> epaInfos = employeeEPARepository.GetEPAEndEvaluationPeriod(criteria);
-        IEnumerable<StandardGradeModel> standardGrades = commonService.GetStandardGrade();
-        foreach (EPAModel epaInfo in epaInfos)
+        var epaInfos = employeeEPARepository.GetEPAEndEvaluationPeriod(criteria);
+        var standardGrades = commonService.GetStandardGrade();
+        foreach (var epaInfo in epaInfos)
         {
-            float? performanceScore = GetFinalScoreOfEvalution(epaInfo);
-            float? finalScore = performanceScore.HasValue ? (performanceScore.Value + epaInfo.DisciplineScore) : (float?)null;
+            var performanceScore = GetFinalScoreOfEvalution(epaInfo);
+            var finalScore = performanceScore.HasValue ? (performanceScore.Value + epaInfo.DisciplineScore) : (float?)null;
 
             if (finalScore.HasValue)
             {
@@ -268,7 +268,7 @@ public class EmployeeEPAService(
             epaInfo.FinalScore = finalScore.HasValue
                 ? cryptographyService.Encrypt(finalScore.Value.ToString(CultureInfo.InvariantCulture))
                 : string.Empty;
-            string grade = performanceScore.HasValue
+            var grade = performanceScore.HasValue
                 ? ConvertScoreToGrade(performanceScore, epaInfo.DisciplineScore, epaInfo.HasDisciplineScore, standardGrades)
                 : string.Empty;
             epaInfo.Grade = !string.IsNullOrWhiteSpace(grade) ? cryptographyService.Encrypt(grade) : string.Empty;
@@ -285,7 +285,7 @@ public class EmployeeEPAService(
     {
         if (semiEPA != null && monthlyEPAs != null && monthlyEPAs.Count > 0)
         {
-            foreach (EPAModel monthlyEPA in monthlyEPAs.Where(x => x.EPAParentId.Equals(semiEPA.EPAId)))
+            foreach (var monthlyEPA in monthlyEPAs.Where(x => x.EPAParentId.Equals(semiEPA.EPAId)))
             {
                 semiEPA.MonthlyEPA.MonthlyEPAs.Add(monthlyEPA);
             }
@@ -298,7 +298,7 @@ public class EmployeeEPAService(
         {
             const byte numOfFragtionalDigits = 2;
             float averageScore;
-            ScoreRatingTypeModel monthlyScoreRatingType = monthlyEPA.MonthlyEPAs[0].ScoreRatingType;
+            var monthlyScoreRatingType = monthlyEPA.MonthlyEPAs[0].ScoreRatingType;
 
             if (monthlyEPA.AverageSelfScore.HasValue)
             {
@@ -332,29 +332,29 @@ public class EmployeeEPAService(
         }
     }
 
-    //public void ExportEPAAfterUpdateFinalScore(string periodName, IList<EPAModel> epaInfos, string templatePath)
-    //{
-    //    const byte headerRowIndex = 2;
-    //    const byte numOfColumns = 9;
+    public void ExportEPAAfterUpdateFinalScore(string periodName, IList<EPAModel> epaInfos, string templatePath)
+    {
+        const byte headerRowIndex = 2;
+        const byte numOfColumns = 9;
 
-    //    if (epaInfos != null && epaInfos.Any())
-    //    {
-    //        var writer = new ExcelTemplateWriter(templatePath, "Update_Final_Score", "Update Final Score");
+        if (epaInfos != null && epaInfos.Any())
+        {
+            var writer = new ExcelTemplateWriter(templatePath, "Update_Final_Score", "Update Final Score");
 
-    //        // Fill report title.
-    //        writer.WriteRow(0, new object[] { periodName });
-    //        writer.CopyRows(1, 1);
+            // Fill report title.
+            writer.WriteRow(0, [periodName]);
+            writer.CopyRows(1, 1);
 
-    //        // Fill report header.
-    //        writer.CopyRows(headerRowIndex, 1);
+            // Fill report header.
+            writer.CopyRows(headerRowIndex, 1);
 
-    //        FillContentRow(epaInfos, ref writer);
-    //        writer.SyncColumnsWidth(numOfColumns);
-    //        writer.CreateFreezePane(0, headerRowIndex + 1);
+            FillContentRow(epaInfos, ref writer);
+            writer.SyncColumnsWidth(numOfColumns);
+            writer.CreateFreezePane(0, headerRowIndex + 1);
 
-    //        writer.Render();
-    //    }
-    //}
+            writer.Render();
+        }
+    }
 
     public void SetMaxPerformanceScore(EPAModel epaInfo)
     {
@@ -399,14 +399,14 @@ public class EmployeeEPAService(
     public void SpreadKPIScore(IList<EPAKpiGroupModel> kpiGroups)
     {
         IUtilityService utilityService = new UtilityService(null);
-        foreach (EPAKpiGroupModel kpiGroup in kpiGroups)
+        foreach (var kpiGroup in kpiGroups)
         {
             if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI && kpiGroup.Weight != null)
             {
-                double averageWeight = kpiGroup.Weight.Value / kpiGroup.KPIs.Count;
+                var averageWeight = kpiGroup.Weight.Value / kpiGroup.KPIs.Count;
                 averageWeight = utilityService.SplitNumber(averageWeight, Constants.NumberOfDecimals);
 
-                foreach (EPAKpiModel kpi in kpiGroup.KPIs)
+                foreach (var kpi in kpiGroup.KPIs)
                 {
                     kpi.Weight = averageWeight;
                 }
@@ -533,7 +533,7 @@ public class EmployeeEPAService(
     {
         if (processOfOtherActors.Any())
         {
-            foreach (EPAProcessModel process in processOfOtherActors)
+            foreach (var process in processOfOtherActors)
             {
                 process.TotalScore = string.Empty;
                 process.Comment = string.Empty;
@@ -594,9 +594,9 @@ public class EmployeeEPAService(
 
     private static void FillContentRow(IList<EPAModel> epaInfos, ref ExcelTemplateWriter writer)
     {
-        int rowIndex = 1;
+        var rowIndex = 1;
 
-        foreach (EPAModel epaInfo in epaInfos)
+        foreach (var epaInfo in epaInfos)
         {
             FillRow(epaInfo, ref writer, ref rowIndex);
         }
@@ -606,7 +606,7 @@ public class EmployeeEPAService(
     {
         const int writeRowIndex = 3;
 
-        object record = CreateRecord(epaInfo, ref rowIndex);
+        var record = CreateRecord(epaInfo, ref rowIndex);
         writer.WriteRow(writeRowIndex, record);
     }
 

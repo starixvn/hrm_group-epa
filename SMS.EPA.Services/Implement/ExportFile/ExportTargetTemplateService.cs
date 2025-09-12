@@ -86,11 +86,11 @@ public class ExportTargetTemplateService(IHttpContextAccessor httpContextAccesso
     private void FillContent()
     {
         IUtilityService utilityService = new UtilityService(null);
-        int rowIndex = ContentStartRowIndex;
+        var rowIndex = ContentStartRowIndex;
 
         foreach (var kpiGroup in KPIIds)
         {
-            int colIndex = 0;
+            var colIndex = 0;
             var curRow = Sheet.CreateRow(rowIndex);
             var groupNameCell = curRow.CreateCell(colIndex++);
             groupNameCell.SetCellValue(kpiGroup.Name);

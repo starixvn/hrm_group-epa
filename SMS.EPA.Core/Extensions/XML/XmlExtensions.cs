@@ -43,7 +43,7 @@ public static class XmlExtensions
 
         var args = GetExpressions(t, p, attrSetter);
 
-        var constructor = typeof(XElement).GetConstructor(new[] { typeof(XName), typeof(object[]) });
+        var constructor = typeof(XElement).GetConstructor([typeof(XName), typeof(object[])]);
         var body = Expression.New(constructor, Expression.Constant(elementName), Expression.NewArrayInit(typeof(object), args));
 
         return Expression.Lambda<Func<T, XElement>>(body, p).Compile();
@@ -73,7 +73,7 @@ public static class XmlExtensions
         if (p.PropertyType.IsPrimitive || isNotPrimitive || isGenericType)
         {
             var name = GetPropertyName(p);
-            return new[] { Expression.Invoke(lambda, Expression.Constant(name), Expression.Convert(prop, typeof(object))) };
+            return [Expression.Invoke(lambda, Expression.Constant(name), Expression.Convert(prop, typeof(object)))];
         }
 
         return GetExpressions(p.PropertyType, prop, lambda);

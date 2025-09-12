@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using SMS.EPA.Models.Report.EPARecommendation;
 using SMS.EPA.Services.Implement.ExportFile;
 using SMS.EPA.Services.Implement.ReportServices;
 using SMS.EPA.Services.Interfaces.ExportFile;
@@ -26,7 +25,7 @@ public class ExportRecommendationReportController(
 
     public ActionResult ExportExcel(int periodId)
     {
-        EPASummaryRecommendationReportModel data = _recomendationReportService.GetRecommendationReport(periodId);
+        var data = _recomendationReportService.GetRecommendationReport(periodId);
 
         _exportExcelService.Export(data, Path.Combine(webHostEnvironment.WebRootPath, RecommendationReportTemplate));
 

@@ -41,7 +41,7 @@ public class EvaluationModel
 
             if (!string.IsNullOrEmpty(Score))
             {
-                double score = double.Parse(Score);
+                var score = double.Parse(Score);
                 IUtilityService utilityService = new UtilityService(null);
                 result = utilityService.SplitNumber(score, Constants.NumberOfDecimalDefault).ToString(CultureInfo.InvariantCulture);
             }

@@ -11,9 +11,7 @@ namespace SMS.EPA.Services.Implement;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Services;
-using Criteria;
 using Interfaces;
-using Repositories;
 
 public class TargetTemplateService(ITargetTemplateRepository targetTemplateRepository, IBaseService baseService)
     : ITargetTemplateService
@@ -27,8 +25,8 @@ public class TargetTemplateService(ITargetTemplateRepository targetTemplateRepos
 
     public IEnumerable<KPIGroupModel> GetKPIGroupOfTargetTemplate(GetKPIGroupOfTargetTemplateCriteria criteria)
     {
-        IEnumerable<KPIGroupModel> groups = baseService.GetData<KPIGroupModel>(criteria);
-        foreach (KPIGroupModel group in groups.Where(x => x.Weight.HasValue && x.Weight.Value > 0))
+        var groups = baseService.GetData<KPIGroupModel>(criteria);
+        foreach (var group in groups.Where(x => x.Weight.HasValue && x.Weight.Value > 0))
         {
             group.Selected = true;
         }
@@ -42,7 +40,7 @@ public class TargetTemplateService(ITargetTemplateRepository targetTemplateRepos
 
         if (criteria != null && criteria.IsValid())
         {
-            IEnumerable<KPIModel> kpiList = targetTemplateRepository.GetKPIOfTargetTemplate(criteria);
+            var kpiList = targetTemplateRepository.GetKPIOfTargetTemplate(criteria);
             kpiGroups = GroupKPI(kpiList);
 
             if (onlyKPISelected)
@@ -69,7 +67,7 @@ public class TargetTemplateService(ITargetTemplateRepository targetTemplateRepos
 
     private static bool CheckGroupSelected(List<KPIModel> listKPI)
     {
-        bool allSelected = true;
+        var allSelected = true;
         listKPI.ForEach(x =>
         {
             if (x.Weight == null)

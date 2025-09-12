@@ -76,7 +76,7 @@ public class EmployeeService(
     public CommandResult ChangePassword(ChangePasswordCriteria criteria)
     {
         var commandResult = new CommandResult();
-        string oldPassword = GetPasswordByEmployeeId(criteria.EmployeeId);
+        var oldPassword = GetPasswordByEmployeeId(criteria.EmployeeId);
         if (ValidatePassword(criteria.OldPassword, oldPassword))
         {
             criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);

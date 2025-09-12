@@ -110,7 +110,7 @@ public class CommonService(
         int years;
         int months;
         int days;
-        string lengOfService = string.Empty;
+        var lengOfService = string.Empty;
         if (fromDate.HasValue)
         {
             totalDays = ((TimeSpan)(toDate - fromDate)).Days;
@@ -132,7 +132,7 @@ public class CommonService(
                 months = 0;
             }
 
-            lengOfService = string.Format("{0} Year(s) {1} Month(s)", years, months);
+            lengOfService = $"{years} Year(s) {months} Month(s)";
         }
 
         return lengOfService;

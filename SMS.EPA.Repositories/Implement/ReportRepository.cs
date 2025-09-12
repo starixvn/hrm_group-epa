@@ -27,7 +27,7 @@ public class ReportRepository(ICryptographyService cryptographyService) : IRepor
     public EPASummaryModel GetEPASummary(ICriteria criteria)
     {
         using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
-        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        using var multi = db.QueryMultiple(criteria);
         var epaSummary = new EPASummaryModel
         {
             PeriodSelecteds = multi.Read<PeriodModel>().ToList(),
@@ -68,7 +68,7 @@ public class ReportRepository(ICryptographyService cryptographyService) : IRepor
     public EPASummaryModel GetMonthlyEPASummary(ICriteria criteria)
     {
         using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
-        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        using var multi = db.QueryMultiple(criteria);
         var epaSummary = new EPASummaryModel
         {
             PeriodSelecteds = multi.Read<PeriodModel>().ToList(),
@@ -102,7 +102,7 @@ public class ReportRepository(ICryptographyService cryptographyService) : IRepor
     public EPADetailModel GetEPADetail(ICriteria criteria)
     {
         using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
-        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        using var multi = db.QueryMultiple(criteria);
         var epaDetail = new EPADetailModel
         {
             PhaseSelecteds = multi.Read<EvaluationPhaseModel>(),
@@ -137,7 +137,7 @@ public class ReportRepository(ICryptographyService cryptographyService) : IRepor
     public EPADetailModel GetMonthlyEPADetail(ICriteria criteria)
     {
         using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
-        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        using var multi = db.QueryMultiple(criteria);
         var epaDetail = new EPADetailModel
         {
             PhaseSelecteds = multi.Read<EvaluationPhaseModel>(),
@@ -162,7 +162,7 @@ public class ReportRepository(ICryptographyService cryptographyService) : IRepor
 
     private static void AddDetailScoresToPeriods(IList<EPASummaryPeriodModel> periods, IList<EPASummaryDetailScoreModel> detailScores)
     {
-        foreach (EPASummaryPeriodModel summaryPeriodModel in periods)
+        foreach (var summaryPeriodModel in periods)
         {
             summaryPeriodModel.DetailScores = detailScores
                 .Where(x => x.EmployeeId == summaryPeriodModel.EmployeeId && x.PeriodId == summaryPeriodModel.PeriodId)
@@ -174,9 +174,9 @@ public class ReportRepository(ICryptographyService cryptographyService) : IRepor
         IEnumerable<EPASummaryEmployeeModel> epaSummaries,
         IList<EPASummaryPeriodModel> periods)
     {
-        foreach (EPASummaryEmployeeModel epaSummary in epaSummaries)
+        foreach (var epaSummary in epaSummaries)
         {
-            foreach (EPASummaryPeriodModel period in periods.Where(x => epaSummary.EmployeeId.Equals(x.EmployeeId)))
+            foreach (var period in periods.Where(x => epaSummary.EmployeeId.Equals(x.EmployeeId)))
             {
                 epaSummary.Periods.Add(period);
             }
@@ -185,9 +185,9 @@ public class ReportRepository(ICryptographyService cryptographyService) : IRepor
 
     private static void GroupEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> processes)
     {
-        foreach (EPAModel epaInfo in epaInfos)
+        foreach (var epaInfo in epaInfos)
         {
-            foreach (EPAProcessModel process in processes.Where(x => x.EPAId == epaInfo.EPAId))
+            foreach (var process in processes.Where(x => x.EPAId == epaInfo.EPAId))
             {
                 epaInfo.AllProcesses.Add(process);
 
@@ -218,7 +218,7 @@ public class ReportRepository(ICryptographyService cryptographyService) : IRepor
 
     private void DecodeFinalScoreAndGrade(IEnumerable<EPASummaryEmployeeModel> epaSummaries)
     {
-        foreach (EPASummaryPeriodModel period in epaSummaries.SelectMany(x => x.Periods))
+        foreach (var period in epaSummaries.SelectMany(x => x.Periods))
         {
             period.FinalScore = _cryptographyService.Decrypt(period.FinalScore);
             period.Grade = _cryptographyService.Decrypt(period.Grade);
@@ -227,7 +227,7 @@ public class ReportRepository(ICryptographyService cryptographyService) : IRepor
 
     private void DecodeAllScore(IEnumerable<EPAModel> epaInfos)
     {
-        foreach (EPAModel epaInfo in epaInfos)
+        foreach (var epaInfo in epaInfos)
         {
             epaInfo.FinalScore = _cryptographyService.Decrypt(epaInfo.FinalScore);
             epaInfo.Grade = _cryptographyService.Decrypt(epaInfo.Grade);
@@ -249,7 +249,7 @@ public class ReportRepository(ICryptographyService cryptographyService) : IRepor
 
     private void DecodeTotalScore(IList<EPAProcessModel> processes)
     {
-        foreach (EPAProcessModel process in processes)
+        foreach (var process in processes)
         {
             DecodeTotalScore(process);
         }
@@ -257,7 +257,7 @@ public class ReportRepository(ICryptographyService cryptographyService) : IRepor
 
     private void DecodeDetailScores(IList<EPASummaryDetailScoreModel> detailScores)
     {
-        foreach (EPASummaryDetailScoreModel detailScore in detailScores)
+        foreach (var detailScore in detailScores)
         {
             detailScore.AdjustScore = _cryptographyService.Decrypt(detailScore.AdjustScore);
             detailScore.TotalScore = _cryptographyService.Decrypt(detailScore.TotalScore);

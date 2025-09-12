@@ -26,7 +26,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
     public IEnumerable<EPAModel> GetEPA(ICriteria criteria)
     {
         using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
-        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        using var multi = db.QueryMultiple(criteria);
         var epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
             (epaInfo, employee, ratingType, period, scoreRatingType) =>
             {
@@ -54,7 +54,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
         GroupEPAProcessByEPA(epaInfos, processes);
         GroupLastEPAProcessByEPA(epaInfos, lastPerformProcess);
 
-        foreach (EPAModel epaInfo in epaInfos)
+        foreach (var epaInfo in epaInfos)
         {
             DecryptAllScore(epaInfo);
         }
@@ -65,7 +65,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
     public EPAModel GetEPAInfo(ICriteria criteria)
     {
         using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
-        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        using var multi = db.QueryMultiple(criteria);
         var epaInfo = multi.Read<EPAModel, EPAEmployeeInfo, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
             (info, employee, ratingType, period, scoreRatingType) =>
             {
@@ -100,7 +100,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
             GroupEPAProcessByEPA(epaInfo, processes);
             GroupKPIByKPIGroup(epaInfo.KPIGroups, kpis);
 
-            foreach (EPAKpiGroupModel kpiGroup in epaInfo.KPIGroups)
+            foreach (var kpiGroup in epaInfo.KPIGroups)
             {
                 GroupEvaluationOnEachKPI(kpiGroup.KPIs, evaluations);
             }
@@ -114,7 +114,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
     public IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(ICriteria criteria)
     {
         using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
-        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        using var multi = db.QueryMultiple(criteria);
         var epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, EPAPeriodModel, EPAModel>(
             (epaInfo, emp, period) =>
             {
@@ -137,7 +137,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
 
         GroupEPAProcessByEPA(epaInfos, processes);
 
-        foreach (EPAModel epaInfo in epaInfos)
+        foreach (var epaInfo in epaInfos)
         {
             DecryptAllScore(epaInfo);
         }
@@ -148,7 +148,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
     public IList<EPAModel> GetEPAToUpdateFinalScore(ICriteria criteria)
     {
         using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
-        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        using var multi = db.QueryMultiple(criteria);
         IList<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, EPAPeriodModel, EPAModel>(
             (epaInfo, emp, period) =>
             {
@@ -171,7 +171,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
 
         GroupEPAProcessByEPA(epaInfos, processes);
 
-        foreach (EPAModel epaInfo in epaInfos)
+        foreach (var epaInfo in epaInfos)
         {
             DecryptAllScore(epaInfo);
         }
@@ -182,7 +182,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
     public DashboardModel GetDashboard(ICriteria criteria)
     {
         using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
-        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        using var multi = db.QueryMultiple(criteria);
         var result = new DashboardModel
         {
             MyEpaInfos = multi.Read<EPAModel, EPAPeriodModel, EPAModel>(
@@ -207,7 +207,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
 
         GroupEPAProcessByEPA(result.MyEpaInfos, processes);
 
-        foreach (EPAModel epaInfo in result.MyEpaInfos)
+        foreach (var epaInfo in result.MyEpaInfos)
         {
             DecryptAllScore(epaInfo);
         }
@@ -248,7 +248,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
     public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(ICriteria criteria)
     {
         using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
-        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        using var multi = db.QueryMultiple(criteria);
         var epaInfos = multi.Read<RatingByKPIModel, EPAEmployeeInfo, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
             (epaInfo, employee, type, kgr) =>
             {
@@ -286,7 +286,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
 
     private static void GroupEPAProcessByEPA(EPAModel epaInfo, IEnumerable<EPAProcessModel> processes)
     {
-        foreach (EPAProcessModel process in processes.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
+        foreach (var process in processes.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
         {
             epaInfo.AllProcesses.Add(process);
 
@@ -320,7 +320,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
 
     private static void GroupEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> processes)
     {
-        foreach (EPAModel epaInfo in epaInfos)
+        foreach (var epaInfo in epaInfos)
         {
             if (processes != null && processes.Any())
             {
@@ -331,7 +331,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
 
     private static void GroupLastEPAProcessByEPA(EPAModel epaInfo, IEnumerable<EPAProcessModel> lastProcesses)
     {
-        foreach (EPAProcessModel process in lastProcesses.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
+        foreach (var process in lastProcesses.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
         {
             epaInfo.LastProcesses.Add(process);
         }
@@ -339,7 +339,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
 
     private static void GroupLastEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> lastProcesses)
     {
-        foreach (EPAModel epaInfo in epaInfos)
+        foreach (var epaInfo in epaInfos)
         {
             if (lastProcesses != null && lastProcesses.Any())
             {
@@ -386,11 +386,11 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
 
     private static void GroupKPIByEPA(IEnumerable<RatingByKPIModel> epaInfos, IEnumerable<TemporaryKPIModel> kpis)
     {
-        foreach (RatingByKPIModel epaInfo in epaInfos)
+        foreach (var epaInfo in epaInfos)
         {
-            IEnumerable<TemporaryKPIModel> tempkpis =
+            var tempkpis =
                 kpis.Where(x => x.EPAId.Equals(epaInfo.EPAId) && x.KPIGroup.KPIGroupId.Equals(epaInfo.KPIGroup.KPIGroupId));
-            foreach (TemporaryKPIModel kpi in tempkpis)
+            foreach (var kpi in tempkpis)
             {
                 epaInfo.KPIGroup.KPIs.Add(kpi);
             }
@@ -399,11 +399,11 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
 
     private static void GroupKPIBySelf(IEnumerable<RatingByKPIModel> epaInfos, IEnumerable<TemporaryKPIModel> kpis)
     {
-        foreach (RatingByKPIModel epaInfo in epaInfos)
+        foreach (var epaInfo in epaInfos)
         {
-            IEnumerable<TemporaryKPIModel> tempkpis =
+            var tempkpis =
                 kpis.Where(x => x.EPAId.Equals(epaInfo.EPAId) && x.KPIGroup.KPIGroupId.Equals(epaInfo.KPIGroup.KPIGroupId));
-            foreach (TemporaryKPIModel kpi in tempkpis)
+            foreach (var kpi in tempkpis)
             {
                 epaInfo.KPIGroup.KPIsBySelf.Add(kpi);
             }
@@ -423,7 +423,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
         DecryptTotalScore(epaInfo.Process.Managements);
         DecryptTotalScore(epaInfo.LastProcesses);
 
-        foreach (EPAKpiModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
+        foreach (var kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
         {
             DecryptScore(kpi.EvaluationBySelf);
             DecryptScore(kpi.EvaluationByEvaluators);
@@ -432,11 +432,11 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
 
     private void DecryptAllScore(IEnumerable<RatingByKPIModel> epaInfos)
     {
-        foreach (RatingByKPIModel epaInfo in epaInfos)
+        foreach (var epaInfo in epaInfos)
         {
             epaInfo.TotalScore = cryptographyService.Decrypt(epaInfo.TotalScore);
 
-            foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIs)
+            foreach (var kpi in epaInfo.KPIGroup.KPIs)
             {
                 float rate = 0;
                 if (!string.IsNullOrEmpty(kpi.RateEncrypt))
@@ -448,7 +448,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
                 kpi.Rate = rate;
             }
 
-            foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIsBySelf)
+            foreach (var kpi in epaInfo.KPIGroup.KPIsBySelf)
             {
                 float rate = 0;
                 if (!string.IsNullOrEmpty(kpi.RateEncrypt))
@@ -473,7 +473,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
 
     private void DecryptTotalScore(IList<EPAProcessModel> processes)
     {
-        foreach (EPAProcessModel process in processes)
+        foreach (var process in processes)
         {
             DecryptTotalScore(process);
         }
@@ -496,7 +496,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
 
     private void DecryptScore(IList<EvaluationModel> evaluations)
     {
-        foreach (EvaluationModel evaluation in evaluations)
+        foreach (var evaluation in evaluations)
         {
             DecryptScore(evaluation);
         }

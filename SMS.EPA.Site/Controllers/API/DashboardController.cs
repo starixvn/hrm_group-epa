@@ -11,10 +11,7 @@ using GO.UserControl.Client.Core.Session;
 using Core.Attribute;
 using Core.Constants;
 using Core.Enumerations;
-using SMS.EPA.Core.Services;
-using Criteria;
 using Criteria.Dashboard;
-using Services;
 
 public class DashboardController(
     IUserControlSession userControlSession,
@@ -26,7 +23,7 @@ public class DashboardController(
     [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
     public DashboardModel GetDashboard()
     {
-        DashboardModel dashboard = reportService.GetDashboard(CurrentEmployeeId);
+        var dashboard = reportService.GetDashboard(CurrentEmployeeId);
         dashboard.Employee = employeeService.GetEmployeeById(CurrentEmployeeId, new List<Role>());
 
         return dashboard;

@@ -11,12 +11,10 @@ using GO.UserControl.Client.Core.Session;
 using System.Linq;
 using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Model;
+using Core.Attribute;
+using Core.Constants;
+using Core.Model;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Services;
 
 public class PersonalFlowController(
     IUserControlSession userControlSession,

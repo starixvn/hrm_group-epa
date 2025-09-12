@@ -25,7 +25,7 @@ public class MonthlyEPAModel
     private float? CalculateAverageScore(int processType)
     {
         float average = 0;
-        int count = 0;
+        var count = 0;
         float? result = null;
 
         var processes = MonthlyEPAs.Where(x => x.IsClosed).Select(x => x.Process).ToList();

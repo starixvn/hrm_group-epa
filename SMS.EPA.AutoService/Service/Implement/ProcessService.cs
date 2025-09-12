@@ -47,7 +47,7 @@ public class ProcessService(
 
     private void DecryptTotalScore(IEnumerable<AutoEvaluationProcessModel> evaluationProcesses)
     {
-        foreach (AutoEvaluationProcessModel evaluationProcess in evaluationProcesses)
+        foreach (var evaluationProcess in evaluationProcesses)
         {
             evaluationProcess.TotalScore = cryptographyService.Decrypt(evaluationProcess.TotalScore);
             evaluationProcess.AdjustScore = cryptographyService.Decrypt(evaluationProcess.AdjustScore);

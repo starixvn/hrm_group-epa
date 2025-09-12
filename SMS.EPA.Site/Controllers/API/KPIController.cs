@@ -9,12 +9,9 @@ using System.Collections.Generic;
 using GO.UserControl.Client.Core.Session;
 using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Model;
-using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Services;
+using Core.Attribute;
+using Core.Constants;
+using Core.Model;
 
 public class KPIController(IUserControlSession userControlSession, IKPIService kpiService, IBaseService baseService)
     : BaseController(userControlSession)
@@ -40,7 +37,7 @@ public class KPIController(IUserControlSession userControlSession, IKPIService k
     public CommandResult CreateKPI(CreateKPICriteria criteria)
     {
         criteria.CreatedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -50,7 +47,7 @@ public class KPIController(IUserControlSession userControlSession, IKPIService k
     public CommandResult UpdateKPI(UpdateKPICriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -60,7 +57,7 @@ public class KPIController(IUserControlSession userControlSession, IKPIService k
     public CommandResult UpdateStatusKPI(UpdateStatusKPICriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -70,7 +67,7 @@ public class KPIController(IUserControlSession userControlSession, IKPIService k
     public CommandResult UpdateRequiredEvaluateKPI(UpdateRequiredEvaluateKPICriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -86,7 +83,7 @@ public class KPIController(IUserControlSession userControlSession, IKPIService k
             KPIId = kpiId,
             ModifiedBy = CurrentEmployeeId
         };
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }

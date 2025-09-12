@@ -3,11 +3,9 @@ using SMS.EPA.Models.Report;
 
 namespace SMS.EPA.Services.Implement.ExportFile;
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Interfaces.ExportFile;
 using NPOI.HSSF.UserModel;
@@ -74,23 +72,23 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
 
     private void WriteTitle()
     {
-        IRow titleRow = Sheet.CreateRow(TitleRowIndex);
-        ICell cell = titleRow.CreateCell(0, CellType.String);
+        var titleRow = Sheet.CreateRow(TitleRowIndex);
+        var cell = titleRow.CreateCell(0, CellType.String);
         cell.SetCellValue(Title);
         cell.CellStyle = TitleStyle;
     }
 
     private void WriteHeaders(object sampleRecord)
     {
-        Type recordType = sampleRecord.GetType();
+        var recordType = sampleRecord.GetType();
 
         var columns = recordType.GetProperties();
 
-        IRow headerRow = Sheet.CreateRow(HeaderRowIndex);
+        var headerRow = Sheet.CreateRow(HeaderRowIndex);
 
         for (var index = 0; index < TotalColumns; index++)
         {
-            PropertyInfo propertyInfo = columns[index];
+            var propertyInfo = columns[index];
             headerRow.CreateCell(index).SetCellValue(propertyInfo.Name);
             HeaderStyles.Add(Workbook.CreateCellStyle());
         }
@@ -98,13 +96,13 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
 
     private void WriteData(IEnumerable<IExcelRecord> datas, bool firstColumnAutoIncrement)
     {
-        int rowId = ContentRowStartIndex;
+        var rowId = ContentRowStartIndex;
 
-        int rowNumber = 1;
+        var rowNumber = 1;
 
-        foreach (IExcelRecord data in datas)
+        foreach (var data in datas)
         {
-            IRow row = Sheet.CreateRow(rowId);
+            var row = Sheet.CreateRow(rowId);
             WriteEachColumn(firstColumnAutoIncrement, rowNumber, data, row);
 
             rowId++;
@@ -115,11 +113,11 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
     private void WriteEachColumn(bool firstColumnAutoIncrement, int rowNumber, IExcelRecord data, IRow row)
     {
         var objectData = data.ConvertToExcelRecord();
-        PropertyInfo[] infos = objectData.GetType().GetProperties();
+        var infos = objectData.GetType().GetProperties();
 
-        for (int index = 0; index < TotalColumns; index++)
+        for (var index = 0; index < TotalColumns; index++)
         {
-            ICell cell = row.CreateCell(index);
+            var cell = row.CreateCell(index);
 
             var value = infos[index].GetValue(objectData, null);
 
@@ -130,7 +128,7 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
                 cell.SetCellValue(rowNumber);
             }
 
-            foreach (ConditionalCellStyle conditionalCellStyle in ConditionalCellStyles)
+            foreach (var conditionalCellStyle in ConditionalCellStyles)
             {
                 if (index == conditionalCellStyle.ColumnIndex
                     && conditionalCellStyle.Condition(objectData))
@@ -145,7 +143,7 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
     {
         if (ColumnsStyles != null)
         {
-            ICellStyle style = Workbook.CreateCellStyle();
+            var style = Workbook.CreateCellStyle();
             ColumnsStyles.Add(style);
             return ColumnsStyles.IndexOf(style);
         }
@@ -155,7 +153,7 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
 
     private void FormatSheet()
     {
-        for (int i = 0; i < TotalColumns; i++)
+        for (var i = 0; i < TotalColumns; i++)
         {
             Sheet.AutoSizeColumn(i);
         }

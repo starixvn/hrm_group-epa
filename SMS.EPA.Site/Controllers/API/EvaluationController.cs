@@ -14,12 +14,10 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using GO.UserControl.Client.Core.Enumerables;
     
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Enumerations;
-using SMS.EPA.Core.Model;
+using Core.Constants;
+using Core.Enumerations;
+using Core.Model;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Services;
 
 public class EvaluationController(
     IUserControlSession userControlSession,
@@ -60,13 +58,13 @@ public class EvaluationController(
     [HttpPut]
     public CommandResult ConvertEPA()
     {
-        IEnumerable<EPASummaryImportModel> epaInfos = baseService.GetData<EPASummaryImportModel>(new GetEPASummaryImportCriteria());
+        var epaInfos = baseService.GetData<EPASummaryImportModel>(new GetEPASummaryImportCriteria());
         var criteria = new UpdateEPASummaryImportCriteria
         {
             EpaInfos = epaInfos
         };
 
-        CommandResult result = baseService.ExecuteNonQuery(criteria);
+        var result = baseService.ExecuteNonQuery(criteria);
         return result;
     }
 
@@ -78,7 +76,7 @@ public class EvaluationController(
         var roles = userControlSession.Get<IList<Role>>(Constants.CurrentEmployeeRoleKey);
         if (roles.Select(x => x.RoleId).Contains((byte)SystemRole.SystemAdmin))
         {
-            EPAModel epaInfo = evaluationService.GetEPAInfoById(criteria.EPAId);
+            var epaInfo = evaluationService.GetEPAInfoById(criteria.EPAId);
 
             criteria.ModifiedBy = CurrentEmployeeId;
 

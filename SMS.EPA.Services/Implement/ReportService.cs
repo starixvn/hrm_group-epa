@@ -11,7 +11,6 @@ using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Enumerations;
-using SMS.EPA.Core.Services;
 using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Criteria.Dashboard;
 using SMS.EPA.Criteria.EmployeeEPA;
@@ -23,7 +22,6 @@ using SMS.EPA.Models.EmployeeEPA;
 using SMS.EPA.Models.Period;
 using SMS.EPA.Models.Report.EPADetail;
 using SMS.EPA.Models.Report.EPASummary;
-using SMS.EPA.Repositories.Implement;
 using SMS.EPA.Repositories.Interfaces;
 using SMS.EPA.Resources;
 using SMS.EPA.Services.Interfaces;
@@ -60,7 +58,7 @@ public class ReportService(
             EmployeeId = employeeId
         };
 
-        DashboardModel result = employeeEPARepository.GetDashboard(criteria);
+        var result = employeeEPARepository.GetDashboard(criteria);
         result.MonthlyEpaInfos = result.MyEpaInfos.Where(x => x.Period.TargetTypeId == (byte)TargetType.Monthly);
         result.MyEpaInfos = result.MyEpaInfos.Where(x => x.Period.TargetTypeId != (byte)TargetType.Monthly);
 
@@ -90,17 +88,17 @@ public class ReportService(
 
     public EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria, int currentEmployeeId, IList<Role> roles)
     {
-        EPADetailModel result = reportRepository.GetEPADetail(criteria);
-        foreach (EPAModel epaInfo in result.EpaInfos)
+        var result = reportRepository.GetEPADetail(criteria);
+        foreach (var epaInfo in result.EpaInfos)
         {
             employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, currentEmployeeId, roles);
         }
 
-        string epaIds = string.Join(",", result.EpaInfos.Where(x => x.IsSemiHasMonthly && x.EPAId > 0).Select(x => x.EPAId));
+        var epaIds = string.Join(",", result.EpaInfos.Where(x => x.IsSemiHasMonthly && x.EPAId > 0).Select(x => x.EPAId));
         if (!string.IsNullOrEmpty(epaIds))
         {
-            IList<EPAModel> monthlyEPAs = employeeEPAService.GetMonthlyEPAOfSemi(epaIds);
-            foreach (EPAModel epaInfo in result.EpaInfos)
+            var monthlyEPAs = employeeEPAService.GetMonthlyEPAOfSemi(epaIds);
+            foreach (var epaInfo in result.EpaInfos)
             {
                 employeeEPAService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
                 employeeEPAService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
@@ -113,20 +111,20 @@ public class ReportService(
     public EPASummaryModel GetEPASummaryReport(GetEPASummaryCriteria criteria)
     {
         var standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
-        EPASummaryModel result = reportRepository.GetEPASummary(criteria);
+        var result = reportRepository.GetEPASummary(criteria);
 
         var epaIds = new StringBuilder();
-        foreach (EPASummaryEmployeeModel epaInfo in result.EPAInfos)
+        foreach (var epaInfo in result.EPAInfos)
         {
             epaIds.AppendFormat("{0},", string.Join(",", epaInfo.Periods.Where(x => x.IsSemiHasMonthly && x.EPAId > 0).Select(x => x.EPAId)));
         }
 
-        IList<EPAModel> monthlyEPAs = epaIds.Length > 0 ? employeeEPAService.GetMonthlyEPAOfSemi(epaIds.ToString()) : new List<EPAModel>();
-        foreach (EPASummaryEmployeeModel epaInfo in result.EPAInfos)
+        var monthlyEPAs = epaIds.Length > 0 ? employeeEPAService.GetMonthlyEPAOfSemi(epaIds.ToString()) : new List<EPAModel>();
+        foreach (var epaInfo in result.EPAInfos)
         {
-            foreach (EPASummaryPeriodModel epaInfoPeriod in epaInfo.Periods)
+            foreach (var epaInfoPeriod in epaInfo.Periods)
             {
-                float? performanceScore = GetPerformanceScore(epaInfoPeriod);
+                var performanceScore = GetPerformanceScore(epaInfoPeriod);
 
                 if (epaInfoPeriod.IsSemiHasMonthly && epaInfoPeriod.EPAId > 0)
                 {
@@ -153,8 +151,8 @@ public class ReportService(
 
     public EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria, int currentEmployeeId, IList<Role> roles)
     {
-        EPADetailModel result = reportRepository.GetMonthlyEPADetail(criteria);
-        foreach (EPAModel epaInfo in result.EpaInfos)
+        var result = reportRepository.GetMonthlyEPADetail(criteria);
+        foreach (var epaInfo in result.EpaInfos)
         {
             employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, currentEmployeeId, roles);
         }
@@ -289,21 +287,21 @@ public class ReportService(
         };
 
         var workbook = new HSSFWorkbook();
-        ISheet sheet = workbook.CreateSheet(Lang.EPASummaryReportSheet);
-        IRow rowTitle = sheet.CreateRow(0);
+        var sheet = workbook.CreateSheet(Lang.EPASummaryReportSheet);
+        var rowTitle = sheet.CreateRow(0);
 
-        IFont font = workbook.CreateFont();
+        var font = workbook.CreateFont();
         font.FontHeightInPoints = fontHeight;
         font.IsBold = true;
 
-        ICell cell = rowTitle.CreateCell(0);
+        var cell = rowTitle.CreateCell(0);
         cell.SetCellValue(title);
         cell.CellStyle = workbook.CreateCellStyle();
         cell.CellStyle.Alignment = HorizontalAlignment.Center;
         cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
         cell.CellStyle.SetFont(font);
 
-        int lastColumn = titleHeaders.Count + (epaSummary.PeriodSelecteds.Count * 2) - 1;
+        var lastColumn = titleHeaders.Count + (epaSummary.PeriodSelecteds.Count * 2) - 1;
 
         sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, lastColumn));
 
@@ -334,9 +332,9 @@ public class ReportService(
         string grade,
         IFont redFont = null)
     {
-        int summaryColIndex = 10 + (2 * i);
+        var summaryColIndex = 10 + (2 * i);
 
-        ICell cellBody = row.CreateCell(summaryColIndex);
+        var cellBody = row.CreateCell(summaryColIndex);
         cellBody.CellStyle = bodyStyle;
         if (redFont != null)
         {
@@ -360,7 +358,7 @@ public class ReportService(
     private static string GetFinalScoreString(EPASummaryPeriodModel period)
     {
         const int numOfFractionalDigits = 2;
-        string finalScore = string.Empty;
+        var finalScore = string.Empty;
         if (period != null)
         {
             finalScore = string.IsNullOrEmpty(period.FinalScore)
@@ -373,7 +371,7 @@ public class ReportService(
 
     private static string GetGradeString(EPASummaryPeriodModel period)
     {
-        string grade = string.Empty;
+        var grade = string.Empty;
         if (period != null)
         {
             grade = string.IsNullOrEmpty(period.FinalScore) ? Lang.NotAvailable : period.Grade;
@@ -419,21 +417,21 @@ public class ReportService(
                 out row,
                 out cellBody);
 
-            List<int> periodIds = epaInfo.Periods.Select(x => x.PeriodId).ToList();
-            for (int i = 0; i < epaSummary.PeriodSelecteds.Count; i++)
+            var periodIds = epaInfo.Periods.Select(x => x.PeriodId).ToList();
+            for (var i = 0; i < epaSummary.PeriodSelecteds.Count; i++)
             {
                 if (periodIds.Contains(epaSummary.PeriodSelecteds[i].PeriodId))
                 {
-                    EPASummaryPeriodModel period =
+                    var period =
                         epaInfo.Periods.FirstOrDefault(x => x.PeriodId == epaSummary.PeriodSelecteds[i].PeriodId);
 
-                    string finalScore = GetFinalScoreString(period);
-                    string grade = GetGradeString(period);
+                    var finalScore = GetFinalScoreString(period);
+                    var grade = GetGradeString(period);
 
-                    IFont redFont = workbook.CreateFont();
+                    var redFont = workbook.CreateFont();
                     redFont.Color = HSSFColor.Red.Index;
 
-                    ICellStyle newStyle = workbook.CreateCellStyle();
+                    var newStyle = workbook.CreateCellStyle();
                     newStyle.CloneStyleFrom(bodyStyle);
 
                     GenerateFinalScoreAndGradeCell(
@@ -447,7 +445,7 @@ public class ReportService(
                 }
                 else
                 {
-                    int summaryColumnIndex = 10 + (2 * i);
+                    var summaryColumnIndex = 10 + (2 * i);
 
                     cellBody = row.CreateCell(summaryColumnIndex);
                     cellBody.CellStyle = bodyStyle;
@@ -473,12 +471,12 @@ public class ReportService(
     {
         const int fontHeight = 11;
 
-        IFont font = workbook.CreateFont();
+        var font = workbook.CreateFont();
         font.FontHeightInPoints = fontHeight;
         font.Color = HSSFColor.White.Index;
         font.IsBold = true;
 
-        ICellStyle cellStyle = workbook.CreateCellStyle();
+        var cellStyle = workbook.CreateCellStyle();
         cellStyle.FillForegroundColor = HSSFColor.Grey80Percent.Index;
         cellStyle.FillPattern = FillPattern.SolidForeground;
         cellStyle.FillBackgroundColor = HSSFColor.Grey80Percent.Index;
@@ -486,8 +484,8 @@ public class ReportService(
         cellStyle.VerticalAlignment = VerticalAlignment.Center;
         cellStyle.SetFont(font);
 
-        IRow row = sheet.CreateRow(2);
-        for (int i = 0; i < titleHeaders.Count; i++)
+        var row = sheet.CreateRow(2);
+        for (var i = 0; i < titleHeaders.Count; i++)
         {
             var cell = row.CreateCell(i);
             cell.CellStyle = cellStyle;
@@ -496,7 +494,7 @@ public class ReportService(
             sheet.AddMergedRegion(new CellRangeAddress(2, 3, i, i));
         }
 
-        for (int i = 0; i < periodSelecteds.Count; i++)
+        for (var i = 0; i < periodSelecteds.Count; i++)
         {
             var cell = row.CreateCell(titleHeaders.Count + (2 * i));
             cell.CellStyle = cellStyle;
@@ -509,8 +507,8 @@ public class ReportService(
                 titleHeaders.Count + ((2 * i) + 1)));
         }
 
-        IRow rowPeriod = sheet.CreateRow(3);
-        for (int i = 0; i < periodSelecteds.Count; i++)
+        var rowPeriod = sheet.CreateRow(3);
+        for (var i = 0; i < periodSelecteds.Count; i++)
         {
             var cell = rowPeriod.CreateCell(titleHeaders.Count + (2 * i));
             cell.CellStyle = cellStyle;

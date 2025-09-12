@@ -7,11 +7,9 @@ using System.Collections.Generic;
 using GO.UserControl.Client.Core.Session;
 using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Model;
-using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
+using Core.Attribute;
+using Core.Constants;
+using Core.Model;
 using SMS.EPA.Criteria.JobLevelStandard.KPI;
 
 public class JobLevelStandardKPIController(IUserControlSession userControlSession, IBaseService baseService)
@@ -44,7 +42,7 @@ public class JobLevelStandardKPIController(IUserControlSession userControlSessio
     public CommandResult UpdateStatus(UpdateStatusJobLevelStandardKPICriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
         return commandResult;
     }
 
@@ -57,7 +55,7 @@ public class JobLevelStandardKPIController(IUserControlSession userControlSessio
             KPIId = kpiId,
             ModifiedBy = CurrentEmployeeId
         };
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }

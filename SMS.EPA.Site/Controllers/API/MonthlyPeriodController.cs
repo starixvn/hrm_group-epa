@@ -3,7 +3,6 @@ using SMS.EPA.Criteria.Period;
 using SMS.EPA.Criteria.Period.GenerationEvaluation;
 using SMS.EPA.Models.FlowSetting;
 using SMS.EPA.Models.Period;
-using SMS.EPA.Services.Implement;
 using SMS.EPA.Services.Interfaces;
 
 namespace SMS.EPA.Site.Controllers.API;
@@ -14,13 +13,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Enumerations;
-using SMS.EPA.Core.Model;
-using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Services;
+using Core.Attribute;
+using Core.Constants;
+using Core.Enumerations;
+using Core.Model;
 
 public class MonthlyPeriodController(
     IUserControlSession userControlSession,
@@ -54,7 +50,7 @@ public class MonthlyPeriodController(
 
     public PeriodModel GetMonthlyPeriodById(int periodId)
     {
-        PeriodModel period = periodService.GetPeriodById(periodId);
+        var period = periodService.GetPeriodById(periodId);
 
         return period;
     }
@@ -66,7 +62,7 @@ public class MonthlyPeriodController(
         criteria.TargetTypeId = (byte)TargetType.Monthly;
         criteria.IsActive = true;
         criteria.CreatedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -78,7 +74,7 @@ public class MonthlyPeriodController(
         criteria.TargetTypeId = (byte)TargetType.Monthly;
         criteria.IsActive = true;
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -101,7 +97,7 @@ public class MonthlyPeriodController(
     public CommandResult UpdateProcessSettingMonthlyPeriod(UpdateProcessSettingPeriodCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -117,7 +113,7 @@ public class MonthlyPeriodController(
             PeriodId = periodId,
             ModifiedBy = CurrentEmployeeId
         };
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -126,7 +122,7 @@ public class MonthlyPeriodController(
 
     public IEnumerable<PeriodEmployeeSettingModel> GetEmployeeSettingMonthlyPeriodById([FromUri] GetPeriodEmployeeSettingCriteria criteria)
     {
-        IEnumerable<PeriodEmployeeSettingModel> employeeSettings = periodService.GetPeriodEmployeeSettingById(criteria);
+        var employeeSettings = periodService.GetPeriodEmployeeSettingById(criteria);
         employeeSettings = employeeSettings.OrderBy(x => x.Employee.Group.GroupCode).ThenBy(x => x.Employee.NickName);
 
         return employeeSettings;
@@ -137,7 +133,7 @@ public class MonthlyPeriodController(
     public CommandResult AddEmployeeToMonthlyPeriod(AddEmployeeToPeriodCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -147,7 +143,7 @@ public class MonthlyPeriodController(
     public CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = periodService.UpdateEmployeeSettingOfPeriod(criteria);
+        var commandResult = periodService.UpdateEmployeeSettingOfPeriod(criteria);
 
         return commandResult;
     }
@@ -156,7 +152,7 @@ public class MonthlyPeriodController(
     [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
     public CommandResult GenerateEvaluation(AutoGenerateEvaluationCriteria criteria)
     {
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
         if (commandResult.IsSuccessful)
         {
             periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
@@ -170,7 +166,7 @@ public class MonthlyPeriodController(
     public CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -183,7 +179,7 @@ public class MonthlyPeriodController(
             PeriodId = periodId,
             EmployeeIds = employeeIds
         };
-        bool hasStarted = baseService.GetDataEntity<bool>(criteria);
+        var hasStarted = baseService.GetDataEntity<bool>(criteria);
 
         return hasStarted;
     }

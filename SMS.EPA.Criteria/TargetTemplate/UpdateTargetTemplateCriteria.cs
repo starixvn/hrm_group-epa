@@ -23,7 +23,7 @@ public class UpdateTargetTemplateCriteria : CriteriaBase
 
             if (KPIIds != null)
             {
-                foreach (TargetTemplateKPIModel item in KPIIds)
+                foreach (var item in KPIIds)
                 {
                     kpiXml.AppendFormat(
                         KPIXmlTemplate,

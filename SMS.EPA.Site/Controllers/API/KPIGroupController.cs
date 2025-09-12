@@ -8,11 +8,10 @@ using System.Collections.Generic;
 using GO.UserControl.Client.Core.Session;
 using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Model;
+using Core.Attribute;
+using Core.Constants;
+using Core.Model;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
 
 public class KPIGroupController(IUserControlSession userControlSession, IBaseService baseService)
     : BaseController(userControlSession)
@@ -48,7 +47,7 @@ public class KPIGroupController(IUserControlSession userControlSession, IBaseSer
     public CommandResult CreateKPIGroup(CreateKPIGroupCriteria criteria)
     {
         criteria.CreatedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -58,7 +57,7 @@ public class KPIGroupController(IUserControlSession userControlSession, IBaseSer
     public CommandResult UpdateKPIGroup(UpdateKPIGroupCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -68,7 +67,7 @@ public class KPIGroupController(IUserControlSession userControlSession, IBaseSer
     public CommandResult UpdateStatusKPIGroup(UpdateStatusKPIGroupCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -84,7 +83,7 @@ public class KPIGroupController(IUserControlSession userControlSession, IBaseSer
             KPIGroupId = kpiGroupId,
             ModifiedBy = CurrentEmployeeId
         };
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }

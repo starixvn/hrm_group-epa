@@ -68,7 +68,7 @@ public class EPAAutoService : IEPAAutoService
         }
         catch (Exception ex)
         {
-            LogService.Error(ex.Message, ex);
+            await LogService.ErrorAsync(ex.Message, ex);
         }
     }
 }

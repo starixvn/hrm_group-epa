@@ -16,7 +16,7 @@ public class BaseRepository : IBaseRepository
         db.SetParameterValue("ErrMsg", string.Empty);
 
         db.ExecuteNonQuery(criteria);
-        Hashtable hash = db.GetOutputParams();
+        var hash = db.GetOutputParams();
 
         return GetCommandResult(hash);
     }
@@ -28,7 +28,7 @@ public class BaseRepository : IBaseRepository
         db.SetParameterValue("ErrMsg", string.Empty);
 
         await db.ExecuteNonQueryAsync(criteria);
-        Hashtable hash = db.GetOutputParams();
+        var hash = db.GetOutputParams();
 
         return GetCommandResult(hash);
     }

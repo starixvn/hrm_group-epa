@@ -8,10 +8,9 @@ using GO.UserControl.Client.Core.Session;
 using System.Linq;
 using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Model;
-using SMS.EPA.Core.Services;
+using Core.Attribute;
+using Core.Constants;
+using Core.Model;
 using SMS.EPA.Criteria.JobLevelStandard.TemplateSetting;
 
 public class JobLevelStandardTemplateSettingController(IUserControlSession userControlSession, IBaseService baseService)
@@ -34,7 +33,7 @@ public class JobLevelStandardTemplateSettingController(IUserControlSession userC
             ObjectTypeId = objectTypeId,
             ModifiedBy = CurrentEmployeeId
         };
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -44,7 +43,7 @@ public class JobLevelStandardTemplateSettingController(IUserControlSession userC
     public CommandResult Assign(AssignJobLevelStandardTemplateSettingCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }

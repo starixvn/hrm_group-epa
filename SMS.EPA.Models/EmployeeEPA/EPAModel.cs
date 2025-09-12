@@ -36,10 +36,10 @@ public class EPAModel : IExcelRecord
     {
         get
         {
-            bool isAllowedToEdit = !(Process.CurrentProcess == null
-                                     || Process.CurrentProcess.IsEndProcess
-                                     || IsProcessValid()
-                                     || StatusId == (byte)EpaStatus.Closed);
+            var isAllowedToEdit = !(Process.CurrentProcess == null
+                                    || Process.CurrentProcess.IsEndProcess
+                                    || IsProcessValid()
+                                    || StatusId == (byte)EpaStatus.Closed);
 
             return isAllowedToEdit;
         }
@@ -113,7 +113,7 @@ public class EPAModel : IExcelRecord
     {
         get
         {
-            List<int> numbers = new List<int>
+            var numbers = new List<int>
             {
                 Process.Reviewers.Count,
                 Process.Managements.Count

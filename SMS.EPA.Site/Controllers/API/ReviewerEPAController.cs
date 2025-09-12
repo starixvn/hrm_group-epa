@@ -9,14 +9,11 @@ using System.Collections.Generic;
 using GO.UserControl.Client.Core.Session;
 using Microsoft.AspNetCore.Mvc;
 using GO.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Enumerations;
-using SMS.EPA.Core.Model;
-using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Services.Implement;
-using SMS.EPA.Services.Interfaces;
+using Core.Attribute;
+using Core.Constants;
+using Core.Enumerations;
+using Core.Model;
+using Services.Interfaces;
 
 public class ReviewerEPAController(
     IUserControlSession userControlSession,
@@ -103,7 +100,7 @@ public class ReviewerEPAController(
         var epaInfo = new EPAModel();
         var processId = reviewerId == null ? (byte?)ProcessType.Reviewer : null;
         var sessionServiceEmployeeId = reviewerId ?? CurrentEmployeeId;
-        byte permission = CheckEmployeePermission(epaId, sessionServiceEmployeeId, processId);
+        var permission = CheckEmployeePermission(epaId, sessionServiceEmployeeId, processId);
 
         if (permission == (byte)Policy.None)
         {

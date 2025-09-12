@@ -27,7 +27,7 @@ public class UpdateFinalScoreEPAEndEvaluationCriteria : CriteriaBase
             {
                 epaXmlBuilder.Append(Constants.BeginRootTag);
 
-                foreach (EPAModel epaInfo in EPAInfos)
+                foreach (var epaInfo in EPAInfos)
                 {
                     epaXmlBuilder.AppendFormat(TemplateXml, epaInfo.EPAId, epaInfo.FinalScore, epaInfo.DisciplineScore, epaInfo.Grade);
                 }

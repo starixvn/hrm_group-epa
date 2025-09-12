@@ -14,7 +14,7 @@ public class ResourcesController : ControllerBase
     {
         var resourceManager = new ResourceManager(typeof(Lang)) { IgnoreCase = true };
 
-        ResourceSet resourceSet = resourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
+        var resourceSet = resourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
         var dictionary = resourceSet.Cast<DictionaryEntry>();
         var items = dictionary.Select(dict => $"\"{dict.Key}\" : \"{string.Join(",", dict.Value)}\"");
         var jsonString = "{" + string.Join(",", items) + "}";

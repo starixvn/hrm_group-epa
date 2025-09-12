@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore.Http;
-using NPOI.SS.UserModel;
 using SMS.EPA.Core.Enumerations;
 using SMS.EPA.Models.EmployeeEPA;
 using SMS.EPA.Models.Report.EPADetail;
@@ -62,22 +61,22 @@ public class MonthlyEpaDetailReportService : EpaDetailReportServiceBase
     public override void WriteContentTable()
     {
         CreateDefaultStyles();
-        int currentRow = 1;
+        var currentRow = 1;
 
-        foreach (EPAModel epaInfo in EpaDetail.EpaInfos)
+        foreach (var epaInfo in EpaDetail.EpaInfos)
         {
             BodyStyle = ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 
-            IRow row = Sheet.CreateRow(CurrentRow);
+            var row = Sheet.CreateRow(CurrentRow);
 
             var currentColumn = WriteCommonCells(epaInfo, row, currentRow++);
 
             BodyStyle = ApplyEvenOddBodyStyle(EvenStyleLeft, OddStyleLeft);
 
-            ICell cell = row.CreateCell(currentColumn++);
+            var cell = row.CreateCell(currentColumn++);
             cell.CellStyle = BodyStyle;
             cell.SetCellValue(epaInfo.Period.TargetTemplate);
-            dynamic score = CalculateScore(epaInfo);
+            var score = CalculateScore(epaInfo);
 
             currentColumn = WriteScoreCells(epaInfo, currentColumn, row, score);
             BodyStyle = ApplyEvenOddBodyStyle(EvenStyleLeft, OddStyleLeft);

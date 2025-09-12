@@ -32,13 +32,13 @@ public class UpdateProcessSettingPeriodCriteria : CriteriaBase
 
     private string ConvertProcessSettingToXml()
     {
-        string processXml = string.Empty;
+        var processXml = string.Empty;
 
         if (Processes != null)
         {
             var processXmlBuilder = new StringBuilder(Constants.BeginRootTag);
 
-            foreach (FlowModel item in Processes)
+            foreach (var item in Processes)
             {
                 processXmlBuilder.AppendFormat(ProcessItemXmTemplate, item.ProcessId, item.Duration, item.HasSendMail, item.RemindDay);
             }

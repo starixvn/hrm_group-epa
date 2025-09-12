@@ -7,15 +7,11 @@ using SMS.EPA.Services.Interfaces;
 
 namespace SMS.EPA.Site.Controllers.API;
 
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using GO.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Model;
+using Core.Attribute;
+using Core.Constants;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Services;
 
 public class UpdateFinalScoreController : BaseController
 {
@@ -84,7 +80,7 @@ public class UpdateFinalScoreController : BaseController
             TeamIds = teamIds,
             EmployeeId = employeeId
         };
-        IList<EPAModel> epaInfos = evaluationService.GetEPAToUpdateFinalScore(criteria);
+        var epaInfos = evaluationService.GetEPAToUpdateFinalScore(criteria);
 
         return Ok(epaInfos);
     }
@@ -93,7 +89,7 @@ public class UpdateFinalScoreController : BaseController
     [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Host)]
     public IActionResult UpdateFinalScore(UpdateFinalScoreParam param)
     {
-        CommandResult commandResult = processService.UpdateTotalScoreOfProcess(param.PeriodId, param.EmployeeIds);
+        var commandResult = processService.UpdateTotalScoreOfProcess(param.PeriodId, param.EmployeeIds);
         if (commandResult.IsSuccessful)
         {
             commandResult = epaService.GetDataAndUpdateFinalScore(CurrentEmployeeId, param.PeriodId, param.EmployeeIds);

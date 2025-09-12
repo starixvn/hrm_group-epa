@@ -8,7 +8,6 @@ namespace SMS.EPA.Services.Implement;
 using System.Collections.Generic;
 using System.Linq;
 using Fanex.Data.Repository;
-using Repositories;
 
 public abstract class BaseActorEPAService(
     IEmployeeEPARepository evaluationRepository,
@@ -32,7 +31,7 @@ public abstract class BaseActorEPAService(
             epaInfos = EvaluationRepository.GetEPA(criteria);
 
             IList<EPAModel> monthlyEPAs = new List<EPAModel>();
-            string epaIds = string.Join(",", epaInfos.Where(x => x.IsSemiHasMonthly).Select(x => x.EPAId));
+            var epaIds = string.Join(",", epaInfos.Where(x => x.IsSemiHasMonthly).Select(x => x.EPAId));
 
             if (!string.IsNullOrEmpty(epaIds))
             {

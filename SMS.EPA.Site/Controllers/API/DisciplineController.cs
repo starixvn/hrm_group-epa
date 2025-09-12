@@ -7,10 +7,9 @@ namespace SMS.EPA.Site.Controllers.API;
 
 using System.Collections.Generic;
 using System.Web.Http;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Criteria;
-using SMS.EPA.Services.Interfaces;
+using Core.Attribute;
+using Core.Constants;
+using Services.Interfaces;
 
 
 public class DisciplineController(IUserControlSession session, IDisciplineService disciplineService)
@@ -23,7 +22,7 @@ public class DisciplineController(IUserControlSession session, IDisciplineServic
     public IEnumerable<DisciplineSummaryModel> GetDisciplineSummary([FromUri] GetDisciplineSummaryCriteria criteria)
     {
         criteria.ApproverId = CurrentEmployeeId;
-        IEnumerable<DisciplineSummaryModel> disciplines = disciplineService.GetDisciplineSummary(criteria);
+        var disciplines = disciplineService.GetDisciplineSummary(criteria);
         return disciplines;
     }
 
@@ -33,7 +32,7 @@ public class DisciplineController(IUserControlSession session, IDisciplineServic
 
     public IEnumerable<DisciplineSummaryForOtherSystem> GetDisciplineSummaryForOtherSystem([FromUri] GetDisciplineSummaryForOtherSystemCriteria criteria)
     {
-        IEnumerable<DisciplineSummaryForOtherSystem> disciplines = disciplineService.GetDisciplineSummaryForOtherSystem(criteria);
+        var disciplines = disciplineService.GetDisciplineSummaryForOtherSystem(criteria);
         return disciplines;
     }
 }

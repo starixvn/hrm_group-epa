@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using Fanex.Data;
 using Fanex.Data.Repository;
-using SMS.EPA.Core.Constants;
+using Core.Constants;
 
 public class UpdateJobLevelStandardTemplateKPICriteria : CriteriaBase
 {
@@ -23,7 +23,7 @@ public class UpdateJobLevelStandardTemplateKPICriteria : CriteriaBase
 
             if (KPIIds != null)
             {
-                foreach (JobLevelStandardTemplateKPI item in KPIIds)
+                foreach (var item in KPIIds)
                 {
                     kpiXml.AppendFormat(
                         KPIXmlTemplate,

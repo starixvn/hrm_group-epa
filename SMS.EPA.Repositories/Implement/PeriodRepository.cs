@@ -44,7 +44,7 @@ public class PeriodRepository : IPeriodRepository
     public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(ICriteria criteria)
     {
         using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
-        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        using var multi = db.QueryMultiple(criteria);
         var employeeSettings =
             multi.Read<PeriodEmployeeSettingModel, EmployeeViewModel, Group, JobTitle, TargetTemplate, PeriodEmployeeSettingModel>(
                 (pe, emp, gr, job, tar) =>
@@ -66,7 +66,7 @@ public class PeriodRepository : IPeriodRepository
             },
             "EvaluatorId");
 
-        foreach (PeriodEmployeeSettingModel employeeSetting in employeeSettings)
+        foreach (var employeeSetting in employeeSettings)
         {
             GetFlowSetting(flowSettings, employeeSetting);
         }
@@ -82,10 +82,10 @@ public class PeriodRepository : IPeriodRepository
         {
             var setting = employeeSetting;
 
-            IEnumerable<PeriodFlowSettingModel> employeeFlowSettings =
+            var employeeFlowSettings =
                 flowSettings.Where(x => x.PeriodId == setting.PeriodId && x.EmployeeId == setting.Employee.EmployeeId);
 
-            foreach (PeriodFlowSettingModel employeeFlowSetting in employeeFlowSettings)
+            foreach (var employeeFlowSetting in employeeFlowSettings)
             {
                 GetEvaluators(employeeFlowSetting, employeeSetting);
             }
@@ -94,7 +94,7 @@ public class PeriodRepository : IPeriodRepository
 
     private static void GetEvaluators(PeriodFlowSettingModel flowSetting, PeriodEmployeeSettingModel employeeSetting)
     {
-        PeriodFlowModel periodFlowModel = CreateEvaluator(flowSetting);
+        var periodFlowModel = CreateEvaluator(flowSetting);
         switch (flowSetting.ProcessId)
         {
             case (byte)ProcessType.HumanResource:

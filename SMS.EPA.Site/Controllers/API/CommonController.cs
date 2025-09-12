@@ -29,13 +29,10 @@ namespace SMS.EPA.Site.Controllers.API;
 
 using Core.Constants;
 using Core.Enumerations;
-using SMS.EPA.Core.Services;
 using Core.Utilities;
-using Criteria;
 using Criteria.EPAHistory;
 using SMS.EPA.Criteria.JobLevelStandard.Template;
 using Criteria.TargetType;
-using Services;
 
 public class CommonController(
     IUserControlSession userControlSession,
@@ -89,7 +86,7 @@ public class CommonController(
 
     public IList<Role> GetSystemRoles(bool? isActive = true)
     {
-        IList<Role> systemRoles = roleService.GetBySiteId(userControlSession.SiteId, isActive);
+        var systemRoles = roleService.GetBySiteId(userControlSession.SiteId, isActive);
         return systemRoles;
     }
 
@@ -118,7 +115,7 @@ public class CommonController(
     [HttpGet]
     public Employee GetEmployeeById(int employeeId)
     {
-        IList<Role> roles = roleService.GetBySiteId(userControlSession.SiteId);
+        var roles = roleService.GetBySiteId(userControlSession.SiteId);
         return commonService.GetEmployeeById(employeeId, roles);
     }
 
@@ -132,7 +129,7 @@ public class CommonController(
 
     public List<object> GetAllStatus()
     {
-        List<object> statuses = ((EpaStatus[])Enum.GetValues(typeof(EpaStatus)))
+        var statuses = ((EpaStatus[])Enum.GetValues(typeof(EpaStatus)))
             .Select(x => new
             {
                 StatusId = (int)x,
@@ -229,7 +226,7 @@ public class CommonController(
 
     public IList<MultiSelectItem> GetOrgChartJLSTemplateSetting()
     {
-        IList<Unit> units = unitService.Get();
+        var units = unitService.Get();
 
         var criteria = new GetOrgChartCriteria();
         (var departments, var sections) = baseService.FetchMultiple<Department, Section>(criteria);
@@ -242,7 +239,7 @@ public class CommonController(
         IList<MenuItem> parents = menuItems.Where(item => !item.ParentId.HasValue)
             .OrderBy(item => item.DisplayOrder).ToList();
 
-        foreach (MenuItem parent in parents)
+        foreach (var parent in parents)
         {
             parent.Childs = menuItems.Where(x => x.ParentId.HasValue && x.ParentId.Value == parent.MenuItemId)
                 .OrderBy(menuItem => menuItem.DisplayOrder).ToList();

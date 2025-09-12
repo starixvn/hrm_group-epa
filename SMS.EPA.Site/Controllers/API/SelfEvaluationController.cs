@@ -1,7 +1,6 @@
 using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Criteria.EmployeeEPA;
 using SMS.EPA.Models.EmployeeEPA;
-using SMS.EPA.Services.Implement;
 using SMS.EPA.Services.Interfaces;
 
 namespace SMS.EPA.Site.Controllers.API;
@@ -10,13 +9,10 @@ using System.Collections.Generic;
 using GO.UserControl.Client.Core.Session;
 using Microsoft.AspNetCore.Mvc;
 using GO.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Enumerations;
-using SMS.EPA.Core.Model;
-using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Services;
+using Core.Attribute;
+using Core.Constants;
+using Core.Enumerations;
+using Core.Model;
 
 public class SelfEvaluationController(
     IUserControlSession userControlSession,
@@ -42,7 +38,7 @@ public class SelfEvaluationController(
     public IActionResult GetEPAInfoByEmployee(int epaId)
     {
         var epaInfo = new EPAModel();
-        byte permission = CheckEmployeePermission(epaId);
+        var permission = CheckEmployeePermission(epaId);
 
         if (permission == (byte)Policy.None)
         {

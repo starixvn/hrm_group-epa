@@ -7,9 +7,9 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria.JobLevelStandard.TemplateSetting;
-using SMS.EPA.Services.Implement.ExportFile;
-using SMS.EPA.Services.Interfaces.ExportFile;
+using Criteria.JobLevelStandard.TemplateSetting;
+using Services.Implement.ExportFile;
+using Services.Interfaces.ExportFile;
 
 public class ExportJLSTemplateSettingController(
     IExportExcelService exportExcelService,

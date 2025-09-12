@@ -115,8 +115,8 @@ public class Employee : IExcelRecord
 
         var sb = new StringBuilder();
 
-        int previousIndex = 0;
-        int index = str.IndexOf(oldValue, comparison);
+        var previousIndex = 0;
+        var index = str.IndexOf(oldValue, comparison);
 
         while (index != -1)
         {

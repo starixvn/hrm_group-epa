@@ -22,7 +22,7 @@ public class UpdateEPASummaryImportCriteria : CriteriaBase
 
             if (EpaInfos != null && EpaInfos.Any())
             {
-                foreach (EPASummaryImportModel epa in EpaInfos)
+                foreach (var epa in EpaInfos)
                 {
                     epaXmlBuilder.AppendFormat(
                         EPAXmlTemplate,

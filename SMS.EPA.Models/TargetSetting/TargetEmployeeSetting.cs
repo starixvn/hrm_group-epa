@@ -21,7 +21,7 @@ public class TargetEmployeeSetting : IExcelRecord
     {
         get
         {
-            int numberTargetTemplates = TargetTemplates.Count;
+            var numberTargetTemplates = TargetTemplates.Count;
             return numberTargetTemplates != 0 ? numberTargetTemplates : 1;
         }
     }

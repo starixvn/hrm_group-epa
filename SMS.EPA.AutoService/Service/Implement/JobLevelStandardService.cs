@@ -8,7 +8,6 @@ using SMS.EPA.Core.Services;
 using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Models.AutoService;
 using SMS.EPA.Models.Email;
-using SMS.EPA.Services.Implement;
 using SMS.EPA.Services.Interfaces;
 
 namespace SMS.EPA.AutoService.Service.Implement;
@@ -30,7 +29,7 @@ public class JobLevelStandardService(IBaseService baseService, IBaseMailService 
 
         var criteria = new GetJobLevelStandardPeriodEmployeeSettingToSendMailCriteria();
         var employeeSettings = baseService.GetData<JobLevelStandardProcessSetting>(criteria);
-        foreach (JobLevelStandardProcessSetting setting in employeeSettings)
+        foreach (var setting in employeeSettings)
         {
             var emailTemplatePath = GetEmailtemplatePath(setting.ProcessId);
             var bodyTemplate = mailService.ReadTextFile(emailTemplatePath);
@@ -75,7 +74,7 @@ public class JobLevelStandardService(IBaseService baseService, IBaseMailService 
                 break;
         }
 
-        string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+        var assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
         return Path.Combine(assemblyPath, ConfigurationManagerService.GetAppSetting("RelativeEmailPath") + emailtemplatePath);
     }
 
@@ -87,15 +86,15 @@ public class JobLevelStandardService(IBaseService baseService, IBaseMailService 
         switch (setting.ProcessId)
         {
             case (byte)JobLevelAssessmentProcess.Employee:
-                subject = string.Format("{0} Assessment Verification from {1} to {2}", setting.PeriodName, fromDate, toDate);
+                subject = $"{setting.PeriodName} Assessment Verification from {fromDate} to {toDate}";
                 break;
 
             case (byte)JobLevelAssessmentProcess.Evaluator:
-                subject = string.Format("{0} Assessment from {1} to {2}", setting.PeriodName, fromDate, toDate);
+                subject = $"{setting.PeriodName} Assessment from {fromDate} to {toDate}";
                 break;
 
             case (byte)JobLevelAssessmentProcess.Management:
-                subject = string.Format("{0} Assessment Approval from {1} to {2}", setting.PeriodName, fromDate, toDate);
+                subject = $"{setting.PeriodName} Assessment Approval from {fromDate} to {toDate}";
                 break;
 
             default:

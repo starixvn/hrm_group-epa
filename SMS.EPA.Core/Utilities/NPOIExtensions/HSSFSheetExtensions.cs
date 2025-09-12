@@ -49,11 +49,11 @@ public static class HSSFSheetExtensions
             newRow.Height = sourceRow.Height;
 
             // Get the first and last available columns of the copying area.
-            int firstCellNum = Math.Min(sourceRow.FirstCellNum, firstColumnIndex);
-            int lastCellNum = Math.Min(sourceRow.LastCellNum, lastColumnIndex + 1);
+            var firstCellNum = Math.Min(sourceRow.FirstCellNum, firstColumnIndex);
+            var lastCellNum = Math.Min(sourceRow.LastCellNum, lastColumnIndex + 1);
 
             // Loop through each cell of the source row to copy its data to the new row.
-            for (int i = firstCellNum; i < lastCellNum; i++)
+            for (var i = firstCellNum; i < lastCellNum; i++)
             {
                 // Get the source cell.
                 var sourceCell = sourceRow.GetCell(i);
@@ -80,7 +80,7 @@ public static class HSSFSheetExtensions
         var isBreak = false;
         while (sourceSheet.NumMergedRegions > 0 && !isBreak)
         {
-            CellRangeAddress range = sourceSheet.GetMergedRegion(firstIndex);
+            var range = sourceSheet.GetMergedRegion(firstIndex);
             if (range.FirstColumn == sourceCell.ColumnIndex && range.FirstRow == sourceCell.RowIndex)
             {
                 sourceRange = range;
@@ -109,7 +109,7 @@ public static class HSSFSheetExtensions
         if (columns != null && columns.Count > 0)
         {
             columns.Sort();
-            for (int i = columns.Count - 1; i >= 0; i--)
+            for (var i = columns.Count - 1; i >= 0; i--)
             {
                 RemoveColumn(sheet, columns[i]);
             }
@@ -123,9 +123,9 @@ public static class HSSFSheetExtensions
             return;
         }
 
-        bool adjustColumn = true;
+        var adjustColumn = true;
 
-        for (int rowIndex = sheet.FirstRowNum; rowIndex <= sheet.LastRowNum; rowIndex++)
+        for (var rowIndex = sheet.FirstRowNum; rowIndex <= sheet.LastRowNum; rowIndex++)
         {
             var row = sheet.GetRow(rowIndex);
 
@@ -140,7 +140,7 @@ public static class HSSFSheetExtensions
 
             if (lastColumn >= columnIndex)
             {
-                for (int currentCol = columnIndex; currentCol < lastColumn; currentCol++)
+                for (var currentCol = columnIndex; currentCol < lastColumn; currentCol++)
                 {
                     // Remove old cell.
                     RemoveOldCell(row, currentCol);
@@ -195,7 +195,7 @@ public static class HSSFSheetExtensions
 
     private static void AdjustMergedRegion(ISheet sheet, int columnIndex, int rowIndex)
     {
-        for (int i = sheet.NumMergedRegions - 1; i >= 0; i--)
+        for (var i = sheet.NumMergedRegions - 1; i >= 0; i--)
         {
             var mergedRegion = sheet.GetMergedRegion(i);
 
@@ -246,7 +246,7 @@ public static class HSSFSheetExtensions
     {
         if (sheet != null)
         {
-            for (int i = sheet.NumMergedRegions - 1; i >= 0; i--)
+            for (var i = sheet.NumMergedRegions - 1; i >= 0; i--)
             {
                 var mergedRegion = sheet.GetMergedRegion(i);
                 if ((mergedRegion.FirstRow >= firstRow)
@@ -262,7 +262,7 @@ public static class HSSFSheetExtensions
 
     public static ICell CreateCell(this ISheet sheet, int rowIndex, int colIndex, int rowSpan, int colSpan)
     {
-        ICell cell = sheet.CreateCell(rowIndex, colIndex);
+        var cell = sheet.CreateCell(rowIndex, colIndex);
 
         if ((rowSpan > 0) || (colSpan > 0))
         {
@@ -280,7 +280,7 @@ public static class HSSFSheetExtensions
         int colSpan,
         ICellStyle cellStyle)
     {
-        ICell cell = sheet.CreateCell(rowIndex, colIndex, rowSpan, colSpan);
+        var cell = sheet.CreateCell(rowIndex, colIndex, rowSpan, colSpan);
         cell.CellStyle = cellStyle;
         return cell;
     }
@@ -291,7 +291,7 @@ public static class HSSFSheetExtensions
 
         if (sheet != null)
         {
-            IRow row = sheet.GetRow(rowIndex);
+            var row = sheet.GetRow(rowIndex);
             row = row ?? sheet.CreateRow(rowIndex);
 
             cell = row.GetCell(colIndex);

@@ -1,6 +1,5 @@
 using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Models.JobDescription;
-using SMS.EPA.Services.Implement;
 using SMS.EPA.Services.Interfaces;
 
 namespace SMS.EPA.Site.Controllers.API;
@@ -10,12 +9,10 @@ using GO.UserControl.Client.Core.Session;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using GO.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Model;
-using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria.JobDescription;
-using SMS.EPA.Services;
+using Core.Attribute;
+using Core.Constants;
+using Core.Model;
+using Criteria.JobDescription;
 
 public class JobDescriptionController(
     IUserControlSession userControlSession,

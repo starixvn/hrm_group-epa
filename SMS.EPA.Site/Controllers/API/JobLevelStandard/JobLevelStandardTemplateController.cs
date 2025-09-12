@@ -7,10 +7,9 @@ using System.Collections.Generic;
 using GO.UserControl.Client.Core.Session;
 using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Model;
-using SMS.EPA.Core.Services;
+using Core.Attribute;
+using Core.Constants;
+using Core.Model;
 using SMS.EPA.Criteria.JobLevelStandard.Template;
 
 public class JobLevelStandardTemplateController(IUserControlSession userControlSession, IBaseService baseService)
@@ -36,7 +35,7 @@ public class JobLevelStandardTemplateController(IUserControlSession userControlS
     public CommandResult UpdateStatus(UpdateStatusJobLevelStandardTemplateCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -50,7 +49,7 @@ public class JobLevelStandardTemplateController(IUserControlSession userControlS
             TemplateId = templateId,
             ModifiedBy = CurrentEmployeeId
         };
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -86,7 +85,7 @@ public class JobLevelStandardTemplateController(IUserControlSession userControlS
     public CommandResult UpdateTemplateKPI(UpdateJobLevelStandardTemplateKPICriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
         return commandResult;
     }
 

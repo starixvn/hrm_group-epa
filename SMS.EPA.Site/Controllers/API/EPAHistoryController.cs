@@ -9,12 +9,11 @@ using System.Linq;
 using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
     
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Enumerations;
-using SMS.EPA.Criteria.EPAHistory;
-using SMS.EPA.Services.Implement;
-using SMS.EPA.Services.Interfaces;
+using Core.Attribute;
+using Core.Constants;
+using Core.Enumerations;
+using Criteria.EPAHistory;
+using Services.Interfaces;
 
 public class EPAHistoryController(IUserControlSession userControlSession, IEPAHistoryService epaHistoryService)
     : BaseController(userControlSession)
@@ -24,7 +23,7 @@ public class EPAHistoryController(IUserControlSession userControlSession, IEPAHi
     public IList<EPAHistoryModel> GetEPAHistory([FromUri] GetEPAHistoryCriteria criteria)
     {
         criteria.EvaluatorId = CurrentEmployeeId;
-        IList<EPAHistoryModel> epas = epaHistoryService.GetEPAHistory(criteria);
+        var epas = epaHistoryService.GetEPAHistory(criteria);
         return epas;
     }
 
@@ -39,7 +38,7 @@ public class EPAHistoryController(IUserControlSession userControlSession, IEPAHi
             EmployeeId = employeeId
         };
 
-        IList<EPAHistoryModel> epas = epaHistoryService.GetMonthlyEPAHistory(criteria);
+        var epas = epaHistoryService.GetMonthlyEPAHistory(criteria);
         return epas;
     }
 

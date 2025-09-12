@@ -67,12 +67,12 @@ public class PeriodService(
 
     public CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria)
     {
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
-        string isEnableSetting = ConfigurationManagerService.GetAppSetting("SendMailWhenEditEmployeeSetting");
+        var commandResult = baseService.ExecuteNonQuery(criteria);
+        var isEnableSetting = ConfigurationManagerService.GetAppSetting("SendMailWhenEditEmployeeSetting");
 
         if (commandResult.IsSuccessful && isEnableSetting.Equals("true", StringComparison.OrdinalIgnoreCase))
         {
-            IEnumerable<EmployeeSettingToSendMail> employeeSettings =
+            var employeeSettings =
                 GetEmployeeSettingToSendMail(criteria.PeriodId, employeeIds: criteria.EmployeeIds);
             manualMailService.SendNotifyMail(employeeSettings);
         }
@@ -82,7 +82,7 @@ public class PeriodService(
 
     public void SendEmailNoticeAtBegin(int? periodId = null)
     {
-        IEnumerable<EmployeeSettingToSendMail> employeeSettings = GetEmployeeSettingToSendMail(periodId, mailMode: (byte)MailMode.Start);
+        var employeeSettings = GetEmployeeSettingToSendMail(periodId, mailMode: (byte)MailMode.Start);
         manualMailService.SendReminderMail(employeeSettings, MailMode.Start);
     }
 

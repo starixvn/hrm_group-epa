@@ -15,13 +15,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Enumerations;
-using SMS.EPA.Core.Model;
+using Core.Attribute;
+using Core.Constants;
+using Core.Enumerations;
+using Core.Model;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Services;
 
 public class PeriodController(
     IUserControlSession userControlSession,
@@ -40,8 +38,8 @@ public class PeriodController(
             IsActive = isActive
         };
 
-        IEnumerable<PeriodModel> periods = periodService.GetPeriod(criteria);
-        IEnumerable<PeriodModel> probationPeriods = periods.Where(x => x.TargetType.TargetTypeId == (byte)TargetType.Probation);
+        var periods = periodService.GetPeriod(criteria);
+        var probationPeriods = periods.Where(x => x.TargetType.TargetTypeId == (byte)TargetType.Probation);
         IEnumerable<PeriodModel> promotionPeriods = periods.Where(x => x.TargetType.TargetTypeId == (byte)TargetType.Promotion)
             .OrderByDescending(x => x.StartDate);
         IEnumerable<PeriodModel> semiPeriods = periods.Where(x => x.TargetType.TargetTypeId == (byte)TargetType.SemiAnnual)
@@ -72,7 +70,7 @@ public class PeriodController(
     public CommandResult CreatePeriod(CreatePeriodCriteria criteria)
     {
         criteria.CreatedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -82,7 +80,7 @@ public class PeriodController(
     public CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
         if (commandResult.IsSuccessful)
         {
             Task.Factory.StartNew(() =>
@@ -107,7 +105,7 @@ public class PeriodController(
     public CommandResult UpdateStatusPeriod(UpdateStatusPeriodCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -130,11 +128,11 @@ public class PeriodController(
 
     public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById([FromUri] GetPeriodEmployeeSettingCriteria criteria)
     {
-        IEnumerable<PeriodEmployeeSettingModel> employeeSettings = periodService.GetPeriodEmployeeSettingById(criteria);
+        var employeeSettings = periodService.GetPeriodEmployeeSettingById(criteria);
         if (employeeSettings.Any())
         {
-            PeriodEmployeeSettingModel employeeSetting = employeeSettings.FirstOrDefault(x => x.TargetTemplate != null);
-            byte targetTypeId = GetTargetTypeId(employeeSetting);
+            var employeeSetting = employeeSettings.FirstOrDefault(x => x.TargetTemplate != null);
+            var targetTypeId = GetTargetTypeId(employeeSetting);
             switch (targetTypeId)
             {
                 case (byte)TargetType.Probation:
@@ -162,7 +160,7 @@ public class PeriodController(
     public CommandResult AddEmployeToPeriod(AddEmployeeToPeriodCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -172,7 +170,7 @@ public class PeriodController(
     public CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = periodService.UpdateEmployeeSettingOfPeriod(criteria);
+        var commandResult = periodService.UpdateEmployeeSettingOfPeriod(criteria);
         if (commandResult.IsSuccessful)
         {
             Task.Factory.StartNew(() =>
@@ -190,7 +188,7 @@ public class PeriodController(
     public CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -202,7 +200,7 @@ public class PeriodController(
         var extendedQuetionEnabled = ConfigurationManagerService.GetAppSetting("ProbationExtendedQuestionEnabled");
         criteria.ExtendedQuestionEnabled = extendedQuetionEnabled.Equals("true", StringComparison.OrdinalIgnoreCase);
 
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
         if (commandResult.IsSuccessful)
         {
             periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
@@ -227,7 +225,7 @@ public class PeriodController(
     public CommandResult UpdatePeriodProcessSetting(UpdateProcessSettingPeriodCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }

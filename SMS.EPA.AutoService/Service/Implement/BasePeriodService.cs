@@ -37,7 +37,7 @@ public class BasePeriodService(
 
         if (!commandResult.IsSuccessful)
         {
-            LogService.Error(string.Format("{0} {1}: {2}", messageExplanation, periodId, commandResult.Message));
+            LogService.Error($"{messageExplanation} {periodId}: {commandResult.Message}");
         }
     }
 
@@ -47,11 +47,11 @@ public class BasePeriodService(
         {
             PeriodId = periodId
         };
-        CommandResult commandResult = BaseService.ExecuteNonQuery(criteria);
+        var commandResult = BaseService.ExecuteNonQuery(criteria);
 
         if (!commandResult.IsSuccessful)
         {
-            LogService.Error(string.Format("{0} {1}: {2}", messageExplanation, periodId, commandResult.Message));
+            LogService.Error($"{messageExplanation} {periodId}: {commandResult.Message}");
         }
     }
 
@@ -63,11 +63,11 @@ public class BasePeriodService(
             EmployeeIds = employeePeriod.EmployeeIds,
             ExtendedQuestionEnabled = AppSetting.ProbationExtendedQuestionEnabled
         };
-        CommandResult commandResult = BaseService.ExecuteNonQuery(criteria);
+        var commandResult = BaseService.ExecuteNonQuery(criteria);
 
         if (!commandResult.IsSuccessful)
         {
-            LogService.Error(string.Format("{0} {1}: {2}", messageExplanation, employeePeriod.PeriodId, commandResult.Message));
+            LogService.Error($"{messageExplanation} {employeePeriod.PeriodId}: {commandResult.Message}");
         }
     }
 
@@ -94,11 +94,12 @@ public class BasePeriodService(
         {
             Task.Factory.StartNew(() =>
             {
-                IEnumerable<EmployeeSettingToSendMail> employeeSettings =
+                var employeeSettings =
                     PeriodService.GetEmployeeSettingToSendMail(periodId, mailMode: (byte)MailMode.Start, employeeIds: employeeIds);
-                if (employeeSettings != null && employeeSettings.Any())
+                var employeeSettingToSendMails = employeeSettings.ToList();
+                if (employeeSettingToSendMails.Any())
                 {
-                    PeriodMailService.SendReminderMail(employeeSettings, MailMode.Start);
+                    PeriodMailService.SendReminderMail(employeeSettingToSendMails, MailMode.Start);
                 }
             });
         }

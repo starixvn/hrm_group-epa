@@ -57,7 +57,7 @@ public class CreateFlowCriteriaBase : CriteriaBase
         if (Managements != null && Managements.Employees.Any())
         {
             var evaluator = new StringBuilder();
-            for (int i = 0; i < Managements.Employees.Count; i++)
+            for (var i = 0; i < Managements.Employees.Count; i++)
             {
                 evaluator.AppendFormat(EvaluatorXmlTemplate, Managements.Employees[i].EmployeeId, i + 1);
             }
@@ -77,7 +77,7 @@ public class CreateFlowCriteriaBase : CriteriaBase
         if (Reviewers != null && Reviewers.Employees.Any())
         {
             var evaluator = new StringBuilder();
-            for (int i = 0; i < Reviewers.Employees.Count; i++)
+            for (var i = 0; i < Reviewers.Employees.Count; i++)
             {
                 evaluator.AppendFormat(EvaluatorXmlTemplate, Reviewers.Employees[i].EmployeeId, i + 1);
             }
@@ -97,7 +97,7 @@ public class CreateFlowCriteriaBase : CriteriaBase
         if (Evaluators != null && Evaluators.Employees.Any())
         {
             var evaluator = new StringBuilder();
-            for (int i = 0; i < Evaluators.Employees.Count; i++)
+            for (var i = 0; i < Evaluators.Employees.Count; i++)
             {
                 evaluator.AppendFormat(EvaluatorXmlTemplate, Evaluators.Employees[i].EmployeeId, i + 1);
             }
@@ -127,7 +127,7 @@ public class CreateFlowCriteriaBase : CriteriaBase
         if (HumanResources != null && HumanResources.Employees.Any())
         {
             var evaluator = new StringBuilder();
-            for (int i = 0; i < HumanResources.Employees.Count; i++)
+            for (var i = 0; i < HumanResources.Employees.Count; i++)
             {
                 evaluator.AppendFormat(EvaluatorXmlTemplate, HumanResources.Employees[i].EmployeeId, i + 1);
             }

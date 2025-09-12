@@ -14,7 +14,7 @@ public class JobDescriptionGroupItem
     {
         get
         {
-            JobDescriptionItem item = Items.FirstOrDefault(x => x.IsSelected);
+            var item = Items.FirstOrDefault(x => x.IsSelected);
             return item != null ? item.DisplayOrder : short.MaxValue;
         }
     }

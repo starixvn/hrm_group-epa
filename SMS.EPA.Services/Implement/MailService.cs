@@ -54,18 +54,18 @@ public class MailService(IBaseMailService baseMailService) : IMailService
     {
         if (evaluationInfo != null && !string.IsNullOrWhiteSpace(emailTemplatePath))
         {
-            MailModel email = new MailModel
+            var email = new MailModel
             {
                 Subject = string.Format(Lang.EndMailEvaluationToSelf, evaluationInfo.Period.Name)
             };
 
-            float? finalScore = averagePerformanceScore + disciplineScore;
-            float? adjustmentScore = averagePerformanceScore.HasValue
+            var finalScore = averagePerformanceScore + disciplineScore;
+            var adjustmentScore = averagePerformanceScore.HasValue
                 ? GetAdjustmentScore(evaluationInfo, averagePerformanceScore.Value)
                 : null;
-            string evaluatorNames = GetEvaluator(evaluationInfo.Process.Evaluators);
-            string reviewerNames = GetEvaluator(evaluationInfo.Process.Reviewers);
-            string managementNames = GetEvaluator(evaluationInfo.Process.Managements);
+            var evaluatorNames = GetEvaluator(evaluationInfo.Process.Evaluators);
+            var reviewerNames = GetEvaluator(evaluationInfo.Process.Reviewers);
+            var managementNames = GetEvaluator(evaluationInfo.Process.Managements);
             email.Body = baseMailService.ReadTextFile(emailTemplatePath);
             email.Body = string.Format(
                 email.Body,
@@ -93,7 +93,7 @@ public class MailService(IBaseMailService baseMailService) : IMailService
     {
         if (evaluationInfo != null && humanResource != null && !string.IsNullOrWhiteSpace(emailTemplatePath))
         {
-            MailModel email = new MailModel
+            var email = new MailModel
             {
                 Subject = string.Format(Lang.EndMailEvaluationToSelf, evaluationInfo.Period.Name),
                 Body = baseMailService.ReadTextFile(emailTemplatePath)
@@ -130,7 +130,7 @@ public class MailService(IBaseMailService baseMailService) : IMailService
 
     private static string GetEvaluator(IList<EPAProcessModel> evaluators)
     {
-        string names = string.Join(",", evaluators.Select(x => x.EvaluatorInfo.NickName));
+        var names = string.Join(",", evaluators.Select(x => x.EvaluatorInfo.NickName));
 
         return names;
     }

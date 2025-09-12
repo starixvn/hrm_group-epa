@@ -89,11 +89,11 @@ public class ExportRecommendationReportService(IHttpContextAccessor httpContextA
 
         FormatProbationTemplate();
 
-        int rowIndex = ContentStartRowIndex;
+        var rowIndex = ContentStartRowIndex;
 
         foreach (var recommendation in Recommendations)
         {
-            int colIndex = 0;
+            var colIndex = 0;
             var curRow = Sheet.CreateRow(rowIndex);
 
             curRow.CreateCell(colIndex++).SetCellValue(recommendation.Code);
@@ -148,13 +148,13 @@ public class ExportRecommendationReportService(IHttpContextAccessor httpContextA
 
     private void FillContentSemiTpye()
     {
-        int rowIndex = ContentStartRowIndex;
+        var rowIndex = ContentStartRowIndex;
         const string StatusFormat = "{0}{1}";
         const string ActorFormat = "{0}(by {1})";
 
         foreach (var recommendation in Recommendations)
         {
-            int colIndex = 0;
+            var colIndex = 0;
             var curRow = Sheet.CreateRow(rowIndex);
 
             curRow.CreateCell(colIndex++).SetCellValue(recommendation.Code);

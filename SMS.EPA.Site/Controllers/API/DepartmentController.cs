@@ -7,9 +7,8 @@ namespace SMS.EPA.Site.Controllers.API;
 
 using System.Collections.Generic;
 using GO.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Services;
+using Core.Attribute;
+using Core.Constants;
 
 public class DepartmentController(IUserControlSession userControlSession, IUnitService unitService)
     : BaseController(userControlSession)

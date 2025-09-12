@@ -34,7 +34,7 @@ public static class Random
 
     public static byte[] RngCrypto(int size)
     {
-        byte[] valueArray = new byte[size];
+        var valueArray = new byte[size];
         using var crytoService = new RNGCryptoServiceProvider();
         crytoService.GetBytes(valueArray);
 
@@ -45,11 +45,11 @@ public static class Random
 
     private static string RandomString(string allowChars, int size)
     {
-        int length = allowChars.Length;
-        char[] valueArray = new char[size];
+        var length = allowChars.Length;
+        var valueArray = new char[size];
 
-        System.Random rd = new System.Random();
-        for (int i = 0; i < size; i++)
+        var rd = new System.Random();
+        for (var i = 0; i < size; i++)
         {
             valueArray[i] = allowChars[rd.Next(length)];
         }

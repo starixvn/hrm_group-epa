@@ -32,7 +32,7 @@ public class JobLevelAssessmentService(IBaseService baseService, ICommonService 
 
     public IList<JobLevelAssessment> GetJobLevelAssessmentByActor(GetJobLevelAssessmentByActorIdCriteria criteria)
     {
-        IList<JobLevelSetting> jobLevelSettings = GetJobLevelSettingByPeriod(criteria.PeriodId);
+        var jobLevelSettings = GetJobLevelSettingByPeriod(criteria.PeriodId);
 
         (var assessments, var processes, var kpis) = baseService.FetchMultiple<JobLevelAssessment, PeriodProcessSetting, JobLevelAssessmentKPI>(criteria);
         foreach (var assessment in assessments)
@@ -63,7 +63,7 @@ public class JobLevelAssessmentService(IBaseService baseService, ICommonService 
 
     public IList<JobLevelAssessment> GetJobLevelAssessmentReport(GetJobLevelAssessmentReportCriteria criteria)
     {
-        IList<JobLevelSetting> jobLevelSettings = GetJobLevelSettingByPeriod(criteria.PeriodId);
+        var jobLevelSettings = GetJobLevelSettingByPeriod(criteria.PeriodId);
 
         (var assessments, var kpis, var processes) = baseService.FetchMultiple<JobLevelAssessment, JobLevelAssessmentKPI, PeriodProcessSetting>(criteria);
         foreach (var assessment in assessments)
@@ -119,8 +119,8 @@ public class JobLevelAssessmentService(IBaseService baseService, ICommonService 
 
     private static void GetNewJobLevel(IList<JobLevelSetting> jobLevelSettings, JobLevelAssessment assessment)
     {
-        int currentJobLevelId = assessment.CurrentJobLevelId ?? 0;
-        decimal requirementMinScore = assessment.RequirementMinScore ?? 0;
+        var currentJobLevelId = assessment.CurrentJobLevelId ?? 0;
+        var requirementMinScore = assessment.RequirementMinScore ?? 0;
         IList<JobLevelSetting> settings = jobLevelSettings.Where(x => x.SectionId == assessment.SectionId
                                                                       && x.JobLevelId != currentJobLevelId && x.MinWeight >= requirementMinScore && x.MinWeight <= assessment.TotalWeight)
             .OrderBy(x => x.MinWeight).ToList();
@@ -133,7 +133,7 @@ public class JobLevelAssessmentService(IBaseService baseService, ICommonService 
 
             if (settings.Count > 1)
             {
-                assessment.NewJobLevel += " > " + settings[settings.Count - 1].Name;
+                assessment.NewJobLevel += " > " + settings[^1].Name;
             }
         }
     }

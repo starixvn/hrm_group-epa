@@ -5,11 +5,10 @@ namespace SMS.EPA.Site.Controllers.API;
 using System.Web.Http;
 using GO.UserControl.Client.Core.Session;
 using GO.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Model;
-using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria.JobLevel;
+using Core.Attribute;
+using Core.Constants;
+using Core.Model;
+using Criteria.JobLevel;
 
 public class JobLevelController(IUserControlSession userControlSession, IBaseService baseService)
     : BaseController(userControlSession)
@@ -18,7 +17,7 @@ public class JobLevelController(IUserControlSession userControlSession, IBaseSer
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevel, Policy = Policy.Host)]
     public CommandResult Create(CreateJobLevelCriteria criteria)
     {
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -27,7 +26,7 @@ public class JobLevelController(IUserControlSession userControlSession, IBaseSer
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevel, Policy = Policy.Host)]
     public CommandResult Edit(EditJobLevelCriteria criteria)
     {
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -40,7 +39,7 @@ public class JobLevelController(IUserControlSession userControlSession, IBaseSer
         {
             JobLevelId = jobLevelId
         };
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }

@@ -10,20 +10,20 @@ public static class Encryption
     public static string ComputeHash(HashProvider hashAlgorithm, string plainText, int saltSize = 8)
     {
         // Random salt
-        byte[] salt = Random.RngCrypto(saltSize);
+        var salt = Random.RngCrypto(saltSize);
         return ComputeHash(hashAlgorithm, plainText, salt);
     }
 
     public static bool CompareStringToHash(HashProvider hashAlgorithm, string plainText, string encrypt, int saltSize = 8)
     {
-        byte[] encryptBuffer = Convert.FromBase64String(encrypt);
-        int encryptLength = encryptBuffer.Length;
+        var encryptBuffer = Convert.FromBase64String(encrypt);
+        var encryptLength = encryptBuffer.Length;
 
         // Pluck the salt size off of the end of the hash
-        byte[] saltBuffer = new byte[saltSize];
+        var saltBuffer = new byte[saltSize];
         Array.Copy(encryptBuffer, encryptLength - saltSize, saltBuffer, 0, saltSize);
 
-        string hash = ComputeHash(hashAlgorithm, plainText, saltBuffer);
+        var hash = ComputeHash(hashAlgorithm, plainText, saltBuffer);
         return string.Equals(encrypt, hash);
     }
 
@@ -58,28 +58,28 @@ public static class Encryption
 
     private static string ComputeHash(HashProvider hashAlgorithm, string plainText, byte[] salt)
     {
-        string textToCompute = plainText ?? string.Empty;
+        var textToCompute = plainText ?? string.Empty;
 
         //// Convert plain text into a byte array
-        byte[] data = Encoding.UTF8.GetBytes(textToCompute);
-        int dataLength = data.Length;
+        var data = Encoding.UTF8.GetBytes(textToCompute);
+        var dataLength = data.Length;
 
         //// Random salt
-        int saltLength = salt.Length;
+        var saltLength = salt.Length;
 
         //// Append the salt to the end of the plainText
-        byte[] dataSalt = new byte[dataLength + saltLength];
+        var dataSalt = new byte[dataLength + saltLength];
 
         //// Copy both the data and salt into the new array
         Array.Copy(data, dataSalt, dataLength);
         Array.Copy(salt, 0, dataSalt, dataLength, saltLength);
 
         //// Compute hash value of our plain text with appended salt.
-        byte[] encrypt = GetHashProvider(hashAlgorithm).ComputeHash(dataSalt);
-        int encryptLength = encrypt.Length;
+        var encrypt = GetHashProvider(hashAlgorithm).ComputeHash(dataSalt);
+        var encryptLength = encrypt.Length;
 
         //// Append the salt to the end of the encrypt
-        byte[] encryptSalt = new byte[encryptLength + saltLength];
+        var encryptSalt = new byte[encryptLength + saltLength];
         Array.Copy(encrypt, encryptSalt, encryptLength);
         Array.Copy(salt, 0, encryptSalt, encryptLength, saltLength);
 

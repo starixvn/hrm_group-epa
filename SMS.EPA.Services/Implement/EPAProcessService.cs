@@ -61,12 +61,12 @@ public class EPAProcessService(
 
         var reviewerManagements = processes.Where(x => x.ProcessId >= (byte)ProcessType.Reviewer)
             .OrderBy(x => x.EPAId).ThenBy(x => x.ProcessId).ToList();
-        foreach (AutoEvaluationProcessModel process in reviewerManagements)
+        foreach (var process in reviewerManagements)
         {
             if (process.ProcessId != (byte)ProcessType.Reviewer || !process.IsSemiHasMonthly)
             {
-                float? averageScore = GetAverageScorePreProcess(processes.Where(x => x.EPAId == process.EPAId).ToList(), process.ProcessId);
-                float? adjustScore = !string.IsNullOrWhiteSpace(process.AdjustScore) ? float.Parse(process.AdjustScore) : (float?)null;
+                var averageScore = GetAverageScorePreProcess(processes.Where(x => x.EPAId == process.EPAId).ToList(), process.ProcessId);
+                var adjustScore = !string.IsNullOrWhiteSpace(process.AdjustScore) ? float.Parse(process.AdjustScore) : (float?)null;
                 averageScore = CalculateTotalScoreOfProcess(averageScore, adjustScore);
 
                 process.TotalScore = averageScore.HasValue ? averageScore.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
@@ -116,8 +116,8 @@ public class EPAProcessService(
                     break;
 
                 case (byte)ProcessType.Reviewer:
-                    float? averageScore = epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
-                    float? adjustScore = !string.IsNullOrWhiteSpace(process.AdjustScore) ? float.Parse(process.AdjustScore) : (float?)null;
+                    var averageScore = epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
+                    var adjustScore = !string.IsNullOrWhiteSpace(process.AdjustScore) ? float.Parse(process.AdjustScore) : (float?)null;
                     averageScore = CalculateTotalScoreOfProcess(averageScore, adjustScore);
 
                     process.TotalScore = averageScore.HasValue ? averageScore.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
@@ -180,7 +180,7 @@ public class EPAProcessService(
 
     private void DecryptTotalScore(IEnumerable<AutoEvaluationProcessModel> processes)
     {
-        foreach (AutoEvaluationProcessModel process in processes)
+        foreach (var process in processes)
         {
             process.TotalScore = cryptographyService.Decrypt(process.TotalScore);
             process.AdjustScore = cryptographyService.Decrypt(process.AdjustScore);

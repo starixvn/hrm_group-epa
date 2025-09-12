@@ -9,7 +9,7 @@ public class CryptographyService : ICryptographyService
 {
     public string Encrypt(string plainText)
     {
-        string cipherText = string.Empty;
+        var cipherText = string.Empty;
 
         if (!string.IsNullOrWhiteSpace(plainText))
         {
@@ -21,7 +21,7 @@ public class CryptographyService : ICryptographyService
 
     public string Decrypt(string cipherText)
     {
-        string plainText = string.Empty;
+        var plainText = string.Empty;
 
         if (!string.IsNullOrWhiteSpace(cipherText))
         {

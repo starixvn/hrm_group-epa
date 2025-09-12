@@ -3,9 +3,8 @@
 namespace SMS.EPA.Core.Services;
 
 using System;
-using System.IO;
 using Microsoft.AspNetCore.Http;
-using SMS.EPA.Core.Constants;
+using Constants;
 
 public class UtilityService(IHttpContextAccessor httpContextAccessor) : IUtilityService
 {
@@ -30,7 +29,7 @@ public class UtilityService(IHttpContextAccessor httpContextAccessor) : IUtility
 
     public double SplitNumber(double number, int numberOfDecimals)
     {
-        double result = number;
+        var result = number;
 
         var decimals = numberOfDecimals <= 0
             ? Constants.NumberOfDecimalDefault

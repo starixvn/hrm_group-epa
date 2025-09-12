@@ -1,5 +1,4 @@
 ﻿using GO.UserControl.Client.Core.Enumerables;
-using GO.UserControl.Client.Core.Models.Role;
 using GO.UserControl.Client.Core.Models.User;
 using GO.UserControl.Client.Core.Services;
 using GO.UserControl.Client.Core.Session;
@@ -11,16 +10,12 @@ using SMS.EPA.Services.Interfaces;
 namespace SMS.EPA.Site.Controllers.API;
 
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Model;
+using Core.Attribute;
+using Core.Constants;
+using Core.Model;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
 using SMS.EPA.Criteria.Employee;
-using SMS.EPA.Services;
 
 public class EmployeeController(
     IUserControlSession session,
@@ -51,7 +46,7 @@ public class EmployeeController(
             HasMonthlyEPA = hasMonthlyEPA,
             JobLevelId = jobLevelId,
         };
-        IList<Role> roles = roleService.GetBySiteId(userControlSession.SiteId);
+        var roles = roleService.GetBySiteId(userControlSession.SiteId);
         return employeeService.GetEmployee(criteria, roles);
     }
 
@@ -61,11 +56,11 @@ public class EmployeeController(
     {
         var password = criteria.Password;
         criteria.CreatedBy = CurrentEmployeeId;
-        CommandResult commandResult = employeeService.CreateSpecialEmployee(criteria);
+        var commandResult = employeeService.CreateSpecialEmployee(criteria);
         if (commandResult.IsSuccessful)
         {
             var token = cryptoService.GenerateRijndaelKeyIV();
-            string[] keyiv = token.Split(':');
+            var keyiv = token.Split(':');
             var rijndaelKey = keyiv[0];
             var rijndaelIV = keyiv[1];
             var result = userService.Create(new CreateUserParam
@@ -97,10 +92,10 @@ public class EmployeeController(
     public IActionResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
         if (commandResult.IsSuccessful)
         {
-            IList<Role> roles = roleService.GetBySiteId(userControlSession.SiteId);
+            var roles = roleService.GetBySiteId(userControlSession.SiteId);
             var employee = employeeService.GetEmployeeById(criteria.EmployeeId, roles);
             var result = userService.UpdateInfo(new UpdateUserInfoParam
             {
@@ -131,11 +126,11 @@ public class EmployeeController(
         var password = criteria.NewPassword;
         criteria.EmployeeId = CurrentEmployeeId;
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = employeeService.ChangePassword(criteria);
+        var commandResult = employeeService.ChangePassword(criteria);
         if (commandResult.IsSuccessful)
         {
             var token = cryptoService.GenerateRijndaelKeyIV();
-            string[] keyiv = token.Split(':');
+            var keyiv = token.Split(':');
             var rijndaelKey = keyiv[0];
             var rijndaelIV = keyiv[1];
             var result = userService.UpdatePassword(new UpdatePasswordParam
@@ -155,10 +150,10 @@ public class EmployeeController(
     public IActionResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
         if (commandResult.IsSuccessful)
         {
-            IList<Role> roles = roleService.GetBySiteId(userControlSession.SiteId);
+            var roles = roleService.GetBySiteId(userControlSession.SiteId);
             var employee = employeeService.GetEmployeeById(criteria.EmployeeId, roles);
             var result = userService.AssignRole(new AssignRoleParam
             {
@@ -175,20 +170,20 @@ public class EmployeeController(
     [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
     public IActionResult ResetPassword(int employeeId)
     {
-        string newPassword = ConfigurationManagerService.GetAppSetting("PasswordToReset");
+        var newPassword = ConfigurationManagerService.GetAppSetting("PasswordToReset");
         var criteria = new ResetPasswordCriteria
         {
             EmployeeId = employeeId,
             NewPassword = newPassword,
             ModifiedBy = CurrentEmployeeId
         };
-        CommandResult commandResult = employeeService.ResetPassword(criteria);
+        var commandResult = employeeService.ResetPassword(criteria);
         if (commandResult.IsSuccessful)
         {
-            IList<Role> roles = roleService.GetBySiteId(userControlSession.SiteId);
-            Employee employee = employeeService.GetEmployeeById(employeeId, roles);
+            var roles = roleService.GetBySiteId(userControlSession.SiteId);
+            var employee = employeeService.GetEmployeeById(employeeId, roles);
             var token = cryptoService.GenerateRijndaelKeyIV();
-            string[] keyiv = token.Split(':');
+            var keyiv = token.Split(':');
             var rijndaelKey = keyiv[0];
             var rijndaelIV = keyiv[1];
             var result = userService.ResetPassword(new UpdatePasswordParam

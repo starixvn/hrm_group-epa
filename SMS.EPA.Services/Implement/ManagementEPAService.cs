@@ -7,9 +7,7 @@ namespace SMS.EPA.Services.Implement;
 
 using System.Collections.Generic;
 using System.Linq;
-using Criteria;
 using Interfaces;
-using Repositories;
 
 public class ManagementEPAService(
     IEmployeeEPARepository evaluationRepository,
@@ -34,14 +32,14 @@ public class ManagementEPAService(
             memberEPAs = evaluationRepository.GetEPA(criteria);
 
             IList<EPAModel> monthlyEPAs = new List<EPAModel>();
-            string epaIds = string.Join(",", memberEPAs.Where(x => x.IsSemiHasMonthly).Select(x => x.EPAId));
+            var epaIds = string.Join(",", memberEPAs.Where(x => x.IsSemiHasMonthly).Select(x => x.EPAId));
 
             if (!string.IsNullOrEmpty(epaIds))
             {
                 monthlyEPAs = evaluationService.GetMonthlyEPAOfSemi(epaIds);
             }
 
-            foreach (EPAModel memberEPA in memberEPAs)
+            foreach (var memberEPA in memberEPAs)
             {
                 memberEPA.Process.CurrentProcess =
                     evaluationService.CloneEPAProcess(memberEPA.Process.Managements.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ManagementId));

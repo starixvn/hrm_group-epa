@@ -47,7 +47,7 @@ public class ApiAuthorizeAttribute : System.Attribute, IAuthorizationFilter
 
     private void CheckUserPermission(AuthorizationFilterContext actionContext, IUserControlSession session)
     {
-        bool hasPermission = false;
+        var hasPermission = false;
         if (!string.IsNullOrWhiteSpace(FunctionKey))
         {
             var functionKeys = FunctionKey.Split(',').ToList();

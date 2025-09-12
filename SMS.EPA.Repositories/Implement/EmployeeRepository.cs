@@ -15,7 +15,7 @@ public class EmployeeRepository : IEmployeeRepository
     public IEnumerable<Employee> GetAllEmployee(ICriteria criteria)
     {
         using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
-        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        using var multi = db.QueryMultiple(criteria);
         var employees = multi.Read<Employee, JobTitle, JobLevel, Group, Employee>(
             (emp, jb, jl, gr) =>
             {
@@ -29,7 +29,7 @@ public class EmployeeRepository : IEmployeeRepository
 
         var roles = multi.Read<EmployeeRoleModel>();
 
-        foreach (Employee employee in employees)
+        foreach (var employee in employees)
         {
             IList<Role> employeeRoles = roles.Where(role => role.EmployeeId == employee.EmployeeId)
                 .Select(role => new Role
@@ -47,7 +47,7 @@ public class EmployeeRepository : IEmployeeRepository
     public Employee GetEmployeeById(ICriteria criteria)
     {
         using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
-        using IMultiResultReader multi = db.QueryMultiple(criteria);
+        using var multi = db.QueryMultiple(criteria);
         var employee = multi.Read<Employee, JobTitle, Group, Employee>(
             (emp, jb, gr) =>
             {

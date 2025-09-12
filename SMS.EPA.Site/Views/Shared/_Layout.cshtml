@@ -1,5 +1,4 @@
-﻿@using SMS.EPA.Core.Enumerations;
-@using Microsoft.Extensions.Configuration;
+﻿@using Microsoft.Extensions.Configuration;
 @inject IConfiguration Configuration
 
 <!DOCTYPE html>
@@ -8,42 +7,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
 
-    @{
-        var title = string.Empty;
-        byte siteId = 1;
-        //byte siteId = 0;
-        //byte.TryParse(Configuration["SiteId"], out siteId);
-    }
-
-    @switch (siteId)
-    {
-        case (byte)SiteId.SMS:
-            title = "SMS EPA";
-            break;
-        case (byte)SiteId.HM:
-            title = "HM EPA";
-            break;
-        case (byte)SiteId.GWI:
-            title = "GWI EPA";
-            break;
-        case (byte)SiteId.GROUP:
-            title = "Group EPA";
-            break;
-        case (byte)SiteId.LEXFIN:
-            title = "LEXFIN EPA";
-            break;
-        case (byte)SiteId.CTI:
-            title = "CTI EPA";
-            break;
-        case (byte)SiteId.CTS:
-            title = "CTS EPA";
-            break;
-    }
-
-    <title>@title</title>
+    <title>EPA</title>
     <link href="~/Content/Common/css.min.css" rel="stylesheet" />
     <link href="~/bundles/less.min.css" rel="stylesheet" />
-    @RenderSection("Head", false)
+    @await RenderSectionAsync("Head", false)
     <base href="@Url.Content("~/")" />
 </head>
 <body ng-cloak>

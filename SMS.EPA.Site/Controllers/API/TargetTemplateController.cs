@@ -12,13 +12,12 @@ using System.Collections.Generic;
 using GO.UserControl.Client.Core.Session;
 using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Model;
+using Core.Attribute;
+using Core.Constants;
+using Core.Model;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Services.Implement;
-using SMS.EPA.Services.Interfaces;
+using Services.Implement;
+using Services.Interfaces;
 
 public class TargetTemplateController(
     IUserControlSession userControlSession,
@@ -54,7 +53,7 @@ public class TargetTemplateController(
     public CommandResult CreateTargetTemplate(CreateTargetTemplateCriteria criteria)
     {
         criteria.CreatedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -64,7 +63,7 @@ public class TargetTemplateController(
     public CommandResult UpdateStatusTargetTemplate(UpdateStatusTargetTemplateCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -74,7 +73,7 @@ public class TargetTemplateController(
     public CommandResult UpdateTargetTemplateBasicInfo(UpdateTargetTemplateBasicInfoCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -84,7 +83,7 @@ public class TargetTemplateController(
     public CommandResult UpdateTargetTemplate(UpdateTargetTemplateCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -100,7 +99,7 @@ public class TargetTemplateController(
             TargetTemplateId = targetTemplateId,
             ModifiedBy = CurrentEmployeeId
         };
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -110,7 +109,7 @@ public class TargetTemplateController(
     public CommandResult AddKPIGroupWeight(SetKPIGroupOfTargetTemplateCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }
@@ -123,7 +122,7 @@ public class TargetTemplateController(
         {
             TargetTemplateId = targetTemplateId
         };
-        IEnumerable<KPIGroupModel> groups = targetTemplateService.GetKPIGroupOfTargetTemplate(criteria);
+        var groups = targetTemplateService.GetKPIGroupOfTargetTemplate(criteria);
 
         return groups;
     }
@@ -136,7 +135,7 @@ public class TargetTemplateController(
         {
             TargetTemplateId = targetTemplateId
         };
-        IEnumerable<TargetTemplateKPIGroupModel> kpis = targetTemplateService.GetKPIOfTargetTemplate(criteria, onlySelected);
+        var kpis = targetTemplateService.GetKPIOfTargetTemplate(criteria, onlySelected);
 
         return kpis;
     }
@@ -153,7 +152,7 @@ public class TargetTemplateController(
             KPIGroupId = kpiGroupId,
             ModifiedBy = CurrentEmployeeId
         };
-        CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+        var commandResult = baseService.ExecuteNonQuery(criteria);
 
         return commandResult;
     }

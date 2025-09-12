@@ -8,8 +8,7 @@ namespace SMS.EPA.Services.Implement;
 using System.Collections.Generic;
 using System.Linq;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Services.Interfaces;
+using Interfaces;
 
 public class TargetEmployeeSettingService(IBaseService baseService) : ITargetEmployeeSettingService
 {

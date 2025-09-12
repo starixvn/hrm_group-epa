@@ -19,7 +19,7 @@ public class TargetSettingAssignModel
 
         if (DepartmentSettings != null)
         {
-            foreach (Department department in DepartmentSettings)
+            foreach (var department in DepartmentSettings)
             {
                 departmentXml.AppendFormat(DepartmentXmlTemplate, department.DepartmentId, department.IsGroup ? 1 : 0);
             }

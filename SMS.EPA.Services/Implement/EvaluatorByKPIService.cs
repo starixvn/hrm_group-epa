@@ -6,9 +6,7 @@ using SMS.EPA.Repositories.Interfaces;
 namespace SMS.EPA.Services.Implement;
 
 using System.Collections.Generic;
-using Criteria;
 using Interfaces;
-using Repositories;
 
 public class EvaluatorByKPIService(IEmployeeEPARepository evaluationRepository) : IEvaluatorByKPIService
 {

@@ -12,12 +12,10 @@ namespace SMS.EPA.Site.Controllers.API;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Model;
+using Core.Attribute;
+using Core.Constants;
+using Core.Model;
 using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Services;
 
 public class DepartmentFlowController(IUserControlSession session, IDepartmentFlowService departmentFlowService, IBaseService baseService) : BaseController(session)
 {

@@ -4,7 +4,7 @@ using GO.UserControl.Client.Core.Session;
 namespace SMS.EPA.Site.Controllers.API;
 
 using Microsoft.AspNetCore.Mvc;
-using SMS.EPA.Core.Constants;
+using Core.Constants;
 
 public class BaseController(IUserControlSession userControlSession) : Controller
 {
@@ -14,7 +14,7 @@ public class BaseController(IUserControlSession userControlSession) : Controller
 
     protected byte GetPermissionOnFunction(string functionKey)
     {
-        byte policy = (byte)Policy.None;
+        var policy = (byte)Policy.None;
         if (userControlSession.HasPermissionOnFunction(functionKey, Policy.Host))
         {
             policy = (byte)Policy.Host;

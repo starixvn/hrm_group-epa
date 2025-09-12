@@ -5,10 +5,9 @@ namespace SMS.EPA.Services.Implement;
 
 using System.Collections.Generic;
 using System.Linq;
-using Criteria;
 using Fanex.Data.Repository;
 using Interfaces;
-using SMS.EPA.Core.Enumerations;
+using Core.Enumerations;
 
 public class EvaluatorEPAService(ICommonService commonService) : BaseActorEPAService(null, null), IEvaluatorEPAService
 {
@@ -28,9 +27,9 @@ public class EvaluatorEPAService(ICommonService commonService) : BaseActorEPASer
         IEnumerable<EPAModel> epaInfos,
         IList<EPAModel> monthlyEPAs)
     {
-        GetEPAByEvaluatorCriteria getEPAByEvaluatorCriteria = criteria as GetEPAByEvaluatorCriteria;
+        var getEPAByEvaluatorCriteria = criteria as GetEPAByEvaluatorCriteria;
 
-        foreach (EPAModel epaInfo in epaInfos)
+        foreach (var epaInfo in epaInfos)
         {
             if (getEPAByEvaluatorCriteria != null)
             {
@@ -60,7 +59,7 @@ public class EvaluatorEPAService(ICommonService commonService) : BaseActorEPASer
             EvaluationService.SetMaxPerformanceScore(epaInfo);
             EvaluationService.SpreadKPIScore(epaInfo.KPIGroups);
 
-            foreach (EPAKpiModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
+            foreach (var kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
             {
                 kpi.CurrentEvaluation = kpi.EvaluationByEvaluators.FirstOrDefault();
             }

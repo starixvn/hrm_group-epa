@@ -47,7 +47,7 @@ public class SelfEvaluationService(
             evaluationService.SetMaxPerformanceScore(epaInfo);
             evaluationService.SpreadKPIScore(epaInfo.KPIGroups);
 
-            foreach (EPAKpiModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
+            foreach (var kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
             {
                 kpi.CurrentEvaluation = kpi.EvaluationBySelf;
             }

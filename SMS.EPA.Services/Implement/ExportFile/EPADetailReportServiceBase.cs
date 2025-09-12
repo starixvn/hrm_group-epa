@@ -80,7 +80,7 @@ public abstract class EpaDetailReportServiceBase(ICommonService commonService, I
 
     protected static string GetEvaluatorScore(EPAModel epaInfo)
     {
-        string evaluatorScore = Lang.NotAvailable;
+        var evaluatorScore = Lang.NotAvailable;
 
         if (epaInfo.Process.Evaluators[0].StatusId == (int)ProcessStatusType.InProgress)
         {
@@ -97,7 +97,7 @@ public abstract class EpaDetailReportServiceBase(ICommonService commonService, I
 
     protected static string GetReviewerScore(EPAModel epaInfo)
     {
-        string reviewerScore = Lang.NotAvailable;
+        var reviewerScore = Lang.NotAvailable;
 
         if (epaInfo.Process.Reviewers[0].StatusId == (int)ProcessStatusType.InProgress)
         {
@@ -122,7 +122,7 @@ public abstract class EpaDetailReportServiceBase(ICommonService commonService, I
 
     protected static string GetSelfScore(EPAModel epaInfo)
     {
-        string selfScore = Lang.NotAvailable;
+        var selfScore = Lang.NotAvailable;
 
         if (epaInfo.Process.Self.StatusId == (int)ProcessStatusType.InProgress)
         {
@@ -170,7 +170,7 @@ public abstract class EpaDetailReportServiceBase(ICommonService commonService, I
 
     protected ICellStyle CreateEvenStyleCenter()
     {
-        ICellStyle evenStyle = Workbook.CreateCellStyle();
+        var evenStyle = Workbook.CreateCellStyle();
         evenStyle.Alignment = HorizontalAlignment.Center;
         evenStyle.VerticalAlignment = VerticalAlignment.Center;
         evenStyle.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
@@ -182,7 +182,7 @@ public abstract class EpaDetailReportServiceBase(ICommonService commonService, I
 
     protected ICellStyle CreateEvenStyleLeft()
     {
-        ICellStyle evenStyle = Workbook.CreateCellStyle();
+        var evenStyle = Workbook.CreateCellStyle();
         evenStyle.Alignment = HorizontalAlignment.Left;
         evenStyle.VerticalAlignment = VerticalAlignment.Center;
         evenStyle.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
@@ -194,7 +194,7 @@ public abstract class EpaDetailReportServiceBase(ICommonService commonService, I
 
     protected ICellStyle CreateOddStyleCenter()
     {
-        ICellStyle oddStyle = Workbook.CreateCellStyle();
+        var oddStyle = Workbook.CreateCellStyle();
         oddStyle.Alignment = HorizontalAlignment.Center;
         oddStyle.VerticalAlignment = VerticalAlignment.Center;
 
@@ -203,7 +203,7 @@ public abstract class EpaDetailReportServiceBase(ICommonService commonService, I
 
     protected ICellStyle CreateOddStyleLeft()
     {
-        ICellStyle oddStyle = Workbook.CreateCellStyle();
+        var oddStyle = Workbook.CreateCellStyle();
         oddStyle.Alignment = HorizontalAlignment.Left;
         oddStyle.VerticalAlignment = VerticalAlignment.Center;
 
@@ -215,7 +215,7 @@ public abstract class EpaDetailReportServiceBase(ICommonService commonService, I
         var standardGrades = commonService.GetStandardGrade().ToList();
 
         float? performanceScore = null;
-        if (float.TryParse(finalScore, out float score) && Math.Abs(score) > Constants.Tolerance)
+        if (float.TryParse(finalScore, out var score) && Math.Abs(score) > Constants.Tolerance)
         {
             performanceScore = score - epaInfo.DisciplineScore;
         }
@@ -301,7 +301,7 @@ public abstract class EpaDetailReportServiceBase(ICommonService commonService, I
 
     protected int WriteScoreCells(EPAModel epaInfo, int currentColumn, IRow row, dynamic score)
     {
-        int localCurrentColumn = currentColumn;
+        var localCurrentColumn = currentColumn;
         if (epaInfo.Process.Self.StatusId == (int)ProcessStatusType.InProgress)
         {
             BodyStyle = ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle);
@@ -341,12 +341,12 @@ public abstract class EpaDetailReportServiceBase(ICommonService commonService, I
 
     protected void WriteTitleSheet()
     {
-        IRow rowTitle = Sheet.CreateRow(CurrentRow);
-        IFont font = Workbook.CreateFont();
+        var rowTitle = Sheet.CreateRow(CurrentRow);
+        var font = Workbook.CreateFont();
         font.FontHeightInPoints = 18;
         font.IsBold = true;
 
-        ICell cell = rowTitle.CreateCell(0);
+        var cell = rowTitle.CreateCell(0);
         cell.SetCellValue(SheetTittle + " - " + EpaDetail.Period.Name);
         cell.CellStyle = Workbook.CreateCellStyle();
         cell.CellStyle.Alignment = HorizontalAlignment.Center;
@@ -358,12 +358,12 @@ public abstract class EpaDetailReportServiceBase(ICommonService commonService, I
 
     protected void WriteTitleTable()
     {
-        IFont font = Workbook.CreateFont();
+        var font = Workbook.CreateFont();
         font.FontHeightInPoints = 11;
         font.Color = HSSFColor.White.Index;
         font.IsBold = true;
 
-        ICellStyle cellStyle = Workbook.CreateCellStyle();
+        var cellStyle = Workbook.CreateCellStyle();
         cellStyle.FillForegroundColor = HSSFColor.Grey80Percent.Index;
         cellStyle.FillPattern = FillPattern.SolidForeground;
         cellStyle.FillBackgroundColor = HSSFColor.Grey80Percent.Index;
@@ -371,8 +371,8 @@ public abstract class EpaDetailReportServiceBase(ICommonService commonService, I
         cellStyle.VerticalAlignment = VerticalAlignment.Center;
         cellStyle.SetFont(font);
 
-        IRow row = Sheet.CreateRow(CurrentRow);
-        for (int i = 0; i < ColumnsName.Count; i++)
+        var row = Sheet.CreateRow(CurrentRow);
+        for (var i = 0; i < ColumnsName.Count; i++)
         {
             var cell = row.CreateCell(i);
             cell.CellStyle = cellStyle;

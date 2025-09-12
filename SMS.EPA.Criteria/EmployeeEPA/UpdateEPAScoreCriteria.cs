@@ -33,7 +33,7 @@ public class UpdateEPAScoreCriteria : CriteriaBase
     {
         get
         {
-            string totalScore = EPAProcess.TotalScore;
+            var totalScore = EPAProcess.TotalScore;
             return _cryptographyService.Encrypt(totalScore);
         }
     }
@@ -43,15 +43,15 @@ public class UpdateEPAScoreCriteria : CriteriaBase
         get
         {
             var kpiDetailXml = new StringBuilder(Constants.BeginRootTag);
-            foreach (EPAKpiGroupModel kpiGroup in KPIGroups)
+            foreach (var kpiGroup in KPIGroups)
             {
-                foreach (EPAKpiModel kpi in kpiGroup.KPIs)
+                foreach (var kpi in kpiGroup.KPIs)
                 {
-                    string score = kpi.CurrentEvaluation.Score;
-                    string rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString(CultureInfo.InvariantCulture) : string.Empty;
-                    string cipherScore = _cryptographyService.Encrypt(score + "_" + kpi.KPIId);
-                    string cipherRate = _cryptographyService.Encrypt(rate);
-                    bool isMaxScore = kpi.CurrentEvaluation.IsMaxScore;
+                    var score = kpi.CurrentEvaluation.Score;
+                    var rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString(CultureInfo.InvariantCulture) : string.Empty;
+                    var cipherScore = _cryptographyService.Encrypt(score + "_" + kpi.KPIId);
+                    var cipherRate = _cryptographyService.Encrypt(rate);
+                    var isMaxScore = kpi.CurrentEvaluation.IsMaxScore;
 
                     kpiDetailXml.AppendFormat(
                         KPIScoreXmlTemplate,
@@ -97,9 +97,9 @@ public class UpdateEPAScoreCriteria : CriteriaBase
             if (Recommendations != null && Recommendations.Any())
             {
                 result.Append(Constants.BeginRootTag);
-                foreach (EPARecommendation recommendation in Recommendations)
+                foreach (var recommendation in Recommendations)
                 {
-                    int? jobLevelId =
+                    var jobLevelId =
                         (!recommendation.JobLevelId.HasValue || !recommendation.JobLevelIncreased) ? (int?)null : recommendation.JobLevelId;
 
                     result.AppendFormat(
