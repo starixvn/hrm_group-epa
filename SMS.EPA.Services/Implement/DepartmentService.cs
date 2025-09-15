@@ -32,7 +32,7 @@ public class DepartmentService(IBaseService baseService = null) : IDepartmentSer
                 Id = s.SectionId,
                 Text = s.Name,
                 ParentId = dept.DepartmentId,
-                Items = teams.Where(t => t.SectionId.HasValue && t.SectionId.Value == s.SectionId).Select(t => new MultiSelectItem
+                Items = teams.Where(t => t.DepartmentId.HasValue && t.DepartmentId.Value == s.SectionId).Select(t => new MultiSelectItem
                 {
                     Id = t.TeamId,
                     Text = t.Name,

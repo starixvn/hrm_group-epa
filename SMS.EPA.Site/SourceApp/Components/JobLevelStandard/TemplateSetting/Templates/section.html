@@ -1,7 +1,7 @@
 ﻿<div ng-controller="SectionTemplateSettingController as sectionCtrl">
     <form novalidate class="form-filter">
         <div class="form-group">
-            <label class="label-form" data-translate="Section"></label>
+            <label class="label-form" data-translate="Team"></label>
             <div class="select-form">
                 <multi-select-tree-view selected-items="sectionCtrl.filter.objectIds"
                                         has-search-box="true" is-selected-all="true"
@@ -47,9 +47,9 @@
                            ng-model="sectionCtrl.selectedAll" />
                 </th>
                 <th data-translate="SymbolCount"></th>
-                <th data-translate="Unit"></th>
+                <th data-translate="Business Unit"></th>
                 <th data-translate="Department"></th>
-                <th data-translate="Section"></th>
+                <th data-translate="Team"></th>
                 <th data-translate="Template"></th>
                 <th data-translate="Delete" ng-show="targetCtrl.permission === targetCtrl.policyEnum.Host"></th>
             </tr>
@@ -64,7 +64,7 @@
                 <td class="text-center" ng-bind="sectionCtrl.getIndex($index, sectionCtrl.currentPage, sectionCtrl.pageSize)"></td>
                 <td class="text-center" ng-bind="employee.UnitName"></td>
                 <td ng-bind="employee.DepartmentName"></td>
-                <td ng-bind="employee.SectionName"></td>
+                <td ng-bind="employee.TeamName"></td>
                 <td ng-bind="employee.Template"></td>
                 <td class="text-center" ng-show="targetCtrl.permission === targetCtrl.policyEnum.Host">
                     <a class="glyphicon glyphicon-remove icon-remove" href=""

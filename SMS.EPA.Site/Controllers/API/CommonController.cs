@@ -229,9 +229,9 @@ public class CommonController(
         var units = unitService.Get();
 
         var criteria = new GetOrgChartCriteria();
-        (var departments, var sections) = baseService.FetchMultiple<Department, Section>(criteria);
+        (var departments, var teams) = baseService.FetchMultiple<Department, Team>(criteria);
 
-        return GetOrgChart(units, departments.ToList(), sections.ToList());
+        return GetOrgChart(units, departments.ToList(), teams.ToList());
     }
 
     private static IList<MenuItem> GroupMenuItem(IEnumerable<MenuItem> menuItems)
@@ -248,7 +248,7 @@ public class CommonController(
         return parents;
     }
 
-    private IList<MultiSelectItem> GetOrgChart(IList<Unit> units, IList<Department> departments, IList<Section> sections)
+    private IList<MultiSelectItem> GetOrgChart(IList<Unit> units, IList<Department> departments, IList<Team> teams)
     {
         IList<MultiSelectItem> items;
         if (units.Any())
@@ -262,9 +262,9 @@ public class CommonController(
                     Id = dept.DepartmentId,
                     Text = dept.Name,
                     ParentId = unit.UnitId,
-                    Items = sections.Where(s => s.DepartmentId.HasValue && s.DepartmentId.Value == dept.DepartmentId).Select(s => new MultiSelectItem
+                    Items = teams.Where(s => s.DepartmentId.HasValue && s.DepartmentId.Value == dept.DepartmentId).Select(s => new MultiSelectItem
                     {
-                        Id = s.SectionId,
+                        Id = s.TeamId,
                         Text = s.Name,
                         ParentId = dept.DepartmentId,
                         IsLeaf = true
@@ -278,9 +278,9 @@ public class CommonController(
             {
                 Id = dept.DepartmentId,
                 Text = dept.Name,
-                Items = sections.Where(s => s.DepartmentId.HasValue && s.DepartmentId.Value == dept.DepartmentId).Select(s => new MultiSelectItem
+                Items = teams.Where(s => s.DepartmentId.HasValue && s.DepartmentId.Value == dept.DepartmentId).Select(s => new MultiSelectItem
                 {
-                    Id = s.SectionId,
+                    Id = s.TeamId,
                     Text = s.Name,
                     ParentId = dept.DepartmentId,
                     IsLeaf = true
@@ -289,9 +289,9 @@ public class CommonController(
         }
         else
         {
-            items = sections.Select(s => new MultiSelectItem
+            items = teams.Select(s => new MultiSelectItem
             {
-                Id = s.SectionId,
+                Id = s.TeamId,
                 Text = s.Name,
                 IsLeaf = true
             }).ToList();

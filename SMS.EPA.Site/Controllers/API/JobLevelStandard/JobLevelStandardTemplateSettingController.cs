@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Models.JobLevelStandard.TemplateSetting;
 
@@ -6,7 +7,6 @@ namespace SMS.EPA.Site.Controllers.API.JobLevelStandard;
 using System.Collections.Generic;
 using GO.UserControl.Client.Core.Session;
 using System.Linq;
-using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
 using Core.Attribute;
 using Core.Constants;
@@ -18,7 +18,7 @@ public class JobLevelStandardTemplateSettingController(IUserControlSession userC
 {
     [HttpGet]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplateSetting, Policy = Policy.Read)]
-    public IEnumerable<JobLevelStandardTemplateSetting> GetTemplateSetting([FromUri] GetJobLevelStandardTemplateSettingCriteria criteria)
+    public IEnumerable<JobLevelStandardTemplateSetting> GetTemplateSetting([FromQuery] GetJobLevelStandardTemplateSettingCriteria criteria)
     {
         return baseService.GetData<JobLevelStandardTemplateSetting>(criteria).ToList();
     }
@@ -40,7 +40,7 @@ public class JobLevelStandardTemplateSettingController(IUserControlSession userC
 
     [HttpPut]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplateSetting, Policy = Policy.Host)]
-    public CommandResult Assign(AssignJobLevelStandardTemplateSettingCriteria criteria)
+    public CommandResult Assign([FromBody] AssignJobLevelStandardTemplateSettingCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
         var commandResult = baseService.ExecuteNonQuery(criteria);

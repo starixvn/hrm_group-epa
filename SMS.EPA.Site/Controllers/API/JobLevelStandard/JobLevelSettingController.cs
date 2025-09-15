@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
 using GO.UserControl.Client.Core.Session;
+using Microsoft.AspNetCore.Mvc;
 using SMS.EPA.Core.Attribute;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Extensions.XML;
@@ -18,7 +18,7 @@ public class JobLevelSettingController(IUserControlSession userControlSession, I
 {
     [HttpPost]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelSetting, Policy = Policy.Read)]
-    public IList<JobLevelSettingSummary> GetSettings(GetJobLevelSettingSummaryCriteria criteria)
+    public IList<JobLevelSettingSummary> GetSettings([FromBody] GetJobLevelSettingSummaryCriteria criteria)
     {
         var settings = baseService.GetData<JobLevelSettingSummary>(criteria);
         return settings.ToList();
@@ -35,7 +35,7 @@ public class JobLevelSettingController(IUserControlSession userControlSession, I
 
     [HttpPut]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelSetting, Policy = Policy.Host)]
-    public CommandResult Edit(EditJobLevelSettingCommand command)
+    public CommandResult Edit([FromBody] EditJobLevelSettingCommand command)
     {
         var commandResult = new CommandResult();
         if (command != null)

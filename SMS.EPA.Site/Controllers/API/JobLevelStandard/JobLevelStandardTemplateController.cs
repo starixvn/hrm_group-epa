@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Models.JobLevelStandard.Template;
 
@@ -5,7 +6,6 @@ namespace SMS.EPA.Site.Controllers.API.JobLevelStandard;
 
 using System.Collections.Generic;
 using GO.UserControl.Client.Core.Session;
-using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
 using Core.Attribute;
 using Core.Constants;
@@ -17,14 +17,14 @@ public class JobLevelStandardTemplateController(IUserControlSession userControlS
 {
     [HttpGet]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplate, Policy = Policy.Read)]
-    public IEnumerable<JobLevelStandardTemplate> GetTemplate([FromUri] GetJobLevelStandardTemplateCriteria criteria)
+    public IEnumerable<JobLevelStandardTemplate> GetTemplate([FromQuery] GetJobLevelStandardTemplateCriteria criteria)
     {
         return baseService.GetData<JobLevelStandardTemplate>(criteria);
     }
 
     [HttpPost]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplate, Policy = Policy.Host)]
-    public CommandResult Create(CreateJobLevelStandardTemplateCriteria criteria)
+    public CommandResult Create([FromBody] CreateJobLevelStandardTemplateCriteria criteria)
     {
         criteria.CreatedBy = CurrentEmployeeId;
         return baseService.ExecuteNonQuery(criteria);
@@ -32,7 +32,7 @@ public class JobLevelStandardTemplateController(IUserControlSession userControlS
 
     [HttpPut]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplate, Policy = Policy.Host)]
-    public CommandResult UpdateStatus(UpdateStatusJobLevelStandardTemplateCriteria criteria)
+    public CommandResult UpdateStatus([FromBody] UpdateStatusJobLevelStandardTemplateCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
         var commandResult = baseService.ExecuteNonQuery(criteria);
@@ -67,7 +67,7 @@ public class JobLevelStandardTemplateController(IUserControlSession userControlS
 
     [HttpPut]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplate, Policy = Policy.Host)]
-    public CommandResult Update(UpdateJobLevelStandardTemplateCriteria criteria)
+    public CommandResult Update([FromBody] UpdateJobLevelStandardTemplateCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
         return baseService.ExecuteNonQuery(criteria);
@@ -75,7 +75,7 @@ public class JobLevelStandardTemplateController(IUserControlSession userControlS
 
     [HttpGet]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplate, Policy = Policy.Read)]
-    public IEnumerable<JobLevelStandardTemplateKPI> GetKPI([FromUri] GetKPIListCriteria criteria)
+    public IEnumerable<JobLevelStandardTemplateKPI> GetKPI([FromQuery] GetKPIListCriteria criteria)
     {
         return baseService.GetData<JobLevelStandardTemplateKPI>(criteria);
     }
