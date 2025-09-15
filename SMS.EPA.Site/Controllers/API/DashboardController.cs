@@ -23,7 +23,8 @@ public class DashboardController(
     [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
     public DashboardModel GetDashboard()
     {
-        var dashboard = reportService.GetDashboard(CurrentEmployeeId);
+        //var dashboard = reportService.GetDashboard(CurrentEmployeeId);
+        var dashboard = new DashboardModel();
         dashboard.Employee = employeeService.GetEmployeeById(CurrentEmployeeId, new List<Role>());
 
         return dashboard;

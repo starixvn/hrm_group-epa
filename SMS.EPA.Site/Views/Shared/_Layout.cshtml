@@ -35,8 +35,341 @@
         </svg>
     </div>
     <script src="~/bundles/vendor.min.js"></script>
-    <script src="~/bundles/app.min.js"></script>
-    <script src="~/bundles/common/js.min.js"></script>
+    
+    <!-- App Core Files -->
+    <script src="~/SourceApp/app.js"></script>
+    <script src="~/SourceApp/routes.js"></script>
+    
+    <!-- Resources Components -->
+    <script src="~/SourceApp/Components/Resources/resources-factory.js"></script>
+    <script src="~/SourceApp/Components/Resources/resources-controller.js"></script>
+    
+    <!-- Common Components -->
+    <script src="~/SourceApp/Components/Common/common-factory.js"></script>
+    <script src="~/SourceApp/Components/Common/common-model.js"></script>
+    
+    <!-- Menu Components -->
+    <script src="~/SourceApp/Components/Menu/menu-tab-directive.js"></script>
+    <script src="~/SourceApp/Components/Menu/menu-controller.js"></script>
+    
+    <!-- Employee Components -->
+    <script src="~/SourceApp/Components/Employee/employee-factory.js"></script>
+    <script src="~/SourceApp/Components/Employee/employee-model.js"></script>
+    <script src="~/SourceApp/Components/Employee/get-employee-permission-directive.js"></script>
+    <script src="~/SourceApp/Components/Employee/export-employee-info-directive.js"></script>
+    <script src="~/SourceApp/Components/Employee/employee-access-controller.js"></script>
+    <script src="~/SourceApp/Components/Employee/employee-profile-controller.js"></script>
+    <script src="~/SourceApp/Components/Employee/assign-role-controller.js"></script>
+    <script src="~/SourceApp/Components/Employee/change-password-controller.js"></script>
+    <script src="~/SourceApp/Components/Employee/create-employee-controller.js"></script>
+    <script src="~/SourceApp/Components/Employee/update-employee-controller.js"></script>
+    <script src="~/SourceApp/Components/Employee/reset-password-controller.js"></script>
+    <script src="~/SourceApp/Components/Employee/set-monthly-evaluation-controller.js"></script>
+    <script src="~/SourceApp/Components/Employee/edit-job-level-controller.js"></script>
+    
+    <!-- KPI Components -->
+    <script src="~/SourceApp/Components/KPI/kpi-factory.js"></script>
+    <script src="~/SourceApp/Components/KPI/kpi-model.js"></script>
+    <script src="~/SourceApp/Components/KPI/kpi-directive.js"></script>
+    <script src="~/SourceApp/Components/KPI/kpi-access-controller.js"></script>
+    <script src="~/SourceApp/Components/KPI/create-kpi-controller.js"></script>
+    <script src="~/SourceApp/Components/KPI/update-kpi-controller.js"></script>
+    
+    <!-- KPIGroup Components -->
+    <script src="~/SourceApp/Components/KPIGroup/kpiGroup-factory.js"></script>
+    <script src="~/SourceApp/Components/KPIGroup/kpiGroup-model.js"></script>
+    <script src="~/SourceApp/Components/KPIGroup/kpiGroup-access-controller.js"></script>
+    <script src="~/SourceApp/Components/KPIGroup/create-kpiGroup-controller.js"></script>
+    <script src="~/SourceApp/Components/KPIGroup/update-kpiGroup-controller.js"></script>
+    
+    <!-- Role Components -->
+    <script src="~/SourceApp/Components/Role/role-directive.js"></script>
+    <script src="~/SourceApp/Components/Role/role-factory.js"></script>
+    <script src="~/SourceApp/Components/Role/role-model.js"></script>
+    <script src="~/SourceApp/Components/Role/role-controller.js"></script>
+    
+    <!-- TargetTemplate Components -->
+    <script src="~/SourceApp/Components/TargetTemplate/target-template-factory.js"></script>
+    <script src="~/SourceApp/Components/TargetTemplate/target-template-model.js"></script>
+    <script src="~/SourceApp/Components/TargetTemplate/Directives/draggable-directive.js"></script>
+    <script src="~/SourceApp/Components/TargetTemplate/Directives/sortable-directive.js"></script>
+    <script src="~/SourceApp/Components/TargetTemplate/Directives/move-group-row-directive.js"></script>
+    <script src="~/SourceApp/Components/TargetTemplate/Directives/get-group-weight-directive.js"></script>
+    <script src="~/SourceApp/Components/TargetTemplate/Directives/get-weight-directive.js"></script>
+    <script src="~/SourceApp/Components/TargetTemplate/target-template-access-controller.js"></script>
+    <script src="~/SourceApp/Components/TargetTemplate/general-info-controller.js"></script>
+    <script src="~/SourceApp/Components/TargetTemplate/tagert-template-detail-controller.js"></script>
+    <script src="~/SourceApp/Components/TargetTemplate/create-target-template-controller.js"></script>
+    <script src="~/SourceApp/Components/TargetTemplate/update-target-template-controller.js"></script>
+    <script src="~/SourceApp/Components/TargetTemplate/add-kpi-group-controller.js"></script>
+    <script src="~/SourceApp/Components/TargetTemplate/kpi-list-controller.js"></script>
+    <script src="~/SourceApp/Components/TargetTemplate/export-target-template-directive.js"></script>
+    
+    <!-- FlowManagement Components -->
+    <script src="~/SourceApp/Components/FlowManagement/flowSetting-model.js"></script>
+    <script src="~/SourceApp/Components/FlowManagement/flowTemplate-factory.js"></script>
+    <script src="~/SourceApp/Components/FlowManagement/flowTemplate-model.js"></script>
+    <script src="~/SourceApp/Components/FlowManagement/export-department-flow-setting-directive.js"></script>
+    <script src="~/SourceApp/Components/FlowManagement/export-personal-flow-setting-directive.js"></script>
+    <script src="~/SourceApp/Components/FlowManagement/flowTemplate-access-controller.js"></script>
+    <script src="~/SourceApp/Components/FlowManagement/create-flowTemplate-controller.js"></script>
+    <script src="~/SourceApp/Components/FlowManagement/update-flowTemplate-controller.js"></script>
+    <script src="~/SourceApp/Components/FlowManagement/update-flowTemplate-basic-info-controller.js"></script>
+    <script src="~/SourceApp/Components/FlowManagement/departmentFlow-factory.js"></script>
+    <script src="~/SourceApp/Components/FlowManagement/departmentFlow-model.js"></script>
+    <script src="~/SourceApp/Components/FlowManagement/departmentFlow-controller.js"></script>
+    <script src="~/SourceApp/Components/FlowManagement/personalFlow-factory.js"></script>
+    <script src="~/SourceApp/Components/FlowManagement/personalFlow-model.js"></script>
+    <script src="~/SourceApp/Components/FlowManagement/personalFlow-controller.js"></script>
+    <script src="~/SourceApp/Components/FlowManagement/resultSettingFlow-controller.js"></script>
+    
+    <!-- TargetEmployeeSetting Components -->
+    <script src="~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting-factory.js"></script>
+    <script src="~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting-model.js"></script>
+    <script src="~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting-controller.js"></script>
+    <script src="~/SourceApp/Components/TargetEmployeeSetting/target-department-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/TargetEmployeeSetting/target-personnel-setting-controller.js"></script>
+    
+    <!-- Department Components -->
+    <script src="~/SourceApp/Components/Department/department-factory.js"></script>
+    <script src="~/SourceApp/Components/Department/department-model.js"></script>
+    <script src="~/SourceApp/Components/Department/department-controller.js"></script>
+    <script src="~/SourceApp/Components/Department/department-directive.js"></script>
+    
+    <!-- EPA Share Components -->
+    <script src="~/SourceApp/Components/EPA/Share/Filters/custom-score-filter.js"></script>
+    <script src="~/SourceApp/Components/EPA/Share/Filters/split-score-filter.js"></script>
+    <script src="~/SourceApp/Components/EPA/Share/Directives/general-info-directive.js"></script>
+    <script src="~/SourceApp/Components/EPA/Share/Directives/job-description-directive.js"></script>
+    <script src="~/SourceApp/Components/EPA/Share/Directives/evaluation-process-directive.js"></script>
+    <script src="~/SourceApp/Components/EPA/Share/Directives/rating-instruction-directive.js"></script>
+    <script src="~/SourceApp/Components/EPA/Share/Directives/performance-result-directive.js"></script>
+    <script src="~/SourceApp/Components/EPA/Share/Directives/semi-performance-result-directive.js"></script>
+    <script src="~/SourceApp/Components/EPA/Share/Directives/performance-detail-directive.js"></script>
+    <script src="~/SourceApp/Components/EPA/Share/Directives/monthly-epa-result-directive.js"></script>
+    <script src="~/SourceApp/Components/EPA/Share/Directives/recommendation-directive.js"></script>
+    <script src="~/SourceApp/Components/EPA/Share/Directives/performance-grade-directive.js"></script>
+    <script src="~/SourceApp/Components/EPA/Share/Directives/auto-collapse-directive.js"></script>
+    <script src="~/SourceApp/Components/EPA/Share/Directives/repeat-end-directive.js"></script>
+    
+    <!-- EPA Core Components -->
+    <script src="~/SourceApp/Components/EPA/evaluation-factory.js"></script>
+    <script src="~/SourceApp/Components/EPA/evaluation-model.js"></script>
+    <script src="~/SourceApp/Components/EPA/self-evaluator-model.js"></script>
+    <script src="~/SourceApp/Components/EPA/reviewer-management-model.js"></script>
+    <script src="~/SourceApp/Components/EPA/evaluation-controller.js"></script>
+    
+    <!-- EPA Self Components -->
+    <script src="~/SourceApp/Components/EPA/Self/self-evaluation-factory.js"></script>
+    <script src="~/SourceApp/Components/EPA/Self/self-evaluation-model.js"></script>
+    <script src="~/SourceApp/Components/EPA/Self/self-evaluation-access-controller.js"></script>
+    <script src="~/SourceApp/Components/EPA/Self/self-evaluation-detail-controller.js"></script>
+    
+    <!-- EPA Evaluator Components -->
+    <script src="~/SourceApp/Components/EPA/Evaluator/evaluator-epa-factory.js"></script>
+    <script src="~/SourceApp/Components/EPA/Evaluator/evaluator-epa-model.js"></script>
+    <script src="~/SourceApp/Components/EPA/Evaluator/evaluator-access-controller.js"></script>
+    <script src="~/SourceApp/Components/EPA/Evaluator/evaluator-detail-controller.js"></script>
+    
+    <!-- EPA Reviewer Components -->
+    <script src="~/SourceApp/Components/EPA/Reviewer/reviewer-epa-factory.js"></script>
+    <script src="~/SourceApp/Components/EPA/Reviewer/reviewer-epa-model.js"></script>
+    <script src="~/SourceApp/Components/EPA/Reviewer/reviewer-access-controller.js"></script>
+    <script src="~/SourceApp/Components/EPA/Reviewer/reviewer-detail-controller.js"></script>
+    
+    <!-- EPA Management Components -->
+    <script src="~/SourceApp/Components/EPA/Management/management-epa-factory.js"></script>
+    <script src="~/SourceApp/Components/EPA/Management/management-epa-model.js"></script>
+    <script src="~/SourceApp/Components/EPA/Management/management-access-controller.js"></script>
+    <script src="~/SourceApp/Components/EPA/Management/management-detail-controller.js"></script>
+    
+    <!-- EPA Share Controllers -->
+    <script src="~/SourceApp/Components/EPA/Share/Controllers/epa-detail-controller.js"></script>
+    
+    <!-- EPA By KPI Components -->
+    <script src="~/SourceApp/Components/EPA/EPAByKPI/EPAByKPI-factory.js"></script>
+    <script src="~/SourceApp/Components/EPA/EPAByKPI/EPAByKPI-model.js"></script>
+    <script src="~/SourceApp/Components/EPA/EPAByKPI/EPAByKPI-controller.js"></script>
+    
+    <!-- Period Components -->
+    <script src="~/SourceApp/Components/Period/period-factory.js"></script>
+    <script src="~/SourceApp/Components/Period/period-model.js"></script>
+    <script src="~/SourceApp/Components/Period/period-directive.js"></script>
+    <script src="~/SourceApp/Components/Period/period-controller.js"></script>
+    <script src="~/SourceApp/Components/Period/create-period-controller.js"></script>
+    <script src="~/SourceApp/Components/Period/update-period-controller.js"></script>
+    <script src="~/SourceApp/Components/Period/update-basic-info-controller.js"></script>
+    <script src="~/SourceApp/Components/Period/update-process-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/Period/employee-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/Period/add-employee-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/Period/update-employee-setting-controller.js"></script>
+    
+    <!-- Dashboard Components -->
+    <script src="~/SourceApp/Components/Dashboard/dashboard-factory.js"></script>
+    <script src="~/SourceApp/Components/Dashboard/dashboard-model.js"></script>
+    <script src="~/SourceApp/Components/Dashboard/dashboard-controller.js"></script>
+    <script src="~/SourceApp/Components/Dashboard/announcement-controller.js"></script>
+    
+    <!-- EPA Rating By KPI Components -->
+    <script src="~/SourceApp/Components/EPA/RatingByKPI/rating-by-kpi-factory.js"></script>
+    <script src="~/SourceApp/Components/EPA/RatingByKPI/rating-by-kpi-model.js"></script>
+    <script src="~/SourceApp/Components/EPA/RatingByKPI/rating-by-kpi-controller.js"></script>
+    
+    <!-- EPA Convert & Reset Components -->
+    <script src="~/SourceApp/Components/EPA/Convert/convertEPA-controller.js"></script>
+    <script src="~/SourceApp/Components/EPA/ResetScore/resetScore-controller.js"></script>
+    
+    <!-- Report Components -->
+    <script src="~/SourceApp/Components/Report/report-factory.js"></script>
+    <script src="~/SourceApp/Components/Report/report-model.js"></script>
+    <script src="~/SourceApp/Components/Report/epa-detail-report-directive.js"></script>
+    <script src="~/SourceApp/Components/Report/export-recommendation-report-directive.js"></script>
+    <script src="~/SourceApp/Components/Report/export-comment-report-directive.js"></script>
+    <script src="~/SourceApp/Components/Report/epa-summary-report-directive.js"></script>
+    <script src="~/SourceApp/Components/Report/export-epa-detail-report-directive.js"></script>
+    <script src="~/SourceApp/Components/Report/export-epa-summary-report-directive.js"></script>
+    <script src="~/SourceApp/Components/Report/export-monthly-epa-detail-report-directive.js"></script>
+    <script src="~/SourceApp/Components/Report/export-monthly-epa-summary-report-directive.js"></script>
+    <script src="~/SourceApp/Components/Report/monthly-epa-detail-report-directive.js"></script>
+    <script src="~/SourceApp/Components/Report/epa-detail-report-controller.js"></script>
+    <script src="~/SourceApp/Components/Report/epa-summary-report-controller.js"></script>
+    <script src="~/SourceApp/Components/Report/monthly-epa-summary-report-controller.js"></script>
+    <script src="~/SourceApp/Components/Report/monthly-epa-detail-report-controller.js"></script>
+    <script src="~/SourceApp/Components/Report/monthlyEPADetailReport-controller.js"></script>
+    <script src="~/SourceApp/Components/Report/monthlyEPASummaryReport-controller.js"></script>
+    
+    <!-- EPA History Components -->
+    <script src="~/SourceApp/Components/EPAHistory/epaHistory-factory.js"></script>
+    <script src="~/SourceApp/Components/EPAHistory/epaHistory-model.js"></script>
+    <script src="~/SourceApp/Components/EPAHistory/epaHistory-controller.js"></script>
+    <script src="~/SourceApp/Components/EPAHistory/monthlyEPAHistory-controller.js"></script>
+    
+    <!-- Monthly Period Components -->
+    <script src="~/SourceApp/Components/MonthlyPeriod/monthly-period-factory.js"></script>
+    <script src="~/SourceApp/Components/MonthlyPeriod/monthly-period-model.js"></script>
+    <script src="~/SourceApp/Components/MonthlyPeriod/monthly-period-directive.js"></script>
+    <script src="~/SourceApp/Components/MonthlyPeriod/monthly-period-controller.js"></script>
+    <script src="~/SourceApp/Components/MonthlyPeriod/create-monthly-period-controller.js"></script>
+    <script src="~/SourceApp/Components/MonthlyPeriod/update-monthly-period-controller.js"></script>
+    <script src="~/SourceApp/Components/MonthlyPeriod/update-basic-info-controller.js"></script>
+    <script src="~/SourceApp/Components/MonthlyPeriod/update-process-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/MonthlyPeriod/employee-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/MonthlyPeriod/add-employee-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/MonthlyPeriod/update-employee-setting-controller.js"></script>
+    
+    <!-- EPA Update Final Score Components -->
+    <script src="~/SourceApp/Components/EPA/UpdateFinalScore/export-excel-directive.js"></script>
+    <script src="~/SourceApp/Components/EPA/UpdateFinalScore/update-final-score-factory.js"></script>
+    <script src="~/SourceApp/Components/EPA/UpdateFinalScore/update-final-score-model.js"></script>
+    <script src="~/SourceApp/Components/EPA/UpdateFinalScore/update-final-score-controller.js"></script>
+    
+    <!-- Discipline Components -->
+    <script src="~/SourceApp/Components/Discipline/discipline-summary-factory.js"></script>
+    <script src="~/SourceApp/Components/Discipline/discipline-summary-model.js"></script>
+    <script src="~/SourceApp/Components/Discipline/discipline-summary-directive.js"></script>
+    <script src="~/SourceApp/Components/Discipline/discipline-summary-by-period-directive.js"></script>
+    <script src="~/SourceApp/Components/Discipline/discipline-summary-controller.js"></script>
+    <script src="~/SourceApp/Components/Discipline/discipline-summary-by-period-controller.js"></script>
+    
+    <!-- Job Description Components -->
+    <script src="~/SourceApp/Components/JobDescription/job-description-factory.js"></script>
+    <script src="~/SourceApp/Components/JobDescription/job-description-model.js"></script>
+    <script src="~/SourceApp/Components/JobDescription/job-description-controller.js"></script>
+    <script src="~/SourceApp/Components/JobDescription/group-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/JobDescription/edit-group-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/JobDescription/copy-group-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/JobDescription/personnel-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/JobDescription/edit-personnel-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/JobDescription/copy-personnel-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/JobDescription/create-job-description-group-item-controller.js"></script>
+    <script src="~/SourceApp/Components/JobDescription/create-job-description-item-controller.js"></script>
+    <script src="~/SourceApp/Components/JobDescription/edit-job-description-group-item-controller.js"></script>
+    <script src="~/SourceApp/Components/JobDescription/edit-job-description-item-controller.js"></script>
+    <script src="~/SourceApp/Components/JobDescription/Directives/sortable-directive.js"></script>
+    
+    <!-- Job Level Components -->
+    <script src="~/SourceApp/Components/JobLevel/job-level-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevel/job-level-model.js"></script>
+    <script src="~/SourceApp/Components/JobLevel/job-level-factory.js"></script>
+    <script src="~/SourceApp/Components/JobLevel/create-job-level-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevel/edit-job-level-controller.js"></script>
+    
+    <!-- Job Level Standard Period Components -->
+    <script src="~/SourceApp/Components/JobLevelStandard/Period/period-factory.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/Period/period-model.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/Period/period-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/Period/create-period-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/Period/edit-period-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/Period/edit-basic-info-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/Period/job-level-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/Period/edit-job-level-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/Period/copy-job-level-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/Period/employee-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/Period/add-employee-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/Period/update-job-level-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/Period/edit-employee-setting-controller.js"></script>
+    
+    <!-- Job Level Standard JobLevelSetting Components -->
+    <script src="~/SourceApp/Components/JobLevelStandard/JobLevelSetting/job-level-setting-factory.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/JobLevelSetting/job-level-setting-model.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/JobLevelSetting/job-level-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/JobLevelSetting/edit-job-level-setting-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/JobLevelSetting/copy-job-level-setting-controller.js"></script>
+    
+    <!-- Job Level Standard Assessment Components -->
+    <script src="~/SourceApp/Components/JobLevelStandard/Assessment/assessment-factory.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/Assessment/assessment-model.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/Assessment/assessment-controller.js"></script>
+    
+    <!-- Job Level Standard Report Components -->
+    <script src="~/SourceApp/Components/JobLevelStandard/Report/assessment-report-factory.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/Report/assessment-report-model.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/Report/assessment-report-controller.js"></script>
+    
+    <!-- Job Level Standard KPI Components -->
+    <script src="~/SourceApp/Components/JobLevelStandard/KPI/kpi-factory.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/KPI/kpi-model.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/KPI/kpi-directive.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/KPI/kpi-access-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/KPI/create-kpi-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/KPI/update-kpi-controller.js"></script>
+    
+    <!-- Job Level Standard TargetTemplate Components -->
+    <script src="~/SourceApp/Components/JobLevelStandard/TargetTemplate/template-factory.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/TargetTemplate/template-model.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/TargetTemplate/template-access-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/TargetTemplate/general-info-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/TargetTemplate/template-detail-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/TargetTemplate/create-template-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/TargetTemplate/update-template-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/TargetTemplate/kpi-list-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/TargetTemplate/Directives/sortable-directive.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/TargetTemplate/Directives/get-weight-directive.js"></script>
+    
+    <!-- Job Level Standard TemplateSetting Components -->
+    <script src="~/SourceApp/Components/JobLevelStandard/TemplateSetting/templateSetting-factory.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/TemplateSetting/templateSetting-model.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/TemplateSetting/templateSetting-controller.js"></script>
+    <script src="~/SourceApp/Components/JobLevelStandard/TemplateSetting/section-setting-controller.js"></script>
+    
+    <!-- Common JS Components -->
+    <script src="~/SourceApp/Shared/Directives/epa-addClassToRoleFilter-directive.js"></script>
+    <script src="~/SourceApp/Shared/Directives/epa-numberDot-directive.js"></script>
+    <script src="~/SourceApp/Shared/Directives/epa-searchAutoComplete-directive.js"></script>
+    <script src="~/SourceApp/Shared/Directives/popover-avatar-directive.js"></script>
+    <script src="~/SourceApp/Shared/Directives/popover-kpis-directive.js"></script>
+    <script src="~/SourceApp/Shared/Directives/multiselect-treeview-directive.js"></script>
+    <script src="~/SourceApp/Shared/Directives/move-kpi-row-directive.js"></script>
+    <script src="~/SourceApp/Shared/Directives/floatThead-directive.js"></script>
+    <script src="~/SourceApp/Shared/Factories/error-factory.js"></script>
+    <script src="~/SourceApp/Shared/Factories/history-factory.js"></script>
+    <script src="~/SourceApp/Shared/Factories/lockScreen-factory.js"></script>
+    <script src="~/SourceApp/Shared/Factories/notification-factory.js"></script>
+    <script src="~/SourceApp/Shared/Factories/utilities-factory.js"></script>
+    <script src="~/SourceApp/Shared/Filters/customDate-filter.js"></script>
+    <script src="~/SourceApp/Shared/Filters/customNumber-filter.js"></script>
+    <script src="~/SourceApp/Shared/Filters/range-filter.js"></script>
+    <script src="~/SourceApp/Shared/modalconfirm-controller.js"></script>
 
     <script>window.jobLevelExtendProbations = '@Configuration["JobLevelExtendProbations"]';</script>
 </body>
