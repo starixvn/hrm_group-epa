@@ -29,6 +29,10 @@ public class Employee : IExcelRecord
 
     public string Email { get; set; }
 
+    public string CompanyName { get; set; }
+
+    public string BUName { get; set; }
+
     public string Avatar
     {
         get

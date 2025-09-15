@@ -50,12 +50,12 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="label-form"></label>
+            <!--<label class="label-form"></label>
             <div class="checkbox checkbox-form">
                 <label>
                     <input type="checkbox" ng-model="employeeCtrl.filter.hasMonthlyEPA"> {{"HasMonthlyEPA" | translate}}
                 </label>
-            </div>
+            </div>-->
         </div>
         <div class="form-group">
             <label class="label-form"></label>
@@ -85,14 +85,14 @@
                 <th data-translate="FullName"></th>
                 <th data-translate="JobTitle"></th>
                 <th data-translate="JobLevel"></th>
+                <th data-translate="Company"></th>
+                <th data-translate="BU"></th>
                 <th data-translate="Department"></th>
-                <th data-translate="Section"></th>
                 <th data-translate="Team"></th>
                 <th data-translate="ShortSpecialUser"></th>
                 <th data-translate="Roles"></th>
-                <th data-translate="MonthlyEPA"></th>
+                <!--<th data-translate="MonthlyEPA"></th>-->
                 <th data-translate="Action" ng-if="employeeCtrl.permission === employeeCtrl.policyEnum.Host"></th>
-                <th class="col-reset-password" data-translate="ResetPassword" ng-if="employeeCtrl.permission === employeeCtrl.policyEnum.Host"></th>
             </tr>
         </thead>
         <tbody class="table-body">
@@ -115,8 +115,9 @@
                            ng-click="employeeCtrl.editJobLevel(employee)" ng-attr-title='{{"Edit" | translate}}'></a>
                     </div>
                 </td>
+                <td ng-bind="employee.CompanyName"></td>
+                <td ng-bind="employee.BUName"></td>
                 <td ng-bind="employee.Department"></td>
-                <td ng-bind="employee.Section"></td>
                 <td ng-bind="employee.Group.GroupName"></td>
                 <td class="text-center">
                     <div ng-if="employee.IsSpecialUser">
@@ -131,17 +132,12 @@
                         {{role.Name}}<span ng-if="!$last">,</span>
                     </span>
                 </td>
-                <td class="text-center">
-                    <input type="checkbox" ng-checked="employee.HasMonthlyEPA" ng-disabled="employeeCtrl.permission !== employeeCtrl.policyEnum.Host"
-                           ng-click="employeeCtrl.editHasMonthlyEPA(employee)" />
-                </td>
+                <!--<td class="text-center">
+        <input type="checkbox" ng-checked="employee.HasMonthlyEPA" ng-disabled="employeeCtrl.permission !== employeeCtrl.policyEnum.Host"
+               ng-click="employeeCtrl.editHasMonthlyEPA(employee)" />
+    </td>-->
                 <td class="text-center authority-employee-action" ng-if="employeeCtrl.permission === employeeCtrl.policyEnum.Host">
                     <a class="glyphicon glyphicon-edit icon-edit" href="" title="Assign role to user" ng-click="employeeCtrl.assignRole(employee)" />
-                </td>
-                <td class="text-center col-reset-password" ng-if="employeeCtrl.permission === employeeCtrl.policyEnum.Host">
-                    <a class="glyphicon glyphicon-refresh icon-refresh" href="" title="Reset Password"
-                       ng-if="employee.IsSpecialUser" ng-click="employeeCtrl.resetPassword(employee)" />
-                    <a class="glyphicon glyphicon-ban-circle icon-ban-circle disabled" href="" ng-if="!employee.IsSpecialUser"></a>
                 </td>
             </tr>
             <tr ng-show="employeeCtrl.filteredItems.length === 0">
