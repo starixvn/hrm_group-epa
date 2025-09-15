@@ -490,7 +490,7 @@
     <value>Please select at least an employee to assign target template!</value>
   </data>
   <data name="SelectSectionBeforeAssignWarning" xml:space="preserve">
-    <value>Please select at least a section to assign template!</value>
+    <value>Please select at least a team to assign template!</value>
   </data>
   <data name="None" xml:space="preserve">
     <value>None</value>

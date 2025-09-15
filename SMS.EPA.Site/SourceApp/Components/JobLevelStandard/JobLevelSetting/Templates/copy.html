@@ -1,35 +1,44 @@
 ﻿<div class="modal-header">
-    <div class="popup-header">
-        Copy Job Level Setting
-        <span class="close-popup" ng-click="copyCtrl.cancel()"></span>
-    </div>
+  <div class="popup-header">
+    Copy Job Level Setting
+    <span class="close-popup" ng-click="copyCtrl.cancel()"></span>
+  </div>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" role="form">
-        <div class="form-group">
-            <label class="col-sm-3 control-label" data-translate="Department"></label>
-            <div class="col-sm-8 field">
-                <input type="text" class="form-control" ng-model="copyCtrl.selectedSection.Department" disabled />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label" data-translate="Section"></label>
-            <div class="col-sm-8 field">
-                <input type="text" class="form-control" ng-model="copyCtrl.selectedSection.Name" disabled />
-            </div>
-        </div>
-        <div class="form-group required">
-            <label class="col-sm-3 control-label" data-translate="ToSection"></label>
-            <div class="col-sm-8 field">
-                <multi-select-tree-view selected-items="copyCtrl.selectSectionIds"
-                                        is-selected-all="false" has-search-box="true"
-                                        options="copyCtrl.sections"
-                                        on-select="copyCtrl.onSelectSection"></multi-select-tree-view>
-            </div>
-        </div>
-    </form>
+  <form class="form-horizontal" role="form">
+    <div class="form-group">
+      <label class="col-sm-3 control-label" data-translate="Business Unit"></label>
+      <div class="col-sm-8 field">
+        <input type="text" class="form-control" ng-model="copyCtrl.selectedGroup.Unit" disabled />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label" data-translate="Department"></label>
+      <div class="col-sm-8 field">
+        <input type="text" class="form-control" ng-model="copyCtrl.selectedGroup.Department" disabled />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label" data-translate="Team"></label>
+      <div class="col-sm-8 field">
+        <input type="text" class="form-control" ng-model="copyCtrl.selectedGroup.Name" disabled />
+      </div>
+    </div>
+    <div class="form-group required">
+      <label class="col-sm-3 control-label" data-translate="To Team"></label>
+      <div class="col-sm-8 field">
+        <multi-select-tree-view
+          selected-items="copyCtrl.selectGroupIds"
+          is-selected-all="false"
+          has-search-box="true"
+          options="copyCtrl.groups"
+          on-select="copyCtrl.onSelectGroup"
+        ></multi-select-tree-view>
+      </div>
+    </div>
+  </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="copyCtrl.save()" data-translate="Submit"></button>
-    <button class="btn btn-cancel" ng-click="copyCtrl.cancel()" data-translate="Cancel"></button>
+  <button class="btn btn-primary" ng-click="copyCtrl.save()" data-translate="Submit"></button>
+  <button class="btn btn-cancel" ng-click="copyCtrl.cancel()" data-translate="Cancel"></button>
 </div>

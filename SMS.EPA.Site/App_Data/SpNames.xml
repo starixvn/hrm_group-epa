@@ -262,7 +262,7 @@
     </Function>
     <Function Name="Job Level Standard">
         <Setting Key="JobLevelStandard_JobLevelSetting_Get" SpName="JobLevelStandard_JobLevelSetting_Get" DbName="bodb_EPA" Plain="0" />
-        <Setting Key="JobLevelStandard_JobLevelSetting_GetBySectionId" SpName="JobLevelStandard_JobLevelSetting_GetBySectionId" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_JobLevelSetting_GetByGroupId" SpName="JobLevelStandard_JobLevelSetting_GetByGroupId" DbName="bodb_EPA" Plain="0" />
         <Setting Key="JobLevelStandard_JobLevelSetting_Update" SpName="JobLevelStandard_JobLevelSetting_Update" DbName="bodb_EPA" Plain="0" />
 
         <Setting Key="JobLevelStandard_Period_Get" SpName="JobLevelStandard_Period_Get" DbName="bodb_EPA" Plain="0" />
@@ -280,7 +280,7 @@
 
         <Setting Key="JobLevelStandard_PeriodJobLevelSetting_Get" SpName="JobLevelStandard_PeriodJobLevelSetting_Get" DbName="bodb_EPA" Plain="0" />
         <Setting Key="JobLevelStandard_PeriodJobLevelSetting_GetByPeriodId" SpName="JobLevelStandard_PeriodJobLevelSetting_GetByPeriodId" DbName="bodb_EPA" Plain="0" />
-        <Setting Key="JobLevelStandard_PeriodJobLevelSetting_GetBySectionId" SpName="JobLevelStandard_PeriodJobLevelSetting_GetBySectionId" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodJobLevelSetting_GetByGroupId" SpName="JobLevelStandard_PeriodJobLevelSetting_GetByGroupId" DbName="bodb_EPA" Plain="0" />
         <Setting Key="JobLevelStandard_PeriodJobLevelSetting_Update" SpName="JobLevelStandard_PeriodJobLevelSetting_Update" DbName="bodb_EPA" Plain="0" />
         <Setting Key="JobLevelStandard_PeriodJobLevelSetting_CopyFromDefault" SpName="JobLevelStandard_PeriodJobLevelSetting_CopyFromDefault" DbName="bodb_EPA" Plain="0" />
 

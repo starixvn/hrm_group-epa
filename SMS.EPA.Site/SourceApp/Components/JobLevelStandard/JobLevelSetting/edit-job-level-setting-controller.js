@@ -1,40 +1,40 @@
 ﻿(function (angular) {
-    'use strict';
-    /* jshint latedef:nofunc */
-    /* jshint validthis:true */
+  'use strict';
+  /* jshint latedef:nofunc */
+  /* jshint validthis:true */
 
-    angular.module('jobLevelStandardModule').controller('EditJobLevelSettingController', editJobLevelSettingController);
-    editJobLevelSettingController.$inject = ['$uibModalInstance', 'JobLevelSettingModel', 'utilitiesFactory', 'lockScreenService', 'permission', 'section'];
+  angular.module('jobLevelStandardModule').controller('EditJobLevelSettingController', editJobLevelSettingController);
+  editJobLevelSettingController.$inject = ['$uibModalInstance', 'JobLevelSettingModel', 'utilitiesFactory', 'lockScreenService', 'permission', 'group'];
 
-    function editJobLevelSettingController($uibModalInstance, JobLevelSettingModel, utilitiesFactory, lockScreenService, permission, section) {
-        let vm = this;
+  function editJobLevelSettingController($uibModalInstance, JobLevelSettingModel, utilitiesFactory, lockScreenService, permission, group) {
+    let vm = this;
 
-        vm.section = section;
-        vm.settings = [];
-        vm.permission = permission;
-        vm.policy = utilitiesFactory.policy;
+    vm.group = group;
+    vm.settings = [];
+    vm.permission = permission;
+    vm.policy = utilitiesFactory.policy;
 
-        function getSettings() {
-            lockScreenService.start();
+    function getSettings() {
+      lockScreenService.start();
 
-            JobLevelSettingModel.getBySectionId(vm.section.SectionId).then(function () {
-                vm.settings = JobLevelSettingModel.settings;
-                lockScreenService.stop();
-            });
-        }
-
-        vm.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-
-        vm.save = function () {
-            const command = {
-                sectionIds: vm.section.SectionId,
-                settings: vm.settings
-            };
-            JobLevelSettingModel.editJobLevelSetting(command, $uibModalInstance);
-        };
-
-        getSettings();
+      JobLevelSettingModel.getByGroupId(vm.group.GroupId).then(function () {
+        vm.settings = JobLevelSettingModel.settings;
+        lockScreenService.stop();
+      });
     }
+
+    vm.cancel = function () {
+      $uibModalInstance.dismiss('cancel');
+    };
+
+    vm.save = function () {
+      const command = {
+        groupIds: vm.group.GroupId,
+        settings: vm.settings
+      };
+      JobLevelSettingModel.editJobLevelSetting(command, $uibModalInstance);
+    };
+
+    getSettings();
+  }
 })(angular);

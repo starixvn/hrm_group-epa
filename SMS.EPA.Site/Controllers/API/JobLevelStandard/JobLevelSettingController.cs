@@ -26,9 +26,9 @@ public class JobLevelSettingController(IUserControlSession userControlSession, I
 
     [HttpGet]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelSetting, Policy = Policy.Read)]
-    public IList<JobLevelSetting> GetBySectionId(int sectionId)
+    public IList<JobLevelSetting> GetByGroupId(int groupId)
     {
-        var criteria = new GetJobLevelSettingBySectionIdCriteria { SectionId = sectionId };
+        var criteria = new GetJobLevelSettingByGroupIdCriteria { GroupId = groupId };
         var settings = baseService.GetData<JobLevelSetting>(criteria);
         return settings.ToList();
     }

@@ -5,7 +5,7 @@ namespace SMS.EPA.Models.JobLevelStandard.JobLevelSetting;
 [Serializable]
 public class JobLevelSettingSummary
 {
-    public int SectionId { get; set; }
+    public int GroupId { get; set; }
     public string Code { get; set; }
     public string Name { get; set; }
 
