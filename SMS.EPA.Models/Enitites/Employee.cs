@@ -31,7 +31,7 @@ public class Employee : IExcelRecord
 
     public string CompanyName { get; set; }
 
-    public string BUName { get; set; }
+    public string BUCode { get; set; }
 
     public string Avatar
     {
