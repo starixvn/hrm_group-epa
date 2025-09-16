@@ -6,7 +6,7 @@
 /********************************************************/
 @font-face {
   font-family: BigNoodleTitling;
-  src: url(../fonts/big_noodle_titling.ttf);
+  src: url(../../Fonts/big_noodle_titling.ttf);
 }
 .table.table-job-level-standard-period thead tr th,
 .table.table-job-level-assessment thead tr th {

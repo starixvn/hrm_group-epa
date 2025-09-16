@@ -6,7 +6,7 @@
 /********************************************************/
 @font-face {
   font-family: BigNoodleTitling;
-  src: url(../fonts/big_noodle_titling.ttf);
+  src: url(../../Fonts/big_noodle_titling.ttf);
 }
 .role-management {
   max-width: 924px;
