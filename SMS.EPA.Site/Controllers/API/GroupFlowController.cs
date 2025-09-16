@@ -17,19 +17,16 @@ using Core.Constants;
 using Core.Model;
 using SMS.EPA.Core.Services;
 
-public class DepartmentFlowController(IUserControlSession session, IDepartmentFlowService departmentFlowService, IBaseService baseService) : BaseController(session)
+public class GroupFlowController(IUserControlSession session, IDepartmentFlowService departmentFlowService, IBaseService baseService) : BaseController(session)
 {
-    private readonly IDepartmentFlowService departmentFlowService = departmentFlowService ?? new DepartmentFlowService();
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-
+    [HttpGet]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
-
-
     public IEnumerable<DepartmentFlowModel> GetByFlowTemplateId(int flowTemplateId)
     {
         return departmentFlowService.GetByFlowTemplateId(flowTemplateId);
     }
 
+    [HttpGet]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
     public IEnumerable<FlowModel> GetById(int groupId, int flowTemplateId)
     {
@@ -44,12 +41,11 @@ public class DepartmentFlowController(IUserControlSession session, IDepartmentFl
 
     [HttpPost]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
-    public CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria)
+    public CommandResult CreateDepartmentFlow([FromBody] CreateDepartmentFlowCriteria criteria)
     {
         var commandResult = new CommandResult();
         if (criteria != null)
         {
-            criteria.DepartmentId = Math.Abs(criteria.DepartmentId);
             criteria.ModifiedBy = CurrentEmployeeId;
             commandResult = baseService.ExecuteNonQuery(criteria);
         }
@@ -57,10 +53,8 @@ public class DepartmentFlowController(IUserControlSession session, IDepartmentFl
         return commandResult;
     }
 
-
+    [HttpGet]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
-
-
     public CommandResult DeleteDepartmentFlow(int departmentId, int flowTemplateId)
     {
         var criteria = new DeleteDepartmentFlowCriteria
@@ -74,6 +68,7 @@ public class DepartmentFlowController(IUserControlSession session, IDepartmentFl
         return baseService.ExecuteNonQuery(criteria);
     }
 
+    [HttpGet]
     public IEnumerable<Group> GetDepartmentHasSetting(int flowTemplateId)
     {
         var criteria = new GetDepartmentSectionHasSettingCriteria

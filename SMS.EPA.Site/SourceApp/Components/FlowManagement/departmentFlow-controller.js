@@ -3,7 +3,7 @@
     /* jshint latedef:nofunc */
     /* jshint validthis:true */
 
-    angular.module('flowMngModule').controller('DepartmentFlowController', departmentFlowController);
+    angular.module('flowMngModule').controller('GroupFlowController', departmentFlowController);
     departmentFlowController.$inject = ['$scope', '$routeParams', 'FlowSettingModel', 'DeptFlowModel', 'CommonModel', 'lockScreenService'];
 
     function departmentFlowController($scope, $routeParams, FlowSettingModel, DeptFlowModel, CommonModel, lockScreenService) {

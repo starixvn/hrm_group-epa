@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="App_Data\ExcelTemplates\DepartmentFlowSettingTemplate.xlsx" />
+    <None Remove="App_Data\ExcelTemplates\GroupFlowSettingTemplate.xlsx" />
     <None Remove="App_Data\ExcelTemplates\PersonalFlowSettingTemplate.xlsx" />
     <None Remove="wwwroot\Content\Site\pdf.css" />
   </ItemGroup>
@@ -69,7 +69,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="App_Data\ExcelTemplates\DepartmentFlowSettingTemplate.xlsx">
+    <Content Include="App_Data\ExcelTemplates\GroupFlowSettingTemplate.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\ExcelTemplates\PersonalFlowSettingTemplate.xlsx">

@@ -10,7 +10,7 @@
             link: function (scope) {
                 scope.$on('exportDepartmentFlowSetting', function () {
                     var data = $.param(scope.resultFlowSettingCtrl.exportDepartmentFlowCriteria),
-                        url = baseUrl + 'exportReport/exportDepartmentFlowSetting',
+                        url = baseUrl + 'exportReport/exportGroupFlowSetting',
                         downloadUrl = url + "?" + data,
                         iframe = $('body iframe');
 

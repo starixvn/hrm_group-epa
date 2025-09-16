@@ -55,7 +55,7 @@
 
         flowModel.createDepartmentFlow = function (vm) {
             const model = {
-                departmentId: -vm.selectedTeam.Id,
+                groupId: vm.selectedTeam.Id,
                 flowTemplateId: vm.FlowTemplateId,
                 isGroup: true,
                 selfs: vm.selfs,

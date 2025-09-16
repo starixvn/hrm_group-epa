@@ -34,7 +34,7 @@ public class ExportReportController : Controller
     private const string DisciplineSummaryTemplatePath = "App_Data/ExcelTemplates/DisciplineSummaryReport.xls";
     private const string EmployeeBasicInfoTemplate = "App_Data/ExcelTemplates/EmployeeBasicInfoTemplate.xls";
     private const string EmployeeFlowSettingTemplate = "App_Data/ExcelTemplates/EmployeeFlowSettingTemplate.xls";
-    private const string DepartmentFlowSettingTemplate = "App_Data/ExcelTemplates/DepartmentFlowSettingTemplate.xlsx";
+    private const string GroupFlowSettingTemplate = "App_Data/ExcelTemplates/GroupFlowSettingTemplate.xlsx";
     private const string PersonalFlowSettingTemplate = "App_Data/ExcelTemplates/PersonalFlowSettingTemplate.xlsx";
     private const string TargetPersonnelSettingTemplate = "App_Data/ExcelTemplates/TargetPersonnelSettingTemplate.xls";
     private const string UpdateFinalScoreTemplatePath = "App_Data/ExcelTemplates/UpdateFinalScore.xls";
@@ -286,7 +286,7 @@ public class ExportReportController : Controller
         return new EmptyResult();
     }
 
-    public async Task<ActionResult> ExportDepartmentFlowSetting(int flowTemplateId, string flowTemplateName)
+    public async Task<ActionResult> ExportGroupFlowSetting(int flowTemplateId, string flowTemplateName)
     {
         if (flowTemplateId > 0 && !string.IsNullOrEmpty(flowTemplateName))
         {
@@ -296,7 +296,7 @@ public class ExportReportController : Controller
             _exportExcelService.SheetName = "Department Flow";
             _exportExcelService.Title = $"{flowTemplateName} - Department Flow Setting";
 
-            _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.ContentRootPath, DepartmentFlowSettingTemplate));
+            _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.ContentRootPath, GroupFlowSettingTemplate));
 
             _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
