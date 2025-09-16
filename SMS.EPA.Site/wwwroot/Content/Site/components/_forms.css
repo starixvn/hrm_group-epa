@@ -1,1 +1,129 @@
-﻿.common-form { border: 1px solid @border-light-color; padding: 10px; margin: 10px 1%; background-color: #F4F4F4; -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; ; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; ; .form-group { margin: 0; .button-icon { margin: 0 5px 0 0; } .checkbox { margin-left: 20px; }  } label { font-weight: normal; color: @font-color; margin-top: 5px; text-align: left; } [class*="col-"] { padding: 5px 15px; } .form-control { -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; ; border: 1px solid #C8C8C8; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; ; height: 30px; font-size: @font-size; padding: 3px 12px 6px; } select.form-control { padding: 4px 5px; } textarea.form-control { min-height: 80px; resize: none; } .colons .control-label:after { content: ":"; }  } .form-control { height: 30px; -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; ; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; ; } textarea.form-control { resize: none; } .form-multiLine { .form-group { margin: 0 0 10px; } .col-sm-2.field { padding: 0; width: 15.33%; &.selectbox { width: 13%; }  } label.col-sm-1 { padding: 3px 7px 0 0; }  } .filter { background-color: #f4f4f4; border: 1px solid #ddd; min-width: 600px; padding: 15px 25px; margin: 7px 0 10px; .lstBox-limit { width: 180px; } .form-group { margin-right: 10px; line-height: 22px; &:last-child { margin-bottom: 0; }  } label.control-label { font-weight: normal; color: @font-color; margin: 1px 5px 0 0; padding-top: 0; } .form-control { font-size: @font-size; height: 27px; padding: 3px 4px; }  } .radio input[type=radio], .checkbox input[type=checkbox] { margin-top: 3px; } @media(max-width: 1024px) { .filter .form-group { margin-bottom: 15px; }  } @media (max-width: 770px) { .filter .form-group { margin-bottom: 15px; }  } 
+/********************************************************/
+/*                        Table                         */
+/********************************************************/
+/********************************************************/
+/*                        Login page                    */
+/********************************************************/
+@font-face {
+  font-family: BigNoodleTitling;
+  src: url(../fonts/big_noodle_titling.ttf);
+}
+.common-form {
+  border: 1px solid #C8C8C8;
+  padding: 10px;
+  margin: 10px 1%;
+  background-color: #F4F4F4;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.common-form .form-group {
+  margin: 0;
+}
+.common-form .form-group .button-icon {
+  margin: 0 5px 0 0;
+}
+.common-form .form-group .checkbox {
+  margin-left: 20px;
+}
+.common-form label {
+  font-weight: normal;
+  color: #010101;
+  margin-top: 5px;
+  text-align: left;
+}
+.common-form [class*="col-"] {
+  padding: 5px 15px;
+}
+.common-form .form-control {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  border: 1px solid #C8C8C8;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  height: 30px;
+  font-size: 13px;
+  padding: 3px 12px 6px;
+}
+.common-form select.form-control {
+  padding: 4px 5px;
+}
+.common-form textarea.form-control {
+  min-height: 80px;
+  resize: none;
+}
+.common-form .colons .control-label:after {
+  content: ":";
+}
+.form-control {
+  height: 30px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+textarea.form-control {
+  resize: none;
+}
+.form-multiLine .form-group {
+  margin: 0 0 10px;
+}
+.form-multiLine .col-sm-2.field {
+  padding: 0;
+  width: 15.33%;
+}
+.form-multiLine .col-sm-2.field.selectbox {
+  width: 13%;
+}
+.form-multiLine label.col-sm-1 {
+  padding: 3px 7px 0 0;
+}
+.filter {
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  min-width: 600px;
+  padding: 15px 25px;
+  margin: 7px 0 10px;
+}
+.filter .lstBox-limit {
+  width: 180px;
+}
+.filter .form-group {
+  margin-right: 10px;
+  line-height: 22px;
+}
+.filter .form-group:last-child {
+  margin-bottom: 0;
+}
+.filter label.control-label {
+  font-weight: normal;
+  color: #010101;
+  margin: 1px 5px 0 0;
+  padding-top: 0;
+}
+.filter .form-control {
+  font-size: 13px;
+  height: 27px;
+  padding: 3px 4px;
+}
+.radio input[type=radio],
+.checkbox input[type=checkbox] {
+  margin-top: 3px;
+}
+@media (max-width: 1024px) {
+  .filter .form-group {
+    margin-bottom: 15px;
+  }
+}
+@media (max-width: 770px) {
+  .filter .form-group {
+    margin-bottom: 15px;
+  }
+}
