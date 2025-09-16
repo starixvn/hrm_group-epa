@@ -4,6 +4,12 @@
 .btn-assign {
   margin: 4px 0 2px 5px;
 }
+.target-setting-template {
+  max-width: 1300px;
+  table-layout: fixed;
+  width: 100%;
+}
+
 .table.target-setting-template .oddRow > tr {
   background-color: #ececec;
 }

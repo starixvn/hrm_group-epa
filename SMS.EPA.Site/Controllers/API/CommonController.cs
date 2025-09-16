@@ -226,12 +226,10 @@ public class CommonController(
 
     public IList<MultiSelectItem> GetOrgChartJLSTemplateSetting()
     {
-        var units = unitService.Get();
-
         var criteria = new GetOrgChartCriteria();
-        (var departments, var teams) = baseService.FetchMultiple<Department, Team>(criteria);
+        (var units, var departments, var teams) = baseService.FetchMultiple<Unit, Department, Team>(criteria);
 
-        return GetOrgChart(units, departments.ToList(), teams.ToList());
+        return GetOrgChart(units.ToList(), departments.ToList(), teams.ToList());
     }
 
     private static IList<MenuItem> GroupMenuItem(IEnumerable<MenuItem> menuItems)
@@ -256,7 +254,7 @@ public class CommonController(
             items = units.Select(unit => new MultiSelectItem
             {
                 Id = unit.UnitId,
-                Text = unit.Name,
+                Text = unit.Code,
                 Items = departments.Where(dept => dept.UnitId == unit.UnitId).Select(dept => new MultiSelectItem
                 {
                     Id = dept.DepartmentId,

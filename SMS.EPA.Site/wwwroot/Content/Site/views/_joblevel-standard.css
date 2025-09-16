@@ -15,7 +15,10 @@
 }
 .table.table-job-level-setting {
   max-width: 1300px;
+  table-layout: fixed;
+  width: 100%;
 }
+
 .table.table-job-level-assessment {
   margin-bottom: 20px;
 }

@@ -19,21 +19,18 @@ public class ExportJLSTemplateSettingController(
     : Controller
 {
     private const int DefaultContentRowStartIndexForTemplate = 3;
-    private const string Template = "App_Data/ExcelTemplates/JLSSectionTemplateSetting.xls";
+    private const string Template = "App_Data/ExcelTemplates/JLSTeamTemplateSetting.xls";
 
     private readonly IBaseService _baseService = baseService ?? new BaseService();
     private readonly IExportExcelService _exportExcelService = exportExcelService ?? new ExportExcelService();
 
-    public ExportJLSTemplateSettingController() : this(null, null, null)
-    {
-    }
 
     public async Task<ActionResult> ExportSectionTemplateSetting(GetJobLevelStandardTemplateSettingCriteria criteria)
     {
         var datas = _baseService.GetData<JobLevelStandardTemplateSetting>(criteria);
 
-        _exportExcelService.FileName = "JLS_Section_Template_Setting";
-        _exportExcelService.SheetName = "Section";
+        _exportExcelService.FileName = "JLS_Team_Template_Setting";
+        _exportExcelService.SheetName = "Team";
         _exportExcelService.Title = "JLS Template Setting";
 
         _exportExcelService.InitializeWithTemplate(Path.Combine(webHostEnvironment.ContentRootPath, Template));
