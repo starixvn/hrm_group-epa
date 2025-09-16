@@ -22,6 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="App_Data\ExcelTemplates\DepartmentFlowSettingTemplate.xlsx" />
+    <None Remove="App_Data\ExcelTemplates\PersonalFlowSettingTemplate.xlsx" />
     <None Remove="wwwroot\Content\Site\pdf.css" />
   </ItemGroup>
 
@@ -67,6 +69,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="App_Data\ExcelTemplates\DepartmentFlowSettingTemplate.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\ExcelTemplates\PersonalFlowSettingTemplate.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Data\SpNames.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

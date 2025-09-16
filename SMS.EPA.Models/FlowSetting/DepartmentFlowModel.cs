@@ -22,7 +22,7 @@ public class DepartmentFlowModel : IExcelRecord
         {
             Count = 0,
             Department,
-            Section = Unit,
+            Unit = Unit,
             Team,
             HumanResource = GetEvaluator(HumanResources),
             Evaluator = GetEvaluator(Evaluators),

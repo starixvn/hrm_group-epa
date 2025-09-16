@@ -34,8 +34,8 @@ public class ExportReportController : Controller
     private const string DisciplineSummaryTemplatePath = "App_Data/ExcelTemplates/DisciplineSummaryReport.xls";
     private const string EmployeeBasicInfoTemplate = "App_Data/ExcelTemplates/EmployeeBasicInfoTemplate.xls";
     private const string EmployeeFlowSettingTemplate = "App_Data/ExcelTemplates/EmployeeFlowSettingTemplate.xls";
-    private const string DepartmentFlowSettingTemplate = "App_Data/ExcelTemplates/DepartmentFlowSettingTemplate.xls";
-    private const string PersonalFlowSettingTemplate = "App_Data/ExcelTemplates/PersonalFlowSettingTemplate.xls";
+    private const string DepartmentFlowSettingTemplate = "App_Data/ExcelTemplates/DepartmentFlowSettingTemplate.xlsx";
+    private const string PersonalFlowSettingTemplate = "App_Data/ExcelTemplates/PersonalFlowSettingTemplate.xlsx";
     private const string TargetPersonnelSettingTemplate = "App_Data/ExcelTemplates/TargetPersonnelSettingTemplate.xls";
     private const string UpdateFinalScoreTemplatePath = "App_Data/ExcelTemplates/UpdateFinalScore.xls";
     private readonly IDisciplineService _disciplineService;

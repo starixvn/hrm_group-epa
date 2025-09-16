@@ -4,12 +4,14 @@ using SMS.EPA.Models.Report;
 
 namespace SMS.EPA.Services.Implement.ExportFile;
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Interfaces.ExportFile;
 using NPOI.HSSF.UserModel;
+using NPOI.XSSF.UserModel;
 using NPOI.SS.UserModel;
 
 public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null) : IExportExcelService
@@ -49,8 +51,20 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
 
     public IList<ConditionalCellStyle> ConditionalCellStyles { get; set; }
 
+    private void SetResponseHeaders(HttpResponse response, string fileName)
+    {
+        // Determine file format based on workbook type
+        bool isXlsx = Workbook is XSSFWorkbook;
+        string contentType = isXlsx ? "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" : "application/vnd.ms-excel";
+        string fileExtension = isXlsx ? "xlsx" : "xls";
+        
+        response.ContentType = contentType;
+        response.Headers["Content-Disposition"] = $"attachment; filename={fileName}.{fileExtension}";
+    }
+
     public void Initialize()
     {
+        // Default to HSSFWorkbook for backward compatibility
         Workbook = new HSSFWorkbook();
         Sheet = Workbook.CreateSheet(SheetName);
 
@@ -64,7 +78,17 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
     public void InitializeWithTemplate(string templatePath)
     {
         using var fireStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
-        Workbook = new HSSFWorkbook(fireStream, true);
+        
+        // Auto-detect file format based on extension
+        if (templatePath.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase))
+        {
+            Workbook = new XSSFWorkbook(fireStream);
+        }
+        else
+        {
+            Workbook = new HSSFWorkbook(fireStream, true);
+        }
+        
         Sheet = Workbook.GetSheetAt(0);
 
         ConditionalCellStyles = new List<ConditionalCellStyle>();
@@ -154,9 +178,13 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
 
     private void FormatSheet()
     {
-        for (var i = 0; i < TotalColumns; i++)
+        // Only auto-size columns for HSSFWorkbook (Excel 97-2003)
+        if (Workbook is HSSFWorkbook)
         {
-            Sheet.AutoSizeColumn(i);
+            for (var i = 0; i < TotalColumns; i++)
+            {
+                Sheet.AutoSizeColumn(i);
+            }
         }
 
         Sheet.CreateFreezePane(0, ContentRowStartIndex);
@@ -190,8 +218,7 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
         if (response == null) return;
 
         response.Clear();
-        response.ContentType = "application/vnd.ms-excel";
-        response.Headers["Content-Disposition"] = $"attachment; filename={FileName}.xls";
+        SetResponseHeaders(response, FileName);
 
         using var stream = new MemoryStream();
         Workbook.Write(stream, false);
@@ -226,8 +253,7 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
         if (response == null) return;
 
         response.Clear();
-        response.ContentType = "application/vnd.ms-excel";
-        response.Headers["Content-Disposition"] = $"attachment; filename={FileName}.xls";
+        SetResponseHeaders(response, FileName);
 
         using var stream = new MemoryStream();
         Workbook.Write(stream, false);
