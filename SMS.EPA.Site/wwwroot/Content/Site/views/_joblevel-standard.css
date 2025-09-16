@@ -1,1 +1,173 @@
-﻿.table { &.table-job-level-standard-period, &.table-job-level-assessment { thead tr { th { border-width: 0 1px 1px 0; border-bottom: 1px solid @header-border-color; }  }  } &.table-job-level-setting { max-width: 1300px; } &.table-job-level-assessment { margin-bottom: 20px; .grid-title-label { font-size: 1em; height: 18px; padding-left: 4px; padding-top: 5px; font-weight: bold; } thead { .btn-approve-multi { margin-top: 4px; margin-left: 5px; } .col-fullname { min-width: 140px; } .col-los { min-width: 90px; max-width: 90px; } .col-doc, .col-current-joblevel, .col-system-propose { min-width: 80px; max-width: 80px; } .col-department, .col-section, .col-team, .col-template { min-width: 120px; min-width: 140px; } .col-level, .col-weight { min-width: 45px; max-width: 60px; } .col-action { min-width: 60px; max-width: 80px; }  } tbody { .col-input { padding-left: 4px; padding-right: 4px; } .col-action { .btn-group { display: flex; justify-content: center; align-items: center; .btn { padding: 2px 3px; font-size: 11px; &.btn-cancel { margin-left: 8px; }  }  }  }  } input.form-control { height: 21px; font-size: 13px; border-width: 0 0 1px 0; padding: 4px 2px; background-color: transparent; &:focus { box-shadow: none; } &:disabled { background-color: transparent; border-width: 0; }  } tr { &.under-standard { td { &.difference { background-color: rgba(214, 101, 69, 0.8) !important; color: #fff; }  }  } &.promotion { td { &.difference { background-color: rgba(76, 175, 80, 0.8) !important; color: #fff; }  }  }  }  }  } .edit-job-level-standard-period-form { width: 768px; } .job-level-standard-period-modal { .calendar-input-group { margin-bottom: 0; }  } .edit-employee-setting-modal { .modal-dialog { width: 768px; .employee-info { margin-top: 7px; }  } .table-edit-employee-setting { .chosen-container { .chosen-choices { border: 1px solid #ccc; border-radius: 0; background-image: none; } &.chosen-container-multi { .chosen-choices { border: 1px solid #ccc; }  } &.chosen-container-active { .chosen-choices { border: 1px solid #5897fb; box-shadow: none; }  }  } .calendar-input-group { margin: 0; } .template-col { text-align: left; select { height: 26px; width: 180px; color: #555; }  }  }  } .job-level-assessment-container, .job-level-assessment-report-container { .no-data { background-color: #ebe4d4; font-size: 15px; margin: 10px 0; font-weight: bold; padding: 10px 12px; text-shadow: none; color: #333; }  } .job-level-standard-kpi, .job-level-standard-template { max-width: 1024px; .form-filter { max-width: 1024px; width: unset; } .table { .col-active, .col-action { width: 10%; }  } &.detail-target-template { .kpi-content { ul { margin-bottom: 5px; }  }  }  } .popover-assessment-kpi { .popover-assessment-title { border-bottom: 1px dashed #808080; margin-bottom: 8px; } .kpis { font-size: 13px; }  } .blur-string { opacity: 0.6 !important; } 
+/********************************************************/
+/*                        Table                         */
+/********************************************************/
+/********************************************************/
+/*                        Login page                    */
+/********************************************************/
+@font-face {
+  font-family: BigNoodleTitling;
+  src: url(../fonts/big_noodle_titling.ttf);
+}
+.table.table-job-level-standard-period thead tr th,
+.table.table-job-level-assessment thead tr th {
+  border-width: 0 1px 1px 0;
+  border-bottom: 1px solid #373737;
+}
+.table.table-job-level-setting {
+  max-width: 1300px;
+}
+.table.table-job-level-assessment {
+  margin-bottom: 20px;
+}
+.table.table-job-level-assessment .grid-title-label {
+  font-size: 1em;
+  height: 18px;
+  padding-left: 4px;
+  padding-top: 5px;
+  font-weight: bold;
+}
+.table.table-job-level-assessment thead .btn-approve-multi {
+  margin-top: 4px;
+  margin-left: 5px;
+}
+.table.table-job-level-assessment thead .col-fullname {
+  min-width: 140px;
+}
+.table.table-job-level-assessment thead .col-los {
+  min-width: 90px;
+  max-width: 90px;
+}
+.table.table-job-level-assessment thead .col-doc,
+.table.table-job-level-assessment thead .col-current-joblevel,
+.table.table-job-level-assessment thead .col-system-propose {
+  min-width: 80px;
+  max-width: 80px;
+}
+.table.table-job-level-assessment thead .col-department,
+.table.table-job-level-assessment thead .col-section,
+.table.table-job-level-assessment thead .col-team,
+.table.table-job-level-assessment thead .col-template {
+  min-width: 120px;
+  min-width: 140px;
+}
+.table.table-job-level-assessment thead .col-level,
+.table.table-job-level-assessment thead .col-weight {
+  min-width: 45px;
+  max-width: 60px;
+}
+.table.table-job-level-assessment thead .col-action {
+  min-width: 60px;
+  max-width: 80px;
+}
+.table.table-job-level-assessment tbody .col-input {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+.table.table-job-level-assessment tbody .col-action .btn-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.table.table-job-level-assessment tbody .col-action .btn-group .btn {
+  padding: 2px 3px;
+  font-size: 11px;
+}
+.table.table-job-level-assessment tbody .col-action .btn-group .btn.btn-cancel {
+  margin-left: 8px;
+}
+.table.table-job-level-assessment input.form-control {
+  height: 21px;
+  font-size: 13px;
+  border-width: 0 0 1px 0;
+  padding: 4px 2px;
+  background-color: transparent;
+}
+.table.table-job-level-assessment input.form-control:focus {
+  box-shadow: none;
+}
+.table.table-job-level-assessment input.form-control:disabled {
+  background-color: transparent;
+  border-width: 0;
+}
+.table.table-job-level-assessment tr.under-standard td.difference {
+  background-color: rgba(214, 101, 69, 0.8) !important;
+  color: #fff;
+}
+.table.table-job-level-assessment tr.promotion td.difference {
+  background-color: rgba(76, 175, 80, 0.8) !important;
+  color: #fff;
+}
+.edit-job-level-standard-period-form {
+  width: 768px;
+}
+.job-level-standard-period-modal .calendar-input-group {
+  margin-bottom: 0;
+}
+.edit-employee-setting-modal .modal-dialog {
+  width: 768px;
+}
+.edit-employee-setting-modal .modal-dialog .employee-info {
+  margin-top: 7px;
+}
+.edit-employee-setting-modal .table-edit-employee-setting .chosen-container .chosen-choices {
+  border: 1px solid #ccc;
+  border-radius: 0;
+  background-image: none;
+}
+.edit-employee-setting-modal .table-edit-employee-setting .chosen-container.chosen-container-multi .chosen-choices {
+  border: 1px solid #ccc;
+}
+.edit-employee-setting-modal .table-edit-employee-setting .chosen-container.chosen-container-active .chosen-choices {
+  border: 1px solid #5897fb;
+  box-shadow: none;
+}
+.edit-employee-setting-modal .table-edit-employee-setting .calendar-input-group {
+  margin: 0;
+}
+.edit-employee-setting-modal .table-edit-employee-setting .template-col {
+  text-align: left;
+}
+.edit-employee-setting-modal .table-edit-employee-setting .template-col select {
+  height: 26px;
+  width: 180px;
+  color: #555;
+}
+.job-level-assessment-container .no-data,
+.job-level-assessment-report-container .no-data {
+  background-color: #ebe4d4;
+  font-size: 15px;
+  margin: 10px 0;
+  font-weight: bold;
+  padding: 10px 12px;
+  text-shadow: none;
+  color: #333;
+}
+.job-level-standard-kpi,
+.job-level-standard-template {
+  max-width: 1024px;
+}
+.job-level-standard-kpi .form-filter,
+.job-level-standard-template .form-filter {
+  max-width: 1024px;
+  width: unset;
+}
+.job-level-standard-kpi .table .col-active,
+.job-level-standard-template .table .col-active,
+.job-level-standard-kpi .table .col-action,
+.job-level-standard-template .table .col-action {
+  width: 10%;
+}
+.job-level-standard-kpi.detail-target-template .kpi-content ul,
+.job-level-standard-template.detail-target-template .kpi-content ul {
+  margin-bottom: 5px;
+}
+.popover-assessment-kpi .popover-assessment-title {
+  border-bottom: 1px dashed #808080;
+  margin-bottom: 8px;
+}
+.popover-assessment-kpi .kpis {
+  font-size: 13px;
+}
+.blur-string {
+  opacity: 0.6 !important;
+}

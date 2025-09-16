@@ -1,1 +1,28 @@
-﻿.role-management { max-width: 924px; .authority-table { margin-bottom: 20px; .child-check-box { padding-top: 8px; } .host-only-read { visibility: hidden; } .child-function-name { padding-top: 10px; } .relative-icon { font-family: @font-family; }  }  } 
+/********************************************************/
+/*                        Table                         */
+/********************************************************/
+/********************************************************/
+/*                        Login page                    */
+/********************************************************/
+@font-face {
+  font-family: BigNoodleTitling;
+  src: url(../fonts/big_noodle_titling.ttf);
+}
+.role-management {
+  max-width: 924px;
+}
+.role-management .authority-table {
+  margin-bottom: 20px;
+}
+.role-management .authority-table .child-check-box {
+  padding-top: 8px;
+}
+.role-management .authority-table .host-only-read {
+  visibility: hidden;
+}
+.role-management .authority-table .child-function-name {
+  padding-top: 10px;
+}
+.role-management .authority-table .relative-icon {
+  font-family: Tahoma, Verdana, Helvetical, sans-serif;
+}
