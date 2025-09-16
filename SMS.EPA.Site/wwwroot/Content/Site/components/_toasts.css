@@ -3,7 +3,7 @@
   top: 0px;
 }
 #toast-container .toast-success {
-  background: url(../Site/images/success.png) #cae3bf no-repeat 10px center !important;
+  background: url(../images/success.png) #cae3bf no-repeat 10px center !important;
   border: 1px solid #9DB886;
   color: #3C763D;
   padding: 10px 15px 10px 50px;

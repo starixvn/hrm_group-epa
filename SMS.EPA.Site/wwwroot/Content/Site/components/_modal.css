@@ -23,7 +23,7 @@
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 .modal-dialog .modal-header .popup-header .close-popup {
-  background: url(../Site/images/icon_sprite.png);
+  background: url(../images/icon_sprite.png);
   height: 15px;
   width: 16px;
   position: absolute;

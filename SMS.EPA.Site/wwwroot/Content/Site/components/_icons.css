@@ -3,32 +3,32 @@
   background-repeat: no-repeat;
 }
 .icon.plus {
-  background: url(../Site/images/sprite_ico_2012-05-15.png) 0 -72px;
+  background: url(../images/sprite_ico_2012-05-15.png) 0 -72px;
   height: 24px;
   width: 24px;
 }
 .icon.assign {
-  background: url(../Site/images/sprite_ico_2012-05-15.png) -217px -192px;
+  background: url(../images/sprite_ico_2012-05-15.png) -217px -192px;
   height: 24px;
   width: 20px;
 }
 .icon.back {
-  background: url(../Site/images/sprite_ico_2012-05-15.png) -5px -53px;
+  background: url(../images/sprite_ico_2012-05-15.png) -5px -53px;
   height: 14px;
   width: 14px;
 }
 .icon.email {
-  background: url('../Site/images/sprite_ico_2012-05-15.png') -124px -30px;
+  background: url('../images/sprite_ico_2012-05-15.png') -124px -30px;
   height: 24px;
   width: 24px;
 }
 .icon-description {
-  background: url('../Site/images/sprite_ico_2012-05-15.png') no-repeat -172px -197px;
+  background: url('../images/sprite_ico_2012-05-15.png') no-repeat -172px -197px;
   width: 16px;
   height: 16px;
 }
 .icon-sorting-bg {
-  background-image: url('../Site/images/sort-icon.png') !important;
+  background-image: url('../images/sort-icon.png') !important;
   background-position: 0 -5px;
   background-repeat: no-repeat !important;
   cursor: pointer;
@@ -43,31 +43,31 @@
   background-position: 0 -53px !important;
 }
 .icon-view {
-  background: url('../Site/images/sprite_ico_2012-05-15.png') no-repeat -4px -100px;
+  background: url('../images/sprite_ico_2012-05-15.png') no-repeat -4px -100px;
   width: 16px;
   height: 16px;
   display: inline-block;
   cursor: pointer;
 }
 .search-inline-textbox {
-  background: url(../Site/images/icon-search.png) #fff no-repeat right center;
+  background: url(../images/icon-search.png) #fff no-repeat right center;
   border: 1px solid #ccc;
 }
 .icon-save-submit {
-  background: url('../Site/images/save_submit.png') no-repeat;
+  background: url('../images/save_submit.png') no-repeat;
   display: inline-block;
   width: 16px;
   height: 16px;
   vertical-align: middle;
 }
 .icon-pencil {
-  background: url('../Site/images/sprite_ico_2012-05-15.png') no-repeat -148px -171px;
+  background: url('../images/sprite_ico_2012-05-15.png') no-repeat -148px -171px;
   width: 16px;
   height: 16px;
   display: inline-block;
 }
 .icon-excel {
-  background: rgba(0, 0, 0, 0) url("../Site/images/excel-icon.png") no-repeat scroll 0 -26px;
+  background: rgba(0, 0, 0, 0) url("../images/excel-icon.png") no-repeat scroll 0 -26px;
   height: 17px;
   width: 18px;
   margin: 2px 5px 2px;
@@ -76,7 +76,7 @@
   display: inline-block;
 }
 .icon-pdf {
-  background: url('../Site/images/pdf-icon.png') no-repeat;
+  background: url('../images/pdf-icon.png') no-repeat;
   display: inline-block;
   width: 16px;
   height: 16px;
@@ -85,10 +85,10 @@
 .icon-pdf:hover,
 .icon-pdf:focus {
   cursor: pointer;
-  background: url('../Site/images/pdf-icon-inactive.png') no-repeat;
+  background: url('../images/pdf-icon-inactive.png') no-repeat;
 }
 .icon-alert {
-  background: url('../Site/images/icon-alert.png') no-repeat;
+  background: url('../images/icon-alert.png') no-repeat;
   display: inline-block;
   width: 16px;
   height: 16px;
@@ -102,8 +102,8 @@
   cursor: pointer;
 }
 .icon-plus {
-  background: url('../Site/images/plus-icon.gif');
+  background: url('../images/plus-icon.gif');
 }
 .icon-minus {
-  background: url('../Site/images/minus-icon.gif');
+  background: url('../images/minus-icon.gif');
 }

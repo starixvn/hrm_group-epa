@@ -23,7 +23,7 @@ table .col-description {
   max-width: 300px;
 }
 .search-textbox {
-  background: #fff url("../Site/images/icon-search.png") no-repeat scroll 188px center;
+  background: #fff url("../images/icon-search.png") no-repeat scroll 188px center;
   border: 1px solid #ccc;
   box-shadow: none;
   color: #555;
