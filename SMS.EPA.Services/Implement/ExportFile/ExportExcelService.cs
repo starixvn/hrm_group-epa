@@ -1,4 +1,5 @@
-﻿using SMS.EPA.Core.Utilities.NPOIExtensions;
+﻿using System.Threading.Tasks;
+using SMS.EPA.Core.Utilities.NPOIExtensions;
 using SMS.EPA.Models.Report;
 
 namespace SMS.EPA.Services.Implement.ExportFile;
@@ -166,7 +167,7 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
         TitleStyle = Sheet.GetRow(TitleRowIndex).GetCell(0).CellStyle;
     }
 
-    public void Export(IEnumerable<IExcelRecord> datas, bool firstColumnAutoIncrement = false)
+    public async Task Export(IEnumerable<IExcelRecord> datas, bool firstColumnAutoIncrement = false)
     {
         var dataList = datas as IList<IExcelRecord> ?? datas.ToList();
 
@@ -194,10 +195,10 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
 
         using var stream = new MemoryStream();
         Workbook.Write(stream, false);
-        response.Body.Write(stream.ToArray());
+        await response.Body.WriteAsync(stream.ToArray());
     }
 
-    public void ExportWithTemplate(
+    public async Task ExportWithTemplate(
         IEnumerable<IExcelRecord> datas,
         bool firstColumnAutoIncrement = false,
         bool rewriteTitle = false)
@@ -230,6 +231,6 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
 
         using var stream = new MemoryStream();
         Workbook.Write(stream, false);
-        response.Body.Write(stream.ToArray());
+        await response.Body.WriteAsync(stream.ToArray());
     }
 }

@@ -23,14 +23,12 @@ public class PersonalFlowController(
     : BaseController(userControlSession)
 {
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
-
     public IEnumerable<PersonalFlowModel> GetByFlowTemplateId(int flowTemplateId)
     {
         return personalFlowService.GetByFlowTemplateId(flowTemplateId);
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
-
     public IEnumerable<FlowModel> GetById(int employeeId, int flowTemplateId)
     {
         var criteria = new GetPersonalFlowByIdCriteria
@@ -55,10 +53,7 @@ public class PersonalFlowController(
         return commandResult;
     }
 
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
-
-
     public CommandResult DeletePersonalFlow(int employeeId, int flowTemplateId)
     {
         var criteria = new DeletePersonalFlowCriteria
@@ -71,7 +66,6 @@ public class PersonalFlowController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
-
     public EmployeeFlowSettingModel GetEmployeeFlowSetting(
         int flowTemplateId,
         string teamIds = null,

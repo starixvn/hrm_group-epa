@@ -11,7 +11,7 @@ public class PersonalFlowModel : IExcelRecord
     public string Nickname { get; set; }
     public string FullName { get; set; }
     public string Department { get; set; }
-    public string Section { get; set; }
+    public string Unit { get; set; }
     public string Team { get; set; }
 
     public IList<ProcessFlowModel> HumanResources { get; set; } = new List<ProcessFlowModel>();
@@ -28,7 +28,7 @@ public class PersonalFlowModel : IExcelRecord
             FullName,
             Nickname,
             Department,
-            Section,
+            Unit = Unit,
             Team,
             HumanResource = GetEvaluator(HumanResources),
             Evaluator = GetEvaluator(Evaluators),

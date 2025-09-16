@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using SMS.EPA.Models.Report.EPAComment;
@@ -15,7 +16,7 @@ public class ExportCommentReportController(
     IWebHostEnvironment webHostEnvironment)
     : Controller
 {
-    private const string CommentReportTemplate = @"~\ExcelTemplates\CommentReportTemplate.xls";
+    private const string CommentReportTemplate = @"~\App_Data\ExcelTemplates\CommentReportTemplate.xls";
     private readonly ICommentReportService _commentReportService = commentReportService ?? new CommentReportService();
     private readonly IExportCommentReportService _exportExcelService = exportExcelService ?? new ExportCommentReportService();
 
@@ -24,7 +25,7 @@ public class ExportCommentReportController(
     {
     }
 
-    public ActionResult ExportExcel(int periodId, string periodName)
+    public async Task<ActionResult> ExportExcel(int periodId, string periodName)
     {
         var data = new EPASummaryCommentReportModel
         {
@@ -33,7 +34,7 @@ public class ExportCommentReportController(
             PeriodName = periodName
         };
 
-        _exportExcelService.Export(data, Path.Combine(webHostEnvironment.WebRootPath, CommentReportTemplate));
+        await _exportExcelService.Export(data, Path.Combine(webHostEnvironment.ContentRootPath, CommentReportTemplate));
 
         return new EmptyResult();
     }

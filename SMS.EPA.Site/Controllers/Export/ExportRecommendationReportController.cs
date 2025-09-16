@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using SMS.EPA.Services.Implement.ExportFile;
@@ -14,7 +15,7 @@ public class ExportRecommendationReportController(
     IWebHostEnvironment webHostEnvironment)
     : Controller
 {
-    private const string RecommendationReportTemplate ="ExcelTemplates/RecommendationReportTemplate.xls";
+    private const string RecommendationReportTemplate ="App_Data/ExcelTemplates/RecommendationReportTemplate.xls";
     private readonly IRecomendationReportService _recomendationReportService = recomendationReportService ?? new RecomendationReportService();
     private readonly IExportRecommendationReportService _exportExcelService = exportExcelService ?? new ExportRecommendationReportService();
 
@@ -23,11 +24,11 @@ public class ExportRecommendationReportController(
     {
     }
 
-    public ActionResult ExportExcel(int periodId)
+    public async Task<ActionResult> ExportExcel(int periodId)
     {
         var data = _recomendationReportService.GetRecommendationReport(periodId);
 
-        _exportExcelService.Export(data, Path.Combine(webHostEnvironment.WebRootPath, RecommendationReportTemplate));
+        await _exportExcelService.Export(data, Path.Combine(webHostEnvironment.ContentRootPath, RecommendationReportTemplate));
 
         return new EmptyResult();
     }

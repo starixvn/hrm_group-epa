@@ -29,9 +29,9 @@ public class DepartmentFlowService(
         {
             FlowTemplateId = flowTemplateId
         };
-        (var flows, var processes) = baseService.FetchMultiple<DepartmentFlowModel, ProcessFlowModel>(criteria);
+        var (flows, processes) = baseService.FetchMultiple<DepartmentFlowModel, ProcessFlowModel>(criteria);
         MappingFlow(flows, processes);
-        return flows.OrderBy(i => i.Department).ThenBy(x => x.Section);
+        return flows.OrderBy(i => i.Unit).ThenBy(x => x.Department);
     }
 
     public IEnumerable<FlowModel> GetById(GetDepartmentFlowByIdCriteria criteria)
@@ -49,7 +49,7 @@ public class DepartmentFlowService(
     {
         foreach (var flow in flows)
         {
-            foreach (var process in processes.Where(x => x.DepartmentId == flow.DepartmentId))
+            foreach (var process in processes.Where(x => x.GroupId == flow.GroupId))
             {
                 switch (process.ProcessId)
                 {

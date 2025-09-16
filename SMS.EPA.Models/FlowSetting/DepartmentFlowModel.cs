@@ -6,9 +6,9 @@ namespace SMS.EPA.Models.FlowSetting;
 
 public class DepartmentFlowModel : IExcelRecord
 {
-    public int DepartmentId { get; set; }
+    public int GroupId { get; set; }
     public string Department { get; set; }
-    public string Section { get; set; }
+    public string Unit { get; set; }
     public string Team { get; set; }
 
     public IList<ProcessFlowModel> HumanResources { get; set; } = new List<ProcessFlowModel>();
@@ -22,7 +22,7 @@ public class DepartmentFlowModel : IExcelRecord
         {
             Count = 0,
             Department,
-            Section,
+            Section = Unit,
             Team,
             HumanResource = GetEvaluator(HumanResources),
             Evaluator = GetEvaluator(Evaluators),

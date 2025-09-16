@@ -1,8 +1,9 @@
-﻿using SMS.EPA.Models.Report.EPARecommendation;
+﻿using System.Threading.Tasks;
+using SMS.EPA.Models.Report.EPARecommendation;
 
 namespace SMS.EPA.Services.Interfaces.ExportFile;
 
 public interface IExportRecommendationReportService
 {
-    void Export(EPASummaryRecommendationReportModel recommendations, string templatePath);
+    Task Export(EPASummaryRecommendationReportModel recommendations, string templatePath);
 }

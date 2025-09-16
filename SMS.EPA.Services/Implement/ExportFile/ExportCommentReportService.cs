@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
@@ -27,7 +28,7 @@ public class ExportCommentReportService(IHttpContextAccessor httpContextAccessor
     private string Title { get; set; }
     private IEnumerable<EPASummaryCommentModel> SummaryComments { get; set; }
 
-    public void Export(EPASummaryCommentReportModel data, string templatePath)
+    public async Task Export(EPASummaryCommentReportModel data, string templatePath)
     {
         InitializeWithTemplate(templatePath);
         GetData(data);
@@ -43,7 +44,7 @@ public class ExportCommentReportService(IHttpContextAccessor httpContextAccessor
 
         using var stream = new MemoryStream();
         Workbook.Write(stream, false);
-        response.Body.Write(stream.ToArray());
+        await response.Body.WriteAsync(stream.ToArray());
     }
 
     private void InitializeWithTemplate(string templatePath)

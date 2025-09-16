@@ -1,4 +1,5 @@
-﻿using SMS.EPA.Core.Services.Interfaces;
+﻿using System.Threading.Tasks;
+using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Criteria.TargetTemplate;
 using SMS.EPA.Models.TargetTemplate;
 using SMS.EPA.Services.Interfaces.ExportFile;
@@ -17,9 +18,9 @@ public class ExportTargetTemplateController(
     IWebHostEnvironment webHostEnvironment)
     : Controller
 {
-    private const string TargetTemplateKPIsTemplate = "ExcelTemplates/TargetTemplateKPIsTemplate.xls";
+    private const string TargetTemplateKPIsTemplate = "App_Data/ExcelTemplates/TargetTemplateKPIsTemplate.xls";
 
-    public ActionResult ExportTargetTemplateKPIs(int targetTemplateId)
+    public async Task<ActionResult> ExportTargetTemplateKPIs(int targetTemplateId)
     {
         var criteria = new GetTargetTemplateByIdCriteria
         {
@@ -34,7 +35,7 @@ public class ExportTargetTemplateController(
         var targetTemplate = baseService.GetDataEntity<TargetTemplate>(criteria);
         var kpis = targetTemplateService.GetKPIOfTargetTemplate(kpisCriteria, false);
 
-        exportTargetTemplateService.Export(targetTemplate, kpis, Path.Combine(webHostEnvironment.WebRootPath, TargetTemplateKPIsTemplate));
+        await exportTargetTemplateService.Export(targetTemplate, kpis, Path.Combine(webHostEnvironment.ContentRootPath, TargetTemplateKPIsTemplate));
 
         return new EmptyResult();
     }

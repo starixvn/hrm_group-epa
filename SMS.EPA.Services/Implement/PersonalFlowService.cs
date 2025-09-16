@@ -29,10 +29,10 @@ public class PersonalFlowService(
         {
             FlowTemplateId = flowTemplateId
         };
-        (var flows, var processes) = baseService.FetchMultiple<PersonalFlowModel, ProcessFlowModel>(criteria);
+        var (flows, processes) = baseService.FetchMultiple<PersonalFlowModel, ProcessFlowModel>(criteria);
         MappingFlow(flows, processes);
 
-        return flows.OrderBy(i => i.Department).ThenBy(x => x.Section);
+        return flows.OrderBy(i => i.Unit).ThenBy(x => x.Department);
     }
 
     public IEnumerable<FlowModel> GetById(GetPersonalFlowByIdCriteria criteria)

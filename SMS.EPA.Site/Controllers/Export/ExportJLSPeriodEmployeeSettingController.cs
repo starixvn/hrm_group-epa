@@ -1,4 +1,5 @@
 ﻿
+using System.Threading.Tasks;
 using SMS.EPA.Criteria.JobLevelStandard.Period;
 using SMS.EPA.Services.Implement.JobLevelStandard;
 using SMS.EPA.Services.Interfaces.JobLevelStandard;
@@ -18,11 +19,11 @@ public class ExportJLSPeriodEmployeeSettingController(
     : Controller
 {
     private const int DefaultContentRowStartIndexForTemplate = 3;
-    private const string EmployeeSettingJLSPeriodTemplate = "ExcelTemplates/EmployeeSettingJLSPeriodTemplate.xls";
+    private const string EmployeeSettingJLSPeriodTemplate = "App_Data/ExcelTemplates/EmployeeSettingJLSPeriodTemplate.xls";
     private readonly IJobLevelStandardPeriodService periodService = periodService ?? new JobLevelStandardPeriodService();
     private readonly IExportExcelService exportExcelService = exportExcelService ?? new ExportExcelService();
 
-    public ActionResult ExportExcel(GetPeriodEmployeeSettingCriteria criteria)
+    public async Task<ActionResult> ExportExcel(GetPeriodEmployeeSettingCriteria criteria)
     {
         var employees = periodService.GetEmployeeSettings(criteria);
 
@@ -31,9 +32,9 @@ public class ExportJLSPeriodEmployeeSettingController(
         exportExcelService.Title = $"{criteria.PeriodName}- Employee Setting";
         exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
-        exportExcelService.InitializeWithTemplate(Path.Combine(webHostEnvironment.WebRootPath, EmployeeSettingJLSPeriodTemplate));
+        exportExcelService.InitializeWithTemplate(Path.Combine(webHostEnvironment.ContentRootPath, EmployeeSettingJLSPeriodTemplate));
 
-        exportExcelService.ExportWithTemplate(employees, true, true);
+        await exportExcelService.ExportWithTemplate(employees, true, true);
 
         return new EmptyResult();
     }

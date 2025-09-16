@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
@@ -28,7 +29,7 @@ public class ExportTargetTemplateService(IHttpContextAccessor httpContextAccesso
     private ICellStyle KPIWeightStyle { get; set; }
     private IEnumerable<TargetTemplateKPIGroupModel> KPIIds { get; set; }
 
-    public void Export(TargetTemplate targetTemplate, IEnumerable<TargetTemplateKPIGroupModel> kpis, string templatePath)
+    public async Task Export(TargetTemplate targetTemplate, IEnumerable<TargetTemplateKPIGroupModel> kpis, string templatePath)
     {
         InitializeWithTemplate(templatePath);
 
@@ -47,7 +48,7 @@ public class ExportTargetTemplateService(IHttpContextAccessor httpContextAccesso
 
         using var stream = new MemoryStream();
         Workbook.Write(stream, false);
-        response.Body.Write(stream.ToArray());
+        await response.Body.WriteAsync(stream.ToArray());
     }
 
     private void GetData(TargetTemplate targetTemplate, IEnumerable<TargetTemplateKPIGroupModel> kpis)

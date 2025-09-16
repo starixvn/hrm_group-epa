@@ -1,4 +1,5 @@
-﻿using SMS.EPA.Models.Report;
+﻿using System.Threading.Tasks;
+using SMS.EPA.Models.Report;
 
 namespace SMS.EPA.Services.Interfaces.ExportFile;
 
@@ -51,7 +52,7 @@ public interface IExportExcelService
     /// </summary>
     /// <param name="datas">data to export</param>
     /// <param name="firstColumnAutoIncrement">set to true to set first column is row number with auto increment</param>
-    void Export(IEnumerable<IExcelRecord> datas, bool firstColumnAutoIncrement = false);
+    Task Export(IEnumerable<IExcelRecord> datas, bool firstColumnAutoIncrement = false);
 
     /// <summary>
     /// Export Excel file using Template
@@ -59,5 +60,5 @@ public interface IExportExcelService
     /// <param name="datas">data to export</param>
     /// /// <param name="firstColumnAutoIncrement">set to true to set first column is row number with auto increment</param>
     /// <param name="rewriteTitle">Rewrite title with your text</param>
-    void ExportWithTemplate(IEnumerable<IExcelRecord> datas, bool firstColumnAutoIncrement = false, bool rewriteTitle = false);
+    Task ExportWithTemplate(IEnumerable<IExcelRecord> datas, bool firstColumnAutoIncrement = false, bool rewriteTitle = false);
 }

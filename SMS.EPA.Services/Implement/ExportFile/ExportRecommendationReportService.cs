@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
@@ -34,7 +35,7 @@ public class ExportRecommendationReportService(IHttpContextAccessor httpContextA
         Sheet = Workbook.GetSheetAt(0);
     }
 
-    public void Export(EPASummaryRecommendationReportModel recommendations, string templatePath)
+    public async Task Export(EPASummaryRecommendationReportModel recommendations, string templatePath)
     {
         Period = recommendations.Period;
         Recommendations = recommendations.Recommendations;
@@ -52,7 +53,7 @@ public class ExportRecommendationReportService(IHttpContextAccessor httpContextA
 
         using var stream = new MemoryStream();
         Workbook.Write(stream, false);
-        response.Body.Write(stream.ToArray());
+        await response.Body.WriteAsync(stream.ToArray());
     }
 
     private void InitReportFormat()

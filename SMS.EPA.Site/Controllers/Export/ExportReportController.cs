@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using GO.UserControl.Client.Core.Services;
 using GO.UserControl.Client.Core.Session;
 using Microsoft.AspNetCore.Hosting;
@@ -29,14 +30,14 @@ public class ExportReportController : Controller
 {
     private const int DefaultContentRowStartIndexForTemplate = 3;
 
-    private const string DisciplineSummaryByPeriodTemplatePath = "ExcelTemplates/DisciplineSummaryByPeriodReport.xls";
-    private const string DisciplineSummaryTemplatePath = "ExcelTemplates/DisciplineSummaryReport.xls";
-    private const string EmployeeBasicInfoTemplate = "ExcelTemplates/EmployeeBasicInfoTemplate.xls";
-    private const string EmployeeFlowSettingTemplate = "ExcelTemplates/EmployeeFlowSettingTemplate.xls";
-    private const string DepartmentFlowSettingTemplate = "ExcelTemplates/DepartmentFlowSettingTemplate.xls";
-    private const string PersonalFlowSettingTemplate = "ExcelTemplates/PersonalFlowSettingTemplate.xls";
-    private const string TargetPersonnelSettingTemplate = "ExcelTemplates/TargetPersonnelSettingTemplate.xls";
-    private const string UpdateFinalScoreTemplatePath = "ExcelTemplates/UpdateFinalScore.xls";
+    private const string DisciplineSummaryByPeriodTemplatePath = "App_Data/ExcelTemplates/DisciplineSummaryByPeriodReport.xls";
+    private const string DisciplineSummaryTemplatePath = "App_Data/ExcelTemplates/DisciplineSummaryReport.xls";
+    private const string EmployeeBasicInfoTemplate = "App_Data/ExcelTemplates/EmployeeBasicInfoTemplate.xls";
+    private const string EmployeeFlowSettingTemplate = "App_Data/ExcelTemplates/EmployeeFlowSettingTemplate.xls";
+    private const string DepartmentFlowSettingTemplate = "App_Data/ExcelTemplates/DepartmentFlowSettingTemplate.xls";
+    private const string PersonalFlowSettingTemplate = "App_Data/ExcelTemplates/PersonalFlowSettingTemplate.xls";
+    private const string TargetPersonnelSettingTemplate = "App_Data/ExcelTemplates/TargetPersonnelSettingTemplate.xls";
+    private const string UpdateFinalScoreTemplatePath = "App_Data/ExcelTemplates/UpdateFinalScore.xls";
     private readonly IDisciplineService _disciplineService;
     private readonly IEmployeeEPAService _employeeEPAService;
     private readonly IEmployeeService _employeeService;
@@ -51,11 +52,6 @@ public class ExportReportController : Controller
     private readonly ITargetEmployeeSettingService _targetEmployeeSettingService;
     private readonly IDepartmentFlowService departmentFlowService;
     private readonly IWebHostEnvironment _webHostEnvironment;
-
-    public ExportReportController()
-        : this(null, null, null, null, null, null, null, null, null, null, null, null, null, null)
-    {
-    }
 
 #pragma warning disable S1541 // Methods and properties should not be too complex
 #pragma warning disable S107 // Methods should not have too many parameters
@@ -94,7 +90,7 @@ public class ExportReportController : Controller
         _webHostEnvironment = webHostEnvironment;
     }
 
-    public ActionResult ExportDisciplineSummaryForOtherSystemReport(GetDisciplineSummaryForOtherSystemCriteria criteria)
+    public async Task<ActionResult> ExportDisciplineSummaryForOtherSystemReport(GetDisciplineSummaryForOtherSystemCriteria criteria)
     {
         const int contentFirstRowIndex = 3;
         if (criteria != null)
@@ -107,19 +103,19 @@ public class ExportReportController : Controller
                 _exportExcelService.SheetName = "Discipline Summary";
                 _exportExcelService.Title = "Discipline Summary Report";
 
-                _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, DisciplineSummaryByPeriodTemplatePath));
+                _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.ContentRootPath, DisciplineSummaryByPeriodTemplatePath));
 
                 _exportExcelService.ContentRowStartIndex = contentFirstRowIndex;
                 CreateRedStyleForDisciplineSummaryByPeriodReport();
 
-                _exportExcelService.ExportWithTemplate(employeeDisciplines, true, true);
+                await _exportExcelService.ExportWithTemplate(employeeDisciplines, true, true);
             }
         }
 
         return new EmptyResult();
     }
 
-    public ActionResult ExportDisciplineSummaryReport(GetDisciplineSummaryCriteria criteria)
+    public async Task<ActionResult> ExportDisciplineSummaryReport(GetDisciplineSummaryCriteria criteria)
     {
         const int contentFirstRowIndex = 3;
         if (criteria != null)
@@ -133,19 +129,19 @@ public class ExportReportController : Controller
                 _exportExcelService.SheetName = Lang.AttendanceSummaryReportSheet;
                 _exportExcelService.Title = GetDisciplineSummaryReportTitle(criteria);
 
-                _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, DisciplineSummaryTemplatePath));
+                _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.ContentRootPath, DisciplineSummaryTemplatePath));
                 _exportExcelService.ContentRowStartIndex = contentFirstRowIndex;
 
                 CreateRedStyleForDisciplineSummaryReport();
 
-                _exportExcelService.ExportWithTemplate(employeeDisciplines, true, true);
+                await _exportExcelService.ExportWithTemplate(employeeDisciplines, true, true);
             }
         }
 
         return new EmptyResult();
     }
 
-    public ActionResult ExportPeriodEmployeeSetting(GetPeriodEmployeeSettingCriteria criteria)
+    public async Task<ActionResult> ExportPeriodEmployeeSetting(GetPeriodEmployeeSettingCriteria criteria)
     {
         var employeeFlowSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
 
@@ -154,14 +150,14 @@ public class ExportReportController : Controller
         _exportExcelService.Title = string.Format(Lang.EmployeeFlowSettingReportTitle, criteria.PeriodName);
         _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
-        _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, EmployeeFlowSettingTemplate));
+        _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.ContentRootPath, EmployeeFlowSettingTemplate));
 
-        _exportExcelService.ExportWithTemplate(employeeFlowSettings, true, true);
+        await _exportExcelService.ExportWithTemplate(employeeFlowSettings, true, true);
 
         return new EmptyResult();
     }
 
-    public ActionResult ExportEmployeeInfoReport(GetEmployeeCriteria criteria)
+    public async Task<ActionResult> ExportEmployeeInfoReport(GetEmployeeCriteria criteria)
     {
         if (criteria != null)
         {
@@ -173,18 +169,18 @@ public class ExportReportController : Controller
                 _exportExcelService.FileName = "Employee_Infomation";
                 _exportExcelService.SheetName = "Employee Infomation";
 
-                _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, EmployeeBasicInfoTemplate));
+                _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.ContentRootPath, EmployeeBasicInfoTemplate));
 
                 _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
-                _exportExcelService.ExportWithTemplate(employees, true);
+                await _exportExcelService.ExportWithTemplate(employees, true);
             }
         }
 
         return new EmptyResult();
     }
 
-    public ActionResult ExportEPAAfterUpdateFinalScore(GetEPAToUpdateFinalScoreCriteria criteria)
+    public async Task<ActionResult> ExportEPAAfterUpdateFinalScore(GetEPAToUpdateFinalScoreCriteria criteria)
     {
         if (criteria != null)
         {
@@ -199,18 +195,18 @@ public class ExportReportController : Controller
                 _exportExcelService.SheetName = "Update Final Score";
                 _exportExcelService.Title = criteria.PeriodName;
 
-                _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, UpdateFinalScoreTemplatePath));
+                _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.ContentRootPath, UpdateFinalScoreTemplatePath));
 
                 _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
-                _exportExcelService.ExportWithTemplate(epaInfos, true, true);
+                await _exportExcelService.ExportWithTemplate(epaInfos, true, true);
             }
         }
 
         return new EmptyResult();
     }
 
-    public ActionResult ExportEPADetailReport(GetEPADetailCriteria criteria)
+    public async Task<ActionResult> ExportEPADetailReport(GetEPADetailCriteria criteria)
     {
         criteria.ActorId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
@@ -231,7 +227,7 @@ public class ExportReportController : Controller
         return new EmptyResult();
     }
 
-    public ActionResult ExportEPASummaryReport(GetEPASummaryCriteria criteria)
+    public async Task<ActionResult> ExportEPASummaryReport(GetEPASummaryCriteria criteria)
     {
         criteria.ActorId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
@@ -245,7 +241,7 @@ public class ExportReportController : Controller
         return File(output.ToArray(), "application/vnd.ms-excel", fileName);
     }
 
-    public ActionResult ExportMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
+    public async Task<ActionResult> ExportMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
     {
         criteria.EmployeeId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
@@ -257,7 +253,7 @@ public class ExportReportController : Controller
         return new EmptyResult();
     }
 
-    public ActionResult ExportMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria)
+    public async Task<ActionResult> ExportMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria)
     {
         var fileName = Lang.MonthlyEPASummaryReportName + ".xls";
 
@@ -270,7 +266,7 @@ public class ExportReportController : Controller
         return File(output.ToArray(), "application/vnd.ms-excel", fileName);
     }
 
-    public ActionResult ExportPersonalFlowSetting(int flowTemplateId, string flowTemplateName)
+    public async Task<ActionResult> ExportPersonalFlowSetting(int flowTemplateId, string flowTemplateName)
     {
         if (flowTemplateId > 0 && !string.IsNullOrEmpty(flowTemplateName))
         {
@@ -280,17 +276,17 @@ public class ExportReportController : Controller
             _exportExcelService.SheetName = "Personal Flow";
             _exportExcelService.Title = $"{flowTemplateName} - Personal Flow Setting";
 
-            _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, PersonalFlowSettingTemplate));
+            _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.ContentRootPath, PersonalFlowSettingTemplate));
 
             _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
-            _exportExcelService.ExportWithTemplate(flowSettings, true, true);
+            await _exportExcelService.ExportWithTemplate(flowSettings, true, true);
         }
 
         return new EmptyResult();
     }
 
-    public ActionResult ExportDepartmentFlowSetting(int flowTemplateId, string flowTemplateName)
+    public async Task<ActionResult> ExportDepartmentFlowSetting(int flowTemplateId, string flowTemplateName)
     {
         if (flowTemplateId > 0 && !string.IsNullOrEmpty(flowTemplateName))
         {
@@ -300,17 +296,17 @@ public class ExportReportController : Controller
             _exportExcelService.SheetName = "Department Flow";
             _exportExcelService.Title = $"{flowTemplateName} - Department Flow Setting";
 
-            _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, DepartmentFlowSettingTemplate));
+            _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.ContentRootPath, DepartmentFlowSettingTemplate));
 
             _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
-            _exportExcelService.ExportWithTemplate(flowSettings, true, true);
+            await _exportExcelService.ExportWithTemplate(flowSettings, true, true);
         }
 
         return new EmptyResult();
     }
 
-    public ActionResult ExportTargetPersonnelSettingReport(GetAllTargetEmployeeSettingCriteria criteria)
+    public async Task<ActionResult> ExportTargetPersonnelSettingReport(GetAllTargetEmployeeSettingCriteria criteria)
     {
         if (criteria != null)
         {
@@ -320,10 +316,10 @@ public class ExportReportController : Controller
             _exportExcelService.SheetName = "Target Personnel Setting";
             _exportExcelService.Title = "Target Personnel Setting";
 
-            _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.WebRootPath, TargetPersonnelSettingTemplate));
+            _exportExcelService.InitializeWithTemplate(Path.Combine(_webHostEnvironment.ContentRootPath, TargetPersonnelSettingTemplate));
             _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
-            _exportExcelService.ExportWithTemplate(datas, true);
+            await _exportExcelService.ExportWithTemplate(datas, true);
         }
 
         return new EmptyResult();
