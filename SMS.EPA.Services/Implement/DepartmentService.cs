@@ -15,31 +15,35 @@ public class DepartmentService(IBaseService baseService = null) : IDepartmentSer
     public IList<MultiSelectItem> GetOrgChart()
     {
         var criteria = new GetOrgChartCriteria();
-        (var departments, var sections, var teams) = baseService.FetchMultiple<Department, Section, Team>(criteria);
+        var (units, departments, teams) = baseService.FetchMultiple<Unit, Department, Team>(criteria);
 
-        return GetOrgChart(departments, sections, teams);
+        return GetOrgChart(units, departments, teams);
     }
 
-    private IList<MultiSelectItem> GetOrgChart(IEnumerable<Department> departments, IEnumerable<Section> sections, IEnumerable<Team> teams)
+    private IList<MultiSelectItem> GetOrgChart(IEnumerable<Unit> units, IEnumerable<Department> departments, IEnumerable<Team> teams)
     {
-        return departments.Select(dept => new MultiSelectItem
+        departments = departments.Where(d => teams.Any(t => t.DepartmentId == d.DepartmentId));
+        units = units.Where(u => departments.Any(d => d.UnitId == u.UnitId)).ToList();
+
+        var orgCharts = units.Select(u => new MultiSelectItem
         {
-            Id = dept.DepartmentId,
-            Text = dept.Name,
-            ParentId = dept.ParentId,
-            Items = sections.Where(s => s.DepartmentId.HasValue && s.DepartmentId.Value == dept.DepartmentId).Select(s => new MultiSelectItem
+            Id = u.UnitId,
+            Text = u.Code,
+            Items = departments.Where(d => d.UnitId == u.UnitId).Select(d => new MultiSelectItem
             {
-                Id = s.SectionId,
-                Text = s.Name,
-                ParentId = dept.DepartmentId,
-                Items = teams.Where(t => t.DepartmentId.HasValue && t.DepartmentId.Value == s.SectionId).Select(t => new MultiSelectItem
+                Id = d.DepartmentId,
+                Text = d.Name,
+                ParentId = u.UnitId,
+                Items = teams.Where(team => team.DepartmentId == d.DepartmentId).Select(team => new MultiSelectItem
                 {
-                    Id = t.TeamId,
-                    Text = t.Name,
+                    Id = team.TeamId,
+                    Text = team.Name,
                     IsLeaf = true,
-                    ParentId = s.SectionId
+                    ParentId = d.DepartmentId,
                 }).ToList()
             }).ToList()
-        }).ToList();
+        });
+
+        return orgCharts.ToList();
     }
 }

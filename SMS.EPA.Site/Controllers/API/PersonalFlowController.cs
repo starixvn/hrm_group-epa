@@ -22,13 +22,6 @@ public class PersonalFlowController(
     IBaseService baseService)
     : BaseController(userControlSession)
 {
-    private readonly IPersonalFlowService personalFlowService = personalFlowService ?? new PersonalFlowService();
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-
-    public PersonalFlowController() : this(null, null, null)
-    {
-    }
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
 
     public IEnumerable<PersonalFlowModel> GetByFlowTemplateId(int flowTemplateId)

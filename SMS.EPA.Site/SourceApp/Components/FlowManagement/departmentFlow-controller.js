@@ -34,12 +34,12 @@
         vm.departments = [];
 
         vm.checkTeamHasSetting = function (teamId) {
-            return vm.departmentSettings.find(team => team.DepartmentId === teamId) !== undefined;
+            return vm.departmentSettings.find(team => team.GroupId === teamId) !== undefined;
         };
 
         vm.getDepartmentFlowById = function (team) {
             vm.selectedTeam = team;
-            DeptFlowModel.getDepartmentFlowById(-team.Id, vm.FlowTemplateId).then(function () {
+            DeptFlowModel.getDepartmentFlowById(team.Id, vm.FlowTemplateId).then(function () {
                 vm.selfs = DeptFlowModel.selfs;
                 vm.evaluators = DeptFlowModel.evaluators;
                 vm.reviewers = DeptFlowModel.reviewers;

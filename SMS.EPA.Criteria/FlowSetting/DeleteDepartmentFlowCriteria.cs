@@ -14,5 +14,5 @@ public class DeleteDepartmentFlowCriteria : CriteriaBase
 
     public override bool IsValid() => DepartmentId > 0 && FlowTemplateId > 0 && ModifiedBy > 0;
 
-    public override string GetSettingKey() => "SettingDepartmentFlow_Delete";
+    public override string GetSettingKey() => "SettingGroupFlow_Delete";
 }

@@ -8,5 +8,5 @@ public class GetDepartmentFlowByFlowTemplateIdCriteria : CriteriaBase
 
     public override bool IsValid() => FlowTemplateId > 0;
 
-    public override string GetSettingKey() => "SettingDepartmentFlow_Get";
+    public override string GetSettingKey() => "SettingGroupFlow_Get";
 }

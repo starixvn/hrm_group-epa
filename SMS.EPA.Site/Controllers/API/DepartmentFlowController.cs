@@ -30,17 +30,13 @@ public class DepartmentFlowController(IUserControlSession session, IDepartmentFl
         return departmentFlowService.GetByFlowTemplateId(flowTemplateId);
     }
 
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
-
-
-    public IEnumerable<FlowModel> GetById(int departmentId, int flowTemplateId)
+    public IEnumerable<FlowModel> GetById(int groupId, int flowTemplateId)
     {
         var criteria = new GetDepartmentFlowByIdCriteria
         {
             FlowTemplateId = flowTemplateId,
-            DepartmentId = Math.Abs(departmentId),
-            IsGroup = departmentId <= 0
+            GroupId = groupId,
         };
 
         return departmentFlowService.GetById(criteria);
@@ -78,15 +74,12 @@ public class DepartmentFlowController(IUserControlSession session, IDepartmentFl
         return baseService.ExecuteNonQuery(criteria);
     }
 
-
-
-
-    public IEnumerable<Department> GetDepartmentHasSetting(int flowTemplateId)
+    public IEnumerable<Group> GetDepartmentHasSetting(int flowTemplateId)
     {
         var criteria = new GetDepartmentSectionHasSettingCriteria
         {
             FlowTemplateId = flowTemplateId
         };
-        return baseService.GetData<Department>(criteria);
+        return baseService.GetData<Group>(criteria);
     }
 }

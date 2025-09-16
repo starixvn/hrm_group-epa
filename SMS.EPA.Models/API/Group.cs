@@ -2,9 +2,9 @@
 
 namespace SMS.EPA.Models.API;
 
-public class Department
+public class Group
 {
-    public int DepartmentId { get; set; }
+    public int GroupId { get; set; }
 
     public string Code { get; set; }
 

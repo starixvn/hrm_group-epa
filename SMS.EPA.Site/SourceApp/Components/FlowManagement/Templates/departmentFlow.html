@@ -44,7 +44,6 @@
             <thead>
                 <tr class="headerName">
                     <th class="col-sm-2 text-center" data-translate="HumanResource"></th>
-                    <th class="col-sm-2 text-center" data-translate="Team"></th>
                     <th class="col-sm-2 text-center" data-translate="Evaluator"></th>
                     <th class="col-sm-2 text-center" data-translate="Reviewer"></th>
                     <th class="col-sm-2 text-center" data-translate="Management" ng-show="!deptFlowCtrl.flowTemplate.IsMonthly"></th>
@@ -70,19 +69,6 @@
                                     </div>
                                     <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
                                        ng-click="deptFlowCtrl.removeItemFromList(hr, deptFlowCtrl.humanResources.employees)"></a>
-                                </div>
-                            </li>
-                        </ul>
-                    </td>
-                    <td class="col-sm-2 col-self">
-                        <ul class="sortable custom-ul list-unstyled" id="selfList">
-                            <li ng-repeat="self in deptFlowCtrl.selfs.employees">
-                                <div class="flow-item">
-                                    <img class="avatar" ng-src="/avatars/avatar.jpg" />
-                                    <div class="personal-info">
-                                        <span class="bold" ng-bind="self.NickName"></span>
-                                        <p ng-bind=""></p>
-                                    </div>
                                 </div>
                             </li>
                         </ul>

@@ -11,7 +11,7 @@ public class Department
 
     public string Name { get; set; }
 
-    public int? ParentId { get; set; }
+    public int UnitId { get; set; }
 
     public bool IsActive { get; set; }
 

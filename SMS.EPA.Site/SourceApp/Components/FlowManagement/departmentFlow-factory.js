@@ -25,10 +25,10 @@
                     }
                 });
             },
-            getDepartmentFlowById: function (departmentId, flowTemplateId) {
+            getDepartmentFlowById: function (groupId, flowTemplateId) {
                 return $http.get(baseUrl + 'DepartmentFlow/GetById', {
                     params: {
-                        departmentId: departmentId,
+                        groupId: groupId,
                         flowTemplateId: flowTemplateId
                     }
                 });

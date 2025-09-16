@@ -257,7 +257,7 @@ public class CommonController(
             {
                 Id = unit.UnitId,
                 Text = unit.Name,
-                Items = departments.Where(dept => dept.ParentId.HasValue && dept.ParentId.Value == unit.UnitId).Select(dept => new MultiSelectItem
+                Items = departments.Where(dept => dept.UnitId == unit.UnitId).Select(dept => new MultiSelectItem
                 {
                     Id = dept.DepartmentId,
                     Text = dept.Name,

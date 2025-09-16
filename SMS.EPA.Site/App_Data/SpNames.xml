@@ -64,16 +64,16 @@
         <Setting Key="FlowTemplate_Update" SpName="FlowTemplate_Update" DbName="bodb_EPA" Plain="0"></Setting>
         <Setting Key="FlowTemplate_UpdateStatus" SpName="FlowTemplate_UpdateStatus" DbName="bodb_EPA" Plain="0"></Setting>
         <Setting Key="FlowTemplate_Delete" SpName="FlowTemplate_Delete" DbName="bodb_EPA" Plain="0"></Setting>
-        <Setting Key="SettingDepartmentFlow_Get" SpName="SettingDepartmentFlow_Get" DbName="bodb_EPA" Plain="0"></Setting>
-        <Setting Key="SettingDepartmentFlow_GetById" SpName="SettingDepartmentFlow_GetById" DbName="bodb_EPA" Plain="0"></Setting>
-        <Setting Key="SettingDepartmentFlow_Set" SpName="SettingDepartmentFlow_Set" DbName="bodb_EPA" Plain="0"></Setting>
-        <Setting Key="SettingDepartmentFlow_Delete" SpName="SettingDepartmentFlow_Delete" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="SettingGroupFlow_Get" SpName="SettingGroupFlow_Get" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="SettingGroupFlow_GetById" SpName="SettingGroupFlow_GetById" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="SettingGroupFlow_Set" SpName="SettingGroupFlow_Set" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="SettingGroupFlow_Delete" SpName="SettingGroupFlow_Delete" DbName="bodb_EPA" Plain="0"></Setting>
         <Setting Key="SettingEmployeeFlow_Get" SpName="SettingEmployeeFlow_Get" DbName="bodb_EPA" Plain="0"></Setting>
         <Setting Key="SettingEmployeeFlow_GetById" SpName="SettingEmployeeFlow_GetById" DbName="bodb_EPA" Plain="0"></Setting>
         <Setting Key="SettingEmployeeFlow_Set" SpName="SettingEmployeeFlow_Set" DbName="bodb_EPA" Plain="0"></Setting>
         <Setting Key="SettingEmployeeFlow_Delete" SpName="SettingEmployeeFlow_Delete" DbName="bodb_EPA" Plain="0"></Setting>
         <Setting Key="EpaEmployeeFlowSetting_Get" SpName="EpaEmployeeFlowSetting_Get" DbName="bodb_EPA" Plain="0"></Setting>
-        <Setting Key="FlowTemplate_GetDepartmentHasSetting" SpName="FlowTemplate_GetDepartmentHasSetting" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="FlowTemplate_GetGroupHasSetting" SpName="FlowTemplate_GetGroupHasSetting" DbName="bodb_EPA" Plain="0"></Setting>
     </Function>
     <Function Name="Target Employee Setting Template">
         <Setting Key="EpaTargetTemplateEmployee_Assign" SpName="EpaTargetTemplateEmployee_Assign" DbName="bodb_EPA" Plain="0"></Setting>
