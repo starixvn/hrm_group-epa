@@ -16,16 +16,15 @@ using Criteria.Dashboard;
 public class DashboardController(
     IUserControlSession userControlSession,
     IBaseService baseService,
-    IEmployeeService employeeService,
-    IReportService reportService)
-    : BaseController(userControlSession)
+    IEmployeeService employeeService) : BaseController(userControlSession)
 {
     [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
     public DashboardModel GetDashboard()
     {
-        //var dashboard = reportService.GetDashboard(CurrentEmployeeId);
-        var dashboard = new DashboardModel();
-        dashboard.Employee = employeeService.GetEmployeeById(CurrentEmployeeId, new List<Role>());
+        var dashboard = new DashboardModel
+        {
+            Employee = employeeService.GetEmployeeById(CurrentEmployeeId, new List<Role>())
+        };
 
         return dashboard;
     }

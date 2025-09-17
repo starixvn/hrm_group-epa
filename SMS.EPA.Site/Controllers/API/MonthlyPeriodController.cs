@@ -8,21 +8,20 @@ using SMS.EPA.Services.Interfaces;
 namespace SMS.EPA.Site.Controllers.API;
 
 using System;
-using GO.UserControl.Client.Core.Session;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http;
-using GO.UserControl.Client.Core.Enumerables;
 using Core.Attribute;
 using Core.Constants;
 using Core.Enumerations;
 using Core.Model;
+using GO.UserControl.Client.Core.Enumerables;
+using GO.UserControl.Client.Core.Session;
+using Microsoft.AspNetCore.Mvc;
 
 public class MonthlyPeriodController(
     IUserControlSession userControlSession,
     IPeriodService periodService,
-    IBaseService baseService)
-    : BaseController(userControlSession)
+    IBaseService baseService) : BaseController(userControlSession)
 {
     [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
     public IEnumerable<PeriodModel> GetMonthlyPeriod(
@@ -47,7 +46,6 @@ public class MonthlyPeriodController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
-
     public PeriodModel GetMonthlyPeriodById(int periodId)
     {
         var period = periodService.GetPeriodById(periodId);
@@ -80,7 +78,6 @@ public class MonthlyPeriodController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
-
     public IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId)
     {
         var criteria = new GetProcessSettingPeriodCriteria
@@ -102,10 +99,7 @@ public class MonthlyPeriodController(
         return commandResult;
     }
 
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
-
-
     public CommandResult DeleteMonthlyPeriod(int periodId)
     {
         var criteria = new DeletePeriodCriteria
@@ -119,8 +113,7 @@ public class MonthlyPeriodController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
-
-    public IEnumerable<PeriodEmployeeSettingModel> GetEmployeeSettingMonthlyPeriodById([FromUri] GetPeriodEmployeeSettingCriteria criteria)
+    public IEnumerable<PeriodEmployeeSettingModel> GetEmployeeSettingMonthlyPeriodById(GetPeriodEmployeeSettingCriteria criteria)
     {
         var employeeSettings = periodService.GetPeriodEmployeeSettingById(criteria);
         employeeSettings = employeeSettings.OrderBy(x => x.Employee.Group.GroupCode).ThenBy(x => x.Employee.NickName);

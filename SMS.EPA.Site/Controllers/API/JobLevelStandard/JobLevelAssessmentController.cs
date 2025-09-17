@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
 using GO.UserControl.Client.Core.Session;
+using Microsoft.AspNetCore.Mvc;
 using SMS.EPA.Core.Attribute;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Extensions.XML;
@@ -20,8 +20,7 @@ namespace SMS.EPA.Site.Controllers.API.JobLevelStandard;
 public class JobLevelAssessmentController(
     IUserControlSession userControlSession,
     IBaseService baseService,
-    IJobLevelAssessmentService jobLevelAssessmentService)
-    : BaseController(userControlSession)
+    IJobLevelAssessmentService jobLevelAssessmentService) : BaseController(userControlSession)
 {
     [HttpGet]
     public IList<JobLevelStandardPeriod> GetPeriods()

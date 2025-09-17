@@ -9,16 +9,16 @@ using SMS.EPA.Services.Interfaces;
 namespace SMS.EPA.Site.Controllers.API;
 
 using System;
-using GO.UserControl.Client.Core.Session;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
-using GO.UserControl.Client.Core.Enumerables;
 using Core.Attribute;
 using Core.Constants;
 using Core.Enumerations;
 using Core.Model;
+using GO.UserControl.Client.Core.Enumerables;
+using GO.UserControl.Client.Core.Session;
+using Microsoft.AspNetCore.Mvc;
 using SMS.EPA.Core.Services;
 
 public class PeriodController(
@@ -26,8 +26,7 @@ public class PeriodController(
     IPeriodService periodService,
     IBaseService baseService,
     IEPAProcessService processService,
-    IEmployeeEPAService epaService)
-    : BaseController(userControlSession)
+    IEmployeeEPAService epaService) : BaseController(userControlSession)
 {
     [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
     public IEnumerable<PeriodModel> GetPeriod(int? targetTypeId = null, bool? isActive = true)
@@ -94,7 +93,6 @@ public class PeriodController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
-
     public PeriodModel GetPeriodById(int periodId)
     {
         return periodService.GetPeriodById(periodId);
@@ -110,10 +108,7 @@ public class PeriodController(
         return commandResult;
     }
 
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
-
-
     public CommandResult DeletePeriod(int periodId)
     {
         var criteria = new DeletePeriodCriteria
@@ -125,8 +120,7 @@ public class PeriodController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
-
-    public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById([FromUri] GetPeriodEmployeeSettingCriteria criteria)
+    public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(GetPeriodEmployeeSettingCriteria criteria)
     {
         var employeeSettings = periodService.GetPeriodEmployeeSettingById(criteria);
         if (employeeSettings.Any())
@@ -210,7 +204,6 @@ public class PeriodController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
-
     public IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId)
     {
         var criteria = new GetProcessSettingPeriodCriteria

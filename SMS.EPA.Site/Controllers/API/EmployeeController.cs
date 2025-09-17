@@ -1,21 +1,19 @@
-﻿using GO.UserControl.Client.Core.Enumerables;
+﻿namespace SMS.EPA.Site.Controllers.API;
+
+using System.Collections.Generic;
+using Core.Attribute;
+using Core.Constants;
+using Core.Model;
+using GO.UserControl.Client.Core.Enumerables;
 using GO.UserControl.Client.Core.Models.User;
 using GO.UserControl.Client.Core.Services;
 using GO.UserControl.Client.Core.Session;
 using Microsoft.AspNetCore.Mvc;
+using SMS.EPA.Core.Services;
 using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.Employee;
 using SMS.EPA.Models.Enitites;
 using SMS.EPA.Services.Interfaces;
-
-namespace SMS.EPA.Site.Controllers.API;
-
-using System.Collections.Generic;
-using System.Web.Http;
-using Core.Attribute;
-using Core.Constants;
-using Core.Model;
-using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria.Employee;
 
 public class EmployeeController(
     IUserControlSession session,
@@ -23,8 +21,7 @@ public class EmployeeController(
     IEmployeeService employeeService,
     IBaseService baseService,
     ICryptoService cryptoService,
-    IUserService userService)
-    : BaseController(session)
+    IUserService userService) : BaseController(session)
 {
     [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Read)]
     public IEnumerable<Employee> GetAllEmployee(

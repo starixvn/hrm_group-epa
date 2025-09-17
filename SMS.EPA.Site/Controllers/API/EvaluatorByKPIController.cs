@@ -10,20 +10,18 @@ using SMS.EPA.Models.TargetTemplate;
 namespace SMS.EPA.Site.Controllers.API;
 
 using System.Collections.Generic;
-using System.Web.Http;
 using Core.Attribute;
 using Core.Constants;
 using Core.Model;
+using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 
 public class EvaluatorByKPIController(
     IUserControlSession userControlSession,
     IEvaluatorByKPIService evaluatorByKPIService,
-    IBaseService baseService)
-    : BaseController(userControlSession)
+    IBaseService baseService) : BaseController(userControlSession)
 {
     [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
-
     public IEnumerable<EPAPeriodModel> GetPeriodByEvaluator()
     {
         var criteria = new GetPeriodByEvaluatorCriteria
@@ -35,7 +33,6 @@ public class EvaluatorByKPIController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
-
     public IEnumerable<TargetTemplate> GetTargetTemplateByEvaluator(int periodId)
     {
         var criteria = new GetTargetTemplateByEvaluatorCriteria
@@ -48,7 +45,6 @@ public class EvaluatorByKPIController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
-
     public IEnumerable<EPAPeriodModel> GetPeriodToView()
     {
         var criteria = new GetPeriodToViewCriteria
@@ -60,7 +56,6 @@ public class EvaluatorByKPIController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
-
     public IEnumerable<TargetTemplate> GetTargetTemplateToView(int periodId)
     {
         var criteria = new GetTargetTemplateToViewCriteria
@@ -73,7 +68,6 @@ public class EvaluatorByKPIController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
-
     public IEnumerable<Employee> GetEvaluatorsByTargetTemplate(
         int periodId,
         int targetTemplateId)
@@ -88,7 +82,6 @@ public class EvaluatorByKPIController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
-
     public IEnumerable<TemporaryKPIModel> GetKPIToView(
         int periodId,
         int targetTemplateId,
@@ -105,7 +98,6 @@ public class EvaluatorByKPIController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
-
     public IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(
         int periodId,
         int targetTemplateId,
@@ -124,7 +116,6 @@ public class EvaluatorByKPIController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
-
     public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(
         int periodId,
         int targetTemplateId)
@@ -140,7 +131,6 @@ public class EvaluatorByKPIController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
-
     public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(
         int periodId,
         int targetTemplateId,

@@ -2,16 +2,17 @@ using SMS.EPA.Core.Services.Interfaces;
 
 namespace SMS.EPA.Site.Controllers.API;
 
-using System.Web.Http;
 using GO.UserControl.Client.Core.Session;
 using GO.UserControl.Client.Core.Enumerables;
 using Core.Attribute;
 using Core.Constants;
 using Core.Model;
 using Criteria.JobLevel;
+using Microsoft.AspNetCore.Mvc;
 
-public class JobLevelController(IUserControlSession userControlSession, IBaseService baseService)
-    : BaseController(userControlSession)
+public class JobLevelController(
+    IUserControlSession userControlSession,
+    IBaseService baseService) : BaseController(userControlSession)
 {
     [HttpPost]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevel, Policy = Policy.Host)]
@@ -30,7 +31,6 @@ public class JobLevelController(IUserControlSession userControlSession, IBaseSer
 
         return commandResult;
     }
-
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevel, Policy = Policy.Host)]
     public CommandResult Delete(int jobLevelId)

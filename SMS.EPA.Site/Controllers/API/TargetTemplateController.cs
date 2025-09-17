@@ -9,34 +9,26 @@ using SMS.EPA.Models.TargetTemplate;
 namespace SMS.EPA.Site.Controllers.API;
 
 using System.Collections.Generic;
-using GO.UserControl.Client.Core.Session;
-using System.Web.Http;
-using GO.UserControl.Client.Core.Enumerables;
 using Core.Attribute;
 using Core.Constants;
 using Core.Model;
-using SMS.EPA.Core.Services;
-using Services.Implement;
+using GO.UserControl.Client.Core.Enumerables;
+using GO.UserControl.Client.Core.Session;
+using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 
 public class TargetTemplateController(
     IUserControlSession userControlSession,
     ITargetTemplateService targetTemplateService,
-    IBaseService baseService)
-    : BaseController(userControlSession)
+    IBaseService baseService) : BaseController(userControlSession)
 {
-    private readonly ITargetTemplateService targetTemplateService = targetTemplateService ?? new TargetTemplateService();
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
-
-    public IEnumerable<TargetTemplate> GetAllTargetTemplate([FromUri] GetAllTargetTemplateCriteria criteria)
+    public IEnumerable<TargetTemplate> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria)
     {
         return baseService.GetData<TargetTemplate>(criteria);
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
-
     public TargetTemplate GetTargetTemplateById(int targetTemplateId)
     {
         var criteria = new GetTargetTemplateByIdCriteria
@@ -88,10 +80,7 @@ public class TargetTemplateController(
         return commandResult;
     }
 
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
-
-
     public CommandResult DeleteTargetTemplate(int targetTemplateId)
     {
         var criteria = new DeleteTargetTemplateCriteria
@@ -115,7 +104,6 @@ public class TargetTemplateController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
-
     public IEnumerable<KPIGroupModel> GetKPIGroupOfTargetTemplate(int targetTemplateId)
     {
         var criteria = new GetKPIGroupOfTargetTemplateCriteria
@@ -128,7 +116,6 @@ public class TargetTemplateController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
-
     public IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(int targetTemplateId, bool onlySelected = false)
     {
         var criteria = new GetKPIOfTargetTemplateCriteria
@@ -140,10 +127,7 @@ public class TargetTemplateController(
         return kpis;
     }
 
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
-
-
     public CommandResult DeleteKPIGroupOfTargetTemplate(int targetTemplateId, int kpiGroupId)
     {
         var criteria = new DeleteKPIGroupOfTargetTemplateCriteria

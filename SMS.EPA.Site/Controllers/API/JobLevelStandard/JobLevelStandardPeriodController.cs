@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http;
 using GO.UserControl.Client.Core.Enumerables;
 using GO.UserControl.Client.Core.Session;
+using Microsoft.AspNetCore.Mvc;
 using SMS.EPA.Core.Attribute;
 using SMS.EPA.Core.Constants;
 using SMS.EPA.Core.Extensions.XML;
@@ -18,14 +18,13 @@ namespace SMS.EPA.Site.Controllers.API.JobLevelStandard;
 public class JobLevelStandardPeriodController(
     IUserControlSession userControlSession,
     IBaseService baseService,
-    IJobLevelStandardPeriodService jobLevelStandardPeriodService)
-    : BaseController(userControlSession)
+    IJobLevelStandardPeriodService jobLevelStandardPeriodService) : BaseController(userControlSession)
 {
     [HttpPost]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Read)]
     public IList<JobLevelStandardPeriod> GetPeriods(GetJobLevelStandardPeriodCriteria criteria)
     {
-        (var periods, var settings) = baseService.FetchMultiple<JobLevelStandardPeriod, JobLevelStandardPeriodSetting>(criteria);
+        var (periods, settings) = baseService.FetchMultiple<JobLevelStandardPeriod, JobLevelStandardPeriodSetting>(criteria);
         foreach (var period in periods)
         {
             period.Settings = settings.Where(x => x.PeriodId == period.PeriodId).ToList();
@@ -39,7 +38,7 @@ public class JobLevelStandardPeriodController(
     public JobLevelStandardPeriod GetById(int periodId)
     {
         var criteria = new GetJobLevelStandardPeriodByIdCriteria { PeriodId = periodId };
-        (var periods, var settings) = baseService.FetchMultiple<JobLevelStandardPeriod, JobLevelStandardPeriodSetting>(criteria);
+        var (periods, settings) = baseService.FetchMultiple<JobLevelStandardPeriod, JobLevelStandardPeriodSetting>(criteria);
         var period = periods.First();
         period.Settings = settings.ToList();
 
@@ -90,7 +89,6 @@ public class JobLevelStandardPeriodController(
 
         return commandResult;
     }
-
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
     public CommandResult Delete(int periodId)

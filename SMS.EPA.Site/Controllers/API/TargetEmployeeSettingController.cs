@@ -5,22 +5,20 @@ using SMS.EPA.Models.TargetSetting;
 namespace SMS.EPA.Site.Controllers.API;
 
 using System.Collections.Generic;
-using GO.UserControl.Client.Core.Session;
-using System.Web.Http;
-using GO.UserControl.Client.Core.Enumerables;
 using Core.Attribute;
 using Core.Constants;
 using Core.Model;
+using GO.UserControl.Client.Core.Enumerables;
+using GO.UserControl.Client.Core.Session;
+using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 
 public class TargetEmployeeSettingController(
     IUserControlSession userControlSession,
     ITargetEmployeeSettingService targetEmployeeSettingService,
-    IBaseService baseService)
-    : BaseController(userControlSession)
+    IBaseService baseService) : BaseController(userControlSession)
 {
     [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Read)]
-
     public IList<TargetEmployeeSetting> GetTargetEmployeeSetting(
         string teamIds = null,
         int? employeeId = null,
@@ -48,10 +46,7 @@ public class TargetEmployeeSettingController(
         return commandResult;
     }
 
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Host)]
-
-
     public CommandResult DeleteTargetEmployeeSetting(int targetTemplateId, int employeeId)
     {
         var criteria = new DeleteTargetEmployeeSettingCriteria
@@ -66,7 +61,6 @@ public class TargetEmployeeSettingController(
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Read)]
-
     public IList<TargetDepartmentSetting> GetTargetDepartmentSetting(
         string departmentIds = null,
         int? targetTypeId = null,
@@ -103,10 +97,7 @@ public class TargetEmployeeSettingController(
         return commandResult;
     }
 
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Host)]
-
-
     public CommandResult DeleteTargetDepartmentSetting(
         int targetTemplateId,
         int departmentId,

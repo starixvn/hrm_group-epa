@@ -5,21 +5,21 @@ using SMS.EPA.Models.KPIGroup;
 namespace SMS.EPA.Site.Controllers.API;
 
 using System.Collections.Generic;
-using GO.UserControl.Client.Core.Session;
-using System.Web.Http;
-using GO.UserControl.Client.Core.Enumerables;
 using Core.Attribute;
 using Core.Constants;
 using Core.Model;
+using GO.UserControl.Client.Core.Enumerables;
+using GO.UserControl.Client.Core.Session;
+using Microsoft.AspNetCore.Mvc;
 using SMS.EPA.Core.Services;
 
-public class KPIGroupController(IUserControlSession userControlSession, IBaseService baseService)
-    : BaseController(userControlSession)
+public class KPIGroupController(
+    IUserControlSession userControlSession,
+    IBaseService baseService) : BaseController(userControlSession)
 {
     private readonly IBaseService baseService = baseService ?? new BaseService();
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
-
     public IEnumerable<KPIGroupModel> GetKPIGroup(bool? isActive = null)
     {
         var criteria = new GetKPIGroupCriteria
@@ -31,7 +31,6 @@ public class KPIGroupController(IUserControlSession userControlSession, IBaseSer
     }
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
-
     public KPIGroupModel GetKPIGroupById(int kpiGroupId)
     {
         var criteria = new GetKPIGroupByIdCriteria
@@ -72,10 +71,7 @@ public class KPIGroupController(IUserControlSession userControlSession, IBaseSer
         return commandResult;
     }
 
-
     [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
-
-
     public CommandResult DeleteKPIGroup(int kpiGroupId)
     {
         var criteria = new DeleteKPIGroupCriteria

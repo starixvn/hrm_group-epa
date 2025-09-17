@@ -4,22 +4,20 @@ namespace SMS.EPA.Site.Controllers.API;
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http;
+using Core.Attribute;
+using Core.Constants;
 using GO.UserControl.Client.Core.Enumerables;
 using GO.UserControl.Client.Core.Models;
 using GO.UserControl.Client.Core.Services;
 using GO.UserControl.Client.Core.Session;
-using Core.Attribute;
-using Core.Constants;
+using Microsoft.AspNetCore.Mvc;
 
 public class RoleController(
     IUserControlSession userControlSession,
     IRoleService roleService,
-    IFunctionService functionService)
-    : BaseController(userControlSession)
+    IFunctionService functionService) : BaseController(userControlSession)
 {
     [ApiAuthorize(FunctionKey = EPAFunctionKey.RoleManagement, Policy = Policy.Read)]
-
     public object GetRoleFunctionByRoleId(short roleId)
     {
         var functions = functionService.GetBySiteId(userControlSession.SiteId);

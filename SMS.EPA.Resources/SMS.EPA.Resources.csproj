@@ -2,12 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <OutputType>Library</OutputType>
-    <RootNamespace>SMS.EPA.Resources</RootNamespace>
-    <AssemblyName>SMS.EPA.Resources</AssemblyName>
-    <FileAlignment>512</FileAlignment>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
