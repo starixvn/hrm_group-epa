@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿namespace SMS.EPA.Site.Controllers.Export;
+
+using System.Threading.Tasks;
 using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Criteria.TargetTemplate;
 using SMS.EPA.Models.TargetTemplate;
 using SMS.EPA.Services.Interfaces.ExportFile;
-
-namespace SMS.EPA.Site.Controllers.Export;
-
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +14,9 @@ public class ExportTargetTemplateController(
     IExportTargetTemplateService exportTargetTemplateService,
     ITargetTemplateService targetTemplateService,
     IBaseService baseService,
-    IWebHostEnvironment webHostEnvironment)
-    : Controller
+    IWebHostEnvironment webHostEnvironment) : Controller
 {
-    private const string TargetTemplateKPIsTemplate = "App_Data/ExcelTemplates/TargetTemplateKPIsTemplate.xls";
+    private const string TargetTemplateKPIsTemplate = "ExcelTemplates/TargetTemplateKPIsTemplate.xls";
 
     public async Task<ActionResult> ExportTargetTemplateKPIs(int targetTemplateId)
     {

@@ -12,27 +12,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Helpers\CompressionHelper.cs" />
-    <Compile Remove="Utilities\NPOIExtensions\HSSFWorkbookExtensions.cs" />
-    <Compile Remove="Utilities\PdfRender.cs" />
-    <Compile Remove="Utilities\UnicodeFontFactory.cs" />
-  </ItemGroup>
-  
-
-  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="Fanex.Data" Version="4.3.4.5" />
     <PackageReference Include="Fanex.Data.Repository" Version="4.3.4.5" />
-    <PackageReference Include="Fanex.Logging" Version="2.0.1.1" />
+    <PackageReference Include="Fanex.Logging" Version="2.0.2" />
     <PackageReference Include="GO.UserControl.Client.Core" Version="1.0.5" />
     <PackageReference Include="jose-jwt" Version="5.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="NPOI" Version="2.7.4" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.12.0.78982">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.15.0.120848">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -40,10 +31,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Resources\SMS.EPA.Resources.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Helpers\" />
   </ItemGroup>
 
 </Project>

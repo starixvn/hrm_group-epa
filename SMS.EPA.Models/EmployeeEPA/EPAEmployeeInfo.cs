@@ -1,6 +1,4 @@
 ﻿using System;
-using SMS.EPA.Core.Services;
-using SMS.EPA.Core.Services.Interfaces;
 
 namespace SMS.EPA.Models.EmployeeEPA;
 
@@ -19,14 +17,7 @@ public class EPAEmployeeInfo
 
     public string Email { get; set; }
 
-    public string Avatar
-    {
-        get
-        {
-            IUtilityService utilityService = new UtilityService(null);
-            return utilityService.GetAvatar(Code);
-        }
-    }
+    public string Avatar { get; set; }
 
     public string Category { get; set; }
 

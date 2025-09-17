@@ -12,19 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\ExportPdf\**" />
-    <EmbeddedResource Remove="Views\ExportPdf\**" />
-    <None Remove="Views\ExportPdf\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Controllers\Export\ExportPdfController.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="App_Data\ExcelTemplates\GroupFlowSettingTemplate.xlsx" />
-    <None Remove="App_Data\ExcelTemplates\PersonalFlowSettingTemplate.xlsx" />
-    <None Remove="wwwroot\Content\Site\pdf.css" />
+    <None Remove="ExcelTemplates\GroupFlowSettingTemplate.xlsx" />
+    <None Remove="ExcelTemplates\PersonalFlowSettingTemplate.xlsx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,25 +23,21 @@
     <PackageReference Include="Fanex.Data" Version="4.3.4.5" />
     <PackageReference Include="Fanex.Data.Repository" Version="4.3.4.5" />
     <PackageReference Include="Fanex.Data.SqlServer" Version="4.3.4.5" />
-    <PackageReference Include="Fanex.Logging" Version="2.0.1.1" />
-    <PackageReference Include="Fanex.Logging.Extensions" Version="1.0.6.1" />
-    <PackageReference Include="Fanex.Logging.Extensions.Database" Version="1.0.8" />
+    <PackageReference Include="Fanex.Logging" Version="2.0.2" />
+    <PackageReference Include="Fanex.Logging.Extensions" Version="2.0.2.1" />
+    <PackageReference Include="Fanex.Logging.Extensions.Database" Version="2.0.2.1" />
     <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="2.0.2" />
-    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="log4net" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="9.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="9.0.9" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.0" />
-    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="4.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.9" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
-    <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="NPOI" Version="2.7.4" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.11" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.12.0.78982">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.15.0.120848">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -69,90 +54,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="App_Data\ExcelTemplates\GroupFlowSettingTemplate.xlsx">
+    <Content Include="ExcelTemplates\GroupFlowSettingTemplate.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\ExcelTemplates\PersonalFlowSettingTemplate.xlsx">
+    <Content Include="ExcelTemplates\PersonalFlowSettingTemplate.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\SpNames.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="wwwroot\Avatars\avatar.jpg" />
-    <Content Include="wwwroot\Content\Common\angular-multi-select.css" />
-    <Content Include="wwwroot\Content\Common\chosen-sprite.png" />
-    <Content Include="wwwroot\Content\Common\chosen.css" />
-    <Content Include="wwwroot\Content\Common\chosen.min.css" />
-    <Content Include="wwwroot\Content\Common\jquery-ui.css" />
-    <Content Include="wwwroot\Content\Common\jquery-ui.min.css" />
-    <Content Include="wwwroot\Content\Common\toastr.css" />
-    <Content Include="wwwroot\Content\Common\toastr.min.css" />
-    <Content Include="favicon.ico" />
-    <Content Include="Dockerfile" />
-    <Content Include="WhoAmI.aspx" />
     <Content Include="logs\log.txt" />
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Auth\Login.cshtml" />
-    <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml" />
-    <Content Include="Views\Emails\EndEvaluationEmailToHRByEmployee.cshtml" />
-    <Content Include="Views\Emails\EndEvaluationEmailToHRByPeriod.cshtml" />
-    <Content Include="Views\Emails\EndEvaluationEmailToSelf.cshtml" />
-    <Content Include="Views\Emails\RemindDateEmailToEvaluator.cshtml" />
-    <Content Include="Views\Emails\RemindDateEmailToHR.cshtml" />
-    <Content Include="Views\Emails\RemindDateEmailToManagement.cshtml" />
-    <Content Include="Views\Emails\RemindDateEmailToReviewer.cshtml" />
-    <Content Include="Views\Emails\RemindDateEmailToSelf.cshtml" />
-    <Content Include="WebConfigs\Web.Local.config" />
-    <Content Include="WebConfigs\Web.PRO.cti.config" />
-    <Content Include="WebConfigs\Web.PRO.ghr.config" />
-    <Content Include="WebConfigs\Web.PRO.hm.config" />
-    <Content Include="WebConfigs\Web.PRO.lexfin.config" />
-    <Content Include="WebConfigs\Web.PRO.sms.config" />
-    <Content Include="wwwroot\Content\Site\auth\images\bg-login.jpg" />
-    <Content Include="wwwroot\Content\Site\auth\images\epa_logo.png" />
-    <Content Include="wwwroot\Content\Site\auth\images\icon-error.png" />
-    <Content Include="wwwroot\Content\Site\auth\images\icon-pass.png" />
-    <Content Include="wwwroot\Content\Site\auth\images\icon-user.png" />
-    <Content Include="wwwroot\Content\Site\auth\images\lock-icon.png" />
-    <Content Include="wwwroot\Content\Site\auth\images\signin_icon.png" />
-    <Content Include="wwwroot\Content\Site\auth\images\titlebg.png" />
-    <Content Include="wwwroot\Content\Site\images\bg-login.png" />
-    <Content Include="wwwroot\Content\Site\images\bullet-grey.png" />
-    <Content Include="wwwroot\Content\Site\images\checkbox_no.png" />
-    <Content Include="wwwroot\Content\Site\images\checkbox_yes.png" />
-    <Content Include="wwwroot\Content\Site\images\CTI-logo.png" />
-    <Content Include="wwwroot\Content\Site\images\CTS-logo.png" />
-    <Content Include="wwwroot\Content\Site\images\epa_logo.png" />
-    <Content Include="wwwroot\Content\Site\images\excel-icon.png" />
-    <Content Include="wwwroot\Content\Site\images\GROUP-logo.png" />
-    <Content Include="wwwroot\Content\Site\images\GWI-logo.png" />
-    <Content Include="wwwroot\Content\Site\images\Hongma-logo.png" />
-    <Content Include="wwwroot\Content\Site\images\icon-alert.png" />
-    <Content Include="wwwroot\Content\Site\images\icon-search.png" />
-    <Content Include="wwwroot\Content\Site\images\icon_sprite.png" />
-    <Content Include="wwwroot\Content\Site\images\Lexfin-logo.png" />
-    <Content Include="wwwroot\Content\Site\images\line-menu.png" />
-    <Content Include="wwwroot\Content\Site\images\minus-icon.gif" />
-    <Content Include="wwwroot\Content\Site\images\pdf-icon-inactive.png" />
-    <Content Include="wwwroot\Content\Site\images\pdf-icon.png" />
-    <Content Include="wwwroot\Content\Site\images\plus-icon.gif" />
-    <Content Include="wwwroot\Content\Site\images\radiobutton_no.png" />
-    <Content Include="wwwroot\Content\Site\images\radiobutton_yes.png" />
-    <Content Include="wwwroot\Content\Site\images\save_submit.png" />
-    <Content Include="wwwroot\Content\Site\images\sort-icon.png" />
-    <Content Include="wwwroot\Content\Site\images\sprite_ico_2012-05-15.png" />
-    <Content Include="wwwroot\Content\Site\images\sprite_process.png" />
-    <Content Include="wwwroot\Content\Site\images\success.png" />
-    <Content Include="wwwroot\Content\Site\images\user.png" />
-    <Content Include="wwwroot\Content\Site\pdf.css" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="App_Start\" />
   </ItemGroup>
 
 </Project>

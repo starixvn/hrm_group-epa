@@ -1,6 +1,4 @@
 ﻿using System;
-using SMS.EPA.Core.Services;
-using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Models.Enitites;
 
 namespace SMS.EPA.Models.Employee;
@@ -20,14 +18,7 @@ public class EmployeeViewModel
 
     public string Section { get; set; }
 
-    public string Avatar
-    {
-        get
-        {
-            IUtilityService utilityService = new UtilityService(null);
-            return utilityService.GetAvatar(Code);
-        }
-    }
+    public string Avatar { get; set; }
 
     public string Category { get; set; }
 

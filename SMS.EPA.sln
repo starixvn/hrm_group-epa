@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.Resources", "SMS.EP
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Background", "Background", "{C21A15A7-9F35-4ED3-AD64-8C2EE5A5DD16}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{32FD6659-4EE4-4B2B-856F-06DE6B88E466}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.Core", "SMS.EPA.Core\SMS.EPA.Core.csproj", "{04C78E8E-915C-4690-BBAF-32F3DBAAB88A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.Models", "SMS.EPA.Models\SMS.EPA.Models.csproj", "{359687E7-FB0B-4454-BC52-EFC13FD2FC57}"
@@ -84,7 +82,7 @@ Global
 		{AF3AED74-44D4-4636-AF6B-810CF3083CA0} = {C21A15A7-9F35-4ED3-AD64-8C2EE5A5DD16}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {97007D09-2FF5-4296-91B4-D3F93E463D5C}
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45
+		SolutionGuid = {97007D09-2FF5-4296-91B4-D3F93E463D5C}
 	EndGlobalSection
 EndGlobal

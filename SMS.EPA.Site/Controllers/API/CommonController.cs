@@ -1,15 +1,23 @@
+namespace SMS.EPA.Site.Controllers.API;
+
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Core.Constants;
+using Core.Enumerations;
+using Core.Utilities;
+using Criteria.EPAHistory;
+using Criteria.TargetType;
 using GO.UserControl.Client.Core.Models;
 using GO.UserControl.Client.Core.Models.Role;
 using GO.UserControl.Client.Core.Services;
 using GO.UserControl.Client.Core.Session;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Criteria.Department;
 using SMS.EPA.Criteria.Employee;
 using SMS.EPA.Criteria.JobLevel;
+using SMS.EPA.Criteria.JobLevelStandard.Template;
 using SMS.EPA.Criteria.KPI;
 using SMS.EPA.Criteria.KPIGroup;
 using SMS.EPA.Criteria.Period;
@@ -25,21 +33,11 @@ using SMS.EPA.Models.TargetTemplate;
 using SMS.EPA.Models.TargetType;
 using SMS.EPA.Services.Interfaces;
 
-namespace SMS.EPA.Site.Controllers.API;
-
-using Core.Constants;
-using Core.Enumerations;
-using Core.Utilities;
-using Criteria.EPAHistory;
-using SMS.EPA.Criteria.JobLevelStandard.Template;
-using Criteria.TargetType;
-
 public class CommonController(
     IUserControlSession userControlSession,
     IRoleService roleService,
     IBaseService baseService,
     ICommonService commonService,
-    IUnitService unitService,
     IDepartmentService departmentService)
     : BaseController(userControlSession)
 {
@@ -227,7 +225,7 @@ public class CommonController(
     public IList<MultiSelectItem> GetOrgChartJLSTemplateSetting()
     {
         var criteria = new GetOrgChartCriteria();
-        (var units, var departments, var teams) = baseService.FetchMultiple<Unit, Department, Team>(criteria);
+        var (units, departments, teams) = baseService.FetchMultiple<Unit, Department, Team>(criteria);
 
         return GetOrgChart(units.ToList(), departments.ToList(), teams.ToList());
     }
