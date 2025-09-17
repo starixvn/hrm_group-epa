@@ -53,7 +53,7 @@ public class GroupFlowController(IUserControlSession session, IDepartmentFlowSer
         return commandResult;
     }
 
-    [HttpGet]
+    [HttpDelete]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
     public CommandResult DeleteDepartmentFlow(int departmentId, int flowTemplateId)
     {

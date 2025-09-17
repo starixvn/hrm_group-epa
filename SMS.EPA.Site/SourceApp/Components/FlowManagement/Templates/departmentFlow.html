@@ -1,10 +1,16 @@
 ﻿<div class="department-flow" ng-controller="GroupFlowController as deptFlowCtrl">
-    <div class="team-list">
+    <div class="team-list">        
         <div class="team-list-header" data-translate="Team"></div>
+        <div class="team-filter">
+            <input type="text" class="form-control" 
+                   ng-model="deptFlowCtrl.teamFilter" 
+                   ng-change="deptFlowCtrl.expandAllForSearch()"
+                   placeholder="Search teams" />
+        </div>
         <div class="team-list-content">
-            <div class="panel panel-default panel-no-border" ng-repeat="dept in deptFlowCtrl.departments">
+            <div class="panel panel-default panel-no-border" ng-repeat="dept in deptFlowCtrl.filterDepartments(deptFlowCtrl.departments)">
                 <div class="panel-heading level-1" data-toggle="collapse"
-                     data-target=".dept-{{dept.Id}}"
+                     data-target="#dept-{{dept.Id}}"
                      ng-click="deptFlowCtrl.changeCollapseAttribute(dept)">
                     <h4 class="panel-title">
                         <span class="glyphicon glyphicon-chevron-right" ng-show="!dept.Collapse" />
@@ -12,10 +18,10 @@
                         {{dept.Text}}
                     </h4>
                 </div>
-                <div class="panel-collapse collapse dept-{{dept.Id}}">
-                    <div class="panel panel-default panel-no-border" ng-repeat="sec in dept.Items">
+                <div class="panel-collapse collapse" ng-class="{'in': dept.Collapse}" id="dept-{{dept.Id}}">
+                    <div class="panel panel-default panel-no-border" ng-repeat="sec in deptFlowCtrl.filterSections(dept.Items)">
                         <div class="panel-heading level-2" data-toggle="collapse"
-                             data-target=".section-{{sec.Id}}"
+                             data-target="#section-{{sec.Id}}"
                              ng-click="deptFlowCtrl.changeCollapseAttribute(sec)">
                             <h4 class="panel-title">
                                 <span class="glyphicon glyphicon-chevron-right" ng-show="!sec.Collapse" />
@@ -23,13 +29,14 @@
                                 {{sec.Text}}
                             </h4>
                         </div>
-                        <div class="panel-collapse collapse section-{{sec.Id}}">
+                        <div class="panel-collapse collapse" ng-class="{'in': sec.Collapse}" id="section-{{sec.Id}}">
                             <div class="team-items">
                                 <div class="team-item"
                                      ng-class="deptFlowCtrl.selectedTeam !== null && deptFlowCtrl.selectedTeam.Id === team.Id ? 'selected' : ''"
-                                     ng-repeat="team in sec.Items"
+                                     ng-repeat="team in deptFlowCtrl.filterTeams(sec.Items)"
                                      ng-click="deptFlowCtrl.getDepartmentFlowById(team)">
-                                    {{team.Text}}
+                                    <span class="team-text">{{team.Text}}</span>
+                                    <span class="company" ng-show="team.Company">{{team.Company}}</span>
                                     <span class="glyphicon glyphicon-ok icon-has-setting" ng-show="deptFlowCtrl.checkTeamHasSetting(team.Id)" />
                                 </div>
                             </div>

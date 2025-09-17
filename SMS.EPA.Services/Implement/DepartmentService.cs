@@ -40,6 +40,7 @@ public class DepartmentService(IBaseService baseService = null) : IDepartmentSer
                     Text = team.Name,
                     IsLeaf = true,
                     ParentId = d.DepartmentId,
+                    Company = team.Company
                 }).ToList()
             }).ToList()
         });

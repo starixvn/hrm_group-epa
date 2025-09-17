@@ -11,6 +11,7 @@ public class MultiSelectItem
     public bool Checked { get; set; }
     public bool Enabled { get; set; } = true;
     public int? ParentId { get; set; }
+    public string? Company { get; set; }
     public bool IsLeaf { get; set; }
     public IList<MultiSelectItem> Items { get; set; } = new List<MultiSelectItem>();
 

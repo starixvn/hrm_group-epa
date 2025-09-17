@@ -26,6 +26,7 @@
         vm.searchReviewer = '';
         vm.searchManagement = '';
         vm.searchHumanResource = '';
+        vm.teamFilter = '';
         vm.selectedEvaluator = null;
         vm.selectedReviewer = null;
         vm.selectedManagement = null;
@@ -35,6 +36,62 @@
 
         vm.checkTeamHasSetting = function (teamId) {
             return vm.departmentSettings.find(team => team.GroupId === teamId) !== undefined;
+        };
+
+        vm.filterTeams = function(teams) {
+            if (!vm.teamFilter || vm.teamFilter.trim() === '') {
+                return teams;
+            }
+            return teams.filter(function(team) {
+                return team.Text.toLowerCase().indexOf(vm.teamFilter.toLowerCase()) !== -1;
+            });
+        };
+
+        vm.hasMatchingTeam = function(teams) {
+            return teams.some(function(team) {
+                return team.Text.toLowerCase().indexOf(vm.teamFilter.toLowerCase()) !== -1;
+            });
+        };
+
+        vm.filterDepartments = function(departments) {
+            if (!vm.teamFilter || vm.teamFilter.trim() === '') {
+                return departments;
+            }
+            return departments.filter(function(dept) {
+                return dept.Items.some(function(section) {
+                    return vm.hasMatchingTeam(section.Items);
+                });
+            });
+        };
+
+        vm.filterSections = function(sections) {
+            if (!vm.teamFilter || vm.teamFilter.trim() === '') {
+                return sections;
+            }
+            return sections.filter(function(section) {
+                return vm.hasMatchingTeam(section.Items);
+            });
+        };
+
+        vm.expandSections = function(sections, expanded) {
+            sections.forEach(function(section) {
+                section.Collapse = expanded;
+            });
+        };
+
+        vm.expandDepartments = function(departments, expanded) {
+            departments.forEach(function(dept) {
+                dept.Collapse = expanded;
+                vm.expandSections(dept.Items, expanded);
+            });
+        };
+
+        vm.expandAllForSearch = function() {
+            if (vm.teamFilter && vm.teamFilter.trim() !== '') {
+                vm.expandDepartments(vm.departments, true);
+            } else {
+                vm.expandDepartments(vm.departments, false);
+            }
         };
 
         vm.getDepartmentFlowById = function (team) {
