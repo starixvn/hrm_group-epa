@@ -4,18 +4,16 @@ using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Criteria.FlowSetting;
 using SMS.EPA.Models.API;
 using SMS.EPA.Models.FlowSetting;
-using SMS.EPA.Services.Implement;
 using SMS.EPA.Services.Interfaces;
 
 namespace SMS.EPA.Site.Controllers.API;
 
 using System;
 using System.Collections.Generic;
-using System.Web.Http;
+using Microsoft.AspNetCore.Mvc;
 using Core.Attribute;
 using Core.Constants;
 using Core.Model;
-using SMS.EPA.Core.Services;
 
 public class GroupFlowController(IUserControlSession session, IDepartmentFlowService departmentFlowService, IBaseService baseService) : BaseController(session)
 {

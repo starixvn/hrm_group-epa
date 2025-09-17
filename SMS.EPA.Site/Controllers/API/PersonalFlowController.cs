@@ -8,7 +8,7 @@ namespace SMS.EPA.Site.Controllers.API;
 using System.Collections.Generic;
 using GO.UserControl.Client.Core.Session;
 using System.Linq;
-using System.Web.Http;
+using Microsoft.AspNetCore.Mvc;
 using GO.UserControl.Client.Core.Enumerables;
 using Core.Attribute;
 using Core.Constants;
@@ -39,7 +39,7 @@ public class PersonalFlowController(
 
     [HttpPost]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
-    public CommandResult CreatePersonalFlow(CreatePersonalFlowCriteria criteria)
+    public CommandResult CreatePersonalFlow([FromBody] CreatePersonalFlowCriteria criteria)
     {
         var commandResult = new CommandResult();
         if (criteria != null)
