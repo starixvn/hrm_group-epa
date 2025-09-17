@@ -22,7 +22,7 @@
   <table class="row table table-bordered table-striped table-job-level-setting">
     <thead>
       <tr class="header-table">
-        <th colspan="6">
+        <th colspan="7">
           <input type="text" ng-model="settingCtrl.searchKey" ng-change="settingCtrl.search()" class="search-inline-textbox search pull-right" />
         </th>
       </tr>
@@ -31,6 +31,7 @@
         <th data-translate="Business Unit"></th>
         <th data-translate="Department"></th>
         <th data-translate="Team"></th>
+        <th data-translate="Company"></th>
         <th data-translate="Has Setting"></th>
         <th data-translate="Action"></th>
       </tr>
@@ -41,6 +42,7 @@
         <td ng-bind="group.Unit"></td>
         <td ng-bind="group.Department"></td>
         <td ng-bind="group.Name"></td>
+        <td ng-bind="group.Company"></td>
         <td class="text-center"><span class="glyphicon glyphicon-ok" ng-if="group.HasSetting"></span></td>
         <td class="text-center">
           <a
@@ -66,12 +68,12 @@
         </td>
       </tr>
       <tr ng-show="settingCtrl.filteredItems.length === 0">
-        <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
+        <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
-        <td colspan="6" class="paging">
+        <td colspan="7" class="paging">
           <span data-translate="Show"></span>
           <select
             class="dropdown-entry form-control"

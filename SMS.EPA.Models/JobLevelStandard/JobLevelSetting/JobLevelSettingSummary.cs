@@ -15,5 +15,8 @@ public class JobLevelSettingSummary
     public int UnitId { get; set; }
     public string Unit { get; set; }
 
+    public int CompanyId { get; set; }
+    public string Company { get; set; }
+
     public bool HasSetting { get; set; }
 }

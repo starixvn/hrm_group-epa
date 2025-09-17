@@ -9,6 +9,7 @@ public class JobLevelStandardTemplateSetting : IExcelRecord
     public string UnitName { get; set; }
     public string DepartmentName { get; set; }
     public string TeamName { get; set; }
+    public string CompanyName { get; set; }
     public string Template { get; set; }
 
     public object ConvertToExcelRecord() => new
@@ -17,6 +18,7 @@ public class JobLevelStandardTemplateSetting : IExcelRecord
         UnitName,
         DepartmentName,
         TeamName,
+        CompanyName,
         Template
     };
 }

@@ -27,7 +27,7 @@
   <table class="row table table-bordered table-striped target-setting-template" id="data">
     <thead>
       <tr class="header-table">
-        <th colspan="7">
+        <th colspan="8">
           <div class="pull-left target-template-container" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
             <label class="control-label" data-translate="Template"></label>
             <select
@@ -55,6 +55,7 @@
         <th data-translate="Business Unit"></th>
         <th data-translate="Department"></th>
         <th data-translate="Team"></th>
+        <th data-translate="Company"></th>
         <th data-translate="Template"></th>
         <th data-translate="Delete" ng-show="targetCtrl.permission === targetCtrl.policyEnum.Host"></th>
       </tr>
@@ -74,6 +75,7 @@
         <td class="text-center" ng-bind="employee.UnitName"></td>
         <td ng-bind="employee.DepartmentName"></td>
         <td ng-bind="employee.TeamName"></td>
+        <td ng-bind="employee.CompanyName"></td>
         <td ng-bind="employee.Template"></td>
         <td class="text-center" ng-show="targetCtrl.permission === targetCtrl.policyEnum.Host">
           <a
@@ -88,12 +90,12 @@
     </tbody>
     <tbody ng-show="sectionCtrl.filteredItems.length === 0">
       <tr>
-        <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
+        <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
-        <td colspan="7" class="paging">
+        <td colspan="8" class="paging">
           <span data-translate="Show"></span>
           <select
             class="dropdown-entry form-control"
