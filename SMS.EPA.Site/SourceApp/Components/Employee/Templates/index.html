@@ -66,11 +66,6 @@
         <thead>
             <tr class="header-table">
                 <th colspan="15">
-                    <a class="pull-left button-icon create-button" ng-click="employeeCtrl.create()"
-                       ng-if="employeeCtrl.permission == employeeCtrl.policyEnum.Host">
-                        <span class="glyphicon glyphicon-plus icon-add"></span>
-                        <span class="button-text" data-translate="CreateUser"></span>
-                    </a>
                     <input class="btnExcel pull-right" export-employee-info-report
                            ng-click="employeeCtrl.exportReport(employeeCtrl.filter)"
                            type="button" title="Export to Excel">
