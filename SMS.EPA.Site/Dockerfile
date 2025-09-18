@@ -29,6 +29,8 @@ FROM hub.nexdev.net/base/dotnet/core/aspnet:9.0-alpine AS base
 
 WORKDIR /app
 COPY --from=builder /app .
+# Copy SourceApp directory for static files
+COPY --from=builder /src/SMS.EPA.Site/SourceApp ./SourceApp
 
 ENV TZ="Asia/Singapore"
 ENV COMPlus_EnableDiagnostics=0
