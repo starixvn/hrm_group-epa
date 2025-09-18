@@ -26,7 +26,7 @@ RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet publish -r linux-x64 --self-contained false -c Release -o /app
 
 # Copy SourceApp directory to the published app directory
-COPY SourceApp /app/SourceApp
+COPY ./SourceApp /app/SourceApp
 
 FROM hub.nexdev.net/base/dotnet/core/aspnet:9.0-alpine AS base
 
