@@ -144,7 +144,7 @@ public class EmployeeController(
 
     [HttpPut]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
-    public IActionResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria)
+    public IActionResult AssignRoleToEmployee([FromBody] AssignRoleToEmployeeCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
         var commandResult = baseService.ExecuteNonQuery(criteria);
