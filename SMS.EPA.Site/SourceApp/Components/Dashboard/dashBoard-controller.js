@@ -16,7 +16,6 @@
         vm.announcements = [];
         vm.runMarquee = true;
         vm.marqueeStyle = { 'animation': '30s linear 0s infinite normal none running marquee' };
-
         vm.getClassProgress = getClassProgress;
         vm.goToEvaluatorListing = goToEvaluatorListing;
         vm.goToManagementListing = goToManagementListing;
