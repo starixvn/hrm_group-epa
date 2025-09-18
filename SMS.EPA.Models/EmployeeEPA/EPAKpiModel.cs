@@ -34,7 +34,7 @@ public class EPAKpiModel
 
             if (Weight > 0)
             {
-                IUtilityService utilityService = new UtilityService(null);
+                IUtilityService utilityService = new UtilityService();
                 result = utilityService.SplitNumber(Weight, Constants.NumberOfDecimalDefault).ToString(CultureInfo.InvariantCulture);
             }
 

@@ -217,9 +217,9 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
 
     #region Rating By KPI
 
-    public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(ICriteria criteria)
+    public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(ICriteria templateCriteria)
     {
-        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        using var db = ObjectDbFactory.CreateInstance(templateCriteria.GetSettingKey());
         return db.Query<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
             (kpi, gr) =>
             {
@@ -228,7 +228,7 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
                 return kpi;
             },
             "KPIGroupId",
-            criteria);
+            templateCriteria);
     }
 
     public IEnumerable<TemporaryKPIModel> GetKPIToView(ICriteria criteria)

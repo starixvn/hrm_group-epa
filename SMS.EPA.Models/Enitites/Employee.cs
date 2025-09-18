@@ -37,7 +37,7 @@ public class Employee : IExcelRecord
     {
         get
         {
-            IUtilityService utilityService = new UtilityService(null);
+            IUtilityService utilityService = new UtilityService();
             return utilityService.GetAvatar(Code);
         }
     }

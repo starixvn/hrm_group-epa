@@ -71,7 +71,7 @@ public class RoleController(
             .OrderBy(x => x.DisplayOrder).ToList();
         if (functionItems.Any())
         {
-            function.Childs = function.Childs ?? new List<RoleFunctionModel>();
+            function.Childs ??= new List<RoleFunctionModel>();
             foreach (var item in functionItems)
             {
                 item.Level = (byte)(function.Level + 1);

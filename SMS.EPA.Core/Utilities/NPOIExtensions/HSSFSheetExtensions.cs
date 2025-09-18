@@ -45,7 +45,7 @@ public static class HSSFSheetExtensions
         {
             // Get the row at a specific index of the current sheet.
             var newRow = sheet.GetRow(rowIndex);
-            newRow = newRow ?? sheet.CreateRow(rowIndex);
+            newRow ??= sheet.CreateRow(rowIndex);
             newRow.Height = sourceRow.Height;
 
             // Get the first and last available columns of the copying area.
@@ -292,10 +292,10 @@ public static class HSSFSheetExtensions
         if (sheet != null)
         {
             var row = sheet.GetRow(rowIndex);
-            row = row ?? sheet.CreateRow(rowIndex);
+            row ??= sheet.CreateRow(rowIndex);
 
             cell = row.GetCell(colIndex);
-            cell = cell ?? row.CreateCell(colIndex);
+            cell ??= row.CreateCell(colIndex);
         }
 
         return cell;

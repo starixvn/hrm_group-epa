@@ -398,7 +398,7 @@ public class EmployeeEPAService(
 
     public void SpreadKPIScore(IList<EPAKpiGroupModel> kpiGroups)
     {
-        IUtilityService utilityService = new UtilityService(null);
+        IUtilityService utilityService = new UtilityService();
         foreach (var kpiGroup in kpiGroups)
         {
             if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI && kpiGroup.Weight != null)

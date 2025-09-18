@@ -47,7 +47,10 @@ public class MonthlyEpaDetailReportService : EpaDetailReportServiceBase
         }
 
         var response = _httpContextAccessor?.HttpContext?.Response;
-        if (response == null) return;
+        if (response == null)
+        {
+            return;
+        }
 
         response.Clear();
         response.ContentType = "application/vnd.ms-excel";

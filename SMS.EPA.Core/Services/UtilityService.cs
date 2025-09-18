@@ -1,29 +1,13 @@
-﻿using SMS.EPA.Core.Services.Interfaces;
-
-namespace SMS.EPA.Core.Services;
+﻿namespace SMS.EPA.Core.Services;
 
 using System;
-using Microsoft.AspNetCore.Http;
+using SMS.EPA.Core.Services.Interfaces;
 using Constants;
 
-public class UtilityService(IHttpContextAccessor httpContextAccessor) : IUtilityService
+public class UtilityService() : IUtilityService
 {
-    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
-
     public string GetAvatar(string code)
     {
-        //string fileName = $"{code}.jpg";
-
-        //var webRootPath = _httpContextAccessor.HttpContext?.RequestServices
-        //    .GetService(typeof(Microsoft.AspNetCore.Hosting.IWebHostEnvironment)) as Microsoft.AspNetCore.Hosting.IWebHostEnvironment;
-            
-        //var avatarPath = Path.Combine(webRootPath?.WebRootPath ?? "", "avatars", fileName);
-            
-        //fileName = File.Exists(avatarPath)
-        //    ? "avatars/" + fileName
-        //    : "avatars/avatar.jpg";
-
-        //return fileName;
         return "Avatars/avatar.jpg";
     }
 

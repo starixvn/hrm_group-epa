@@ -19,7 +19,7 @@ public class EvaluatorInfoViewModel
     {
         get
         {
-            IUtilityService utilityService = new UtilityService(null);
+            IUtilityService utilityService = new UtilityService();
             return utilityService.GetAvatar(Code);
         }
     }

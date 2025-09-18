@@ -40,14 +40,18 @@ public class ExportTargetTemplateService(IHttpContextAccessor httpContextAccesso
         FillContent();
 
         var response = httpContextAccessor?.HttpContext?.Response;
-        if (response == null) return;
+        if (response == null)
+        {
+            return;
+        }
 
         response.Clear();
         response.ContentType = "application/vnd.ms-excel";
         response.Headers["Content-Disposition"] = $"attachment; filename={FileName}.xls";
 
         using var stream = new MemoryStream();
-        Workbook.Write(stream, false);
+        const bool leaveOpen = false;
+        Workbook.Write(stream, leaveOpen);
         await response.Body.WriteAsync(stream.ToArray());
     }
 
@@ -86,7 +90,7 @@ public class ExportTargetTemplateService(IHttpContextAccessor httpContextAccesso
 
     private void FillContent()
     {
-        IUtilityService utilityService = new UtilityService(null);
+        IUtilityService utilityService = new UtilityService();
         var rowIndex = ContentStartRowIndex;
 
         foreach (var kpiGroup in KPIIds)

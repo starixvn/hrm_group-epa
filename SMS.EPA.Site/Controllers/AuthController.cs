@@ -96,7 +96,10 @@ public class AuthController(
         var currentTime = await authService.SSOGetTimeAsync();
         var expiration = DateTime.ParseExact(currentTime, DateTimeFormat, new CultureInfo("en-US")) - DateTime.ParseExact(timeValue, DateTimeFormat, new CultureInfo("en-US"));
         const byte TimeExpiration = 30;
-        if (!(expiration.TotalSeconds <= TimeExpiration)) return RedirectToAction("Login");
+        if (expiration.TotalSeconds > TimeExpiration)
+        {
+            return RedirectToAction("Login");
+        }
         var ssoParam = new SSOLoginParam
         {
             UserId = Convert.ToInt32(userIdValue),

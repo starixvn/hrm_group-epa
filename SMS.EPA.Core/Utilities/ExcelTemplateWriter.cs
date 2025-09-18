@@ -8,11 +8,10 @@ using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 using NPOIExtensions;
 
-public class ExcelTemplateWriter(HSSFWorkbook template, string excelFileName, string sheetName)
+public class ExcelTemplateWriter(HSSFWorkbook template, string fileName, string sheetName)
 {
     #region Attributes
 
-    private readonly string _fileName = excelFileName;
     private readonly ISheet _templateSheet = template.GetSheetAt(0);
     private readonly ISheet _sheet = template.CreateSheet(sheetName);
     private int _rowId;
@@ -43,7 +42,6 @@ public class ExcelTemplateWriter(HSSFWorkbook template, string excelFileName, st
     public void Render()
     {
         _sheet.Workbook.RemoveSheetAt(0);
-        //_sheet.Workbook.ToReponseStream(_fileName);
     }
 
     public void WriteCellRange(int rowIndex, int totalRow, int colIndex, int totalCol, object value)

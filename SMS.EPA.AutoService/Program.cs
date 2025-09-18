@@ -23,11 +23,6 @@ public static class Program
                     WriteLogTimeoutSeconds = AppSetting.Sentry_Timeout
                 }));
 
-            //DbSettingProviderManager
-            //    .StartNewSession()
-            //    .WithSqlServer("~/SpNames.xml")
-            //    .Run();
-
             IEPAAutoService service = new EPAAutoService();
             service.Run();
         }

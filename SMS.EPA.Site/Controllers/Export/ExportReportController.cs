@@ -20,25 +20,17 @@ using SMS.EPA.Models.Report;
 using SMS.EPA.Models.Report.EPASummary;
 using SMS.EPA.Resources;
 using SMS.EPA.Services.Interfaces;
-using SMS.EPA.Services.Interfaces.ExportFile;
 
 namespace SMS.EPA.Site.Controllers.Export;
 
 public class ExportReportController(
-    IReportService reportService,
-    IEpaDetailReportService epaDetailReportService,
-    IEpaDetailReportService monthlyEpaDetailReportService,
-    IDisciplineService disciplineService,
-    IEmployeeEPAService employeeEPAService,
-    IExportExcelService exportExcelService,
-    ITargetEmployeeSettingService targetEmployeeSettingService,
+    IReportFacadeService reportFacadeService,
+    IRoleService roleService,
     IPeriodService periodService,
     IEmployeeService employeeService,
     IPersonalFlowService personalFlowService,
-    IUserControlSession userControlSession,
-    IRoleService roleService,
     IDepartmentFlowService departmentFlowService,
-    IWebHostEnvironment webHostEnvironment) : Controller
+    IHostFacadeService hostFacadeService) : Controller
 {
     private const int DefaultContentRowStartIndexForTemplate = 3;
 
@@ -56,20 +48,20 @@ public class ExportReportController(
         const int contentFirstRowIndex = 3;
         if (criteria != null)
         {
-            var employeeDisciplines = disciplineService.GetDisciplineSummaryForOtherSystem(criteria);
+            var employeeDisciplines = reportFacadeService.DisciplineService.GetDisciplineSummaryForOtherSystem(criteria);
 
             if (employeeDisciplines != null && employeeDisciplines.Any())
             {
-                exportExcelService.FileName = "Discipline_Summary_Report";
-                exportExcelService.SheetName = "Discipline Summary";
-                exportExcelService.Title = "Discipline Summary Report";
+                reportFacadeService.ExportExcelService.FileName = "Discipline_Summary_Report";
+                reportFacadeService.ExportExcelService.SheetName = "Discipline Summary";
+                reportFacadeService.ExportExcelService.Title = "Discipline Summary Report";
 
-                exportExcelService.InitializeWithTemplate(Path.Combine(webHostEnvironment.ContentRootPath, DisciplineSummaryByPeriodTemplatePath));
+                reportFacadeService.ExportExcelService.InitializeWithTemplate(Path.Combine(hostFacadeService.WebHostEnvironment.ContentRootPath, DisciplineSummaryByPeriodTemplatePath));
 
-                exportExcelService.ContentRowStartIndex = contentFirstRowIndex;
+                reportFacadeService.ExportExcelService.ContentRowStartIndex = contentFirstRowIndex;
                 CreateRedStyleForDisciplineSummaryByPeriodReport();
 
-                await exportExcelService.ExportWithTemplate(employeeDisciplines, true, true);
+                await reportFacadeService.ExportExcelService.ExportWithTemplate(employeeDisciplines, true, true);
             }
         }
 
@@ -81,21 +73,21 @@ public class ExportReportController(
         const int contentFirstRowIndex = 3;
         if (criteria != null)
         {
-            criteria.ApproverId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
-            var employeeDisciplines = disciplineService.GetDisciplineSummary(criteria);
+            criteria.ApproverId = hostFacadeService.UserControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
+            var employeeDisciplines = reportFacadeService.DisciplineService.GetDisciplineSummary(criteria);
 
             if (employeeDisciplines != null && employeeDisciplines.Any())
             {
-                exportExcelService.FileName = Lang.AttendanceSummaryReportName;
-                exportExcelService.SheetName = Lang.AttendanceSummaryReportSheet;
-                exportExcelService.Title = GetDisciplineSummaryReportTitle(criteria);
+                reportFacadeService.ExportExcelService.FileName = Lang.AttendanceSummaryReportName;
+                reportFacadeService.ExportExcelService.SheetName = Lang.AttendanceSummaryReportSheet;
+                reportFacadeService.ExportExcelService.Title = GetDisciplineSummaryReportTitle(criteria);
 
-                exportExcelService.InitializeWithTemplate(Path.Combine(webHostEnvironment.ContentRootPath, DisciplineSummaryTemplatePath));
-                exportExcelService.ContentRowStartIndex = contentFirstRowIndex;
+                reportFacadeService.ExportExcelService.InitializeWithTemplate(Path.Combine(hostFacadeService.WebHostEnvironment.ContentRootPath, DisciplineSummaryTemplatePath));
+                reportFacadeService.ExportExcelService.ContentRowStartIndex = contentFirstRowIndex;
 
                 CreateRedStyleForDisciplineSummaryReport();
 
-                await exportExcelService.ExportWithTemplate(employeeDisciplines, true, true);
+                await reportFacadeService.ExportExcelService.ExportWithTemplate(employeeDisciplines, true, true);
             }
         }
 
@@ -106,14 +98,14 @@ public class ExportReportController(
     {
         var employeeFlowSettings = periodService.GetPeriodEmployeeSettingById(criteria);
 
-        exportExcelService.FileName = string.Format(Lang.EmployeeFlowSettingReportName, criteria.PeriodName);
-        exportExcelService.SheetName = Lang.EmployeeFlowSettingReportSheet;
-        exportExcelService.Title = string.Format(Lang.EmployeeFlowSettingReportTitle, criteria.PeriodName);
-        exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
+        reportFacadeService.ExportExcelService.FileName = string.Format(Lang.EmployeeFlowSettingReportName, criteria.PeriodName);
+        reportFacadeService.ExportExcelService.SheetName = Lang.EmployeeFlowSettingReportSheet;
+        reportFacadeService.ExportExcelService.Title = string.Format(Lang.EmployeeFlowSettingReportTitle, criteria.PeriodName);
+        reportFacadeService.ExportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
-        exportExcelService.InitializeWithTemplate(Path.Combine(webHostEnvironment.ContentRootPath, EmployeeFlowSettingTemplate));
+        reportFacadeService.ExportExcelService.InitializeWithTemplate(Path.Combine(hostFacadeService.WebHostEnvironment.ContentRootPath, EmployeeFlowSettingTemplate));
 
-        await exportExcelService.ExportWithTemplate(employeeFlowSettings, true, true);
+        await reportFacadeService.ExportExcelService.ExportWithTemplate(employeeFlowSettings, true, true);
 
         return new EmptyResult();
     }
@@ -122,19 +114,19 @@ public class ExportReportController(
     {
         if (criteria != null)
         {
-            var roles = roleService.GetBySiteId(userControlSession.SiteId);
+            var roles = roleService.GetBySiteId(hostFacadeService.UserControlSession.SiteId);
             IEnumerable<Employee> employees = employeeService.GetEmployee(criteria, roles);
 
             if (employees.Any())
             {
-                exportExcelService.FileName = "Employee_Infomation";
-                exportExcelService.SheetName = "Employee Infomation";
+                reportFacadeService.ExportExcelService.FileName = "Employee_Infomation";
+                reportFacadeService.ExportExcelService.SheetName = "Employee Infomation";
 
-                exportExcelService.InitializeWithTemplate(Path.Combine(webHostEnvironment.ContentRootPath, EmployeeBasicInfoTemplate));
+                reportFacadeService.ExportExcelService.InitializeWithTemplate(Path.Combine(hostFacadeService.WebHostEnvironment.ContentRootPath, EmployeeBasicInfoTemplate));
 
-                exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
+                reportFacadeService.ExportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
-                await exportExcelService.ExportWithTemplate(employees, true);
+                await reportFacadeService.ExportExcelService.ExportWithTemplate(employees, true);
             }
         }
 
@@ -145,22 +137,22 @@ public class ExportReportController(
     {
         if (criteria != null)
         {
-            var epaInfos = employeeEPAService.GetEPAToUpdateFinalScore(criteria);
+            var epaInfos = reportFacadeService.EmployeeEPAService.GetEPAToUpdateFinalScore(criteria);
             var employeeIds = criteria.EmployeeIds.Split(',');
-            epaInfos = epaInfos.Join(employeeIds, x => x.Employee.EmployeeId.ToString(), y => y, (x, y) => x)
+            epaInfos = epaInfos.Join(employeeIds, x => x.Employee.EmployeeId.ToString(), y => y, (x, _y) => x)
                 .ToList();
 
             if (epaInfos.Any())
             {
-                exportExcelService.FileName = "Update_Final_Score";
-                exportExcelService.SheetName = "Update Final Score";
-                exportExcelService.Title = criteria.PeriodName;
+                reportFacadeService.ExportExcelService.FileName = "Update_Final_Score";
+                reportFacadeService.ExportExcelService.SheetName = "Update Final Score";
+                reportFacadeService.ExportExcelService.Title = criteria.PeriodName;
 
-                exportExcelService.InitializeWithTemplate(Path.Combine(webHostEnvironment.ContentRootPath, UpdateFinalScoreTemplatePath));
+                reportFacadeService.ExportExcelService.InitializeWithTemplate(Path.Combine(hostFacadeService.WebHostEnvironment.ContentRootPath, UpdateFinalScoreTemplatePath));
 
-                exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
+                reportFacadeService.ExportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
-                await exportExcelService.ExportWithTemplate(epaInfos, true, true);
+                await reportFacadeService.ExportExcelService.ExportWithTemplate(epaInfos, true, true);
             }
         }
 
@@ -169,12 +161,12 @@ public class ExportReportController(
 
     public async Task<ActionResult> ExportEPADetailReport(GetEPADetailCriteria criteria)
     {
-        criteria.ActorId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
+        criteria.ActorId = hostFacadeService.UserControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
-        var roles = roleService.GetBySiteId(userControlSession.SiteId);
-        var epaDetail = reportService.GetEPADetailReport(criteria, criteria.ActorId, roles);
+        var roles = roleService.GetBySiteId(hostFacadeService.UserControlSession.SiteId);
+        var epaDetail = reportFacadeService.ReportService.GetEPADetailReport(criteria, criteria.ActorId, roles);
 
-        epaDetail.Period = reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodId?.ToString());
+        epaDetail.Period = reportFacadeService.ReportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodId?.ToString());
 
         if (string.IsNullOrEmpty(criteria.SortColumnName) && epaDetail.EpaInfos.Any())
         {
@@ -183,19 +175,19 @@ public class ExportReportController(
                 : epaDetail.EpaInfos.OrderBy(x => x.Employee.GroupCode).ThenBy(x => x.Employee.Code);
         }
 
-        epaDetailReportService.Render(epaDetail);
+        reportFacadeService.EpaDetailReportService.Render(epaDetail);
 
         return new EmptyResult();
     }
 
     public async Task<ActionResult> ExportEPASummaryReport(GetEPASummaryCriteria criteria)
     {
-        criteria.ActorId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
+        criteria.ActorId = hostFacadeService.UserControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
-        var epaSummary = reportService.GetEPASummaryReport(criteria);
-        epaSummary.Period = reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodIds);
+        var epaSummary = reportFacadeService.ReportService.GetEPASummaryReport(criteria);
+        epaSummary.Period = reportFacadeService.ReportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodIds);
 
-        var output = reportService.ExportEPASummaryReport(epaSummary);
+        var output = reportFacadeService.ReportService.ExportEPASummaryReport(epaSummary);
 
         var fileName = GetEPASummaryReportFilename(epaSummary);
 
@@ -204,12 +196,12 @@ public class ExportReportController(
 
     public async Task<ActionResult> ExportMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
     {
-        criteria.EmployeeId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
+        criteria.EmployeeId = hostFacadeService.UserControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
-        var roles = roleService.GetBySiteId(userControlSession.SiteId);
-        var epaDetail = reportService.GetMonthlyEPADetailReport(criteria, criteria.EmployeeId, roles);
-        epaDetail.Period = reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodId?.ToString());
-        monthlyEpaDetailReportService.Render(epaDetail);
+        var roles = roleService.GetBySiteId(hostFacadeService.UserControlSession.SiteId);
+        var epaDetail = reportFacadeService.ReportService.GetMonthlyEPADetailReport(criteria, criteria.EmployeeId, roles);
+        epaDetail.Period = reportFacadeService.ReportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodId?.ToString());
+        reportFacadeService.MonthlyEpaDetailReportService.Render(epaDetail);
 
         return new EmptyResult();
     }
@@ -218,11 +210,11 @@ public class ExportReportController(
     {
         var fileName = Lang.MonthlyEPASummaryReportName + ".xls";
 
-        criteria.EmployeeId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
+        criteria.EmployeeId = hostFacadeService.UserControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
-        var epaSummary = reportService.GetMonthlyEPASummaryReport(criteria);
+        var epaSummary = reportFacadeService.ReportService.GetMonthlyEPASummaryReport(criteria);
 
-        var output = reportService.ExportMonthlyEPASummaryReport(epaSummary);
+        var output = reportFacadeService.ReportService.ExportMonthlyEPASummaryReport(epaSummary);
 
         return File(output.ToArray(), "application/vnd.ms-excel", fileName);
     }
@@ -233,15 +225,15 @@ public class ExportReportController(
         {
             var flowSettings = personalFlowService.GetByFlowTemplateId(flowTemplateId);
 
-            exportExcelService.FileName = "Personal_Flow_Setting";
-            exportExcelService.SheetName = "Personal Flow";
-            exportExcelService.Title = $"{flowTemplateName} - Personal Flow Setting";
+            reportFacadeService.ExportExcelService.FileName = "Personal_Flow_Setting";
+            reportFacadeService.ExportExcelService.SheetName = "Personal Flow";
+            reportFacadeService.ExportExcelService.Title = $"{flowTemplateName} - Personal Flow Setting";
 
-            exportExcelService.InitializeWithTemplate(Path.Combine(webHostEnvironment.ContentRootPath, PersonalFlowSettingTemplate));
+            reportFacadeService.ExportExcelService.InitializeWithTemplate(Path.Combine(hostFacadeService.WebHostEnvironment.ContentRootPath, PersonalFlowSettingTemplate));
 
-            exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
+            reportFacadeService.ExportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
-            await exportExcelService.ExportWithTemplate(flowSettings, true, true);
+            await reportFacadeService.ExportExcelService.ExportWithTemplate(flowSettings, true, true);
         }
 
         return new EmptyResult();
@@ -253,15 +245,15 @@ public class ExportReportController(
         {
             var flowSettings = departmentFlowService.GetByFlowTemplateId(flowTemplateId);
 
-            exportExcelService.FileName = "Department_Flow_Setting";
-            exportExcelService.SheetName = "Department Flow";
-            exportExcelService.Title = $"{flowTemplateName} - Department Flow Setting";
+            reportFacadeService.ExportExcelService.FileName = "Department_Flow_Setting";
+            reportFacadeService.ExportExcelService.SheetName = "Department Flow";
+            reportFacadeService.ExportExcelService.Title = $"{flowTemplateName} - Department Flow Setting";
 
-            exportExcelService.InitializeWithTemplate(Path.Combine(webHostEnvironment.ContentRootPath, GroupFlowSettingTemplate));
+            reportFacadeService.ExportExcelService.InitializeWithTemplate(Path.Combine(hostFacadeService.WebHostEnvironment.ContentRootPath, GroupFlowSettingTemplate));
 
-            exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
+            reportFacadeService.ExportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
-            await exportExcelService.ExportWithTemplate(flowSettings, true, true);
+            await reportFacadeService.ExportExcelService.ExportWithTemplate(flowSettings, true, true);
         }
 
         return new EmptyResult();
@@ -271,16 +263,16 @@ public class ExportReportController(
     {
         if (criteria != null)
         {
-            var data = targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
+            var data = reportFacadeService.TargetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
 
-            exportExcelService.FileName = "Target_Personnel_Setting";
-            exportExcelService.SheetName = "Target Personnel Setting";
-            exportExcelService.Title = "Target Personnel Setting";
+            reportFacadeService.ExportExcelService.FileName = "Target_Personnel_Setting";
+            reportFacadeService.ExportExcelService.SheetName = "Target Personnel Setting";
+            reportFacadeService.ExportExcelService.Title = "Target Personnel Setting";
 
-            exportExcelService.InitializeWithTemplate(Path.Combine(webHostEnvironment.ContentRootPath, TargetPersonnelSettingTemplate));
-            exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
+            reportFacadeService.ExportExcelService.InitializeWithTemplate(Path.Combine(hostFacadeService.WebHostEnvironment.ContentRootPath, TargetPersonnelSettingTemplate));
+            reportFacadeService.ExportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
-            await exportExcelService.ExportWithTemplate(data, true);
+            await reportFacadeService.ExportExcelService.ExportWithTemplate(data, true);
         }
 
         return new EmptyResult();
@@ -334,16 +326,16 @@ public class ExportReportController(
     {
         const int lastCollumnIndex = 20;
         // Style
-        var redStyleIndex = exportExcelService.CreateNewColumnStyle();
-        var style = exportExcelService.ColumnsStyles[redStyleIndex];
-        var redFont = exportExcelService.Workbook.CreateFont();
+        var redStyleIndex = reportFacadeService.ExportExcelService.CreateNewColumnStyle();
+        var style = reportFacadeService.ExportExcelService.ColumnsStyles[redStyleIndex];
+        var redFont = reportFacadeService.ExportExcelService.Workbook.CreateFont();
         redFont.Color = HSSFColor.Red.Index;
         style.SetFont(redFont);
 
         for (var i = 8; i <= lastCollumnIndex; i++)
         {
             var redStyle = CreateCellStyleIfLessThanZero(redStyleIndex, i);
-            exportExcelService.ConditionalCellStyles.Add(redStyle);
+            reportFacadeService.ExportExcelService.ConditionalCellStyles.Add(redStyle);
         }
     }
 }

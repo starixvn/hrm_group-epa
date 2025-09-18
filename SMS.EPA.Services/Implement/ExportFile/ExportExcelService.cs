@@ -215,13 +215,17 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
         FormatSheet();
 
         var response = httpContextAccessor?.HttpContext?.Response;
-        if (response == null) return;
+        if (response == null)
+        {
+            return;
+        }
 
         response.Clear();
         SetResponseHeaders(response, FileName);
 
         using var stream = new MemoryStream();
-        Workbook.Write(stream, false);
+        const bool leaveOpen = false;
+        Workbook.Write(stream, leaveOpen);
         await response.Body.WriteAsync(stream.ToArray());
     }
 
@@ -250,13 +254,17 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
         FormatSheet();
 
         var response = httpContextAccessor?.HttpContext?.Response;
-        if (response == null) return;
+        if (response == null)
+        {
+            return;
+        }
 
         response.Clear();
         SetResponseHeaders(response, FileName);
 
         using var stream = new MemoryStream();
-        Workbook.Write(stream, false);
+        const bool leaveOpen = false;
+        Workbook.Write(stream, leaveOpen);
         await response.Body.WriteAsync(stream.ToArray());
     }
 }
