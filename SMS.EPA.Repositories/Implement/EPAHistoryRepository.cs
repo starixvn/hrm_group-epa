@@ -23,18 +23,4 @@ public class EPAHistoryRepository : IEPAHistoryRepository
             "PeriodId,EmployeeId",
             criteria).ToList();
     }
-
-    public IList<EPAHistoryModel> GetMonthlyEPAHistory(ICriteria monthlyCriteria)
-    {
-        using var db = ObjectDbFactory.CreateInstance(monthlyCriteria.GetSettingKey());
-        return db.Query<EPAHistoryModel, EPAPeriodModel, EPAEmployeeInfo, EPAHistoryModel>(
-            (epa, pe, emp) =>
-            {
-                epa.Employee = emp;
-                epa.Period = pe;
-                return epa;
-            },
-            "PeriodId,EmployeeId",
-            monthlyCriteria).ToList();
-    }
 }

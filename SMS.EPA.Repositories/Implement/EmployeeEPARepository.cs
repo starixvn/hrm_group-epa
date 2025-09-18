@@ -231,20 +231,6 @@ public class EmployeeEPARepository(ICryptographyService cryptographyService) : I
             templateCriteria);
     }
 
-    public IEnumerable<TemporaryKPIModel> GetKPIToView(ICriteria criteria)
-    {
-        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
-        return db.Query<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
-            (kpi, gr) =>
-            {
-                kpi.KPIGroup = gr;
-
-                return kpi;
-            },
-            "KPIGroupId",
-            criteria);
-    }
-
     public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(ICriteria criteria)
     {
         using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());

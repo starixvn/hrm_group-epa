@@ -4,7 +4,7 @@ using System;
 using SMS.EPA.Core.Services.Interfaces;
 using Constants;
 
-public class UtilityService() : IUtilityService
+public class UtilityService : IUtilityService
 {
     public string GetAvatar(string code)
     {

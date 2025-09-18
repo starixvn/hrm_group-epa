@@ -46,8 +46,7 @@ public class ExportCommentReportService(IHttpContextAccessor httpContextAccessor
         response.Headers["Content-Disposition"] = $"attachment; filename={FileName}.xls";
 
         using var stream = new MemoryStream();
-        const bool leaveOpen = false;
-        Workbook.Write(stream, leaveOpen);
+        Workbook.Write(stream);
         await response.Body.WriteAsync(stream.ToArray());
     }
 

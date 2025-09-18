@@ -47,7 +47,7 @@ public class EPAHistoryService(
 
         if (criteria != null && criteria.IsValid())
         {
-            epas = epaHistoryRepository.GetMonthlyEPAHistory(criteria);
+            epas = epaHistoryRepository.GetEPAHistory(criteria);
 
             if (epas != null && epas.Any())
             {

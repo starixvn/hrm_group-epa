@@ -34,7 +34,7 @@ public class EvaluatorByKPIService(IEmployeeEPARepository evaluationRepository) 
 
         if (criteria != null && criteria.IsValid())
         {
-            kpis = evaluationRepository.GetKPIToView(criteria);
+            kpis = evaluationRepository.GetKPIByTargetTemplate(criteria);
         }
 
         return kpis;

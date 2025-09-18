@@ -3,8 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using GO.UserControl.Client.Core.Services;
-using GO.UserControl.Client.Core.Session;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using NPOI.HSSF.Util;
 using SMS.EPA.Core.Constants;
@@ -139,7 +137,7 @@ public class ExportReportController(
         {
             var epaInfos = reportFacadeService.EmployeeEPAService.GetEPAToUpdateFinalScore(criteria);
             var employeeIds = criteria.EmployeeIds.Split(',');
-            epaInfos = epaInfos.Join(employeeIds, x => x.Employee.EmployeeId.ToString(), y => y, (x, _y) => x)
+            epaInfos = epaInfos.Join(employeeIds, x => x.Employee.EmployeeId.ToString(), y => y, (x, _) => x)
                 .ToList();
 
             if (epaInfos.Any())

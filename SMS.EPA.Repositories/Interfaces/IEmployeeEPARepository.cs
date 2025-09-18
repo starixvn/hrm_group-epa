@@ -16,8 +16,6 @@ public interface IEmployeeEPARepository
 
     IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(ICriteria criteria);
 
-    IEnumerable<TemporaryKPIModel> GetKPIToView(ICriteria criteria);
-
     IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(ICriteria criteria);
 
     DashboardModel GetDashboard(ICriteria criteria);
