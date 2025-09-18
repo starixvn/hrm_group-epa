@@ -1,69 +1,42 @@
-# escape=`
-FROM hub.nexdev.net/base/rocketor/buildservice AS builder
+FROM hub.nexdev.net/base/dotnet/core/sdk:9.0-alpine AS builder
 
-ARG TRANSFORM_CONFIG
+WORKDIR /src
 
-SHELL ["cmd", "/S", "/C"]
-
-WORKDIR /build
-
-# Copy files *.sln, *.csproj, packages.config to restore nuget packages
+# Copy solution and project files
 COPY *.sln .
-COPY SMS.EPA.Resources\*.csproj SMS.EPA.Resources\
+COPY SMS.EPA.Resources/*.csproj SMS.EPA.Resources/
+COPY SMS.EPA.Core/*.csproj SMS.EPA.Core/
+COPY SMS.EPA.Models/*.csproj SMS.EPA.Models/
+COPY SMS.EPA.Criteria/*.csproj SMS.EPA.Criteria/
+COPY SMS.EPA.Repositories/*.csproj SMS.EPA.Repositories/
+COPY SMS.EPA.Services/*.csproj SMS.EPA.Services/
+COPY SMS.EPA.Site/*.csproj SMS.EPA.Site/
 
-COPY SMS.EPA.Core\*.csproj SMS.EPA.Core\
-COPY SMS.EPA.Core\packages.config SMS.EPA.Core\
-
-COPY SMS.EPA.Models\*.csproj SMS.EPA.Models\
-COPY SMS.EPA.Models\packages.config SMS.EPA.Models\
-
-COPY SMS.EPA.Criteria\*.csproj SMS.EPA.Criteria\
-COPY SMS.EPA.Criteria\packages.config SMS.EPA.Criteria\
-
-COPY SMS.EPA.Repositories\*.csproj SMS.EPA.Repositories\
-COPY SMS.EPA.Repositories\packages.config SMS.EPA.Repositories\
-
-COPY SMS.EPA.Services\*.csproj SMS.EPA.Services\
-COPY SMS.EPA.Services\packages.config SMS.EPA.Services\
-
-COPY SMS.EPA.Site\*.csproj SMS.EPA.Site\
-COPY SMS.EPA.Site\packages.config SMS.EPA.Site\
-
-RUN nuget.exe restore SMS.EPA.sln
+# Copy the rest of the source code
+RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
+# Restore dependencies
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet restore -v n -r linux-x64 SMS.EPA.Site/SMS.EPA.Site.csproj
 
 # Copy source codes
-COPY SMS.EPA.Resources\ SMS.EPA.Resources\
-COPY SMS.EPA.Core\ SMS.EPA.Core\
-COPY SMS.EPA.Models\ SMS.EPA.Models\
-COPY SMS.EPA.Criteria\ SMS.EPA.Criteria\
-COPY SMS.EPA.Repositories\ SMS.EPA.Repositories\
-COPY SMS.EPA.Services\ SMS.EPA.Services\
-COPY SMS.EPA.Site\ SMS.EPA.Site\
+COPY . .
 
-RUN MSBuild.exe "SMS.EPA.Site\SMS.EPA.Site.csproj" `
-    /t:Build;WebPublish /m `
-    /p:DebugType=None `
-    /p:Configuration=Release `
-    /p:WebPublishMethod=FileSystem `
-    /p:TransformWebConfigEnabled=False `
-    /p:LocalizedBuild=true `
-    /p:AutoParameterizationWebConfigConnectionStrings=False `
-    /p:MarkWebConfigAssistFilesAsExclude=false `
-    /p:publishUrl="C:\Compiled" `
-    /consoleloggerparameters:ErrorsOnly
+WORKDIR /src/SMS.EPA.Site
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet publish -r linux-x64 --self-contained false -c Release -o /app
 
-WORKDIR C:\Compiled
+FROM hub.nexdev.net/base/dotnet/core/aspnet:9.0-alpine AS base
 
-# Transform config
-RUN echo "%TRANSFORM_CONFIG%" `
-    && xcopy "WebConfigs\Web.%TRANSFORM_CONFIG%.config" "Web.config" /Y
+WORKDIR /app
+COPY --from=builder /app .
 
-FROM hub.nexdev.net/base/dotnet/framework/aspnet:4.7.2-windowsservercore-ltsc2019-utc7 AS base
+ENV TZ="Asia/Singapore"
+ENV COMPlus_EnableDiagnostics=0
 
-WORKDIR C:\inetpub\wwwroot
+# Don't run as root
+RUN adduser --disabled-password \
+    --home /app \
+    --gecos '' dotnetuser && chown -R dotnetuser /app && chown -R dotnetuser /tmp
+USER dotnetuser
 
-COPY --from=builder C:\Compiled .
-
-RUN dir .\bin\
-
-ENTRYPOINT ["C:\\LogMonitor\\LogMonitor.exe", "C:\\ServiceMonitor.exe", "w3svc"]
+ENTRYPOINT ["dotnet", "SMS.EPA.Site.dll"]
