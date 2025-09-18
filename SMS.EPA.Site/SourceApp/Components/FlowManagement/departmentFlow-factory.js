@@ -10,10 +10,10 @@
             createDepartmentFlow: function (model) {
                 return $http.post(baseUrl + 'GroupFlow/CreateDepartmentFlow', model);
             },
-            deleteDepartmentFlow: function (departmentId, flowTemplateId) {
+            deleteDepartmentFlow: function (groupId, flowTemplateId) {
                 return $http['delete'](baseUrl + 'GroupFlow/DeleteDepartmentFlow', {
                     params: {
-                        departmentId: departmentId,
+                        groupId: groupId,
                         flowTemplateId: flowTemplateId
                     }
                 });

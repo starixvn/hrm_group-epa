@@ -8,7 +8,6 @@ using SMS.EPA.Services.Interfaces;
 
 namespace SMS.EPA.Site.Controllers.API;
 
-using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Core.Attribute;
@@ -53,13 +52,12 @@ public class GroupFlowController(IUserControlSession session, IDepartmentFlowSer
 
     [HttpDelete]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
-    public CommandResult DeleteDepartmentFlow(int departmentId, int flowTemplateId)
+    public CommandResult DeleteDepartmentFlow(int groupId, int flowTemplateId)
     {
         var criteria = new DeleteDepartmentFlowCriteria
         {
             FlowTemplateId = flowTemplateId,
-            DepartmentId = Math.Abs(departmentId),
-            IsGroup = departmentId <= 0,
+            GroupId = groupId,
             ModifiedBy = CurrentEmployeeId
         };
 

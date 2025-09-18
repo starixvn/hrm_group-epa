@@ -44,7 +44,7 @@ public class FlowTemplateController(
 
     [HttpPost]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
-    public CommandResult CreateFlowTemplate(CreateFlowTemplateCriteria criteria)
+    public CommandResult CreateFlowTemplate([FromBody] CreateFlowTemplateCriteria criteria)
     {
         criteria.CreatedBy = CurrentEmployeeId;
         return baseService.ExecuteNonQuery(criteria);
@@ -52,7 +52,7 @@ public class FlowTemplateController(
 
     [HttpPut]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
-    public CommandResult UpdateFlowTemplate(UpdateFlowTemplateCriteria criteria)
+    public CommandResult UpdateFlowTemplate([FromBody] UpdateFlowTemplateCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
         return baseService.ExecuteNonQuery(criteria);
@@ -60,7 +60,7 @@ public class FlowTemplateController(
 
     [HttpPut]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
-    public CommandResult UpdateStatusFlowTemplate(UpdateStatusFlowTemplateCriteria criteria)
+    public CommandResult UpdateStatusFlowTemplate([FromBody] UpdateStatusFlowTemplateCriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
         return baseService.ExecuteNonQuery(criteria);
@@ -68,8 +68,6 @@ public class FlowTemplateController(
 
 
     [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
-
-
     public CommandResult DeleteFlowTemplate(int flowTemplateId)
     {
         var criteria = new DeleteFlowTemplateCriteria

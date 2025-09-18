@@ -96,7 +96,7 @@
                 });
 
                 return modalInstance.result.then(function () {
-                    deptFlowFactory.deleteDepartmentFlow(-vm.selectedTeam.Id, vm.FlowTemplateId).success(function (response) {
+                    deptFlowFactory.deleteDepartmentFlow(vm.selectedTeam.Id, vm.FlowTemplateId).success(function (response) {
                         if (response.IsSuccessful) {
                             notificationFactory.success('DeletedSuccessfully');
 
