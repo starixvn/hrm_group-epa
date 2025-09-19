@@ -82,7 +82,7 @@ public class JobLevelStandardTemplateController(IUserControlSession userControlS
 
     [HttpPut]
     [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplate, Policy = Policy.Host)]
-    public CommandResult UpdateTemplateKPI(UpdateJobLevelStandardTemplateKPICriteria criteria)
+    public CommandResult UpdateTemplateKPI([FromBody] UpdateJobLevelStandardTemplateKPICriteria criteria)
     {
         criteria.ModifiedBy = CurrentEmployeeId;
         var commandResult = baseService.ExecuteNonQuery(criteria);
