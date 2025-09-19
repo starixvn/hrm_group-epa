@@ -31,7 +31,7 @@ public class JobLevelStandardService(IBaseService baseService, IBaseMailService 
         var employeeSettings = baseService.GetData<JobLevelStandardProcessSetting>(criteria);
         foreach (var setting in employeeSettings)
         {
-            var emailTemplatePath = GetEmailtemplatePath(setting.ProcessId);
+            var emailTemplatePath = GetEmailTemplatePath(setting.ProcessId);
             var bodyTemplate = mailService.ReadTextFile(emailTemplatePath);
 
             var model = new MailModel
@@ -52,55 +52,33 @@ public class JobLevelStandardService(IBaseService baseService, IBaseMailService 
         }
     }
 
-    private static string GetEmailtemplatePath(byte processId)
+    private static string GetEmailTemplatePath(byte processId)
     {
-        string emailtemplatePath;
-        switch (processId)
+        string emailTemplatePath = processId switch
         {
-            case (byte)JobLevelAssessmentProcess.Employee:
-                emailtemplatePath = StartMailTemplateToEmployee;
-                break;
-
-            case (byte)JobLevelAssessmentProcess.Evaluator:
-                emailtemplatePath = StartMailTemplateToEvaluator;
-                break;
-
-            case (byte)JobLevelAssessmentProcess.Management:
-                emailtemplatePath = StartMailTemplateToManagement;
-                break;
-
-            default:
-                emailtemplatePath = string.Empty;
-                break;
-        }
+            (byte)JobLevelAssessmentProcess.Employee => StartMailTemplateToEmployee,
+            (byte)JobLevelAssessmentProcess.Evaluator => StartMailTemplateToEvaluator,
+            (byte)JobLevelAssessmentProcess.Management => StartMailTemplateToManagement,
+            _ => string.Empty
+        };
 
         var assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
-        return Path.Combine(assemblyPath, ConfigurationManagerService.GetAppSetting("RelativeEmailPath") + emailtemplatePath);
+        return Path.Combine(assemblyPath, ConfigurationManagerService.GetAppSetting("RelativeEmailPath") + emailTemplatePath);
     }
 
     private static string GetSubject(JobLevelStandardProcessSetting setting)
     {
-        string subject;
         var fromDate = setting.FromDate.Date.ToString(Constants.FormatDateTimeEmail);
         var toDate = setting.ToDate.AddDays(1).AddSeconds(-1).ToString(Constants.FormatDateTimeEmail);
-        switch (setting.ProcessId)
+        var subject = setting.ProcessId switch
         {
-            case (byte)JobLevelAssessmentProcess.Employee:
-                subject = $"{setting.PeriodName} Assessment Verification from {fromDate} to {toDate}";
-                break;
-
-            case (byte)JobLevelAssessmentProcess.Evaluator:
-                subject = $"{setting.PeriodName} Assessment from {fromDate} to {toDate}";
-                break;
-
-            case (byte)JobLevelAssessmentProcess.Management:
-                subject = $"{setting.PeriodName} Assessment Approval from {fromDate} to {toDate}";
-                break;
-
-            default:
-                subject = string.Empty;
-                break;
-        }
+            (byte)JobLevelAssessmentProcess.Employee =>
+                $"{setting.PeriodName} Assessment Verification from {fromDate} to {toDate}",
+            (byte)JobLevelAssessmentProcess.Evaluator => $"{setting.PeriodName} Assessment from {fromDate} to {toDate}",
+            (byte)JobLevelAssessmentProcess.Management =>
+                $"{setting.PeriodName} Assessment Approval from {fromDate} to {toDate}",
+            _ => string.Empty
+        };
 
         return subject;
     }

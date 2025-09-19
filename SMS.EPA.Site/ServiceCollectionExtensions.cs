@@ -37,7 +37,7 @@ public static class ServiceCollectionExtensions
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(int.Parse(configuration.GetSection("AuthSettings:CookieTimeOut").Value));
                 options.Cookie = new CookieBuilder
                 {
-                    Name = "HRM.Website.Cookies",
+                    Name = "EPA.Website.Cookies",
                     SecurePolicy = CookieSecurePolicy.SameAsRequest
                 };
                 options.Events.OnSigningOut = x =>
@@ -57,14 +57,14 @@ public static class ServiceCollectionExtensions
         var redisConfig = configuration.GetSection("AuthSettings:RedisConfig").Value;
         var redisMultiplexer = ConnectionMultiplexer.Connect(redisConfig);
 
-        services.AddDataProtection().PersistKeysToStackExchangeRedis(redisMultiplexer, "HRM.Website:ProtectionKeys");
+        services.AddDataProtection().PersistKeysToStackExchangeRedis(redisMultiplexer, "EPA.Website:ProtectionKeys");
 
         services.AddSingleton(redisMultiplexer);
 
         services.AddStackExchangeRedisCache(options =>
         {
             options.Configuration = redisConfig;
-            options.InstanceName = "HRM.Website:Session:";
+            options.InstanceName = "EPA.Website:Session:";
         });
 
         return services;
@@ -76,7 +76,7 @@ public static class ServiceCollectionExtensions
         {
             options.Cookie.IsEssential = true;
             options.IdleTimeout = TimeSpan.FromMinutes(int.Parse(configuration.GetSection("AuthSettings:SessionTimeOut").Value));
-            options.Cookie.Name = "HRM.Website.Session";
+            options.Cookie.Name = "EPA.Website.Session";
         });
 
         return services;

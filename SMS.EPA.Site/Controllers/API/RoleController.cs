@@ -1,5 +1,3 @@
-using SMS.EPA.Models.RoleManagement;
-
 namespace SMS.EPA.Site.Controllers.API;
 
 using System.Collections.Generic;
@@ -11,6 +9,7 @@ using GO.UserControl.Client.Core.Models;
 using GO.UserControl.Client.Core.Services;
 using GO.UserControl.Client.Core.Session;
 using Microsoft.AspNetCore.Mvc;
+using SMS.EPA.Models.RoleManagement;
 
 public class RoleController(
     IUserControlSession userControlSession,
@@ -52,7 +51,7 @@ public class RoleController(
         return commandResult;
     }
 
-    private IList<RoleFunctionModel> GetHierarchyFunction(IList<RoleFunctionModel> functions)
+    private static IList<RoleFunctionModel> GetHierarchyFunction(IList<RoleFunctionModel> functions)
     {
         IList<RoleFunctionModel> functionTrees = functions.Where(func => !func.ParentId.HasValue)
             .OrderBy(x => x.DisplayOrder).ToList();
@@ -65,7 +64,7 @@ public class RoleController(
         return functionTrees;
     }
 
-    private void GetChildFunctions(RoleFunctionModel function, IList<RoleFunctionModel> functions)
+    private static void GetChildFunctions(RoleFunctionModel function, IList<RoleFunctionModel> functions)
     {
         IList<RoleFunctionModel> functionItems = functions.Where(x => x.ParentId == function.FunctionId)
             .OrderBy(x => x.DisplayOrder).ToList();
