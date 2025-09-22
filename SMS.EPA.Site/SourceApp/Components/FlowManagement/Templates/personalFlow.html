@@ -11,7 +11,7 @@
                      ng-repeat="employee in personalFlowCtrl.personalFlowSettings | filter: personalFlowCtrl.filterEmployeeConfigured()"
                      ng-class="employee.EmployeeId === personalFlowCtrl.employeeId ? 'selected' : ''"
                      ng-click="personalFlowCtrl.getPersonalFlowById(employee)">
-                    {{employee.NickName}} ({{employee.FullName}})
+                    {{employee.NickName}} ({{employee.FullName}}) ({{employee.Company}})
                 </div>
             </div>
         </div>
@@ -21,6 +21,7 @@
             <thead>
                 <tr class="headerName">
                     <th class="col-sm-2 text-center" data-translate="HumanResource"></th>
+                    <th class="col-sm-2 text-center" data-translate="Employee"></th>
                     <th class="col-sm-2 text-center" data-translate="Evaluator"></th>
                     <th class="col-sm-2 text-center" data-translate="Reviewer"></th>
                     <th class="col-sm-2 text-center" data-translate="Management" ng-show="!personalFlowCtrl.flowTemplate.IsMonthly"></th>
@@ -32,7 +33,7 @@
                         <input type="text" class="form-control autocomplete-employee" maxlength="100"
                                ng-model="personalFlowCtrl.searchHumanResource" sender="humanResourceList"
                                search-auto-complete search-employees="personalFlowCtrl.getEmployee('humanResourceList')"
-                                employee="personalFlowCtrl.selectedHumanResource"
+                               employee="personalFlowCtrl.selectedHumanResource"
                                on-select="personalFlowCtrl.adSelectedEmployee"
                                placeholder="Nickname or full name" />
                         <ul list-sortable class="sortable custom-ul list-unstyled" id="humanResourceList">
@@ -45,6 +46,25 @@
                                     </div>
                                     <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
                                        ng-click="personalFlowCtrl.removeItemFromList(hr, personalFlowCtrl.humanResources.employees)"></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </td>
+                    <td class="col-self">
+                        <input type="text" class="form-control autocomplete-employee" maxlength="100"
+                               ng-model="personalFlowCtrl.searchEmployee" sender="employee"
+                               search-auto-complete search-employees="personalFlowCtrl.getEmployee('employee')"
+                               employee="personalFlowCtrl.selectedEmployee"
+                               on-select="personalFlowCtrl.adSelectedEmployee"
+                               placeholder="Nickname or full name" />
+                        <ul class="sortable custom-ul list-unstyled" id="selfList">
+                            <li ng-repeat="self in personalFlowCtrl.selfs.employees">
+                                <div class="flow-item">
+                                    <img class="avatar" ng-src="{{self.Avatar}}" />
+                                    <div class="personal-info">
+                                        <span class="bold" ng-bind="self.NickName"></span>
+                                        <p ng-bind="self.FullName"></p>
+                                    </div>
                                 </div>
                             </li>
                         </ul>

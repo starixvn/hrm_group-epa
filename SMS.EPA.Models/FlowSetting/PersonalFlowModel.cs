@@ -10,6 +10,7 @@ public class PersonalFlowModel : IExcelRecord
     public string Code { get; set; }
     public string Nickname { get; set; }
     public string FullName { get; set; }
+    public string Company { get; set; }
     public string Department { get; set; }
     public string Unit { get; set; }
     public string Team { get; set; }
