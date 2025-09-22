@@ -23,8 +23,6 @@ public class Employee : IExcelRecord
     public string NickName { get; set; }
 
     public string FullName { get; set; }
-    public string Section { get; set; }
-
     public string Password { get; set; }
 
     public string Email { get; set; }
@@ -97,7 +95,6 @@ public class Employee : IExcelRecord
             NickName,
             FullName,
             Department,
-            Section,
             Team = Group?.GroupName,
             JobTitle = JobTitle?.JobTitleName,
             JobLevel = JobLevel?.Name,
