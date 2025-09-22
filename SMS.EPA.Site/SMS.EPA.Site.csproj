@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ExcelTemplates\EmployeeBasicInfoTemplate.xls" />
     <None Remove="ExcelTemplates\GroupFlowSettingTemplate.xlsx" />
     <None Remove="ExcelTemplates\PersonalFlowSettingTemplate.xlsx" />
   </ItemGroup>
@@ -44,6 +45,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ExcelTemplates\EmployeeBasicInfoTemplate.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ExcelTemplates\GroupFlowSettingTemplate.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
