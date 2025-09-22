@@ -21,6 +21,7 @@ public class DepartmentFlowModel : IExcelRecord
         var record = new
         {
             Count = 0,
+            Unit,
             Department,
             Team,
             HumanResource = GetEvaluator(HumanResources),

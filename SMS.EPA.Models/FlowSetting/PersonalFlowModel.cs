@@ -28,6 +28,7 @@ public class PersonalFlowModel : IExcelRecord
             Code,
             FullName,
             Nickname,
+            Unit,
             Department,
             Team,
             HumanResource = GetEvaluator(HumanResources),
