@@ -178,15 +178,6 @@ public class ExportExcelService(IHttpContextAccessor httpContextAccessor = null)
 
     private void FormatSheet()
     {
-        // Only auto-size columns for HSSFWorkbook (Excel 97-2003)
-        if (Workbook is HSSFWorkbook)
-        {
-            for (var i = 0; i < TotalColumns; i++)
-            {
-                Sheet.AutoSizeColumn(i);
-            }
-        }
-
         Sheet.CreateFreezePane(0, ContentRowStartIndex);
     }
 
