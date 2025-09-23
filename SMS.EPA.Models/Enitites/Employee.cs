@@ -94,6 +94,8 @@ public class Employee : IExcelRecord
             Username,
             NickName,
             FullName,
+            CompanyName,
+            BUCode,
             Department,
             Team = Group?.GroupName,
             JobTitle = JobTitle?.JobTitleName,

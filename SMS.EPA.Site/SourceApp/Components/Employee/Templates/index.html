@@ -84,7 +84,6 @@
                 <th data-translate="BU"></th>
                 <th data-translate="Department"></th>
                 <th data-translate="Team"></th>
-                <th data-translate="ShortSpecialUser"></th>
                 <th data-translate="Roles"></th>
                 <!--<th data-translate="MonthlyEPA"></th>-->
                 <th data-translate="Action" ng-if="employeeCtrl.permission === employeeCtrl.policyEnum.Host"></th>
@@ -103,14 +102,6 @@
                 <td ng-bind="employee.BUCode"></td>
                 <td ng-bind="employee.Department"></td>
                 <td ng-bind="employee.Group.GroupName"></td>
-                <td class="text-center">
-                    <div ng-if="employee.IsSpecialUser">
-                        <a href="" ng-click="employeeCtrl.edit(employee)" data-translate="Yes"
-                           ng-if="employeeCtrl.permission === employeeCtrl.policyEnum.Host"></a>
-                        <span data-translate="Yes" ng-if="employeeCtrl.permission !== employeeCtrl.policyEnum.Host"></span>
-                    </div>
-                    <span data-translate="No" ng-if="!employee.IsSpecialUser"></span>
-                </td>
                 <td class="authority-employee-role">
                     <span ng-repeat="role in employee.Roles">
                         {{role.Name}}<span ng-if="!$last">,</span>
