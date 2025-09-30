@@ -1,0 +1,94 @@
+﻿using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.TargetTemplate;
+using SMS.EPA.Models.KPI;
+using SMS.EPA.Models.KPIGroup;
+using SMS.EPA.Models.TargetTemplate;
+using SMS.EPA.Repositories.Implement;
+using SMS.EPA.Repositories.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
+
+using System.Collections.Generic;
+using System.Linq;
+using Core.Services;
+using Interfaces;
+
+public class TargetTemplateService(ITargetTemplateRepository targetTemplateRepository, IBaseService baseService)
+    : ITargetTemplateService
+{
+    private readonly ITargetTemplateRepository targetTemplateRepository = targetTemplateRepository ?? new TargetTemplateRepository();
+    private readonly IBaseService baseService = baseService ?? new BaseService();
+
+    public TargetTemplateService() : this(null, null)
+    {
+    }
+
+    public IEnumerable<KPIGroupModel> GetKPIGroupOfTargetTemplate(GetKPIGroupOfTargetTemplateCriteria criteria)
+    {
+        var groups = baseService.GetData<KPIGroupModel>(criteria);
+        foreach (var group in groups.Where(x => x.Weight.HasValue && x.Weight.Value > 0))
+        {
+            group.Selected = true;
+        }
+
+        return groups;
+    }
+
+    public IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(GetKPIOfTargetTemplateCriteria criteria, bool onlyKPISelected)
+    {
+        IEnumerable<TargetTemplateKPIGroupModel> kpiGroups = new List<TargetTemplateKPIGroupModel>();
+
+        if (criteria != null && criteria.IsValid())
+        {
+            var kpiList = targetTemplateRepository.GetKPIOfTargetTemplate(criteria);
+            kpiGroups = GroupKPI(kpiList);
+
+            if (onlyKPISelected)
+            {
+                kpiGroups = kpiGroups.Where(x => x.KPIs.Any(p => p.Selected == true));
+            }
+        }
+
+        return kpiGroups;
+    }
+
+    private static IEnumerable<TargetTemplateKPIGroupModel> GroupKPI(IEnumerable<KPIModel> kpiList)
+    {
+        return kpiList.GroupBy(x => x.KPIGroups[0].KPIGroupId).Select(x => new TargetTemplateKPIGroupModel
+        {
+            KPIGroupId = x.Key,
+            Name = x.First().KPIGroups[0].Name,
+            IsSpreadKPI = x.First().KPIGroups[0].IsSpreadKPI,
+            Weight = x.First().KPIGroups[0].Weight,
+            Selected = CheckGroupSelected(x.ToList()),
+            KPIs = CheckKPISelected(x.ToList())
+        });
+    }
+
+    private static bool CheckGroupSelected(List<KPIModel> listKPI)
+    {
+        var allSelected = true;
+        listKPI.ForEach(x =>
+        {
+            if (x.Weight == null)
+            {
+                allSelected = false;
+            }
+        });
+
+        return allSelected;
+    }
+
+    private static IEnumerable<KPIModel> CheckKPISelected(List<KPIModel> listKPI)
+    {
+        listKPI.ForEach(x =>
+        {
+            if (x.Weight >= 0)
+            {
+                x.Selected = true;
+            }
+        });
+
+        return listKPI;
+    }
+}

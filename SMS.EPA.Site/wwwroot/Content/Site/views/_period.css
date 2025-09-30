@@ -1,0 +1,92 @@
+.button-period-back {
+  margin: 3px 0 0 45px;
+}
+.multiSelect .buttonLabel {
+  padding: 0 !important;
+}
+.multiSelect .checkboxLayer.show {
+  max-height: 300px;
+}
+.period-employee-setting .form-filter .btn-group .btn {
+  margin-right: 7px;
+}
+.employee-period-setting .modal-dialog {
+  width: 1124px !important;
+}
+.employee-period-setting .modal-dialog .employee-name-period {
+  margin-top: 7px;
+}
+.employee-period-setting .modal-dialog .period-target-label {
+  float: right;
+}
+.employee-period-setting .modal-dialog .period-target-chk {
+  margin: 10px;
+}
+.table-period-setting .chosen-container .chosen-choices {
+  border: 1px solid #ccc;
+  border-radius: 0;
+  background-image: none;
+}
+.table-period-setting .chosen-container.chosen-container-multi .chosen-choices {
+  border: 1px solid #ccc;
+}
+.table-period-setting .chosen-container.chosen-container-active .chosen-choices {
+  border: 1px solid #5897fb;
+  box-shadow: none;
+}
+.table-period-setting .ckc-email {
+  padding: 3px 7px 0 0;
+}
+.table-period-setting .col-percent-5 {
+  width: 5%;
+}
+.period-calendar {
+  cursor: default !important;
+}
+.width-190 {
+  width: 190px;
+}
+.period-create-popup .modal-dialog {
+  width: 772px;
+}
+.btn-edit-employee-setting {
+  top: 0 !important;
+}
+.period-create-button {
+  margin: 5px;
+}
+.period-process-setting {
+  width: 70%;
+  margin-bottom: 20px;
+}
+.btn-process-save {
+  width: 70%;
+  text-align: center;
+}
+.period-process-single {
+  padding-left: 20px;
+}
+.table.table-striped tbody > tr.oddRow {
+  background-color: #ececec;
+}
+.table.table-striped tbody > tr.oddRow td {
+  background-color: #ececec;
+}
+.table.table-striped tbody > tr.evenRow {
+  background-color: #fff;
+}
+.table.table-striped tbody > tr.evenRow td {
+  background-color: #fff;
+}
+.table.table-striped tbody > tr .glyphicon-warning-sign {
+  color: #ef6c00;
+}
+.period-process-detail {
+  float: right;
+}
+.form-horizontal.filter .search-button {
+  padding: 0;
+}
+.form-horizontal.filter .search-button .button {
+  float: right;
+}

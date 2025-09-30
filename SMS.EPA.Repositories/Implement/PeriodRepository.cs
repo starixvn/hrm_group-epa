@@ -1,0 +1,144 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using Fanex.Data;
+using Fanex.Data.Repository;
+using SMS.EPA.Core.Enumerations;
+using SMS.EPA.Models.Employee;
+using SMS.EPA.Models.Enitites;
+using SMS.EPA.Models.FlowSetting;
+using SMS.EPA.Models.Period;
+using SMS.EPA.Models.TargetTemplate;
+using SMS.EPA.Models.TargetType;
+using SMS.EPA.Repositories.Interfaces;
+
+namespace SMS.EPA.Repositories.Implement;
+
+public class PeriodRepository : IPeriodRepository
+{
+    public IEnumerable<PeriodModel> GetPeriod(ICriteria criteria)
+    {
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        return db.Query<PeriodModel, TargetTypeModel, PeriodModel>(
+            (pe, tar) =>
+            {
+                pe.TargetType = tar;
+                return pe;
+            },
+            "TargetTypeId",
+            criteria);
+    }
+
+    public PeriodModel GetPeriodById(ICriteria criteria)
+    {
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        return db.QueryEntity<PeriodModel, TargetTypeModel, PeriodModel>(
+            (pe, tar) =>
+            {
+                pe.TargetType = tar;
+                return pe;
+            },
+            "TargetTypeId",
+            criteria);
+    }
+
+    public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(ICriteria criteria)
+    {
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        using var multi = db.QueryMultiple(criteria);
+        var employeeSettings =
+            multi.Read<PeriodEmployeeSettingModel, EmployeeViewModel, Group, JobTitle, TargetTemplate, PeriodEmployeeSettingModel>(
+                (pe, emp, gr, job, tar) =>
+                {
+                    emp.Group = gr;
+                    emp.JobTitle = job;
+                    pe.Employee = emp;
+                    pe.TargetTemplate = tar;
+
+                    return pe;
+                },
+                "EmployeeId, GroupId, JobTitleId, TargetTemplateId");
+
+        var flowSettings = multi.Read<PeriodFlowSettingModel, EvaluatorInfoViewModel, PeriodFlowSettingModel>(
+            (fl, eva) =>
+            {
+                fl.EvaluatorInfo = eva;
+                return fl;
+            },
+            "EvaluatorId");
+
+        foreach (var employeeSetting in employeeSettings)
+        {
+            GetFlowSetting(flowSettings, employeeSetting);
+        }
+
+        return employeeSettings;
+    }
+
+    private static void GetFlowSetting(
+        IEnumerable<PeriodFlowSettingModel> flowSettings,
+        PeriodEmployeeSettingModel employeeSetting)
+    {
+        if (flowSettings != null)
+        {
+            var setting = employeeSetting;
+
+            var employeeFlowSettings =
+                flowSettings.Where(x => x.PeriodId == setting.PeriodId && x.EmployeeId == setting.Employee.EmployeeId);
+
+            foreach (var employeeFlowSetting in employeeFlowSettings)
+            {
+                GetEvaluators(employeeFlowSetting, employeeSetting);
+            }
+        }
+    }
+
+    private static void GetEvaluators(PeriodFlowSettingModel flowSetting, PeriodEmployeeSettingModel employeeSetting)
+    {
+        var periodFlowModel = CreateEvaluator(flowSetting);
+        switch (flowSetting.ProcessId)
+        {
+            case (byte)ProcessType.HumanResource:
+                employeeSetting.HumanResources.Add(periodFlowModel);
+                break;
+
+            case (byte)ProcessType.Self:
+                employeeSetting.SelfEvaluators.Add(periodFlowModel);
+                break;
+
+            case (byte)ProcessType.Evaluator:
+                employeeSetting.Evaluators.Add(periodFlowModel);
+                break;
+
+            case (byte)ProcessType.Reviewer:
+                employeeSetting.Reviewers.Add(periodFlowModel);
+                break;
+
+            case (byte)ProcessType.Management:
+                employeeSetting.Managements.Add(periodFlowModel);
+                break;
+
+            default:
+                return;
+        }
+    }
+
+    private static PeriodFlowModel CreateEvaluator(PeriodFlowSettingModel rawFlowSetting)
+    {
+        var evaluator = new PeriodFlowModel
+        {
+            ProcessId = rawFlowSetting.ProcessId,
+            Priority = rawFlowSetting.Priority,
+            Duration = rawFlowSetting.Duration,
+            RemindDay = rawFlowSetting.RemindDay,
+            StartDate = rawFlowSetting.StartDate,
+            EndDate = rawFlowSetting.EndDate,
+            HasSendMail = rawFlowSetting.HasSendMail,
+            HasEvaluationGenerated = rawFlowSetting.HasEvaluationGenerated,
+            ProcessStatus = rawFlowSetting.ProcessStatus,
+            ProcessDetailStatus = rawFlowSetting.ProcessDetailStatus,
+            EvaluatorInfo = rawFlowSetting.EvaluatorInfo
+        };
+
+        return evaluator;
+    }
+}

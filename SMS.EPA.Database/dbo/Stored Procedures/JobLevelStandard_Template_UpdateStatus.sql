@@ -1,0 +1,64 @@
+﻿
+CREATE PROCEDURE [dbo].[JobLevelStandard_Template_UpdateStatus] @TemplateId INT
+	,@IsActive BIT = 0
+	,@ModifiedBy INT
+	,@ErrCode INT = 0 OUTPUT
+	,@ErrMsg VARCHAR(200) = '' OUTPUT
+AS
+/*
+Created: 2023-04-25@Frankie.Nguyen
+Task: Update status of JobLevelStandard Template.
+DB: SMSEPA
+Original:
+
+Revisions:
+Param's Explanation:
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @oldData NVARCHAR(MAX)
+		,@data NVARCHAR(MAX)
+		,@xml XML
+		,@ModifiedDate DATETIME = GETDATE()
+
+	-- write log
+	SET @xml = (
+			SELECT [Name] AS '@Name'
+				,IsActive AS '@IsActive'
+				,ModifiedBy AS '@ModifiedBy'
+				,ModifiedDate AS '@ModifiedDate'
+			FROM dbo.JobLevelStandard_Template WITH (NOLOCK)
+			WHERE TemplateId = @TemplateId
+			FOR XML PATH('r')
+				,TYPE
+			)
+	SET @oldData = REPLACE(CONVERT(NVARCHAR(MAX), @xml), '" />', '"/"')
+
+	UPDATE dbo.JobLevelStandard_Template WITH (ROWLOCK, UPDLOCK)
+	SET IsActive = @IsActive
+		,ModifiedBy = @ModifiedBy
+		,ModifiedDate = @ModifiedDate
+	WHERE TemplateId = @TemplateId
+
+	-- write log
+	SET @xml = (
+			SELECT [Name] AS '@Name'
+				,IsActive AS '@IsActive'
+				,ModifiedBy AS '@ModifiedBy'
+				,ModifiedDate AS '@ModifiedDate'
+			FROM dbo.JobLevelStandard_Template WITH (NOLOCK)
+			WHERE TemplateId = @TemplateId
+			FOR XML PATH('r')
+				,TYPE
+			)
+	SET @Data = REPLACE(CONVERT(NVARCHAR(MAX), @xml), '" />', '"/"')
+
+	EXEC dbo.LogDetail_Insert @ActorId = @ModifiedBy
+		,@SpName = 'JobLevelStandard_Template_UpdateStatus'
+		,@ObjectId = @TemplateId
+		,@ObjectTypeId = NULL
+		,@Data = @data
+		,@OldData = @oldData
+		,@ObjectIds = NULL
+END

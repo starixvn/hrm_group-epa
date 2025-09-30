@@ -1,0 +1,34 @@
+﻿@using SMS.EPA.Resources;
+@using SMS.EPA.Core.Model;
+
+@model UserSession
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row header">
+    <a class="col-xs-12 col-sm-2 logo" href="#/">
+        <img src="~/Content/Site/images/epa_logo.png" alt="SMS-EPA" title="SMS-EPA" />
+    </a>
+    <div class="col-xs-12 col-sm-10">
+        <div ng-include src="'/SourceApp/Components/Menu/Templates/index.html'"></div>
+        <div id="user_utilities" class="user-info info" data-ng-controller="EmployeeProfileController as employeeProfileCtrl">
+            <h2>
+                @Model.FullName - @Model.NickName
+            </h2>
+            <a class="dropdown-arrow" href="javascript:;"></a>
+            <ol>
+                @if (Model.IsSpecialUser)
+                {
+                    <li>
+                        <a href="javascript:;" data-ng-click="employeeProfileCtrl.changePassword()">@Lang.ChangePassword</a>
+                    </li>
+                }
+                <li><a href="javascript:;" data-ng-click="employeeProfileCtrl.logout()">@Lang.Logout</a> </li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div data-ng-view></div>
+</div>

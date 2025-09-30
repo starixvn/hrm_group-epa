@@ -1,0 +1,22 @@
+.job-description .employee-info {
+  border: 1px solid #c8c8c8;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #f4f4f4;
+}
+.job-description .employee-info .row {
+  padding: 5px 0;
+}
+.job-description .table {
+  margin-bottom: 70px;
+}
+.job-description .table tr.row-highlight td {
+  background-color: #f2f2c2 !important;
+}
+.cursor-pointer:hover {
+  cursor: pointer;
+}
+.descriptionGroup-modal-body,
+.copy-setting-modal-body {
+  overflow-y: auto;
+}

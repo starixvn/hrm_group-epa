@@ -1,0 +1,51 @@
+﻿using System;
+using System.IO;
+using System.Text.RegularExpressions;
+using Fanex.MailDeliver.MailClient.API;
+using Fanex.MailDeliver.MailClient.Model;
+using Microsoft.Extensions.Configuration;
+using SMS.EPA.Models.Email;
+using SMS.EPA.Services.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
+
+public class BaseMailService(IConfiguration configuration) : IBaseMailService
+{
+    public void SendEmail(MailModel email)
+    {
+        if (email == null
+            || !IsValidEmail(email.ReceiverEmail)
+            || configuration["NotSendMail"]!.Equals("true", StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        var mailItem = new MailRecord
+        {
+            MailTo = email.ReceiverEmail,
+            MailCc = email.MailCC,
+            Subject = email.Subject,
+            Title = configuration["Email.SenderName"],
+            Body = email.Body
+        };
+        using var client = new MailDeliver();
+        client.SendMail(mailItem);
+    }
+
+    private static bool IsValidEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            return false;
+        }
+
+        var regex = new Regex(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
+        return regex.IsMatch(email);
+    }
+
+    public string ReadTextFile(string filePath)
+    {
+        using var sr = new StreamReader(filePath);
+        return sr.ReadToEnd();
+    }
+}

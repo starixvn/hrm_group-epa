@@ -1,0 +1,359 @@
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
+    /* global moment */
+
+    angular.module('appModule').factory('utilitiesFactory', utilitiesFactory);
+    utilitiesFactory.$inject = ['$filter', '$location', '$window'];
+
+    function utilitiesFactory($filter, $location, $window) {
+        var limitNumber = 100,
+            notAvailableString = "N/A",
+            maxStar = 5,
+            epaStatus = {
+                Open: 0,
+                Closed: 1,
+                Rejected: 2
+            },
+            pageOption = {
+                pageIndex: 0,
+                itemsPerPage: 50,
+                itemsPerPageArray: [50, 100, 200, 500]
+            },
+            policy = {
+                None: 0,
+                Read: 1,
+                Host: 2
+            },
+            processType = {
+                HumanResource: 1,
+                Self: 2,
+                Evaluator: 3,
+                Reviewer: 4,
+                Management: 5
+            },
+            ratingType = {
+                Star: 1,
+                Score: 2,
+                HalfStar: 3
+            },
+            processStatus = {
+                Open: 1,
+                InProgress: 2,
+                Closed: 3
+            },
+            targetType = {
+                Probation: 1,
+                Monthly: 2,
+                SemiAnnual: 3,
+                Promotion: 5
+            },
+            scoreRatingType = {
+                Discipline: 1,
+                NonDiscipline: 2,
+                Full100: 3
+            };
+
+        var utilities = {
+            epaStatus: epaStatus,
+            formatString: formatString,
+            getDateFormat: getDateFormat,
+            getDateTime: getDateTime,
+            getDateTimeFormat: getDateTimeFormat,
+            getSelectedData: getSelectedData,
+            getTimeFormat: getTimeFormat,
+            notAvailableString: notAvailableString,
+            maxLengthDescription: maxLengthDescription,
+            maxStar: maxStar,
+            numberEntryList: numberEntryList,
+            openPopupEndDate: openPopupEndDate,
+            openPopupStartDate: openPopupStartDate,
+            pageOption: pageOption,
+            policy: policy,
+            processType: processType,
+            ratingType: ratingType,
+            readLess: readLess,
+            readMore: readMore,
+            searchOnPage: searchOnPage,
+            setSelectedItem: setSelectedItem,
+            splitNumber: splitNumber,
+            processStatus: processStatus,
+            targetType: targetType,
+            exportExcel: exportExcel,
+            handleOpenLink: handleOpenLink,
+            handleOpenLinkWithParams: handleOpenLinkWithParams,
+            isOpenNewTabEvent: isOpenNewTabEvent,
+            scoreRatingType: scoreRatingType,
+            probationStatusTypes: {
+                Failed: 0,
+                Passed: 1,
+                Extended: 2
+            },
+            jobLevelAssessmentProcess: {
+                Evaluator: 1,
+                Employee: 2,
+                Management: 3
+            },
+            jobLevelAssessmentStatus: {
+                Pending: 1,
+                Verified: 2,
+                Approved: 3
+            },
+            assessmentStatusOptions: [
+                { StatusId: 1, Name: 'Pending' },
+                { StatusId: 2, Name: 'Verified' },
+                { StatusId: 3, Name: 'Reviewed' }
+            ]
+        };
+
+        utilities.parseFloat = function (input) {
+            var result = input ? parseFloat(input).toFixed(2) : 0;
+
+            return parseFloat(result);
+        };
+
+        return utilities;
+
+        function exportExcel(criteria, url) {
+            var data = $.param(criteria),
+                downloadUrl = url + "?" + data,
+                iframe = $('body iframe');
+
+            if (iframe.length === 0) {
+                iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
+                iframe.appendTo('body');
+            }
+
+            iframe.attr('src', downloadUrl);
+        }
+
+        function formatString() {
+            var theString = arguments[0];
+            for (var i = 1; i < arguments.length; i++) {
+                var regEx = new RegExp("\\{" + (i - 1) + "\\}", "gm");
+                theString = theString.replace(regEx, arguments[i]);
+            }
+
+            return theString;
+        }
+
+        function getDateFormat(vm) {
+            vm.dateFormat = 'dd MMM, yyyy';
+        }
+
+        function getDateTimeFormat(vm) {
+            vm.dateTimeFormat = 'dd MMM, yyyy HH:mm';
+        }
+
+        function getDateTime(dateObject) {
+            var resultDate = '';
+
+            if (dateObject) {
+                resultDate = moment(dateObject).format('MM/DD/YYYY HH:mm');
+            }
+
+            return resultDate;
+        }
+
+        function getSelectedData(data, propName) {
+            var selectedProperties = [];
+
+            angular.forEach(data, function (item) {
+                var selectedValue = propName ? item[propName] : item;
+
+                if (item.ticked) {
+                    selectedProperties.push(selectedValue);
+                }
+            });
+
+            var result = '';
+
+            if (selectedProperties.length > 0) {
+                result = propName ? selectedProperties.join(',') : selectedProperties;
+            }
+
+            return result;
+        }
+
+        function getTimeFormat(vm) {
+            vm.timeFormat = 'HH:mm';
+        }
+
+        function maxLengthDescription(vm) {
+            vm.maxLengthDescription = limitNumber;
+        }
+
+        function numberEntryList(vm) {
+            vm.entries = [20, 50, 100, 200];
+        }
+
+        function openPopupEndDate($event, vm) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            vm.calendar.endDateOpened = true;
+            vm.calendar.startDateOpened = false;
+        }
+
+        function openPopupStartDate($event, vm) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            vm.calendar.startDateOpened = true;
+            vm.calendar.endDateOpened = false;
+        }
+
+        function readLess(item) {
+            item.numLimit = limitNumber;
+            item.showReadMore = false;
+        }
+
+        function readMore(item) {
+            item.numLimit = 10000;
+            item.showReadMore = true;
+        }
+
+        function searchOnPage(vm, originalData) {
+            /*
+            * Check if item match search text.
+            */
+            var searchMatch = function (haystack, needle) {
+                if (!needle) {
+                    return true;
+                }
+
+                return haystack.toLowerCase().indexOf(needle.toLowerCase()) !== -1;
+            };
+
+            /*
+            * Check all item recursion.
+            */
+            var checkAllItemRecursion = function (item, searchKey) {
+                for (var attr in item) {
+                    var childItem = item[attr];
+
+                    if (childItem != null && /^[a-zA-Z0-9]*$/.test(attr) &&
+                        attr.toLowerCase().search('id') === -1 && attr.toLowerCase().search('length') === -1 &&
+                        attr.toLowerCase().search('index') === -1 && attr.toLowerCase().search('hash') === -1 &&
+                        attr.toLowerCase().search('time') === -1 && attr.toLowerCase().search('date') === -1 &&
+                        attr.toLowerCase().search('modifiedby') === -1 && attr.toLowerCase().search('createdby') === -1) {
+                        if (typeof (childItem) === 'object') {
+                            var exist = checkAllItemRecursion(childItem, searchKey);
+
+                            if (exist) {
+                                return exist;
+                            }
+                        }
+                        else {
+                            if (searchMatch(item[attr].toString(), searchKey)) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+
+                return false;
+            };
+
+            vm.search = function () {
+                vm.filteredItems = [];
+
+                if (originalData && originalData.length > 0) {
+                    vm.filteredItems = $filter('filter')(originalData, function (item) {
+                        return checkAllItemRecursion(item, vm.searchKey);
+                    });
+                }
+            };
+
+            vm.searchOnlyEmployee = function () {
+                vm.filteredItems = [];
+
+                if (originalData && originalData.length > 0) {
+                    vm.filteredItems = $filter('filter')(originalData, function (item) {
+                        var empData = item.Employee;
+                        return checkAllItemRecursion(empData, vm.searchKey);
+                    });
+                }
+            };
+
+            vm.search();
+        }
+
+        function setSelectedItem(data, selectedName, selectedItems) {
+            if (selectedItems && selectedItems.length > 0) {
+                var array = selectedItems.split(',');
+                angular.forEach(array, function (id) {
+                    id = parseInt(id);
+                    angular.forEach(data, function (item) {
+                        if (item[selectedName] === id) {
+                            item.ticked = true;
+                        }
+                    });
+                });
+            }
+        }
+
+        function splitNumber(number, numberDecimal) {
+            number = number ? parseFloat(number) : 0;
+            var result = number;
+
+            if (!numberDecimal) {
+                numberDecimal = 2;
+            }
+
+            if ((number % 1) !== 0) {
+                var index = number.toString().indexOf('.'),
+                    decimal = number.toString().slice(index + 1);
+
+                number = number.toString().slice(0, index) + '.' + decimal.substring(0, numberDecimal);
+                result = parseFloat(number);
+            }
+
+            return result;
+        }
+
+        function getParamsQuery(params) {
+            var result = "";
+            var isFirstElement = true;
+
+            angular.forEach(params, function (value, key) {
+                if (isFirstElement) {
+                    var extend = '?' + key + '=' + value;
+                    result = result + extend;
+                    isFirstElement = false;
+                }
+                else {
+                    var extend = '&' + key + '=' + value;
+                    result = result + extend;
+                }
+            });
+
+            return result;
+        }
+
+        function isOpenNewTabEvent(event) {
+            return (event.ctrlKey);
+        }
+
+        function handleOpenLink(event, url) {
+            if (isOpenNewTabEvent(event)) {
+                var bindUrl = '#' + url;
+                $window.open(bindUrl, '_blank');
+            }
+            else {
+                $location.path(url).search({});
+            }
+        }
+
+        function handleOpenLinkWithParams(event, url, params) {
+            if (isOpenNewTabEvent(event)) {
+                var queryString = getParamsQuery(params);
+                var bindUrl = '#' + url + queryString;
+                $window.open(bindUrl, '_blank');
+            }
+            else {
+                $location.path(url).search(params);
+            }
+        }
+    }
+})(angular);

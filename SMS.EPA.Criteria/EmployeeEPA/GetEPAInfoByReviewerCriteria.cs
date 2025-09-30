@@ -1,0 +1,20 @@
+﻿using Fanex.Data.Repository;
+
+namespace SMS.EPA.Criteria.EmployeeEPA;
+
+public class GetEPAInfoByReviewerCriteria : CriteriaBase
+{
+    public int EPAId { get; set; }
+
+    public int ReviewerId { get; set; }
+
+    public override bool IsValid()
+    {
+        return EPAId > 0 && ReviewerId > 0;
+    }
+
+    public override string GetSettingKey()
+    {
+        return "EPA_GetInfoByReviewer";
+    }
+}

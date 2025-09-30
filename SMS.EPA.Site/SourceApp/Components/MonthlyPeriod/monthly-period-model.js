@@ -1,0 +1,599 @@
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
+
+    angular.module('monthlyPeriodModule').factory('MonthlyPeriodModel', monthlyPeriodModel);
+    monthlyPeriodModel.$inject = ['$uibModal', 'monthlyPeriodFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'];
+
+    function monthlyPeriodModel($uibModal, periodFactory, errorFactory, notificationFactory, utilitiesFactory) {
+        var model = {};
+
+        model.periods = [];
+        model.period = {};
+        model.processSettings = [];
+        model.employeeSettings = [];
+        model.permission = 0;
+        model.hasSelfStarted = false;
+
+        model.getPermissionOnMonthlyPeriod = function () {
+            return periodFactory.getPermissionOnMonthlyPeriod().success(function (permisson) {
+                model.permission = parseInt(permisson);
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.openPopupStartDate = function (event, vm) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            vm.calendar.startDateOpened = true;
+            vm.calendar.endDateOpened = false;
+        };
+
+        model.openPopupEndDate = function (event, vm) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            vm.calendar.startDateOpened = false;
+            vm.calendar.endDateOpened = true;
+        };
+
+        model.getMonthlyPeriod = function (fromDate, toDate) {
+            return periodFactory.getMonthlyPeriod(fromDate, toDate).success(function (periods) {
+                model.periods = periods;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getMonthlyPeriodById = function (periodId) {
+            return periodFactory.getMonthlyPeriodById(periodId).success(function (period) {
+                model.period = period;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.openPopupCreateMonthlyPeriod = function (vm) {
+            vm.modalInstance = $uibModal.open({
+                templateUrl: 'SourceApp/Components/MonthlyPeriod/Templates/create.html',
+                controller: "CreateMonthlyPeriodController as createMonthlyPeriodCtrl",
+                backdrop: 'static',
+                size: 'lg',
+                windowClass: "modal-confirm-center"
+            });
+
+            return vm.modalInstance.result;
+        };
+
+        model.validateMonthlyPeriod = function (period) {
+            if (!period) {
+                return false;
+            }
+            else {
+                if (!period.Name) {
+                    notificationFactory.error("NameRequired");
+                    return false;
+                } else if (!period.StartDate) {
+                    notificationFactory.error("StartDatePeriodRequired");
+                    return false;
+                } else if (!period.EndDate) {
+                    notificationFactory.error("EndDatePeriodRequired");
+                    return false;
+                } else if (new Date(period.StartDate).setHours(0, 0, 0, 0) > new Date(period.EndDate).setHours(0, 0, 0, 0)) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+            }
+
+            return true;
+        };
+
+        model.createMonthlyPeriod = function (period, modalInstance) {
+            return periodFactory.createMonthlyPeriod(period).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("CreatedSuccessfully");
+                    modalInstance.close();
+                } else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.updateBasicInfoMonthlyPeriod = function (period) {
+            return periodFactory.updateBasicInfoMonthlyPeriod(period).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                } else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getProcessSettingByPeriodId = function (periodId) {
+            return periodFactory.getProcessSettingByPeriodId(periodId).success(function (processSettings) {
+                model.processSettings = processSettings;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.updateProcessSettingMonthlyPeriod = function (processSetting) {
+            return periodFactory.updateProcessSettingMonthlyPeriod(processSetting).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                } else {
+                    notificationFactory.error("UpdatedUnsuccessfully");
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.openPopupDeleteMonthlyPeriod = function (vm, period) {
+            var modalInstance = $uibModal.open({
+                templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+                controller: "ModalConfirmController as modalConfirmCtrl",
+                backdrop: 'static',
+                resolve: {
+                    name: function () {
+                        return period.Name;
+                    },
+                    action: function () {
+                        return 'delete';
+                    }
+                },
+                windowClass: "modal-confirm-center"
+            });
+
+            modalInstance.result.then(function () {
+                periodFactory.deleteMonthlyPeriod(period.PeriodId).success(function (response) {
+                    if (response.IsSuccessful) {
+                        var index = vm.periods.indexOf(period);
+                        vm.periods.splice(index, 1);
+                        utilitiesFactory.searchOnPage(vm, vm.periods);
+                        notificationFactory.success("DeletedSuccessfully");
+                    } else {
+                        notificationFactory.error("", response.Message);
+                    }
+                }).error(function (response, status) {
+                    errorFactory.errorHandle(status);
+                });
+            })['finally'](function () {
+                modalInstance = '';
+            });
+        };
+
+        model.getEmployeeSettingById = function (periodId, teamIds, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated, epaStatus) {
+            return periodFactory.getEmployeeSettingById(
+                periodId,
+                teamIds,
+                isLocal,
+                isExcludedEmployee,
+                isGeneratedEPA,
+                isEvaluated,
+                epaStatus)
+            .success(function (employeeSettings) {
+                model.employeeSettings = employeeSettings;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.openPopupAddEmployeeSetting = function (vm) {
+            vm.modalInstance = $uibModal.open({
+                templateUrl: 'SourceApp/Components/MonthlyPeriod/Templates/addEmployeeSetting.html',
+                controller: 'AddMonthlyPeriodEmployeeSettingController as addEmpSettingCtrl',
+                backdrop: 'static',
+                resolve: {
+                    periodId: function () {
+                        return vm.filter.periodId;
+                    },
+                    orgChart: function () {
+                        return vm.orgChart;
+                    }
+                },
+                windowClass: 'modal-confirm-center add-employee-setting-modal'
+            });
+
+            return vm.modalInstance.result;
+        };
+
+        model.validateAddEmployeeSetting = function (params) {
+            let isValid = true;
+            if (params.employeeId === null && params.teamIds === '') {
+                isValid = false;
+
+                notificationFactory.error('', 'Please input employee or select at least a team!');
+            }
+
+            return isValid;
+        };
+
+        model.addEmployeeSetting = function (params, modalInstance) {
+            return periodFactory.addEmployeeToMonthlyPeriod(params).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success('', 'Add employee successfully!');
+                    modalInstance.close();
+                } else {
+                    notificationFactory.error('', response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.openPopupUpdateEmployeeSetting = function (vm, selectedEmployees) {
+            var modalInstance = $uibModal.open({
+                templateUrl: 'SourceApp/Components/MonthlyPeriod/Templates/editEmployeeSetting.html',
+                controller: "UpdateEmployeeSettingMonthlyPeriodController as updatePeriodSettingCtrl",
+                backdrop: 'static',
+                size: 'lg',
+                resolve: {
+                    period: function () {
+                        return vm.period;
+                    },
+                    selectedEmployees: function () {
+                        return angular.copy(selectedEmployees);
+                    },
+                    permission: function () {
+                        return vm.permission;
+                    }
+                },
+                windowClass: "modal-confirm-center employee-period-setting"
+            });
+
+            modalInstance.result.then(function () {
+                vm.query(vm.filter);
+                vm.selectedAll = false;
+            })['finally'](function () {
+                modalInstance = null;
+            });
+        };
+
+        model.validateEmployeeSettingGenerateEPA = function (employeeSettings) {
+            for (var i = 0; i < employeeSettings.length; i++) {
+                var employeeSetting = employeeSettings[i];
+
+                if (!employeeSetting.TargetTemplate) {
+                    notificationFactory.error("NoneTargetTemplateSettingWarning");
+                    return false;
+                } else if (employeeSetting.HumanResources && employeeSetting.HumanResources.length > 0
+                    && (!employeeSetting.HumanResources[0].StartDate || !employeeSetting.HumanResources[0].EndDate)) {
+                    notificationFactory.error("NoneDateSettingWarning");
+                    return false;
+                } else if (employeeSetting.SelfEvaluators && employeeSetting.SelfEvaluators.length > 0
+                    && (!employeeSetting.SelfEvaluators[0].StartDate || !employeeSetting.SelfEvaluators[0].EndDate)) {
+                    notificationFactory.error("NoneDateSettingWarning");
+                    return false;
+                } else if (employeeSetting.Evaluators && employeeSetting.Evaluators.length > 0
+                    && (!employeeSetting.Evaluators[0].StartDate || !employeeSetting.Evaluators[0].EndDate)) {
+                    notificationFactory.error("NoneDateSettingWarning");
+                    return false;
+                } else if (employeeSetting.Reviewers && employeeSetting.Reviewers.length > 0
+                    && (!employeeSetting.Reviewers[0].StartDate || !employeeSetting.Reviewers[0].EndDate)) {
+                    notificationFactory.error("NoneDateSettingWarning");
+                    return false;
+                }
+            }
+
+            return true;
+        };
+
+        model.openPopupGenerateEvaluation = function (vm, period) {
+            var modalInstance = $uibModal.open({
+                templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+                controller: "ModalConfirmController as modalConfirmCtrl",
+                backdrop: 'static',
+                resolve: {
+                    name: function () {
+                        return "EPA";
+                    },
+                    action: function () {
+                        return 'generate';
+                    }
+                },
+                windowClass: "modal-confirm-center"
+            });
+
+            return modalInstance.result.then(function () {
+                return periodFactory.generateEvaluation(period).success(function (response) {
+                    if (response.IsSuccessful) {
+                        notificationFactory.success("CreatedSuccessfully");
+                    } else {
+                        notificationFactory.error('', response.Message);
+                    }
+                }).error(function (response, status) {
+                    errorFactory.errorHandle(status);
+                });
+            })['finally'](function () {
+                modalInstance = '';
+            });
+        };
+
+        model.getSelectedEmployee = function (employeeSettings) {
+            var selectedEmployees = [];
+
+            angular.forEach(employeeSettings, function (employeeSetting) {
+                if (employeeSetting.Selected) {
+                    selectedEmployees.push(employeeSetting);
+                }
+            });
+
+            return selectedEmployees;
+        };
+
+        model.getSelectedEmployeeInfo = function (employeeSettings) {
+            var selectedEmployeeIds = '',
+                selectedEmployeeNames = '';
+
+            angular.forEach(employeeSettings, function (employeeSetting) {
+                var name = employeeSetting.Employee.FullName + ' (' + employeeSetting.Employee.NickName + ')';
+
+                selectedEmployeeIds += selectedEmployeeIds ? ', ' + employeeSetting.Employee.EmployeeId : employeeSetting.Employee.EmployeeId;
+                selectedEmployeeNames += selectedEmployeeNames ? ', ' + name : name;
+            });
+
+            return {
+                selectedEmployeeIds: selectedEmployeeIds,
+                selectedEmployeeNames: selectedEmployeeNames
+            };
+        };
+
+        model.validateEmployeeSetting = function (employeeOptions) {
+            var startDate, endDate;
+
+            if (employeeOptions.humanResource.ids && employeeOptions.humanResource.ids.length > 0) {
+                startDate = new Date(employeeOptions.humanResource.StartDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employeeOptions.humanResource.EndDate).setHours(0, 0, 0, 0);
+
+                if (startDate > endDate) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+            } else {
+                notificationFactory.error("HumanResourcePhaseRequired");
+                return false;
+            }
+
+            if (employeeOptions.selfEvaluator.ids && employeeOptions.selfEvaluator.ids.length > 0) {
+                startDate = new Date(employeeOptions.selfEvaluator.StartDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employeeOptions.selfEvaluator.EndDate).setHours(0, 0, 0, 0);
+
+                if (startDate > endDate) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+
+                startDate = new Date(employeeOptions.humanResource.EndDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employeeOptions.selfEvaluator.StartDate).setHours(0, 0, 0, 0);
+
+                if (startDate >= endDate) {
+                    notificationFactory.error("HRRangeDateGreaterThanSelfRangeDateWarning");
+                    return false;
+                }
+            }
+
+            if (employeeOptions.evaluator.ids && employeeOptions.evaluator.ids.length > 0) {
+                startDate = new Date(employeeOptions.evaluator.StartDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employeeOptions.evaluator.EndDate).setHours(0, 0, 0, 0);
+
+                if (startDate > endDate) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+
+                startDate = new Date(employeeOptions.selfEvaluator.EndDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employeeOptions.evaluator.StartDate).setHours(0, 0, 0, 0);
+
+                if (startDate >= endDate) {
+                    notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
+                    return false;
+                }
+            } else {
+                notificationFactory.error("EvaluatorPhaseRequired");
+                return false;
+            }
+
+            if (employeeOptions.reviewer.ids && employeeOptions.reviewer.ids.length > 0) {
+                startDate = new Date(employeeOptions.reviewer.StartDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employeeOptions.reviewer.EndDate).setHours(0, 0, 0, 0);
+
+                if (startDate > endDate) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+
+                startDate = new Date(employeeOptions.evaluator.EndDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employeeOptions.reviewer.StartDate).setHours(0, 0, 0, 0);
+
+                if (startDate >= endDate) {
+                    notificationFactory.error("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning");
+                    return false;
+                }
+            } else {
+                notificationFactory.error("ReviewerPhaseRequired");
+                return false;
+            }
+
+            return true;
+        };
+
+        model.validateEmployeeSettingMultipleMode = function (updatedEmployees) {
+            for (var i = 0; i < updatedEmployees.length; i++) {
+                var employee = updatedEmployees[i],
+                    startDate, endDate;
+
+                if (employee.HumanResources && employee.HumanResources.length > 0) {
+                    startDate = new Date(employee.HumanResources[0].StartDate).setHours(0, 0, 0, 0);
+                    endDate = new Date(employee.HumanResources[0].EndDate).setHours(0, 0, 0, 0);
+
+                    if (startDate > endDate) {
+                        notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                        return false;
+                    }
+                } else {
+                    notificationFactory.error("HumanResourcePhaseRequired");
+                    return false;
+                }
+
+                if (employee.SelfEvaluators && employee.SelfEvaluators.length > 0) {
+                    startDate = new Date(employee.SelfEvaluators[0].StartDate).setHours(0, 0, 0, 0);
+                    endDate = new Date(employee.SelfEvaluators[0].EndDate).setHours(0, 0, 0, 0);
+
+                    if (startDate > endDate) {
+                        notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                        return false;
+                    }
+
+                    startDate = new Date(employee.HumanResources[0].EndDate).setHours(0, 0, 0, 0);
+                    endDate = new Date(employee.SelfEvaluators[0].StartDate).setHours(0, 0, 0, 0);
+
+                    if (startDate > endDate) {
+                        notificationFactory.error("HRRangeDateGreaterThanSelfRangeDateWarning");
+                        return false;
+                    }
+                }
+
+                if (employee.Evaluators && employee.Evaluators.length > 0) {
+                    startDate = new Date(employee.Evaluators[0].StartDate).setHours(0, 0, 0, 0);
+                    endDate = new Date(employee.Evaluators[0].EndDate).setHours(0, 0, 0, 0);
+
+                    if (startDate > endDate) {
+                        notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                        return false;
+                    }
+
+                    startDate = new Date(employee.SelfEvaluators[0].EndDate).setHours(0, 0, 0, 0);
+                    endDate = new Date(employee.Evaluators[0].StartDate).setHours(0, 0, 0, 0);
+
+                    if (startDate > endDate) {
+                        notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
+                        return false;
+                    }
+                } else {
+                    notificationFactory.error("EvaluatorPhaseRequired");
+                    return false;
+                }
+
+                if (employee.Reviewers && employee.Reviewers.length > 0) {
+                    startDate = new Date(employee.Reviewers[0].StartDate).setHours(0, 0, 0, 0);
+                    endDate = new Date(employee.Reviewers[0].EndDate).setHours(0, 0, 0, 0);
+
+                    if (startDate > endDate) {
+                        notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                        return false;
+                    }
+
+                    startDate = new Date(employee.Evaluators[0].EndDate).setHours(0, 0, 0, 0);
+                    endDate = new Date(employee.Reviewers[0].StartDate).setHours(0, 0, 0, 0);
+
+                    if (startDate > endDate) {
+                        notificationFactory.error("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning");
+                        return false;
+                    }
+                } else {
+                    notificationFactory.error("ReviewerPhaseRequired");
+                    return false;
+                }
+
+                return true;
+            }
+        };
+
+        model.checkHasFieldEdit = function (fieldEdit) {
+            var hasEdited = false;
+
+            if (fieldEdit.targetTemplate) {
+                hasEdited = true;
+            } else if (fieldEdit.evaluator) {
+                hasEdited = true;
+            } else if (fieldEdit.startDate) {
+                hasEdited = true;
+            } else if (fieldEdit.endDate) {
+                hasEdited = true;
+            } else {
+                notificationFactory.error("PeriodEditSettingWarning");
+            }
+
+            return hasEdited;
+        };
+
+        model.updateEmployeeSettingOfPeriod = function (employeeSetting) {
+            return periodFactory.updateEmployeeSettingOfPeriod(employeeSetting).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                } else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.openPopupIncludeExcludeEmployee = function (vm, periodId, employee) {
+            employee.IsIncluded = !employee.IsIncluded;
+
+            var action = employee.IsIncluded ? "include" : "exclude",
+            newEmployeeStatus = {
+                PeriodId: periodId,
+                EmployeeId: employee.Employee.EmployeeId,
+                IsIncluded: employee.IsIncluded
+            };
+
+            var modalInstance = $uibModal.open({
+                templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+                controller: "ModalConfirmController as modalConfirmCtrl",
+                backdrop: 'static',
+                resolve: {
+                    name: function () {
+                        return employee.Employee.NickName;
+                    },
+                    action: function () {
+                        return action;
+                    }
+                },
+                windowClass: "modal-confirm-center"
+            });
+
+            modalInstance.result.then(function () {
+                periodFactory.updateIncludeStatusEmployeePeriod(newEmployeeStatus).success(function (response) {
+                    if (response.IsSuccessful) {
+                        notificationFactory.success("UpdatedSuccessfully");
+                    } else {
+                        employee.IsIncluded = !newEmployeeStatus.IsIncluded;
+                        notificationFactory.error("", response.Message);
+                    }
+
+                    vm.query(vm.filter);
+                }).error(function (response, status) {
+                    if (status === 405) {
+                        errorFactory.errorHandle(status);
+                    } else {
+                        employee.IsIncluded = !newEmployeeStatus.IsIncluded;
+                        notificationFactory.error("UpdatedUnsuccessfully");
+                    }
+                });
+            }, function () {
+                employee.IsIncluded = !newEmployeeStatus.IsIncluded;
+            })['finally'](function () {
+                modalInstance = '';
+            });
+        };
+
+        model.checkSelfProcessStarted = function (periodId, employeeIds) {
+            return periodFactory.checkSelfProcessStarted(periodId, employeeIds).success(function (hasSelfStarted) {
+                model.hasSelfStarted = hasSelfStarted;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        return model;
+    }
+})(angular);

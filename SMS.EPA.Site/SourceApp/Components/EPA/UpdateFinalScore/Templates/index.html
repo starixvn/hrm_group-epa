@@ -1,0 +1,120 @@
+﻿<div ng-controller="UpdateFinalScoreController as updateFinalScoreCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="UpdateFinalScore"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <form novalidate class="form-filter">
+            <div class="form-group">
+                <label class="label-form required" data-translate="Period"></label>
+                <select class="form-control select-form" ng-model="updateFinalScoreCtrl.filter.periodId"
+                        ng-options="opt.PeriodId as opt.Name for opt in updateFinalScoreCtrl.periods">
+                    <option style="display: none" value="">-- {{"Select" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-form" data-translate="Team"></label>
+                <div class="select-form">
+                    <multi-select-tree-view selected-items="updateFinalScoreCtrl.filter.teamIds"
+                                            is-selected-all="true" has-search-box="true"
+                                            options="updateFinalScoreCtrl.orgChart" on-select="updateFinalScoreCtrl.onSelectTeam"></multi-select-tree-view>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="label-form" data-translate="Category"></label>
+                <select class="form-control select-form" ng-model="updateFinalScoreCtrl.filter.isLocal">
+                    <option value="">-- {{"All" | translate}} --</option>
+                    <option value="false">{{"Expat" | translate}}</option>
+                    <option value="true">{{"Local" | translate}}</option>
+                </select>
+            </div>
+            <div class="form-group"></div>
+            <div class="form-group">
+                <label class="label-form" data-translate="Employee"></label>
+                <input class="form-control input-form" type="text" placeholder="full name or nick name"
+                       ng-model="updateFinalScoreCtrl.searchKeyword" search-auto-complete search-employees="updateFinalScoreCtrl.getEmployee()"
+                       ng-change="updateFinalScoreCtrl.unSelectEmployee()" employee="updateFinalScoreCtrl.filter.employee" />
+            </div>
+            <div class="form-group">
+                <label class="label-form"></label>
+                <button class="btn btn-primary" ng-click="updateFinalScoreCtrl.getEPAToUpdateFinalScore(updateFinalScoreCtrl.filter)" data-translate="Submit"></button>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-12">
+        <table class="row table table-bordered table-striped">
+            <thead>
+                <tr class="header-table">
+                    <th colspan="10">
+                        <button class="btn btn-primary pull-left" style="margin: 5px;"
+                                ng-show="updateFinalScoreCtrl.filteredItems.length > 0"
+                                ng-click="updateFinalScoreCtrl.updateFinalScore()" data-translate="Update"></button>
+                        <input class="btnExcel pull-right" export-epa-after-update-final-score
+                               ng-show="updateFinalScoreCtrl.filteredItems.length > 0 && updateFinalScoreCtrl.dataSaved"
+                               ng-click="updateFinalScoreCtrl.exportExcel(updateFinalScoreCtrl.filter)"
+                               type="button" title="Export to Excel">
+                        <input class="btnExcel disabled pull-right" type="button"
+                               ng-show="updateFinalScoreCtrl.filteredItems.length > 0 && !updateFinalScoreCtrl.dataSaved" />
+                        <input type="text" ng-model="updateFinalScoreCtrl.searchKey"
+                               ng-change="updateFinalScoreCtrl.search()" class="search-inline-textbox search pull-right">
+                    </th>
+                </tr>
+                <tr class="headerName">
+                    <th ng-show="updateFinalScoreCtrl.filteredItems.length > 0">
+                        <input type="checkbox" ng-click="updateFinalScoreCtrl.checkAll(updateFinalScoreCtrl.selectedAll)"
+                               ng-model="updateFinalScoreCtrl.selectedAll" />
+                    </th>
+                    <th data-translate="SymbolCount"></th>
+                    <th data-translate="Code"></th>
+                    <th data-translate="NickName"></th>
+                    <th data-translate="FullName"></th>
+                    <th data-translate="Department"></th>
+                    <th data-translate="Section"></th>
+                    <th data-translate="Team"></th>
+                    <th data-translate="OldFinalScore"></th>
+                    <th data-translate="NewFinalScore"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr dir-paginate="epaInfo in updateFinalScoreCtrl.filteredItems | itemsPerPage: updateFinalScoreCtrl.pageSize" current-page="updateFinalScoreCtrl.currentPage">
+                    <td class="text-center" ng-show="updateFinalScoreCtrl.filteredItems.length > 0">
+                        <input type="checkbox" ng-model="epaInfo.Selected" ng-click="updateFinalScoreCtrl.syncSelectedEPA(epaInfo.EPAId, epaInfo.Selected)" />
+                    </td>
+                    <td class="text-center" ng-bind="updateFinalScoreCtrl.getIndex($index, updateFinalScoreCtrl.currentPage, updateFinalScoreCtrl.pageSize)"></td>
+                    <td class="text-center" ng-bind="epaInfo.Employee.Code"></td>
+                    <td ng-bind="epaInfo.Employee.NickName"></td>
+                    <td ng-bind="epaInfo.Employee.FullName"></td>
+                    <td ng-bind="epaInfo.Employee.DepartmentName"></td>
+                    <td ng-bind="epaInfo.Employee.Section"></td>
+                    <td ng-bind="epaInfo.Employee.GroupName"></td>
+                    <td class="text-center">
+                        <span ng-show="epaInfo.FinalScore.length > 0" ng-bind="epaInfo.FinalScore | customScore"></span>
+                        <span ng-show="epaInfo.FinalScore.length == 0" ng-translate="NotAvailable"></span>
+                    </td>
+                    <td class="text-center">
+                        <span ng-show="epaInfo.NewFinalScore" ng-bind="epaInfo.NewFinalScore | customScore"></span>
+                    </td>
+                </tr>
+                <tr ng-show="!updateFinalScoreCtrl.filteredItems || updateFinalScoreCtrl.filteredItems.length == 0">
+                    <td class="empty-result" colspan="10" data-translate="EmptyResult"></td>
+                </tr>
+            </tbody>
+            <tfoot ng-show="updateFinalScoreCtrl.filteredItems.length > 0">
+                <tr>
+                    <td colspan="10" class="paging">
+                        <span data-translate="Show"></span>
+                        <select class="dropdown-entry form-control" ng-model="updateFinalScoreCtrl.pageSize"
+                                ng-options="entry for entry in updateFinalScoreCtrl.entries" ng-change="updateFinalScoreCtrl.currentPage = 1"></select>
+                        <span data-translate="entries"></span>
+                        <div class="pull-right custom-paging">
+                            <ul uib-pagination total-items="updateFinalScoreCtrl.filteredItems.length" items-per-page="updateFinalScoreCtrl.pageSize"
+                                boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="updateFinalScoreCtrl.currentPage"
+                                class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

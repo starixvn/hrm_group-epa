@@ -1,0 +1,75 @@
+﻿namespace SMS.EPA.ServicesAPI.Providers
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using Microsoft.Owin.Security.OAuth;
+    using Utilities;
+
+    public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
+    {
+        private readonly string _publicClientId;
+
+        public ApplicationOAuthProvider(string publicClientId)
+        {
+            if (publicClientId == null)
+            {
+                throw new ArgumentNullException(nameof(publicClientId));
+            }
+
+            _publicClientId = publicClientId;
+        }
+
+        public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
+        {
+            var isValidAppId = AppConfig.PartnerIds.Exists(i => i == context.UserName);
+            if (isValidAppId)
+            {
+                context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
+
+                var authIdentity = new ClaimsIdentity(context.Options.AuthenticationType);
+                authIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, context.UserName));
+
+                context.Validated(authIdentity);
+            }
+
+            return Task.FromResult<object>(null);
+        }
+
+        public override Task TokenEndpoint(OAuthTokenEndpointContext context)
+        {
+            foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
+            {
+                context.AdditionalResponseParameters.Add(property.Key, property.Value);
+            }
+
+            return Task.FromResult<object>(null);
+        }
+
+        public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
+        {
+            // Resource owner password credentials does not provide a client ID.
+            if (context.ClientId == null)
+            {
+                context.Validated();
+            }
+
+            return Task.FromResult<object>(null);
+        }
+
+        public override Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext context)
+        {
+            if (context.ClientId == _publicClientId)
+            {
+                var expectedRootUri = new Uri(context.Request.Uri, "/");
+                if (expectedRootUri.AbsoluteUri == context.RedirectUri)
+                {
+                    context.Validated();
+                }
+            }
+
+            return Task.FromResult<object>(null);
+        }
+    }
+}

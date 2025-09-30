@@ -1,0 +1,78 @@
+[
+  {
+    "outputFileName": "wwwroot/Content/css/login.min.css",
+    "inputFiles": [
+        "wwwroot/Libs/bootstrap-3.3.7/css/bootstrap.min.css",
+        "wwwroot/Content/Site/auth/style.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/bundles/less.min.css",
+    "inputFiles": [
+      "wwwroot/Content/Site/layout.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/Content/Common/css.min.css",
+    "inputFiles": [
+        "wwwroot/Content/Common/toastr.css",
+        "wwwroot/Content/Common/angular-multi-select.css",
+        "wwwroot/Content/Common/jquery-ui.min.css",
+        "wwwroot/Content/Common/chosen.min.css",
+        "wwwroot/Libs/bootstrap-3.3.7/css/bootstrap.min.css",
+        "wwwroot/Libs/bootstrap-3.3.7/css/bootstrap-theme.min.css",
+        "wwwroot/Libs/FanexGrid/Fanex.Grid.css",
+        "wwwroot/Libs/FanexGrid/Fanex.Pagination.css",
+        "wwwroot/Libs/BootstrapStarRating/css/star-rating.min.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/bundles/vendor.min.js",
+    "inputFiles": [
+        "wwwroot/Libs/jquery-3.2.1.min.js",
+        "wwwroot/Libs/floatThead/jquery.floatThead.js",
+        "wwwroot/Libs/bootstrap-3.3.7/js/bootstrap.min.js",
+        "wwwroot/Libs/angularjs/angular.js",
+        "wwwroot/Libs/angularjs/angular-resource.js",
+        "wwwroot/Libs/angularjs/angular-route.js",
+        "wwwroot/Libs/angularjs/angular-animate.js",
+        "wwwroot/Libs/angularjs/angular-touch.js",
+        "wwwroot/Libs/angularjs/angular-translate.js",
+        "wwwroot/Libs/angular-filter/angular-filter.js",
+        "wwwroot/Libs/ui-bootstrap-tpls-2.5.0.min.js",
+        "wwwroot/Libs/toastr.js",
+        "wwwroot/Libs/angular-multi-select.js",
+        "wwwroot/Libs/jquery-ui.min.js",
+        "wwwroot/Libs/tai-placeholder.js",
+        "wwwroot/Libs/dirPagination.js",
+        "wwwroot/Libs/chosen.jquery.min.js",
+        "wwwroot/Libs/angular-chosen.js",
+        "wwwroot/Libs/ui-bootstrap-contextMenu.js",
+        "wwwroot/Libs/numeric-directive.js",
+        "wwwroot/Libs/floatThead/jquery.floatThead.min.js",
+        "wwwroot/Libs/FanexGrid/Fanex.Grid.js",
+        "wwwroot/Libs/FanexGrid/moment.min.js",
+        "wwwroot/Libs/FanexGrid/numeral.min.js",
+        "wwwroot/Libs/FanexGrid/Fanex.Pagination.js",
+        "wwwroot/Libs/BootstrapStarRating/js/star-rating.js",
+        "wwwroot/Libs/multiselect-tree-view.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  }
+]

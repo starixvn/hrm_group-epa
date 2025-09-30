@@ -1,0 +1,58 @@
+/********************************************************/
+/*                        Table                         */
+/********************************************************/
+/********************************************************/
+/*                        Login page                    */
+/********************************************************/
+@font-face {
+  font-family: BigNoodleTitling;
+  src: url(../../Fonts/big_noodle_titling.ttf);
+}
+.target-tabset {
+  margin-top: 15px;
+}
+.target-tabset .common-form.info-form {
+  background: none;
+  border: none;
+  float: none;
+  margin: 0;
+  padding: 0;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.target-tabset .nav-tabs {
+  cursor: pointer;
+  border-color: #C8C8C8;
+}
+.target-tabset .nav-tabs li.active > a,
+.target-tabset .nav-tabs > li.active > a:hover,
+.target-tabset .nav-tabs li.active > a:focus {
+  border-color: #C8C8C8 #C8C8C8 rgba(0, 0, 0, 0);
+  color: #777;
+  font-weight: bold;
+  background-color: #fafafa;
+}
+.target-tabset .nav-tabs li > a {
+  -webkit-border-radius: 3px 3px 0 0;
+  -moz-border-radius: 3px 3px 0 0;
+  border-radius: 3px 3px 0 0;
+  padding: 7px 15px;
+  text-transform: uppercase;
+}
+.target-tabset .nav-tabs li > a:hover {
+  background-color: #fafafa;
+  border-color: #C8C8C8;
+}
+.target-tabset .tab-content {
+  border: 1px solid #C8C8C8;
+  border-width: 0 1px 1px;
+  padding: 10px 15px;
+  background-color: #fafafa;
+}
+.target-tabset .tab-content .filter {
+  margin-top: 12px;
+}
+.target-tabset .tab-content .common-form {
+  margin-top: 10px;
+}

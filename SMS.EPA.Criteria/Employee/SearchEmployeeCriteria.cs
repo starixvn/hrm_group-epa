@@ -1,0 +1,18 @@
+﻿using Fanex.Data.Repository;
+
+namespace SMS.EPA.Criteria.Employee;
+
+public class SearchEmployeeCriteria : CriteriaBase
+{
+    public string Query { get; set; }
+    public string TeamIds { get; set; }
+    public bool? IsLocal { get; set; }
+    public bool? IsSpecialUser { get; set; }
+    public bool? IsDisabledUser { get; set; }
+    public int? ApproverId { get; set; }
+    public bool? IncludeVerifier { get; set; }
+
+    public override bool IsValid() => true;
+
+    public override string GetSettingKey() => "Employee_Search";
+}

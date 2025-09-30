@@ -1,0 +1,42 @@
+@import url("variables.css");
+@import url("mixins.css");
+@import url("components/_base.css");
+@import url("components/_icons.css");
+@import url("components/_buttons.css");
+@import url("components/_canlendar.css");
+@import url("components/_forms.css");
+@import url("components/_form-filter.css");
+@import url("components/_header.css");
+@import url("components/_modal.css");
+@import url("components/_multiSelect.css");
+@import url("components/_panel.css");
+@import url("components/_table.css");
+@import url("components/_tabs.css");
+@import url("components/_tooltip.css");
+@import url("components/_toasts.css");
+@import url("components/_widthSystem.css");
+@import url("components/_dropdowns.css");
+@import url("components/_page.css");
+@import url("components/_multiselect-treeview.css");
+
+/*-------------------views-------------------*/
+@import url("views/_evaluationProcess.css");
+@import url("views/_dashboard.css");
+@import url("views/_disciplineSummary.css");
+@import url("views/_employee.css");
+@import url("views/_epa.css");
+@import url("views/_flowManagement.css");
+@import url("views/_kpi.css");
+@import url("views/_period.css");
+@import url("views/_ratingByStar.css");
+@import url("views/_report.css");
+@import url("views/_role.css");
+@import url("views/_targetEmployeeSetting.css");
+@import url("views/_targetTemplate.css");
+@import url("views/_job-description.css");
+@import url("views/_joblevel-standard.css");
+
+.ui-autocomplete {
+    max-height: 400px;
+    overflow-y: auto;
+}

@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Functions>
+    <Function Name="Auth">
+        <Setting Key="EpaEmployee_GetByCode" SpName="EpaEmployee_GetByCode" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaEmployee_GetByDomainUsername" SpName="EpaEmployee_GetByDomainUsername" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaEmployeeIpAddress_Insert" SpName="EpaEmployeeIpAddress_Insert" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="Login_GetEmployee" SpName="Login_GetEmployee" DbName="bodb_EPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Employee">
+        <Setting Key="Employee_Get" SpName="Employee_Get" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="JobLevelName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Employee_Search" SpName="Employee_Search" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaEmployee_GetById" SpName="EpaEmployee_GetById" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaGroup_Get" SpName="EpaGroup_Get" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaJobTitle_Get" SpName="EpaJobTitle_Get" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaEmployee_AssignRoleToEmployee" SpName="EpaEmployee_AssignRoleToEmployee" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaEmployee_UpdateHasMonthlyEPA" SpName="EpaEmployee_UpdateHasMonthlyEPA" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="Employee_GetByUserId" SpName="Employee_GetByUserId" DbName="bodb_EPA" Plain="0" />
+    </Function>
+    <Function Name="KPI">
+        <Setting Key="KPI_Get" SpName="KPI_Get" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="KPI_Insert" SpName="KPI_Insert" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="KPI_Update" SpName="KPI_Update" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="KPI_UpdateStatus" SpName="KPI_UpdateStatus" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="KPI_UpdateRequiredEvaluate" SpName="KPI_UpdateRequiredEvaluate" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="KPI_Delete" SpName="KPI_Delete" DbName="bodb_EPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="KPIGroup">
+        <Setting Key="KPIGroup_Get" SpName="KPIGroup_Get" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="KPIGroup_GetById" SpName="KPIGroup_GetById" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="KPIGroup_Insert" SpName="KPIGroup_Insert" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="KPIGroup_Update" SpName="KPIGroup_Update" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="KPIGroup_UpdateStatus" SpName="KPIGroup_UpdateStatus" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="KPIGroup_Delete" SpName="KPIGroup_Delete" DbName="bodb_EPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="TargetType">
+        <Setting Key="TargetType_Get" SpName="TargetType_Get" DbName="bodb_EPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="TargetTemplate">
+        <Setting Key="TargetTemplate_GetAll" SpName="TargetTemplate_GetAll" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_Insert" SpName="TargetTemplate_Insert" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_UpdateStatus" SpName="TargetTemplate_UpdateStatus" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_GetById" SpName="TargetTemplate_GetById" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_Delete" SpName="TargetTemplate_Delete" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_Update" SpName="TargetTemplate_Update" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_UpdateBasicInformation" SpName="TargetTemplate_UpdateBasicInformation" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_GetKPIGroup" SpName="TargetTemplate_GetKPIGroup" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_SetKPIGroup" SpName="TargetTemplate_SetKPIGroup" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_GetAllKPIByKPIGroups" SpName="TargetTemplate_GetAllKPIByKPIGroups" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_RemoveKPIGroup" SpName="TargetTemplate_RemoveKPIGroup" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaRatingType_Get" SpName="EpaRatingType_Get" DbName="bodb_EPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Flow">
+        <Setting Key="FlowTemplate_Get" SpName="FlowTemplate_Get" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="FlowTemplate_GetById" SpName="FlowTemplate_GetById" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="FlowTemplate_Insert" SpName="FlowTemplate_Insert" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="FlowTemplate_Update" SpName="FlowTemplate_Update" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="FlowTemplate_UpdateStatus" SpName="FlowTemplate_UpdateStatus" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="FlowTemplate_Delete" SpName="FlowTemplate_Delete" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="SettingGroupFlow_Get" SpName="SettingGroupFlow_Get" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="SettingGroupFlow_GetById" SpName="SettingGroupFlow_GetById" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="SettingGroupFlow_Set" SpName="SettingGroupFlow_Set" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="SettingGroupFlow_Delete" SpName="SettingGroupFlow_Delete" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="SettingEmployeeFlow_Get" SpName="SettingEmployeeFlow_Get" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="SettingEmployeeFlow_GetById" SpName="SettingEmployeeFlow_GetById" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="SettingEmployeeFlow_Set" SpName="SettingEmployeeFlow_Set" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="SettingEmployeeFlow_Delete" SpName="SettingEmployeeFlow_Delete" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaEmployeeFlowSetting_Get" SpName="EpaEmployeeFlowSetting_Get" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="FlowTemplate_GetGroupHasSetting" SpName="FlowTemplate_GetGroupHasSetting" DbName="bodb_EPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Target Employee Setting Template">
+        <Setting Key="EpaTargetTemplateEmployee_Assign" SpName="EpaTargetTemplateEmployee_Assign" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaTargetTemplateEmployee_Get" SpName="EpaTargetTemplateEmployee_Get" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaTargetTemplateEmployee_Delete" SpName="EpaTargetTemplateEmployee_Delete" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaTargetTemplateDepartment_Assign" SpName="EpaTargetTemplateDepartment_Assign" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaTargetTemplateDepartment_Get" SpName="EpaTargetTemplateDepartment_Get" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaTargetTemplateDepartment_Delete" SpName="EpaTargetTemplateDepartment_Delete" DbName="bodb_EPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Department">
+        <Setting Key="Department_GetOrgChart" SpName="Department_GetOrgChart" DbName="bodb_EPA" Plain="0" />
+    </Function>
+    <Function Name="Score Rating Type">
+        <Setting Key="EpaScoreRatingType_Get" SpName="EpaScoreRatingType_Get" DbName="bodb_EPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="EPA">
+        <Setting Key="EPA_CheckPermission" SpName="EPA_CheckPermission" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetByEmployee" SpName="EPA_GetByEmployee" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EPA_GetInfoByEmployee" SpName="EPA_GetInfoByEmployee" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+        </Setting>
+        <Setting Key="EPA_UpdateScore" SpName="EPA_UpdateScore" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetMember" SpName="EPA_GetMember" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetGroup" SpName="EPA_GetGroup" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetByEvaluator" SpName="EPA_GetByEvaluator" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EPA_GetInfoByEvaluator" SpName="EPA_GetInfoByEvaluator" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+        </Setting>
+        <Setting Key="EPA_GetByReviewer" SpName="EPA_GetByReviewer" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EPA_GetInfoByReviewer" SpName="EPA_GetInfoByReviewer" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+        </Setting>
+        <Setting Key="EPA_GetByManagement" SpName="EPA_GetByManagement" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EPA_GetInfoByManagement" SpName="EPA_GetInfoByManagement" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+        </Setting>
+        <Setting Key="EPA_GetInfoById" SpName="EPA_GetInfoById" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+        </Setting>
+        <Setting Key="EPA_AdjustScoreByReviewerOrManagement" SpName="EPA_AdjustScoreByReviewerOrManagement" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetStandardGrade" SpName="EPA_GetStandardGrade" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPASummaryImport_Get" SpName="EPASummaryImport_Get" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPASummaryImport_Update" SpName="EPASummaryImport_Update" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_SemiAnnual_GetMonthly" SpName="EPA_SemiAnnual_GetMonthly" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EPA_ResetScore" SpName="EPA_ResetScore" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_UpdateFinalScoreEndEvaluation" SpName="EPA_UpdateFinalScoreEndEvaluation" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetEPAToUpdateFinalScore" SpName="EPA_GetEPAToUpdateFinalScore" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EPA_GetEmployeeToUpdateFinalScore" SpName="EPA_GetEmployeeToUpdateFinalScore" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetPeriodToUpdateFinalScore" SpName="EPA_GetPeriodToUpdateFinalScore" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetRecommendationById" SpName="EPA_GetRecommendationById" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetPeriodByActorId" SpName="EPA_GetPeriodByActorId" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetExtendedQuestion" SpName="EPA_GetExtendedQuestion" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetJobDescriptiontionById" SpName="EPA_GetJobDescriptiontionById" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="EPA_GetDataToUpdateTotalScoreOfProcess" SpName="EPA_GetDataToUpdateTotalScoreOfProcess" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="EPA_GetDataToUpdateFinalScore" SpName="EPA_GetDataToUpdateFinalScore" DbName="bodb_EPA" Plain="0" />
+    </Function>
+    <Function Name="Period">
+        <Setting Key="EpaPeriod_Get" SpName="EpaPeriod_Get" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_Insert" SpName="EpaPeriod_Insert" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_UpdateBasicInformation" SpName="EpaPeriod_UpdateBasicInformation" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_GetById" SpName="EpaPeriod_GetById" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_UpdateStatus" SpName="EpaPeriod_UpdateStatus" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_Delete" SpName="EpaPeriod_Delete" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_GetEmployeeSetting" SpName="EpaPeriod_GetEmployeeSetting" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EpaPeriod_AddEmployee" SpName="EpaPeriod_AddEmployee" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_EditEmployeeSetting" SpName="EpaPeriod_EditEmployeeSetting" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" SpName="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_GetProcessSetting" SpName="EpaPeriod_GetProcessSetting" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="NoticeAtBegin" ObjectProperty="HasSendMail" />
+        </Setting>
+        <Setting Key="EpaPeriod_UpdateProcessSetting" SpName="EpaPeriod_UpdateProcessSetting" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPAPeriod_CheckSelfProcessStarted" SpName="EPAPeriod_CheckSelfProcessStarted" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId" SpName="EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="NoticeAtBegin" ObjectProperty="HasSendMail" />
+        </Setting>
+        <Setting Key="EpaAuto_GenerateEPA" SpName="EpaAuto_GenerateEPA" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="EpaAuto_GetEmployeeSettingToSendMail" SpName="EpaAuto_GetEmployeeSettingToSendMail" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="EpaAuto_GetEPAEndEvaluationPeriod" SpName="EpaAuto_GetEPAEndEvaluationPeriod" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EpaAuto_UpdateTotalScoreOfProcess" SpName="EpaAuto_UpdateTotalScoreOfProcess" DbName="bodb_EPA" Plain="0" />
+    </Function>
+    <Function Name="Dashboard">
+        <Setting Key="Epa_Dashboard" SpName="Epa_Dashboard" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="Dashboard_GetToDoList" SpName="Dashboard_GetToDoList" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_GetDashboard" SpName="JobLevelStandard_GetDashboard" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="Dashboard_GetAnnouncement" SpName="Dashboard_GetAnnouncement" DbName="bodb_EPA" Plain="0" />
+    </Function>
+    <Function Name="Discipline Summary">
+        <Setting Key="DisciplineSummary_Get" SpName="DisciplineSummary_Get" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="DisciplineSummary_GetForOtherSystem" SpName="DisciplineSummary_GetForOtherSystem" DbName="bodb_EPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Rating By KPI">
+        <Setting Key="EPA_RatingByKPI_GetPeriodByEvaluator" SpName="EPA_RatingByKPI_GetPeriodByEvaluator" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_RatingByKPI_GetTargetTemplateByEvaluator" SpName="EPA_RatingByKPI_GetTargetTemplateByEvaluator" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_RatingByKPI_GetTargetTemplateToView" SpName="EPA_RatingByKPI_GetTargetTemplateToView" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_RatingByKPI_GetKPIByTargetTemplate" SpName="EPA_RatingByKPI_GetKPIByTargetTemplate" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_RatingByKPI_GetKPIToView" SpName="EPA_RatingByKPI_GetKPIToView" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_RatingByKPI_GetPeriodToView" SpName="EPA_RatingByKPI_GetPeriodToView" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_RatingByKPI_GetEvaluatorByTargetTemplate" SpName="EPA_RatingByKPI_GetEvaluatorByTargetTemplate" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EPA_RatingByKPI_Get" SpName="EPA_RatingByKPI_Get" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+        </Setting>
+        <Setting Key="EPA_RatingByKPI_GetEmployeeToView" SpName="EPA_RatingByKPI_GetEmployeeToView" DbName="bodb_EPA" Plain="0">
+            <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+        </Setting>
+        <Setting Key="EPA_RatingByKPI_UpdateKPIScore" SpName="EPA_RatingByKPI_UpdateKPIScore" DbName="bodb_EPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Report">
+        <Setting Key="Report_EPASummary" SpName="Report_EPASummary" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="Report_MonthlyEPASummary" SpName="Report_MonthlyEPASummary" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="Report_EPADetail" SpName="Report_EPADetail" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="Report_MonthlyEPADetail" SpName="Report_MonthlyEPADetail" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="Report_GetEmployees" SpName="Report_GetEmployees" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="Report_EPARecommendation" SpName="Report_EPARecommendation" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="Report_EPAComment" SpName="Report_EPAComment" DbName="bodb_EPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="EPA History">
+        <Setting Key="Epa_GetEPAHistory" SpName="Epa_GetEPAHistory" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="Epa_GetMonthlyEPAHistory" SpName="Epa_GetMonthlyEPAHistory" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_GetAllPeriodIncludeImport" SpName="EpaPeriod_GetAllPeriodIncludeImport" DbName="bodb_EPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Monthly Period">
+        <Setting Key="EpaMonthlyPeriod_Get" SpName="EpaMonthlyPeriod_Get" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaMonthlyPeriod_GetAll" SpName="EpaMonthlyPeriod_GetAll" DbName="bodb_EPA" Plain="0"></Setting>
+        <Setting Key="EpaAuto_Monthly_InsertPeriod" SpName="EpaAuto_Monthly_InsertPeriod" DbName="bodb_EPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Menu">
+        <Setting Key="Menu_GetByEmployeeId" SpName="Menu_GetByEmployeeId" DbName="bodb_EPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Job Level">
+        <Setting Key="JobLevel_Get" SpName="JobLevel_Get" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevel_Insert" SpName="JobLevel_Insert" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevel_Update" SpName="JobLevel_Update" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevel_Delete" SpName="JobLevel_Delete" DbName="bodb_EPA" Plain="0" />
+    </Function>
+    <Function Name="Job Description">
+        <Setting Key="JobDescription_GetGroupSetting" SpName="JobDescription_GetGroupSetting" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobDescription_GetGroupSettingById" SpName="JobDescription_GetGroupSettingById" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobDescription_UpdateGroupSetting" SpName="JobDescription_UpdateGroupSetting" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobDescription_GetEmployeeSetting" SpName="JobDescription_GetEmployeeSetting" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobDescription_GetEmployeeSettingById" SpName="JobDescription_GetEmployeeSettingById" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobDescription_InsertGroupItem" SpName="JobDescription_InsertGroupItem" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobDescription_UpdateGroupItem" SpName="JobDescription_UpdateGroupItem" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobDescription_DeleteGroupItem" SpName="JobDescription_DeleteGroupItem" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobDescription_InsertItem" SpName="JobDescription_InsertItem" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobDescription_UpdateItem" SpName="JobDescription_UpdateItem" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobDescription_DeleteItem" SpName="JobDescription_DeleteItem" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobDescription_UpdateEmployeeSetting" SpName="JobDescription_UpdateEmployeeSetting" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobDescription_CopyGroupSetting" SpName="JobDescription_CopyGroupSetting" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobDescription_CopyEmployeeSetting" SpName="JobDescription_CopyEmployeeSetting" DbName="bodb_EPA" Plain="0" />
+    </Function>
+    <Function Name="Job Level Standard">
+        <Setting Key="JobLevelStandard_JobLevelSetting_Get" SpName="JobLevelStandard_JobLevelSetting_Get" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_JobLevelSetting_GetByGroupId" SpName="JobLevelStandard_JobLevelSetting_GetByGroupId" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_JobLevelSetting_Update" SpName="JobLevelStandard_JobLevelSetting_Update" DbName="bodb_EPA" Plain="0" />
+
+        <Setting Key="JobLevelStandard_Period_Get" SpName="JobLevelStandard_Period_Get" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Period_GetById" SpName="JobLevelStandard_Period_GetById" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Period_Insert" SpName="JobLevelStandard_Period_Insert" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Period_Update" SpName="JobLevelStandard_Period_Update" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Period_UpdateStatus" SpName="JobLevelStandard_Period_UpdateStatus" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Period_Delete" SpName="JobLevelStandard_Period_Delete" DbName="bodb_EPA" Plain="0" />
+
+        <Setting Key="JobLevelStandard_PeriodEmployeeSetting_Get" SpName="JobLevelStandard_PeriodEmployeeSetting_Get" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodEmployeeSetting_Insert" SpName="JobLevelStandard_PeriodEmployeeSetting_Insert" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Period_UpdateJobLevel" SpName="JobLevelStandard_Period_UpdateJobLevel" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodEmployeeSetting_Update" SpName="JobLevelStandard_PeriodEmployeeSetting_Update" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodEmployeeSetting_UpdateStatus" SpName="JobLevelStandard_PeriodEmployeeSetting_UpdateStatus" DbName="bodb_EPA" Plain="0" />
+
+        <Setting Key="JobLevelStandard_PeriodJobLevelSetting_Get" SpName="JobLevelStandard_PeriodJobLevelSetting_Get" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodJobLevelSetting_GetByPeriodId" SpName="JobLevelStandard_PeriodJobLevelSetting_GetByPeriodId" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodJobLevelSetting_GetByGroupId" SpName="JobLevelStandard_PeriodJobLevelSetting_GetByGroupId" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodJobLevelSetting_Update" SpName="JobLevelStandard_PeriodJobLevelSetting_Update" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodJobLevelSetting_CopyFromDefault" SpName="JobLevelStandard_PeriodJobLevelSetting_CopyFromDefault" DbName="bodb_EPA" Plain="0" />
+
+        <Setting Key="JobLevelStandard_Assessment_GetPeriodByActorId" SpName="JobLevelStandard_Assessment_GetPeriodByActorId" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Assessment_GetOrgChartByActorId" SpName="JobLevelStandard_Assessment_GetOrgChartByActorId" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Assessment_GetKPIByPeriodId" SpName="JobLevelStandard_Assessment_GetKPIByPeriodId" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Assessment_GetByActorId" SpName="JobLevelStandard_Assessment_GetByActorId" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Assessment_Update" SpName="JobLevelStandard_Assessment_Update" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Assessment_UpdateStatus" SpName="JobLevelStandard_Assessment_UpdateStatus" DbName="bodb_EPA" Plain="0" />
+
+        <Setting Key="JobLevelStandard_Report_GetOrgChartByActorId" SpName="JobLevelStandard_Report_GetOrgChartByActorId" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Report_GetPeriod" SpName="JobLevelStandard_Report_GetPeriod" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_AssessmentReport_Get" SpName="JobLevelStandard_AssessmentReport_Get" DbName="bodb_EPA" Plain="0" />
+
+        <Setting Key="JobLevelStandard_KPI_Get" SpName="JobLevelStandard_KPI_Get" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_KPI_UpdateStatus" SpName="JobLevelStandard_KPI_UpdateStatus" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_KPI_Delete" SpName="JobLevelStandard_KPI_Delete" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_KPI_Insert" SpName="JobLevelStandard_KPI_Insert" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_KPI_Update" SpName="JobLevelStandard_KPI_Update" DbName="bodb_EPA" Plain="0" />
+
+        <Setting Key="JobLevelStandard_Template_Get" SpName="JobLevelStandard_Template_Get" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Template_GetById" SpName="JobLevelStandard_Template_GetById" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Template_Insert" SpName="JobLevelStandard_Template_Insert" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Template_UpdateStatus" SpName="JobLevelStandard_Template_UpdateStatus" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Template_Delete" SpName="JobLevelStandard_Template_Delete" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Template_Update" SpName="JobLevelStandard_Template_Update" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Template_GetKPI" SpName="JobLevelStandard_Template_GetKPI" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Template_UpdateKPI" SpName="JobLevelStandard_Template_UpdateKPI" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_TemplateSetting_Get" SpName="JobLevelStandard_TemplateSetting_Get" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_TemplateSetting_Delete" SpName="JobLevelStandard_TemplateSetting_Delete" DbName="bodb_EPA" Plain="0" />
+        <Setting Key="JobLevelStandard_TemplateSetting_Assign" SpName="JobLevelStandard_TemplateSetting_Assign" DbName="bodb_EPA" Plain="0" />
+    </Function>
+    <Function Name="Unit">
+        <Setting Key="Unit_Get" SpName="Unit_Get" DbName="bodb_EPA" Plain="0" />
+    </Function>
+</Functions>

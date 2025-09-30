@@ -1,0 +1,62 @@
+﻿<div class="row">
+    <div class="col-sm-2 text-center">
+        <div class="row pull-left">
+            <div class="img-user">
+                <img class="img-default" ng-src="{{generalInfoCtrl.employeeInfo.Avatar}}" alt="User" />
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-10 user-info">
+        <div class="row row-item line">
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="EmployeeCode"></div>
+                <div class="col-sm-7"><strong ng-bind="generalInfoCtrl.employeeInfo.Code"></strong></div>
+            </div>
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="NickName"></div>
+                <div class="col-sm-7"><strong ng-bind="generalInfoCtrl.employeeInfo.NickName"></strong></div>
+            </div>
+        </div>
+        <div class="row row-item line">
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="FullName"></div>
+                <div class="col-sm-7"><strong ng-bind="generalInfoCtrl.employeeInfo.FullName"></strong></div>
+            </div>
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="JobTitle"></div>
+                <div class="col-sm-7"><strong ng-bind="generalInfoCtrl.employeeInfo.JobTitleName"></strong></div>
+            </div>
+        </div>
+        <div class="row row-item line">
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="Section"></div>
+                <div class="col-sm-7"><strong ng-bind="generalInfoCtrl.employeeInfo.Section"></strong></div>
+            </div>
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="JobLevel"></div>
+                <div class="col-sm-7"><strong ng-bind="generalInfoCtrl.employeeInfo.JobLevel"></strong></div>
+            </div>
+        </div>
+        <div class="row row-item line">
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="Team"></div>
+                <div class="col-sm-7"><strong ng-bind="generalInfoCtrl.employeeInfo.GroupName"></strong></div>
+            </div>
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="GroupDate"></div>
+                <div class="col-sm-7">
+                    <strong ng-bind="generalInfoCtrl.employeeInfo.JoinedDate | customDate"></strong>
+                </div>
+            </div>
+        </div>
+        <div class="row row-item line" ng-show="!generalInfoCtrl.isViewDetail">
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="Evaluated"></div>
+                <div class="col-sm-7">
+                    <span class="glyphicon glyphicon-saved epa-saved" ng-show="generalInfoCtrl.evaluatedDate || generalInfoCtrl.saved"></span>
+                    <span class="glyphicon glyphicon-list-alt epa-unsaved" ng-show="generalInfoCtrl.evaluatedDate === null && !generalInfoCtrl.saved"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

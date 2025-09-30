@@ -1,0 +1,97 @@
+﻿<div class="col-sm-12" ng-controller="MonthlyEPAHistoryController as epaHistoryCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="MonthlyEPAHistory"></li>
+        </ul>
+    </div>
+
+    <form novalidate class="form-filter">
+        <div class="form-group">
+            <label class="label-form" data-translate="Period"></label>
+            <select class="form-control select-form" ng-model="epaHistoryCtrl.filter.periodId"
+                    ng-options="opt.PeriodId as opt.Name group by opt.Year for opt in epaHistoryCtrl.periodOptions">
+                <option value="" style="display: none">-- {{"All" | translate}} --</option>
+            </select>
+        </div>
+        <div class="form-group" ng-show="!epaHistoryCtrl.onlyEmployeeRole">
+            <label class="label-form" data-translate="Employee"></label>
+            <input class="form-control input-form" ng-model="epaHistoryCtrl.searchEmployee"
+                   placeholder="Enter full name or nick name" search-auto-complete search-employees="epaHistoryCtrl.getEmployee()"
+                   ng-change="epaHistoryCtrl.unSelectEmployee()" employee="epaHistoryCtrl.filter.employee" />
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" ng-click="epaHistoryCtrl.query()" data-translate="Search"></button>
+        </div>
+    </form>
+    <table class="row table table-bordered table-striped">
+        <thead>
+            <tr class="header-table">
+                <th colspan="12">
+                    <a class="pull-left button-icon back-button" ng-click="epaHistoryCtrl.backToList()" ng-show="epaHistoryCtrl.fromEPAListing">
+                        <span class="glyphicon glyphicon-menu-left"></span>
+                        <span data-translate="BackToList"></span>
+                    </a>
+                    <input type="text" ng-model="epaHistoryCtrl.searchKey" ng-change="epaHistoryCtrl.search()" class="search-inline-textbox search pull-right">
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="Code"></th>
+                <th data-translate="NickName"></th>
+                <th data-translate="FullName"></th>
+                <th data-translate="Department"></th>
+                <th data-translate="Section"></th>
+                <th data-translate="Team"></th>
+                <th data-translate="PeriodName"></th>
+                <th data-translate="StartDate"></th>
+                <th data-translate="EndDate"></th>
+                <th data-translate="FinalScore"></th>
+                <th data-translate="Grade"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr dir-paginate="epa in epaHistoryCtrl.filteredItems | itemsPerPage: epaHistoryCtrl.pageSize" current-page="epaHistoryCtrl.currentPage">
+                <td class="text-center" ng-bind="epaHistoryCtrl.getIndex($index, epaHistoryCtrl.currentPage, epaHistoryCtrl.pageSize)"></td>
+                <td class="text-center" ng-bind="epa.Employee.Code"></td>
+                <td class="text-center">
+                    <span ng-bind="epa.Employee.NickName" popover-avatar avatar-src="{{epa.Employee.Avatar}}"></span>
+                </td>
+                <td ng-bind="epa.Employee.FullName"></td>
+                <td ng-bind="epa.Employee.DepartmentName"></td>
+                <td ng-bind="epa.Employee.Section"></td>
+                <td ng-bind="epa.Employee.GroupName"></td>
+                <td ng-bind="epa.Period.Name"></td>
+                <td class="text-center" ng-bind="epa.Period.StartDate | date: epaHistoryCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="epa.Period.EndDate | date: epaHistoryCtrl.dateFormat"></td>
+                <td class="text-center">
+                    <a href="#/EPA/Detail/{{epa.EPAId}}" ng-show="epa.HasEPAForm && epa.Grade && epa.FinalScore >= 0"
+                       ng-bind="epa.FinalScore"></a>
+                    <span ng-bind="epa.FinalScore" ng-show="!epa.HasEPAForm"></span>
+                    <span data-translate="NotAvailable" ng-show="!epa.Grade && epa.HasEPAForm"></span>
+                </td>
+                <td class="text-center">
+                    <span ng-bind="epa.Grade" ng-show="epa.Grade"></span>
+                    <span data-translate="NotAvailable" ng-show="!epa.Grade"></span>
+                </td>
+            </tr>
+            <tr ng-show="epaHistoryCtrl.filteredItems.length === 0">
+                <td class="empty-result" colspan="12" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="12" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="epaHistoryCtrl.pageSize"
+                            ng-options="entry for entry in epaHistoryCtrl.entries" ng-change="epaHistoryCtrl.currentPage = 1"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <ul uib-pagination total-items="epaHistoryCtrl.filteredItems.length" items-per-page="epaHistoryCtrl.pageSize"
+                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="epaHistoryCtrl.currentPage"
+                            class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

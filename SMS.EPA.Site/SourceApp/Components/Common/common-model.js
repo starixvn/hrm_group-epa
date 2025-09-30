@@ -1,0 +1,190 @@
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
+
+    angular.module('commonModule').factory('CommonModel', commonModel);
+    commonModel.$inject = ['commonFactory', 'errorFactory'];
+
+    function commonModel(commonFactory, errorFactory) {
+        let model = {
+            targetTypes: [],
+            systemRoles: [],
+            kpis: [],
+            kpiGroups: [],
+            groups: [],
+            employees: [],
+            employee: {},
+            statusList: [],
+            periods: [],
+            monthlyPeriods: [],
+            standardGrades: [],
+            periodOptions: [],
+            otherViolationDetails: [],
+            targetTemplates: [],
+            menus: [],
+            remindDay: [0, 1, 2, 3, 4, 5, 6, 7],
+            jobTitles: [],
+            jobLevels: [],
+            permission: 0,
+            orgChart: []
+        };
+
+        model.getTargetType = function (isActive, excludeTargetTypeIds) {
+            return commonFactory.getTargetType(isActive, excludeTargetTypeIds).success(function (targetTypes) {
+                model.targetTypes = targetTypes;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getIndex = function (index, currentPage, pageSize) {
+            return pageSize * (currentPage - 1) + index + 1;
+        };
+
+        model.getSystemRoles = function (isActive) {
+            return commonFactory.getSystemRoles(isActive).success(function (systemRoles) {
+                model.systemRoles = systemRoles;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getKPI = function (kpiGroupId, isActive, isRequiredEvaluate) {
+            return commonFactory.getKPI(kpiGroupId, isActive, isRequiredEvaluate).success(function (kpis) {
+                model.kpis = kpis;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getKPIGroup = function (isActive) {
+            return commonFactory.getKPIGroup(isActive).success(function (kpiGroups) {
+                model.kpiGroups = kpiGroups;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getAllGroup = function () {
+            return commonFactory.getAllGroup().success(function (groups) {
+                model.groups = groups;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.searchEmployee = function (query, teamIds, isSpecialUser, isDisabledUser, getByApprover, includeVerifier) {
+            return commonFactory.searchEmployee(query, teamIds, isSpecialUser, isDisabledUser, getByApprover, includeVerifier).success(function (employees) {
+                model.employees = employees;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getEmployeeById = function (employeeId) {
+            return commonFactory.getEmployeeById(employeeId).success(function (employee) {
+                model.employee = employee;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getAllStatus = function () {
+            return commonFactory.getAllStatus().success(function (statusList) {
+                model.statusList = statusList;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getPeriod = function (targetTypeId, isActive) {
+            return commonFactory.getPeriod(targetTypeId, isActive).success(function (periods) {
+                model.periods = periods;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getStandardGrade = function () {
+            return commonFactory.getStandardGrade().success(function (standardGrades) {
+                model.standardGrades = standardGrades;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getAllPeriodIncludeImport = function () {
+            return commonFactory.getAllPeriodIncludeImport().success(function (periods) {
+                model.periodOptions = periods;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getTargetTemplate = function (targetTypeId, isActive) {
+            return commonFactory.getTargetTemplate(targetTypeId, isActive).success(function (targetTemplates) {
+                model.targetTemplates = targetTemplates;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getAllMonthlyPeriod = function () {
+            return commonFactory.getAllMonthlyPeriod().success(function (periods) {
+                model.monthlyPeriods = periods;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getMenusByEmployeeId = function () {
+            return commonFactory.getMenusByEmployeeId().success(function (menus) {
+                model.menus = menus;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getAllJobTitle = function () {
+            return commonFactory.getAllJobTitle().success(function (jobTitles) {
+                model.jobTitles = jobTitles;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getUserPermissionOnFlowManagement = function () {
+            return commonFactory.getUserPermissionOnFlowManagement().success(function (permission) {
+                model.permission = parseInt(permission, 10);
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getJobLevel = function (isDeleted) {
+            return commonFactory.getJobLevel(isDeleted).success(function (jobLevels) {
+                model.jobLevels = jobLevels;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getOrgChart = function () {
+            return commonFactory.getOrgChart().success(function (orgChart) {
+                model.orgChart = orgChart;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getOrgChartJLSTemplateSetting = function () {
+            return commonFactory.getOrgChartJLSTemplateSetting().success(function (orgChart) {
+                model.orgChart = orgChart;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        return model;
+    }
+})(angular);

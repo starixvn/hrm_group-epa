@@ -1,0 +1,58 @@
+﻿<div class="epa-detail-report" ng-controller="MonthlyEPADetailReportController as monthlyDetailReportCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="MonthlyEPADetailReport"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <form novalidate class="form-filter" role="form">
+            <div class="form-group">
+                <label class="label-form" data-translate="EvaluationPeriod"></label>
+                <select class="form-control select-form" ng-model="monthlyDetailReportCtrl.filter.periodId"
+                        ng-options="opt.PeriodId as opt.Name group by opt.Year for opt in monthlyDetailReportCtrl.periods">
+                    <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-form" data-translate="ScoredBy"></label>
+                <div class="select-form">
+                    <multi-select-tree-view selected-items="monthlyDetailReportCtrl.filter.phaseIds"
+                                            is-selected-all="true" has-search-box="true"
+                                            options="monthlyDetailReportCtrl.scoredBy" on-select="monthlyDetailReportCtrl.onSelectPhase"></multi-select-tree-view>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="label-form" data-translate="Team"></label>
+                <div class="select-form">
+                    <multi-select-tree-view selected-items="monthlyDetailReportCtrl.filter.teamIds"
+                                            is-selected-all="true" has-search-box="true"
+                                            options="monthlyDetailReportCtrl.orgChart" on-select="monthlyDetailReportCtrl.onSelectTeam"></multi-select-tree-view>
+                </div>
+            </div>
+            <div class="form-group"></div>
+            <div class="form-group">
+                <label class="label-form" data-translate="Category"></label>
+                <select class="form-control select-form" ng-model="monthlyDetailReportCtrl.filter.isLocal">
+                    <option value="">-- {{"All" | translate}} --</option>
+                    <option value="false">{{"Expat" | translate}}</option>
+                    <option value="true">{{"Local" | translate}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-form"></label>
+                <button class="btn btn-primary" ng-click="monthlyDetailReportCtrl.query(monthlyDetailReportCtrl.filter)" data-translate="Search"></button>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-12">
+        <div class="freegrid" export-monthly-epa-detail-report data-grid-monthly-epa-detail-report
+             data-grid-data="monthlyDetailReportCtrl.epaDetail"
+             data-grid-expand-height="300"
+             data-on-sort-changing="monthlyDetailReportCtrl.sortChanging"
+             data-sort-column-name="monthlyDetailReportCtrl.filter.sortColumnName"
+             data-sort-direction="monthlyDetailReportCtrl.filter.sortDirection"
+             data-page-option="monthlyDetailReportCtrl.filter"
+             data-export-report="monthlyDetailReportCtrl.exportReport"
+             data-hide-columns="monthlyDetailReportCtrl.hideColumns"></div>
+    </div>
+</div>

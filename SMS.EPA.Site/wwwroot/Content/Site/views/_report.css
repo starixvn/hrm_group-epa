@@ -1,0 +1,82 @@
+.epa-summary-report .form-filter.form-horizontal .form-group .col-percent-14,
+.epa-detail-report .form-filter.form-horizontal .form-group .col-percent-14 {
+  width: 14%;
+}
+.epa-summary-report .form-filter.form-horizontal .form-group.last,
+.epa-detail-report .form-filter.form-horizontal .form-group.last {
+  margin-bottom: 0;
+}
+.epa-summary-report .form-filter .multiSelect .checkboxLayer,
+.epa-detail-report .form-filter .multiSelect .checkboxLayer {
+  min-width: 200px;
+}
+.epa-summary-report .form-filter .multiSelect .checkboxLayer .acol label,
+.epa-detail-report .form-filter .multiSelect .checkboxLayer .acol label {
+  height: 22px;
+}
+.epa-summary-report .form-filter .multiSelect .multiSelectItem,
+.epa-detail-report .form-filter .multiSelect .multiSelectItem {
+  min-width: 200px;
+}
+.epa-summary-report .form-filter .multiSelect .checkboxLayer.show,
+.epa-detail-report .form-filter .multiSelect .checkboxLayer.show {
+  max-height: 300px;
+}
+.epa-summary-report .form-filter .btn-search,
+.epa-detail-report .form-filter .btn-search {
+  margin-left: 5px;
+}
+.epa-summary-report .grid-title,
+.epa-detail-report .grid-title {
+  background: #818181 !important;
+  margin-bottom: 0;
+  border: none;
+}
+.epa-summary-report .grid-title .grid-title-label,
+.epa-detail-report .grid-title .grid-title-label {
+  color: #fff;
+}
+.epa-summary-report .freegrid,
+.epa-detail-report .freegrid {
+  border-top: 1px solid #373737;
+}
+.epa-summary-report .freegrid .freegrid thead th,
+.epa-detail-report .freegrid .freegrid thead th,
+.epa-summary-report .freegrid .grid-fixed-table thead th,
+.epa-detail-report .freegrid .grid-fixed-table thead th {
+  border-color: #373737;
+}
+.epa-summary-report .freegrid .grid-fixed-table thead th .column-truncate,
+.epa-detail-report .freegrid .grid-fixed-table thead th .column-truncate {
+  top: 4px;
+}
+.epa-summary-report .freegrid .grid-fixed-table tbody tr td,
+.epa-detail-report .freegrid .grid-fixed-table tbody tr td {
+  background-color: #fff !important;
+}
+.epa-summary-report .freegrid .grid-fixed-table tbody tr:nth-child(even) td,
+.epa-detail-report .freegrid .grid-fixed-table tbody tr:nth-child(even) td {
+  background: #ececec !important;
+}
+.epa-summary-report .freegrid .grid-fixed-table tbody tr.parent-row td,
+.epa-detail-report .freegrid .grid-fixed-table tbody tr.parent-row td {
+  background-color: #c2d9ec !important;
+}
+.epa-summary-report .freegrid .col_footer_content.grid-fixed-table thead th,
+.epa-detail-report .freegrid .col_footer_content.grid-fixed-table thead th,
+.epa-summary-report .freegrid .row_footer_content.grid-fixed-table thead th,
+.epa-detail-report .freegrid .row_footer_content.grid-fixed-table thead th,
+.epa-summary-report .freegrid .grid-fixed-table thead th.free-cell-bottom-left,
+.epa-detail-report .freegrid .grid-fixed-table thead th.free-cell-bottom-left {
+  border-color: #c5c5c5;
+}
+.epa-summary-report .freegrid .free-top-left table thead th,
+.epa-detail-report .freegrid .free-top-left table thead th,
+.epa-summary-report .freegrid .col_header table thead th,
+.epa-detail-report .freegrid .col_header table thead th {
+  background: #606060;
+}
+.epa-summary-report .freegrid #itemperpage,
+.epa-detail-report .freegrid #itemperpage {
+  height: 20px;
+}

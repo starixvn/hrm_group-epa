@@ -1,0 +1,167 @@
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using SMS.EPA.AutoService.Criteria;
+using SMS.EPA.AutoService.Service.Interfaces;
+using SMS.EPA.Core.Constants;
+using SMS.EPA.Core.Enumerations;
+using SMS.EPA.Core.Services;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.EmployeeEPA;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Services.Implement;
+using SMS.EPA.Services.Interfaces;
+
+namespace SMS.EPA.AutoService.Service.Implement;
+
+public class EvaluationPeriodService(
+    ICryptographyService cryptographyService,
+    IEmployeeEPAService employeeEpaService,
+    IPeriodService periodService,
+    IPeriodMailService periodMailService,
+    IBaseService baseService)
+    : IEvaluationPeriodService
+{
+    private readonly IEmployeeEPAService employeeEPAService = employeeEpaService ?? new EmployeeEPAService();
+    private readonly ICryptographyService cryptographyService = cryptographyService ?? new CryptographyService();
+    private readonly IPeriodService periodService = periodService ?? new PeriodService();
+    private readonly IPeriodMailService periodMailService = periodMailService ?? new PeriodMailService();
+    private readonly IBaseService baseService = baseService ?? new BaseService();
+    private static readonly log4net.ILog logfile = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+    public EvaluationPeriodService() : this(null, null, null, null, null)
+    {
+    }
+
+    public void CheckEndEvaluationPeriod()
+    {
+        var criteria = new GetEPAEndEvaluationPeriodCriteria();
+        var epaInfos = employeeEPAService.GetEPAEndEvaluationPeriod(criteria);
+        if (epaInfos != null && epaInfos.Any())
+        {
+            UpdateFinalScoreAndSendMail(epaInfos);
+        }
+    }
+
+    private static float? GetFinalScoreOfEvalution(EPAModel epaInfo)
+    {
+        float? finalScore = null;
+
+        if (epaInfo.Process.Managements.Any() && epaInfo.Process.AverageScoreByManagements.HasValue)
+        {
+            finalScore = epaInfo.Process.AverageScoreByManagements.Value;
+        }
+        else
+        {
+            if (epaInfo.Process.Reviewers.Any() && epaInfo.Process.AverageScoreByReviewers.HasValue)
+            {
+                finalScore = epaInfo.Process.AverageScoreByReviewers.Value;
+            }
+        }
+
+        return finalScore;
+    }
+
+    private void UpdateFinalScoreAndSendMail(IEnumerable<EPAModel> epaInfos)
+    {
+        IList<int> periods = new List<int>();
+        var standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
+
+        foreach (var epaInfo in epaInfos)
+        {
+            var performanceScore = GetFinalScoreOfEvalution(epaInfo);
+
+            logfile.InfoFormat("EPAId: {0}\nPerformanceScore: {1}\nHasDisciplineScore: {2}\nDisciplineScore: {3}",
+                epaInfo.EPAId,
+                performanceScore,
+                epaInfo.HasDisciplineScore,
+                epaInfo.DisciplineScore);
+            epaInfo.Grade = performanceScore.HasValue
+                ? employeeEPAService.ConvertScoreToGrade(performanceScore, epaInfo.DisciplineScore, epaInfo.HasDisciplineScore, standardGrades)
+                : string.Empty;
+
+            EncryptAndUpdateFinalScore(performanceScore, epaInfo.DisciplineScore, epaInfo.EPAId, epaInfo.Grade);
+
+            if (AppSetting.SendMailEndPeriod)
+            {
+                SendMailEndEvaluation(periods, epaInfo, performanceScore);
+            }
+        }
+
+        SendMailEndPeriodToHR(periods);
+    }
+
+    private void SendMailEndEvaluation(IList<int> periods, EPAModel epaInfo, float? averagePerformanceScore)
+    {
+        periodMailService.SendEndEvaluationMailToSelf(epaInfo, averagePerformanceScore, epaInfo.DisciplineScore);
+
+        if (epaInfo.Period != null)
+        {
+            if (epaInfo.IsProbation || epaInfo.IsPromotion)
+            {
+                periodMailService.SendEndEvaluationMailToHumanResourceByEmployee(epaInfo);
+            }
+            else
+            {
+                if (epaInfo.IsSemiHasMonthly && !periods.Contains(epaInfo.Period.PeriodId))
+                {
+                    periods.Add(epaInfo.Period.PeriodId);
+                }
+            }
+        }
+    }
+
+    private void SendMailEndPeriodToHR(IList<int> periods)
+    {
+        if (AppSetting.SendMailEndPeriod && periods.Any())
+        {
+            foreach (var periodId in periods)
+            {
+                var criteria = new CheckLastestProcessOfPeriodCriteria
+                {
+                    PeriodId = periodId
+                };
+                var isEndPeriod = baseService.GetDataEntity<bool>(criteria);
+                if (isEndPeriod)
+                {
+                    var employeeSettings =
+                        periodService.GetEmployeeSettingToSendMail(periodId, (byte)ProcessType.HumanResource);
+                    periodMailService.SendEndEvaluationMailToHumanResourceByPeriod(employeeSettings);
+                }
+            }
+        }
+    }
+
+    private void EncryptAndUpdateFinalScore(
+        float? performanceScore,
+        float disciplineScore,
+        int evaluationId,
+        string grade)
+    {
+        var finalScore = performanceScore + disciplineScore;
+        if (finalScore.HasValue)
+        {
+            finalScore = finalScore.Value > Constants.MaxFinalScore ? Constants.MaxFinalScore : finalScore.Value;
+        }
+
+        var finalScoreEncrypt = finalScore.HasValue
+            ? cryptographyService.Encrypt(finalScore.Value.ToString(CultureInfo.InvariantCulture))
+            : string.Empty;
+
+        var gradeEncrypt = cryptographyService.Encrypt(grade);
+
+        var criteria = new UpdateFinalScoreEndEvaluationCriteria
+        {
+            EPAId = evaluationId,
+            FinalScore = finalScoreEncrypt,
+            Grade = gradeEncrypt,
+            DisciplineScore = disciplineScore
+        };
+
+        if (criteria.IsValid())
+        {
+            baseService.ExecuteNonQuery(criteria);
+        }
+    }
+}

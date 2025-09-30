@@ -1,0 +1,22 @@
+﻿using Fanex.Data.Repository;
+
+namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
+
+public class GetKPIToViewCriteria : CriteriaBase
+{
+    public int EvaluatorId { get; set; }
+
+    public int PeriodId { get; set; }
+
+    public int TargetTemplateId { get; set; }
+
+    public override string GetSettingKey()
+    {
+        return "EPA_RatingByKPI_GetKPIToView";
+    }
+
+    public override bool IsValid()
+    {
+        return PeriodId > 0 && TargetTemplateId > 0 && EvaluatorId > 0;
+    }
+}

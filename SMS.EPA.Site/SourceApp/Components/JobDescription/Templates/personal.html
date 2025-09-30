@@ -1,0 +1,95 @@
+﻿<div ng-controller="PersonnelSettingController as personnelCtrl">
+    <form novalidate class="form-filter">
+        <div class="form-group">
+            <label class="label-form" data-translate="Team"></label>
+            <div class="select-form">
+                <multi-select-tree-view selected-items="personnelCtrl.filter.teamIds"
+                                        is-selected-all="true" has-search-box="true"
+                                        options="personnelCtrl.orgChart" on-select="personnelCtrl.onSelectTeam"></multi-select-tree-view>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="label-form" data-translate="Employee"></label>
+            <input class="form-control input-form" type="text" placeholder="full name or nickname"
+                   ng-model="personnelCtrl.searchKeyword" search-auto-complete search-employees="personnelCtrl.getEmployee()"
+                   ng-change="personnelCtrl.unSelectEmployee()" employee="personnelCtrl.filter.employee" />
+        </div>
+        <div class="form-group">
+            <label class="label-form"></label>
+            <div class="checkbox checkbox-form">
+                <label>
+                    <input type="checkbox" ng-model="personnelCtrl.filter.showAll"> Show all
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" ng-click="personnelCtrl.query()" data-translate="Search"></button>
+        </div>
+    </form>
+    <table class="row table table-bordered table-striped">
+        <thead>
+            <tr class="header-table">
+                <th colspan="9">
+                    <input type="text" ng-model="personnelCtrl.searchKey" ng-change="personnelCtrl.search()"
+                           class="search-inline-textbox search pull-right" />
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="Code"></th>
+                <th data-translate="NickName"></th>
+                <th data-translate="FullName"></th>
+                <th data-translate="Department"></th>
+                <th data-translate="Section"></th>
+                <th data-translate="Team"></th>
+                <th data-translate="JobLevel"></th>
+                <th data-translate="Action"></th>
+            </tr>
+        </thead>
+        <tbody class="table-body" ng-if="personnelCtrl.filteredItems.length > 0">
+            <tr pagination-id="personnel" dir-paginate="employee in personnelCtrl.filteredItems | itemsPerPage: personnelCtrl.pageSize" current-page="personnelCtrl.currentPage">
+                <td class="text-center" ng-bind="personnelCtrl.getIndex($index, personnelCtrl.currentPage, personnelCtrl.pageSize)"></td>
+                <td ng-bind="employee.Code"></td>
+                <td ng-bind="employee.Nickname"></td>
+                <td ng-bind="employee.FullName"></td>
+                <td ng-bind="employee.Department"></td>
+                <td ng-bind="employee.Section"></td>
+                <td ng-bind="employee.GroupName"></td>
+                <td ng-bind="employee.JobLevel"></td>
+                <td class="text-center">
+                    <a class="glyphicon glyphicon-edit icon-edit"
+                       href="#/JobDescription/EditEmployee/{{employee.EmployeeId}}"
+                       ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"
+                       ng-attr-title='{{"Edit" | translate}}'></a>
+                    <a class="glyphicon glyphicon-duplicate cursor-pointer" title="Copy Setting"
+                       ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"
+                       ng-click="personnelCtrl.copyEmployeeSetting(employee)"></a>
+                    <a class="icon-view"
+                       href="#/JobDescription/EditEmployee/{{employee.EmployeeId}}"
+                       ng-if="jobDescriptionCtrl.permission !== jobDescriptionCtrl.policy.Host"
+                       ng-attr-title='{{"Details" | translate}}'></a>
+                </td>
+            </tr>
+        </tbody>
+        <tbody ng-if="personnelCtrl.filteredItems.length === 0">
+            <tr>
+                <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="9" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="personnelCtrl.pageSize"
+                            ng-options="entry for entry in personnelCtrl.entries" ng-change="personnelCtrl.currentPage = 1"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <ul uib-pagination total-items="personnelCtrl.filteredItems.length" items-per-page="personnelCtrl.pageSize"
+                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="personnelCtrl.currentPage"
+                            class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

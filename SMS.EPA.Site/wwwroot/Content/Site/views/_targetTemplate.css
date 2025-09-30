@@ -1,0 +1,81 @@
+.top-buffer {
+  margin-top: 15px !important;
+}
+table td.row-highlight {
+  background-color: #f2f2c2 !important;
+  text-transform: uppercase;
+}
+table .width-100 {
+  width: 100px;
+}
+table .width-150 {
+  width: 150px;
+}
+table .weight-form-control {
+  border: 1px solid #ccc !important;
+  height: 21px !important;
+  width: 100%;
+}
+table .weight-form-control:focus {
+  box-shadow: none;
+}
+table .col-description {
+  max-width: 300px;
+}
+.search-textbox {
+  background: #fff url("../images/icon-search.png") no-repeat scroll 188px center;
+  border: 1px solid #ccc;
+  box-shadow: none;
+  color: #555;
+  height: 23px;
+  padding: 0 24px 0 3px;
+  width: 210px;
+  margin-bottom: 10px;
+}
+.item-list-icon {
+  color: #87b84b;
+  font-size: 11px;
+  margin-right: 6px;
+  position: relative;
+  top: 0;
+}
+.kpi-group-popup .modal-dialog {
+  width: 80% !important;
+}
+.kpi-group-popup .modal-dialog .error-message {
+  color: red;
+}
+.kpi-group-popup .modal-addKPIGroup .modal-body {
+  max-height: 500px;
+  overflow-y: auto;
+}
+.detail-target-template {
+  margin: 0 0 70px;
+}
+.detail-target-template .targetTemplateInfo .information .row {
+  margin: 0 5px;
+}
+.detail-target-template .targetTemplateInfo .information .line {
+  border-bottom: 1px solid #e5e3e3;
+  padding: 5px 0;
+}
+.detail-target-template .targetTemplateInfo .information .lab {
+  padding: 0;
+}
+.detail-target-template .kpi-content .self-clear {
+  clear: both;
+}
+.detail-target-template .kpi-content .no-padding {
+  padding: 0 0 5px;
+}
+.detail-target-template .kpi-content .kpi-list li {
+  color: #333;
+  padding: 3px 0;
+}
+.detail-target-template .navbar-fixed-bottom.action-button .container {
+  padding: 10px 0;
+}
+.icon-export {
+  margin-right: 5px;
+  color: #54af13;
+}

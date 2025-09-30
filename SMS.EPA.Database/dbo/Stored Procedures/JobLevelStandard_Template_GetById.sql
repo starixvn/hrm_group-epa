@@ -1,0 +1,31 @@
+﻿
+CREATE PROCEDURE [dbo].[JobLevelStandard_Template_GetById] @TemplateId INT
+AS
+/*
+Created: 2023-04-25@Frankie.Nguyen
+Task: Get jls template by id.
+DB: SMSEPA
+Original: 
+
+Revisions:  
+Param's Explanation:
+
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT jt.TemplateId
+		,jt.[Name]
+		,jt.CreatedDate
+		,jt.CreatedBy
+		,jt.IsActive
+		,jt.ModifiedDate
+		,e.Nickname AS CreatedNickname
+		,e.FullName AS CreatedFullName
+		,ee.Nickname AS ModifiedNickname
+		,ee.FullName AS ModifiedFullName
+	FROM dbo.JobLevelStandard_Template AS jt WITH (NOLOCK)
+		LEFT JOIN dbo.Employee AS e WITH (NOLOCK) ON jt.CreatedBy = e.EmployeeId
+		LEFT JOIN dbo.Employee AS ee WITH (NOLOCK) ON jt.ModifiedBy = ee.EmployeeId
+	WHERE jt.TemplateId = @TemplateId
+END

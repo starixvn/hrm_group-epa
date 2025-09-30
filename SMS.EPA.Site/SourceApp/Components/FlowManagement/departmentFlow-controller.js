@@ -1,0 +1,231 @@
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
+    /* jshint validthis:true */
+
+    angular.module('flowMngModule').controller('GroupFlowController', departmentFlowController);
+    departmentFlowController.$inject = ['$scope', '$routeParams', 'FlowSettingModel', 'DeptFlowModel', 'CommonModel', 'lockScreenService'];
+
+    function departmentFlowController($scope, $routeParams, FlowSettingModel, DeptFlowModel, CommonModel, lockScreenService) {
+        let vm = this;
+
+        vm.FlowTemplateId = parseInt($routeParams.id);
+
+        vm.selfs = DeptFlowModel.selfs;
+        vm.evaluators = DeptFlowModel.evaluators;
+        vm.reviewers = DeptFlowModel.reviewers;
+        vm.managements = DeptFlowModel.managements;
+        vm.humanResources = DeptFlowModel.humanResources;
+
+        vm.departmentSettings = DeptFlowModel.departmentSettings;
+
+        vm.employees = [];
+        vm.showDeleteButton = false;
+        vm.selectedTeam = null;
+        vm.searchEvaluator = '';
+        vm.searchReviewer = '';
+        vm.searchManagement = '';
+        vm.searchHumanResource = '';
+        vm.teamFilter = '';
+        vm.selectedEvaluator = null;
+        vm.selectedReviewer = null;
+        vm.selectedManagement = null;
+        vm.selectedHumanResource = null;
+        vm.isFirstLoad = true;
+        vm.departments = [];
+
+        vm.checkTeamHasSetting = function (teamId) {
+            return vm.departmentSettings.find(team => team.GroupId === teamId) !== undefined;
+        };
+
+        vm.filterTeams = function(teams) {
+            if (!vm.teamFilter || vm.teamFilter.trim() === '') {
+                return teams;
+            }
+            return teams.filter(function(team) {
+                return team.Text.toLowerCase().indexOf(vm.teamFilter.toLowerCase()) !== -1;
+            });
+        };
+
+        vm.hasMatchingTeam = function(teams) {
+            return teams.some(function(team) {
+                return team.Text.toLowerCase().indexOf(vm.teamFilter.toLowerCase()) !== -1;
+            });
+        };
+
+        vm.filterDepartments = function(departments) {
+            if (!vm.teamFilter || vm.teamFilter.trim() === '') {
+                return departments;
+            }
+            return departments.filter(function(dept) {
+                return dept.Items.some(function(section) {
+                    return vm.hasMatchingTeam(section.Items);
+                });
+            });
+        };
+
+        vm.filterSections = function(sections) {
+            if (!vm.teamFilter || vm.teamFilter.trim() === '') {
+                return sections;
+            }
+            return sections.filter(function(section) {
+                return vm.hasMatchingTeam(section.Items);
+            });
+        };
+
+        vm.expandSections = function(sections, expanded) {
+            sections.forEach(function(section) {
+                section.Collapse = expanded;
+            });
+        };
+
+        vm.expandDepartments = function(departments, expanded) {
+            departments.forEach(function(dept) {
+                dept.Collapse = expanded;
+                vm.expandSections(dept.Items, expanded);
+            });
+        };
+
+        vm.expandAllForSearch = function() {
+            if (vm.teamFilter && vm.teamFilter.trim() !== '') {
+                vm.expandDepartments(vm.departments, true);
+            } else {
+                vm.expandDepartments(vm.departments, false);
+            }
+        };
+
+        vm.getDepartmentFlowById = function (team) {
+            vm.selectedTeam = team;
+            DeptFlowModel.getDepartmentFlowById(team.Id, vm.FlowTemplateId).then(function () {
+                vm.selfs = DeptFlowModel.selfs;
+                vm.evaluators = DeptFlowModel.evaluators;
+                vm.reviewers = DeptFlowModel.reviewers;
+                vm.managements = DeptFlowModel.managements;
+                vm.humanResources = DeptFlowModel.humanResources;
+
+                if (vm.evaluators.employees.length > 0 ||
+                    vm.reviewers.employees.length > 0 ||
+                    vm.managements.employees.length > 0 ||
+                    vm.humanResources.employees.length > 0) {
+                    vm.showDeleteButton = true;
+                } else {
+                    vm.showDeleteButton = false;
+                }
+            });
+        };
+
+        vm.adSelectedEmployee = function (sender, selectedEmployee) {
+            FlowSettingModel.addEmployee(sender, vm, selectedEmployee);
+
+            vm.searchHumanResource = '';
+            vm.searchEvaluator = '';
+            vm.searchReviewer = '';
+            vm.searchManagement = '';
+            vm.selectedHumanResource = null;
+            vm.selectedEvaluator = null;
+            vm.selectedReviewer = null;
+            vm.selectedManagement = null;
+        };
+
+        /// Remove item from list.
+        vm.removeItemFromList = function (item, list) {
+            FlowSettingModel.removeItemFromList(item, list);
+        };
+
+        // Sort item in list.
+        $scope.$on('list-sorted', function (ev, val) {
+            switch (val.sender) {
+                case "selfList":
+                    vm.selfs.employees.splice(val.to, 0, vm.selfs.employees.splice(val.from, 1)[0]);
+                    break;
+                case "evaluatorList":
+                    vm.evaluators.employees.splice(val.to, 0, vm.evaluators.employees.splice(val.from, 1)[0]);
+                    break;
+                case "reviewerList":
+                    vm.reviewers.employees.splice(val.to, 0, vm.reviewers.employees.splice(val.from, 1)[0]);
+                    break;
+                case "managementList":
+                    vm.managements.employees.splice(val.to, 0, vm.managements.employees.splice(val.from, 1)[0]);
+                    break;
+                case "humanResourceList":
+                    vm.humanResources.employees.splice(val.to, 0, vm.humanResources.employees.splice(val.from, 1)[0]);
+                    break;
+            }
+        });
+
+        vm.getEmployee = function (identity) {
+            switch (identity) {
+                case "evaluatorList":
+                    return CommonModel.searchEmployee(vm.searchEvaluator);
+
+                case "reviewerList":
+                    return CommonModel.searchEmployee(vm.searchReviewer);
+
+                case "managementList":
+                    return CommonModel.searchEmployee(vm.searchManagement);
+
+                case "humanResourceList":
+                    return CommonModel.searchEmployee(vm.searchHumanResource);
+            }
+        };
+
+        vm.changeCollapseAttribute = function (item) {
+            item.Collapse = !item.Collapse;
+        };
+
+        function initialize() {
+            lockScreenService.start();
+            FlowSettingModel.resetCurrentFlow(vm);
+            vm.flowTemplate = $scope.updateCtrl.flowTemplate;
+            vm.showDeleteButton = false;
+            vm.selectedTeam = null;
+            vm.isFirstLoad = false;
+
+            getDepartmentHasSetting();
+            CommonModel.getOrgChart().then(function () {
+                vm.departments = CommonModel.orgChart;
+                addCollapseAttribute(vm.departments);
+            });
+        }
+
+        function getDepartmentHasSetting() {
+            DeptFlowModel.getDepartmentHasSetting(vm.FlowTemplateId).then(function () {
+                vm.departmentSettings = DeptFlowModel.departmentSettings;
+                lockScreenService.stop();
+            });
+        }
+
+        function addCollapseAttribute(departments) {
+            departments.forEach(dept => {
+                dept.Collapse = false;
+                dept.Items.forEach(sec => {
+                    sec.Collapse = false;
+                })
+            })
+        }
+
+        $scope.$watch(function () {
+            return $scope.updateCtrl.dataTab === 2 && $scope.updateCtrl.flowTemplate;
+        }, function (newVal) {
+            if (newVal && vm.isFirstLoad) {
+                initialize();
+            }
+        });
+
+        vm.saveDepartmentFlow = function () {
+            if (DeptFlowModel.validateDepartmentFlow(vm)) {
+                DeptFlowModel.createDepartmentFlow(vm).then(function () {
+                    vm.showDeleteButton = true;
+                    getDepartmentHasSetting();
+                });
+            }
+        };
+
+        vm.deleteDepartmentFlow = function () {
+            DeptFlowModel.openPopupDeleteDepartmentFlow(vm).then(function () {
+                vm.showDeleteButton = false;
+                getDepartmentHasSetting();
+            });
+        };
+    }
+})(angular);

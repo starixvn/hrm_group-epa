@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Fanex.Data.Repository;
+using SMS.EPA.Core.Model;
+
+namespace SMS.EPA.Core.Services.Interfaces;
+
+public interface IBaseService
+{
+    IEnumerable<T> GetData<T>(ICriteria criteria);
+
+    Task<IEnumerable<T>> GetDataAsync<T>(ICriteria criteria);
+
+    T GetDataEntity<T>(ICriteria criteria);
+
+    Task<T> GetDataEntityAsync<T>(ICriteria criteria);
+
+    ValueTuple<IEnumerable<TFirst>, IEnumerable<TSecond>> FetchMultiple<TFirst, TSecond>(ICriteria criteria);
+
+    ValueTuple<IEnumerable<TFirst>, IEnumerable<TSecond>, IEnumerable<TThird>> FetchMultiple<TFirst, TSecond, TThird>(ICriteria criteria);
+
+    Task<ValueTuple<IEnumerable<TFirst>, IEnumerable<TSecond>>> FetchMultipleAsync<TFirst, TSecond>(ICriteria criteria);
+
+    Task<ValueTuple<IEnumerable<TFirst>, IEnumerable<TSecond>, IEnumerable<TThird>>> FetchMultipleAsync<TFirst, TSecond, TThird>(ICriteria criteria);
+
+    CommandResult ExecuteNonQuery(ICriteria criteria);
+
+    Task<CommandResult> ExecuteNonQueryAsync(ICriteria criteria);
+}

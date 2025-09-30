@@ -1,0 +1,97 @@
+﻿<div class="form-reviewer" ng-controller="ManagentDetailController as mgnDetailCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="MemberEPA"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <div class="row epa-form">
+            <div class="text-center epa-title">
+                <span data-translate="EPATilte"></span>
+                <span> - {{mgnDetailCtrl.epaInfo.Period.Name}}</span>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" data-toggle="collapse" data-target=".generalInfo" data-translate="GeneralInfo"></div>
+                <div class="panel-collapse collapse in generalInfo">
+                    <div class="panel-body general-info">
+                        <epa-general-infomation data-is-view-detail="mgnDetailCtrl.isViewDetail"
+                                                data-employee-info="mgnDetailCtrl.epaInfo.Employee"
+                                                data-evaluated-date="mgnDetailCtrl.evaluatedDate"
+                                                data-saved="mgnDetailCtrl.dataSaved"></epa-general-infomation>
+                    </div>
+                </div>
+            </div>
+
+            <job-description data-job-descriptions="mgnDetailCtrl.epaInfo.JobDescriptions"></job-description>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" data-toggle="collapse" data-target=".evaluationProcess" data-translate="EvaluationProcess"></div>
+                <div class="panel-collapse collapse in evaluationProcess" auto-collapse data-collapsed="true">
+                    <div class="panel-body evaluation-process-section">
+                        <epa-evaluation-process data-epa-info="mgnDetailCtrl.epaInfo"></epa-evaluation-process>
+                    </div>
+                </div>
+            </div>
+
+            <!-- performance result -->
+            <any ng-switch="mgnDetailCtrl.epaInfo.IsSemiHasMonthly">
+                <any ng-switch-when="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" data-toggle="collapse" data-target=".performanceResult" data-translate="PerformanceResult"></div>
+                        <div class="panel-collapse collapse in performanceResult">
+                            <div class="panel-body summary-section">
+                                <any ng-include src="'/SourceApp/Components/EPA/Management/Templates/semiPerformanceResult.html'"></any>
+                                <epa-performance-grade data-standard-grades="mgnDetailCtrl.standardGrades"></epa-performance-grade>
+                            </div>
+                        </div>
+                    </div>
+                </any>
+
+                <any ng-switch-default>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" data-toggle="collapse" data-target=".performanceResult" data-translate="PerformanceResult"></div>
+                        <div class="panel-collapse collapse in performanceResult">
+                            <div class="panel-body summary-section">
+                                <any ng-include src="'/SourceApp/Components/EPA/Management/Templates/performanceResult.html'"></any>
+                                <epa-performance-grade data-standard-grades="mgnDetailCtrl.standardGrades"></epa-performance-grade>
+                            </div>
+                        </div>
+                    </div>
+                </any>
+            </any>
+
+            <!-- recommendation -->
+            <epa-recommendation data-epa-info="mgnDetailCtrl.epaInfo"
+                                data-job-levels="mgnDetailCtrl.jobLevels"
+                                ng-if="mgnDetailCtrl.epaInfo.Recommendations && mgnDetailCtrl.epaInfo.Recommendations.length > 0"></epa-recommendation>
+
+            <div>&ensp;</div>
+
+            <!-- performance detail -->
+            <any ng-switch="mgnDetailCtrl.epaInfo.IsSemiHasMonthly">
+                <any ng-switch-when="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" data-toggle="collapse" data-target=".monthlyEPAs" data-translate="monthlyEPAs"></div>
+                        <div class="panel-collapse collapse in monthlyEPAs">
+                            <div class="panel-body">
+                                <epa-monthly-result data-epa-info="mgnDetailCtrl.epaInfo"></epa-monthly-result>
+                            </div>
+                        </div>
+                    </div>
+                </any>
+
+                <any ng-switch-default>
+                    <epa-performance-detail data-epa-info="mgnDetailCtrl.epaInfo"></epa-performance-detail>
+                </any>
+            </any>
+        </div>
+        <div class="navbar navbar-default navbar-fixed-bottom action-section">
+            <div class="container text-center">
+                <button class="btn btn-primary" ng-click="mgnDetailCtrl.save(mgnDetailCtrl.epaInfo)"
+                        ng-if="mgnDetailCtrl.epaInfo && mgnDetailCtrl.epaInfo.IsAllowedToEdit" data-translate="Save"></button>
+                <button class="btn btn-warning" ng-click="mgnDetailCtrl.cancel()" data-translate="Back"></button>
+            </div>
+        </div>
+    </div>
+</div>

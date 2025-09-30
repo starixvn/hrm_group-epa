@@ -1,0 +1,53 @@
+﻿using System;
+using SMS.EPA.Core.Constants;
+using SMS.EPA.Models.Report;
+
+namespace SMS.EPA.Models.Discipline;
+
+[Serializable]
+public class DisciplineSummaryModel : DisciplineSummaryBase, IExcelRecord
+{
+    public int EmployeeId { get; set; }
+    public string Code { get; set; }
+    public string Nickname { get; set; }
+    public string FullName { get; set; }
+    public string Category { get; set; }
+    public DateTime JoinedDate { get; set; }
+    public string Department { get; set; }
+    public string Section { get; set; }
+    public string Team { get; set; }
+    public string JobTitle { get; set; }
+
+    public object ConvertToExcelRecord()
+    {
+        var record = new
+        {
+            Count = 0,
+            Department,
+            Section,
+            Team,
+            Code,
+            Nickname,
+            FullName,
+            JobTitle,
+            JoinedDate = JoinedDate.ToString(Constants.DateFormat),
+            Category,
+            MissingCheckInOut = GetScore(MissingCheckInOut),
+            WorkingUndertime = GetScore(WorkingUndertime),
+            LateIn = GetScore(LateIn),
+            EarlyOut = GetScore(EarlyOut),
+            Absent = GetScore(Absent),
+            UnpaidLeave = GetScore(UnpaidLeave),
+            UnpaidLeaveAbsent = GetScore(UnpaidLeaveAbsent),
+            ChangeShift = GetScore(ChangeShift),
+            UnplannedLeave = GetScore(UnplannedLeave),
+            WeekendLeave = GetScore(WeekendLeave),
+            SevenDaysLeave = GetScore(SevenDaysLeave),
+            OtherViolation = GetScore(OtherDisciplines),
+            SystemSubtractScore = GetScore(SystemSubtractScore),
+            ApproverSubtractScore = GetScore(ApproverSubtractScore)
+        };
+
+        return record;
+    }
+}

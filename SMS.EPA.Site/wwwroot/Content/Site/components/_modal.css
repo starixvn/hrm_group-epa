@@ -1,0 +1,72 @@
+/********************************************************/
+/*                        Table                         */
+/********************************************************/
+/********************************************************/
+/*                        Login page                    */
+/********************************************************/
+@font-face {
+  font-family: BigNoodleTitling;
+  src: url(../../Fonts/big_noodle_titling.ttf);
+}
+.modal-dialog .modal-content {
+  border-radius: 0;
+}
+.modal-dialog .modal-header {
+  background: #ddd;
+  padding: 7px 15px 8px;
+  border-bottom: 1px solid #979797;
+}
+.modal-dialog .modal-header .popup-header {
+  font-size: 12px;
+  font-weight: bold;
+  color: #4f4f4f;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.modal-dialog .modal-header .popup-header .close-popup {
+  background: url(../images/icon_sprite.png);
+  height: 15px;
+  width: 16px;
+  position: absolute;
+  right: 10px;
+  top: 9px;
+  cursor: pointer;
+}
+.modal-dialog .modal-header .popup-header .close-popup:hover {
+  background-position: -16px 0;
+}
+.modal-dialog .modal-body {
+  width: 100%;
+}
+.modal-dialog .modal-body label {
+  font-weight: normal;
+}
+.modal-dialog .modal-body .common-form .form-group .control-label {
+  font-weight: normal;
+  text-align: left;
+  line-height: 13px;
+}
+.modal-dialog .modal-body .common-form .form-group .form-control {
+  border: 1px solid #c8c8c8;
+  height: 30px;
+  font-size: 13px;
+}
+.modal-dialog .modal-body .common-form .form-group select.form-control {
+  padding: 4px 5px;
+}
+.modal-dialog .modal-body .empty-result {
+  text-align: center;
+  color: red;
+}
+.modal-dialog .modal-body .form-control {
+  font-size: 13px;
+}
+.modal-dialog .modal-body .table-popup {
+  padding: 0;
+}
+.modal-dialog .modal-footer {
+  padding: 12px 20px;
+  margin-top: 0;
+}
+.modal-confirm-center .modal-dialog {
+  margin-top: 5% !important;
+}

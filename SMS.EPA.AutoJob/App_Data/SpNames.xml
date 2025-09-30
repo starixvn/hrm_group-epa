@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Functions>
+    <Function Name="Employee">
+        <Setting Key="Sync_UserMapping_GetLastModifiedDate" SpName="Sync_UserMapping_GetLastModifiedDate" DbName="SMSEPA" Plain="0" />
+        <Setting Key="Sync_UserMapping" SpName="Sync_UserMapping" DbName="SMSEPA" Plain="0" />
+    </Function>
+</Functions>

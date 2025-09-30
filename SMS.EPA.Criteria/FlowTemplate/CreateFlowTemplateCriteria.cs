@@ -1,0 +1,28 @@
+﻿using Fanex.Data.Repository;
+
+namespace SMS.EPA.Criteria.FlowTemplate;
+
+public class CreateFlowTemplateCriteria : CriteriaBase
+{
+    public int FlowTemplateId { get; set; }
+
+    public string Name { get; set; }
+
+    public byte TargetTypeId { get; set; }
+
+    public string Description { get; set; }
+
+    public bool IsActive { get; set; }
+
+    public int CreatedBy { get; set; }
+
+    public override string GetSettingKey()
+    {
+        return "FlowTemplate_Insert";
+    }
+
+    public override bool IsValid()
+    {
+        return !string.IsNullOrEmpty(Name) && TargetTypeId > 0 && CreatedBy > 0;
+    }
+}

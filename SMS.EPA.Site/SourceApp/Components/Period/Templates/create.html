@@ -1,0 +1,113 @@
+﻿<div class="modal-header">
+    <div class="popup-header">
+        {{"CreateEvaluationPeriod" | translate}}
+        <span class="close-popup" ng-click="createPeriodCtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" role="form">
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="Name">
+            </label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" maxlength="200" ng-model="createPeriodCtrl.period.Name" required />
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="TargetType"></label>
+            <div class="col-sm-8 field">
+                <select class="form-control" ng-model="createPeriodCtrl.period.TargetTypeId"
+                        ng-options="opt.TargetTypeId as opt.Name for opt in createPeriodCtrl.targetTypes">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label required-label" data-translate="StartDate"
+                   ng-show="createPeriodCtrl.period.TargetTypeId === createPeriodCtrl.targetTypeEnum.SemiAnnual || createPeriodCtrl.period.TargetTypeId === createPeriodCtrl.targetTypeEnum.Promotion">
+            </label>
+            <label class="col-sm-3 control-label" data-translate="StartDate"
+                   ng-show="createPeriodCtrl.period.TargetTypeId !== createPeriodCtrl.targetTypeEnum.SemiAnnual && createPeriodCtrl.period.TargetTypeId !== createPeriodCtrl.targetTypeEnum.Promotion">
+            </label>
+            <div class="col-sm-3">
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="createPeriodCtrl.period.RawStartDate" uib-datepicker-popup
+                           ng-click="createPeriodCtrl.openPopupStartDate($event)" min-date="{{createPeriodCtrl.calendar.minDate}}"
+                           is-open="createPeriodCtrl.calendar.startDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="createPeriodCtrl.openPopupStartDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
+            </div>
+            <label class="col-sm-3 control-label required-label" data-translate="EndDate"
+                   ng-show="createPeriodCtrl.period.TargetTypeId === createPeriodCtrl.targetTypeEnum.SemiAnnual">
+            </label>
+            <label class="col-sm-3 control-label" data-translate="EndDate"
+                   ng-show="createPeriodCtrl.period.TargetTypeId !== createPeriodCtrl.targetTypeEnum.SemiAnnual">
+            </label>
+            <div class="col-sm-3">
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="createPeriodCtrl.period.RawEndDate" uib-datepicker-popup
+                           ng-click="createPeriodCtrl.openPopupEndDate($event)" min-date="{{createPeriodCtrl.calendar.minDate}}"
+                           is-open="createPeriodCtrl.calendar.endDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="createPeriodCtrl.openPopupEndDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="form-group" ng-if="createPeriodCtrl.period.TargetTypeId === createPeriodCtrl.targetTypeEnum.SemiAnnual">
+            <label class="col-sm-3 control-label required-label" data-translate="DisciplineStartDate"></label>
+            <div class="col-sm-3">
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="createPeriodCtrl.period.RawAttendanceStartDate" uib-datepicker-popup
+                           ng-click="createPeriodCtrl.openPopupAttendanceStartDate($event)" min-date="{{createPeriodCtrl.calendar.minDate}}"
+                           is-open="createPeriodCtrl.calendar.attendanceStartDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="createPeriodCtrl.openPopupAttendanceStartDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
+            </div>
+            <label class="col-sm-3 control-label required-label" data-translate="DisciplineEndDate"></label>
+            <div class="col-sm-3">
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="createPeriodCtrl.period.RawAttendanceEndDate" uib-datepicker-popup
+                           ng-click="createPeriodCtrl.openPopupAttendanceEndDate($event)" min-date="{{createPeriodCtrl.calendar.minDate}}"
+                           is-open="createPeriodCtrl.calendar.attendanceEndDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="createPeriodCtrl.openPopupAttendanceEndDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Active"></label>
+            <div class="col-sm-8 field active-label">
+                <input type="checkbox" ng-model="createPeriodCtrl.period.IsActive" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Description"></label>
+            <div class="col-sm-8 field description">
+                <textarea type="text" class="form-control" maxlength="2000" ng-model="createPeriodCtrl.period.Description"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" data-translate="Submit" ng-click="createPeriodCtrl.save(createPeriodCtrl.period)"></button>
+    <button class="btn btn-cancel" ng-click="createPeriodCtrl.cancel()" data-translate="Cancel"></button>
+</div>

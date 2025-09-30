@@ -1,0 +1,17 @@
+﻿<div class="col-sm-12" ng-controller="TargetSettingTemplateController as targetCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="TargetEmployeeSettingTemplate"></li>
+        </ul>
+    </div>
+    <div class="target-tabset">
+        <uib-tabset id="TargetTemplateTab" active="targetCtrl.dataTab">
+            <uib-tab heading="Team" class="tab-cursor" index="1" select="targetCtrl.dataTab = 1">
+                <div ng-include src="'/SourceApp/Components/TargetEmployeeSetting/Templates/team.html'"></div>
+            </uib-tab>
+            <uib-tab heading="PERSONAL" class="tab-cursor" index="2" select="targetCtrl.dataTab = 2">
+                <div ng-include src="'/SourceApp/Components/TargetEmployeeSetting/Templates/personal.html'"></div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+.employee-search {
+  width: 180px !important;
+}
+.btn-assign {
+  margin: 4px 0 2px 5px;
+}
+.target-setting-template {
+  max-width: 1300px;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.table.target-setting-template .oddRow > tr {
+  background-color: #ececec;
+}
+.table.target-setting-template .oddRow > tr td {
+  background-color: #ececec !important;
+}
+.table.target-setting-template .evenRow {
+  background-color: #fff;
+}
+.table.target-setting-template .evenRow td {
+  background-color: #fff !important;
+}
+.table.target-setting-template .target-template-container {
+  margin: 5px;
+  display: flex;
+  align-items: center;
+}
+.table.target-setting-template .target-template-container .control-label {
+  width: 120px;
+}
+.table.target-setting-template .chosen-container {
+  text-align: left;
+  min-width: 250px;
+}
+.table.target-setting-template .chosen-container .chosen-single {
+  background: none;
+  background-color: #fff;
+  border-radius: unset;
+}
+.table.target-setting-template .chosen-container .chosen-search-input {
+  color: #333;
+}

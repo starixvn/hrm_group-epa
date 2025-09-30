@@ -1,0 +1,42 @@
+﻿namespace SMS.EPA.ClientHrm.Services
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Core.Model;
+    using Criteria;
+    using EPA.Model.API;
+    using Fanex.Data.Repository;
+    using Model;
+    using ThirdPartyAPI;
+
+    public class EmployeeService : IEmployeeService
+    {
+        private readonly IDynamicRepository _dynamicRepository;
+        private readonly IEmployeeAPI _employeeApi;
+
+        public EmployeeService(IDynamicRepository dynamicRepository, IEmployeeAPI employeeApi)
+        {
+            _dynamicRepository = dynamicRepository;
+            _employeeApi = employeeApi;
+        }
+
+        public IEnumerable<Employee> GetEmployees(DateTime? fromDate)
+        {
+            var criteria = new GetEmployeeCriteria { FromDate = fromDate };
+            var employees = _dynamicRepository.Fetch<Employee>(criteria);
+
+            return employees;
+        }
+
+        public async Task<DateTime> GetLastModifiedDateAsync(TokenAccess token)
+        {
+            return await _employeeApi.GetLastModifiedDateAsync(token);
+        }
+
+        public async Task<CommandResult> UpdateAsync(IEnumerable<Employee> employees, TokenAccess token)
+        {
+            return await _employeeApi.Update(employees, token);
+        }
+    }
+}

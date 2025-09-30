@@ -1,0 +1,266 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using Fanex.Data;
+using Fanex.Data.Repository;
+using SMS.EPA.Core.Enumerations;
+using SMS.EPA.Core.Services;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Models.EmployeeEPA;
+using SMS.EPA.Models.Enitites;
+using SMS.EPA.Models.Period;
+using SMS.EPA.Models.Report.EPADetail;
+using SMS.EPA.Models.Report.EPASummary;
+using SMS.EPA.Models.ScoreRatingType;
+using SMS.EPA.Repositories.Interfaces;
+
+namespace SMS.EPA.Repositories.Implement;
+
+public class ReportRepository(ICryptographyService cryptographyService) : IReportRepository
+{
+    private readonly ICryptographyService _cryptographyService = cryptographyService ?? new CryptographyService();
+
+    public ReportRepository()
+        : this(null)
+    {
+    }
+
+    public EPASummaryModel GetEPASummary(ICriteria criteria)
+    {
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        using var multi = db.QueryMultiple(criteria);
+        var epaSummary = new EPASummaryModel
+        {
+            PeriodSelecteds = multi.Read<PeriodModel>().ToList(),
+            EPAInfos = multi.Read<EPASummaryEmployeeModel, Group, JobTitle, EPASummaryEmployeeModel>(
+                (res, gr, job) =>
+                {
+                    res.Group = gr;
+                    res.JobTitle = job;
+
+                    return res;
+                },
+                "GroupId, JobTitleId").ToList()
+        };
+
+        IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel, ScoreRatingTypeModel, EPASummaryPeriodModel>(
+            (period, scoreRatingType) =>
+            {
+                period.ScoreRatingType = scoreRatingType;
+
+                return period;
+            },
+            "ScoreRatingTypeId").ToList();
+
+        if (!multi.IsEmptyOrClosed)
+        {
+            // If not montly Period
+            IList<EPASummaryDetailScoreModel> detailScores = multi.Read<EPASummaryDetailScoreModel>().ToList();
+            DecodeDetailScores(detailScores);
+            AddDetailScoresToPeriods(periods, detailScores);
+        }
+
+        GroupPeriodByEmployee(epaSummary.EPAInfos, periods);
+        DecodeFinalScoreAndGrade(epaSummary.EPAInfos);
+
+        return epaSummary;
+    }
+
+    public EPASummaryModel GetMonthlyEPASummary(ICriteria criteria)
+    {
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        using var multi = db.QueryMultiple(criteria);
+        var epaSummary = new EPASummaryModel
+        {
+            PeriodSelecteds = multi.Read<PeriodModel>().ToList(),
+            EPAInfos = multi.Read<EPASummaryEmployeeModel, Group, JobTitle, EPASummaryEmployeeModel>(
+                (res, gr, job) =>
+                {
+                    res.Group = gr;
+                    res.JobTitle = job;
+
+                    return res;
+                },
+                "GroupId, JobTitleId").ToList()
+        };
+
+        IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel>().ToList();
+
+        if (!multi.IsEmptyOrClosed)
+        {
+            // If not montly Period
+            IList<EPASummaryDetailScoreModel> detailScores = multi.Read<EPASummaryDetailScoreModel>().ToList();
+            DecodeDetailScores(detailScores);
+            AddDetailScoresToPeriods(periods, detailScores);
+        }
+
+        GroupPeriodByEmployee(epaSummary.EPAInfos, periods);
+        DecodeFinalScoreAndGrade(epaSummary.EPAInfos);
+
+        return epaSummary;
+    }
+
+    public EPADetailModel GetEPADetail(ICriteria criteria)
+    {
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        using var multi = db.QueryMultiple(criteria);
+        var epaDetail = new EPADetailModel
+        {
+            PhaseSelecteds = multi.Read<EvaluationPhaseModel>(),
+            EpaInfos = multi
+                .Read<EPAModel, EPAEmployeeInfo, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    (info, employee, period, scoreRatingType) =>
+                    {
+                        info.Employee = employee;
+                        info.Period = period;
+                        info.ScoreRatingType = scoreRatingType;
+
+                        return info;
+                    },
+                    "EmployeeId, PeriodId, ScoreRatingTypeId")
+        };
+
+        var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAProcessModel>(
+            (process, employee) =>
+            {
+                process.EvaluatorInfo = employee;
+
+                return process;
+            },
+            "EvaluatorId");
+
+        GroupEPAProcessByEPA(epaDetail.EpaInfos, processes);
+        DecodeAllScore(epaDetail.EpaInfos);
+
+        return epaDetail;
+    }
+
+    public EPADetailModel GetMonthlyEPADetail(ICriteria criteria)
+    {
+        using var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey());
+        using var multi = db.QueryMultiple(criteria);
+        var epaDetail = new EPADetailModel
+        {
+            PhaseSelecteds = multi.Read<EvaluationPhaseModel>(),
+            EpaInfos = multi.Read<EPAModel, EPAEmployeeInfo, EPAPeriodModel, EPAModel>(
+                (info, employee, period) =>
+                {
+                    info.Employee = employee;
+                    info.Period = period;
+
+                    return info;
+                },
+                "EmployeeId, PeriodId")
+        };
+
+        var processes = multi.Read<EPAProcessModel>();
+
+        GroupEPAProcessByEPA(epaDetail.EpaInfos, processes);
+        DecodeAllScore(epaDetail.EpaInfos);
+
+        return epaDetail;
+    }
+
+    private static void AddDetailScoresToPeriods(IList<EPASummaryPeriodModel> periods, IList<EPASummaryDetailScoreModel> detailScores)
+    {
+        foreach (var summaryPeriodModel in periods)
+        {
+            summaryPeriodModel.DetailScores = detailScores
+                .Where(x => x.EmployeeId == summaryPeriodModel.EmployeeId && x.PeriodId == summaryPeriodModel.PeriodId)
+                .ToList();
+        }
+    }
+
+    private static void GroupPeriodByEmployee(
+        IEnumerable<EPASummaryEmployeeModel> epaSummaries,
+        IList<EPASummaryPeriodModel> periods)
+    {
+        foreach (var epaSummary in epaSummaries)
+        {
+            foreach (var period in periods.Where(x => epaSummary.EmployeeId.Equals(x.EmployeeId)))
+            {
+                epaSummary.Periods.Add(period);
+            }
+        }
+    }
+
+    private static void GroupEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> processes)
+    {
+        foreach (var epaInfo in epaInfos)
+        {
+            foreach (var process in processes.Where(x => x.EPAId == epaInfo.EPAId))
+            {
+                epaInfo.AllProcesses.Add(process);
+
+                switch (process.ProcessId)
+                {
+                    case (byte)ProcessType.Self:
+                        epaInfo.Process.Self = process;
+                        break;
+
+                    case (byte)ProcessType.Evaluator:
+                        epaInfo.Process.Evaluators.Add(process);
+                        break;
+
+                    case (byte)ProcessType.Reviewer:
+                        epaInfo.Process.Reviewers.Add(process);
+                        break;
+
+                    case (byte)ProcessType.Management:
+                        epaInfo.Process.Managements.Add(process);
+                        break;
+
+                    default:
+                        continue;
+                }
+            }
+        }
+    }
+
+    private void DecodeFinalScoreAndGrade(IEnumerable<EPASummaryEmployeeModel> epaSummaries)
+    {
+        foreach (var period in epaSummaries.SelectMany(x => x.Periods))
+        {
+            period.FinalScore = _cryptographyService.Decrypt(period.FinalScore);
+            period.Grade = _cryptographyService.Decrypt(period.Grade);
+        }
+    }
+
+    private void DecodeAllScore(IEnumerable<EPAModel> epaInfos)
+    {
+        foreach (var epaInfo in epaInfos)
+        {
+            epaInfo.FinalScore = _cryptographyService.Decrypt(epaInfo.FinalScore);
+            epaInfo.Grade = _cryptographyService.Decrypt(epaInfo.Grade);
+            DecodeTotalScore(epaInfo.Process.Self);
+            DecodeTotalScore(epaInfo.Process.Evaluators);
+            DecodeTotalScore(epaInfo.Process.Reviewers);
+            DecodeTotalScore(epaInfo.Process.Managements);
+        }
+    }
+
+    private void DecodeTotalScore(EPAProcessModel process)
+    {
+        if (process != null)
+        {
+            process.TotalScore = _cryptographyService.Decrypt(process.TotalScore);
+            process.AdjustScore = _cryptographyService.Decrypt(process.AdjustScore);
+        }
+    }
+
+    private void DecodeTotalScore(IList<EPAProcessModel> processes)
+    {
+        foreach (var process in processes)
+        {
+            DecodeTotalScore(process);
+        }
+    }
+
+    private void DecodeDetailScores(IList<EPASummaryDetailScoreModel> detailScores)
+    {
+        foreach (var detailScore in detailScores)
+        {
+            detailScore.AdjustScore = _cryptographyService.Decrypt(detailScore.AdjustScore);
+            detailScore.TotalScore = _cryptographyService.Decrypt(detailScore.TotalScore);
+        }
+    }
+}

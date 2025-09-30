@@ -1,0 +1,50 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using SMS.EPA.Core.Services;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria;
+using SMS.EPA.Models.Enitites;
+using SMS.EPA.Services.Interfaces;
+
+namespace SMS.EPA.Services.Implement;
+
+public class UnitService(
+    IBaseService baseService = null,
+    IDepartmentService departmentService = null)
+    : IUnitService
+{
+    private readonly IBaseService baseService = baseService ?? new BaseService();
+    private readonly IDepartmentService departmentService = departmentService ?? new DepartmentService();
+
+    public IList<Unit> Get(bool? isActive = true)
+    {
+        var criteria = new GetUnitCriteria
+        {
+            IsActive = isActive
+        };
+
+        return baseService.GetData<Unit>(criteria).ToList();
+    }
+
+    public IList<MultiSelectItem> GetOrgChart()
+    {
+        var criteria = new GetUnitCriteria
+        {
+            IsActive = true
+        };
+        var units = baseService.GetData<Unit>(criteria).ToList();
+        var items = departmentService.GetOrgChart().ToList();
+
+        if (items.Exists(x => x.ParentId == 0))
+        {
+            units.Add(new Unit());
+        }
+
+        return units.Select(x => new MultiSelectItem
+        {
+            Id = x.UnitId,
+            Text = x.Name,
+            Items = items.Where(dept => dept.ParentId == x.UnitId).ToList()
+        }).ToList();
+    }
+}

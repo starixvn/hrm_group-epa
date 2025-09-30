@@ -1,0 +1,68 @@
+﻿<table class="table table-bordered table-striped table-custom">
+    <thead>
+        <tr>
+            <th data-translate="SymbolCount"></th>
+            <th data-translate="PeriodName"></th>
+            <th data-translate="PerformanceScore"></th>
+            <th data-translate="DisciplineScore"></th>
+            <th data-translate="FinalScore"></th>
+            <th data-translate="Detail" class="col-action"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="epaInfo in dashboardCtrl.myEPAs">
+            <td class="text-center" ng-bind="$index + 1"></td>
+            <td ng-bind="epaInfo.Period.Name"></td>
+            <td class="text-center">
+                <div ng-show="epaInfo.EPAId > 0 && epaInfo.IsClosed">
+                    <span ng-show="epaInfo.Process.PerformanceScore || epaInfo.Process.PerformanceScore == 0">
+                        {{epaInfo.Process.PerformanceScore | customScore}} / {{epaInfo.Process.MaxPerformanceScore | customScore}}
+                    </span>
+                    <span ng-show="!epaInfo.Process.PerformanceScore && epaInfo.Process.PerformanceScore != 0" data-translate="NotAvailable"></span>
+                </div>
+                <div ng-show="epaInfo.EPAId > 0 && !epaInfo.IsClosed" data-translate="Pending"></div>
+                <div ng-show="epaInfo.EPAId < 0" ng-bind="'-'"></div>
+            </td>
+            <td class="text-center">
+                <span>
+                    <span ng-show="epaInfo.EPAId > 0 && epaInfo.IsClosed">
+                        <span ng-show="epaInfo.HasDisciplineScore">
+                            <span ng-class="epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                                  ng-bind="epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="epaInfo.MaxDisciplineScore | customScore"></span>
+                        </span>
+                        <span ng-show="!epaInfo.HasDisciplineScore">
+                            <span ng-show="epaInfo.DisciplineScore"
+                                  ng-class="epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                                  ng-bind="epaInfo.DisciplineScore | customScore"></span>
+                            <span ng-show="!epaInfo.DisciplineScore" ng-bind="'-'"></span>
+                        </span>
+                    </span>
+                    <span ng-show="epaInfo.EPAId > 0 && !epaInfo.IsClosed" data-translate="Pending"></span>
+                    <span ng-show="epaInfo.EPAId < 0" ng-bind="'-'"></span>
+                </span>
+            </td>
+            <td class="text-center">
+                <div ng-show="epaInfo.IsClosed">
+                    <span ng-show="epaInfo.FinalScore || epaInfo.FinalScore == 0">
+                        {{epaInfo.FinalScore | customScore}} / {{epaInfo.MaxFinalScore | customScore}}
+                    </span>
+                    <span ng-show="!epaInfo.FinalScore && epaInfo.FinalScore != 0" data-translate="NotAvailable"></span>
+                </div>
+                <div ng-show="!epaInfo.IsClosed" data-translate="Pending"></div>
+            </td>
+            <td class="text-center col-action">
+                <a class="glyphicon glyphicon-edit icon-edit" ng-click="dashboardCtrl.selfEvaluationDetail(epaInfo.EPAId, $event)"
+                   ng-if="epaInfo.EPAId > 0 && (epaInfo.IsAllowedToEdit || !epaInfo.IsEndProcessBySelf)"
+                   ng-attr-title='{{"EvaluateNow" | translate}}'></a>
+                <a class="glyphicon icon-view" ng-click="dashboardCtrl.viewEPAResult(epaInfo.EPAId, $event)"
+                   ng-if="epaInfo.EPAId > 0 && !(epaInfo.IsAllowedToEdit || !epaInfo.IsEndProcessBySelf)"
+                   ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
+            </td>
+        </tr>
+    </tbody>
+    <tbody ng-show="dashboardCtrl.myEPAs.length == 0">
+        <tr>
+            <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
+        </tr>
+    </tbody>
+</table>

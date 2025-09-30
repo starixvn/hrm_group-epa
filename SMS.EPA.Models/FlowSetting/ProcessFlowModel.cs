@@ -1,0 +1,18 @@
+﻿namespace SMS.EPA.Models.FlowSetting;
+
+public class ProcessFlowModel
+{
+    public int GroupId { get; set; }
+
+    public int EmployeeId { get; set; }
+
+    public byte ProcessId { get; set; }
+
+    public int EvaluatorId { get; set; }
+
+    public string Code { get; set; }
+
+    public string NickName { get; set; }
+
+    public string FullName { get; set; }
+}

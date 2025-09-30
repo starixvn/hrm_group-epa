@@ -1,0 +1,107 @@
+﻿
+CREATE PROCEDURE [dbo].[JobLevelStandard_Template_UpdateKPI] @TemplateId INT
+	,@KPIs NVARCHAR(MAX) = ''
+	,@ModifiedBy INT
+	,@ErrCode INT = 0 OUTPUT
+	,@ErrMsg VARCHAR(200) = '' OUTPUT
+AS
+/*
+Created: 2023-04-26@Frankie.Nguyen
+Task: Update Template KPI for JobLevelStandard.
+DB: SMSEPA
+Original:
+
+Revisions:
+Param's Explanation:
+	@KPIs: <ROOT><KPI KPIId="" Weight="" DisplayOrder="" /></ROOT>
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @oldData NVARCHAR(MAX)
+		,@Data NVARCHAR(MAX)
+		,@xml XML
+
+	CREATE TABLE #tmpKPI (
+		KPIId INT
+		,DisplayOrder INT
+		,[Weight] FLOAT
+		)
+
+	IF ISNULL(@KPIs, '') != ''
+	BEGIN
+		BEGIN TRY
+			DECLARE @DocHandler INT
+
+			EXEC sp_xml_preparedocument @DocHandler OUTPUT
+				,@KPIs
+
+			INSERT INTO #tmpKPI (
+				KPIId
+				,[Weight]
+				,DisplayOrder
+				)
+			SELECT KPIId
+				,[Weight]
+				,DisplayOrder
+			FROM OPENXML(@DocHandler, '/ROOT/KPI', 1) WITH (KPIId INT, DisplayOrder INT, [Weight] FLOAT) AS Data
+
+			EXEC sp_xml_removedocument @DocHandler
+		END TRY
+
+		BEGIN CATCH
+			SELECT @ErrCode = 1
+				,@ErrMsg = N'Paramter invalid.'
+
+			RETURN
+		END CATCH
+	END
+
+	SET @xml = (
+			SELECT TemplateId AS '@TemplateId'
+				,[KPIId] AS '@KPIId'
+				,[Weight] AS '@Weight'
+			FROM dbo.JobLevelStandard_TemplateKPI AS jtk WITH (NOLOCK)
+			WHERE jtk.TemplateId = @TemplateId
+			FOR XML PATH('r')
+				,TYPE
+			)
+	SET @oldData = REPLACE(CONVERT(NVARCHAR(MAX), @xml), '" />', '"/"')
+
+	DELETE jtk
+	FROM dbo.JobLevelStandard_TemplateKPI AS jtk WITH (ROWLOCK, UPDLOCK)
+	WHERE jtk.TemplateId = @TemplateId
+
+	INSERT dbo.JobLevelStandard_TemplateKPI (
+		TemplateId
+		,KPIId
+		,DisplayOrder
+		,[Weight]
+		)
+	SELECT @TemplateId
+		,KPIId
+		,DisplayOrder
+		,[Weight]
+	FROM #tmpKPI WITH (ROWLOCK)
+
+	SET @xml = (
+			SELECT TemplateId AS '@TemplateId'
+				,[KPIId] AS '@KPIId'
+				,[Weight] AS '@Weight'
+			FROM dbo.JobLevelStandard_TemplateKPI AS jtk WITH (NOLOCK)
+			WHERE jtk.TemplateId = @TemplateId
+			FOR XML PATH('r')
+				,TYPE
+			)
+	SET @Data = REPLACE(CONVERT(NVARCHAR(MAX), @xml), '" />', '"/"')
+
+	EXEC dbo.LogDetail_Insert @ActorId = @ModifiedBy
+		,@SpName = 'JobLevelStandard_Template_UpdateKPI'
+		,@ObjectId = @TemplateId
+		,@ObjectTypeId = NULL
+		,@Data = @Data
+		,@OldData = @oldData
+		,@ObjectIds = NULL
+
+	DROP TABLE #tmpKPI
+END

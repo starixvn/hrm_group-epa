@@ -1,0 +1,114 @@
+﻿
+CREATE PROCEDURE [dbo].[EpaRole_AssignFunctionToRole] @RoleId INT
+	,@Functions VARCHAR(5000) = ''
+	,@ModifiedBy INT
+	,@ErrCode INT = 0 OUTPUT
+	,@ErrMsg VARCHAR(200) = '' OUTPUT
+AS
+/*
+Created: 20150609@Josh.Phan
+Task: Assign function to role.
+DB: SMSEPA
+Original: 
+
+Revisions:  
+Param's Explanation:
+	@Functions = <ROOT><Function FunctionId="1" IsRead="1" IsHost="0"></Function></ROOT>
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	CREATE TABLE #Functions (
+		FunctionId INT
+		,IsRead BIT
+		,IsHost BIT
+		)
+
+	BEGIN TRY
+		DECLARE @DocHandler INT
+
+		EXEC sp_xml_preparedocument @DocHandler OUTPUT
+			,@Functions
+
+		INSERT INTO #Functions (
+			FunctionId
+			,IsRead
+			,IsHost
+			)
+		SELECT FunctionId
+			,IsRead
+			,IsHost
+		FROM OPENXML(@DocHandler, '/ROOT/Function', 1) WITH (FunctionId INT, IsRead INT, IsHost BIT) AS Data
+
+		EXEC sp_xml_removedocument @DocHandler
+	END TRY
+
+	BEGIN CATCH
+		SELECT @ErrCode = 1
+			,@ErrMsg = N'Evaluate failed. Paramter invalid.'
+
+		RETURN
+	END CATCH
+
+	DECLARE @Data NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
+
+	EXEC @OldData = [dbo].[fncGetDataForWriteLog_Role_AssignFunctionToRole] @ObjectId = @RoleId
+
+	BEGIN TRY
+		BEGIN TRANSACTION
+
+		UPDATE rf
+		SET rf.IsRead = f.IsRead
+			,rf.IsHost = f.IsHost
+			,rf.ModifiedBy = @ModifiedBy
+			,rf.ModifiedDate = GETDATE()
+		FROM dbo.[RoleFunction] AS rf WITH (ROWLOCK, UPDLOCK)
+			INNER JOIN #Functions AS f WITH (NOLOCK) ON rf.FunctionId = f.FunctionId
+		WHERE rf.RoleId = @RoleId
+
+		DELETE f
+		FROM #Functions AS f
+		WHERE EXISTS (
+				SELECT 1
+				FROM dbo.RoleFunction AS rf WITH (NOLOCK)
+				WHERE rf.RoleId = @RoleId
+					AND rf.FunctionId = f.FunctionId
+				)
+
+		INSERT INTO dbo.[RoleFunction] (
+			[RoleId]
+			,[FunctionId]
+			,[IsRead]
+			,[IsHost]
+			,[ModifiedBy]
+			,[ModifiedDate]
+			)
+		SELECT @RoleId
+			,FunctionId
+			,IsRead
+			,IsHost
+			,@ModifiedBy
+			,GETDATE()
+		FROM #Functions
+
+		EXEC @Data = [dbo].[fncGetDataForWriteLog_Role_AssignFunctionToRole] @ObjectId = @RoleId
+
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'EpaRole_AssignFunctionToRole'
+			,@ObjectId = @RoleId
+			,@ObjectTypeId = 5
+			,@Data = @Data
+			,@OldData = @OldData
+			,@ObjectIds = NULL
+
+		COMMIT TRANSACTION
+	END TRY
+
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+
+		SELECT @ErrCode = 1
+			,@ErrMsg = N'Assign function to role unsuccessfully.'
+	END CATCH
+END
