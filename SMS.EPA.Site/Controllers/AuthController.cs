@@ -1,23 +1,23 @@
-﻿using System.Threading.Tasks;
-using SMS.EPA.Core.Services.Interfaces;
-using SMS.EPA.Criteria.Authentication;
-using SMS.EPA.Models.Authentication;
-
-namespace SMS.EPA.Site.Controllers;
+﻿namespace SMS.EPA.Site.Controllers;
 
 using System;
 using System.Globalization;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using Core.Constants;
+using Core.Model;
 using Fanex.Data;
+using GO.UserControl.Client.Core;
 using GO.UserControl.Client.Core.Models.Auth;
 using GO.UserControl.Client.Core.Services;
 using GO.UserControl.Client.Core.Session;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using Core.Constants;
-using Core.Model;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using SMS.EPA.Core.Services;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Criteria.Authentication;
+using SMS.EPA.Models.Authentication;
 
 public class AuthController(
     IUserControlSession userControlSession,
@@ -25,8 +25,7 @@ public class AuthController(
     IAuthService authService,
     IUserService userService,
     IRoleService roleService,
-    IBaseService baseService)
-    : Controller
+    IBaseService baseService) : Controller
 {
     public IActionResult Login()
     {
@@ -58,18 +57,18 @@ public class AuthController(
         var loginResult = await authService.LoginAsync(loginParam);
         if (loginResult.IsSuccessfull)
         {
+            userControlSession.UserId = loginResult.UserId;
+            userControlSession.SiteId = UserControlClient.SiteId;
+            userControlSession.JwtToken = loginResult.JwtToken;
+            userControlSession.MenuItems = await userService.GetMenuItemAsync();
+            userControlSession.Functions = await userService.GetFunctionPermissionAsync(userControlSession.SiteId, userControlSession.UserId);
+
             var employee = await GetEmployeeLogin(loginResult.UserId);
             if (employee == null)
             {
                 ModelState.AddModelError(string.Empty, "User has not been mapped.");
                 return View(model);
             }
-
-            userControlSession.UserId = loginResult.UserId;
-            userControlSession.SiteId = short.Parse(ConfigurationManagerService.GetAppSetting("GO.UserControl.Client:SiteId"));
-            userControlSession.JwtToken = loginResult.JwtToken;
-            userControlSession.MenuItems = await userService.GetMenuItemAsync();
-            userControlSession.Functions = await userService.GetFunctionPermissionAsync(userControlSession.SiteId, userControlSession.UserId);
 
             userControlSession.Set(Constants.CurrentEmployeeKey, employee);
             userControlSession.Set(Constants.CurrentEmployeeIdKey, employee.EmployeeId);
@@ -135,7 +134,6 @@ public class AuthController(
         return RedirectToAction("Login");
     }
 
-
     public async Task<IActionResult> Logout()
     {
         userControlSession.ClearAll();
@@ -149,7 +147,20 @@ public class AuthController(
         {
             UserId = userId
         };
-        return await baseService.GetDataEntityAsync<UserSession>(criteria);
+        var userSession = await baseService.GetDataEntityAsync<UserSession>(criteria);
+        if (userSession == null)
+        {
+            var user = await userService.GetByIdAsync(userId);
+            userSession = new UserSession
+            {
+                EmployeeId = user.UserId,
+                Code = user.Code,
+                NickName = user.Nickname,
+                FullName = user.FullName
+            };
+        }
+
+        return userSession;
     }
 
     private string GetClientIP()

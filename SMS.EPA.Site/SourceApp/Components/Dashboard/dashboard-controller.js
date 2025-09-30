@@ -34,6 +34,7 @@
             });
 
             DashboardModel.getDashboard().then(function () {
+                lockScreenService.stop();
                 var dashboardInfo = DashboardModel.dashboardInfo;
 
                 vm.employee = dashboardInfo.Employee;
@@ -59,8 +60,6 @@
                         vm.evaluationProcesses.push(monthlyEPA);
                     }
                 });
-
-                lockScreenService.stop();
             });
 
             DashboardModel.getAnnouncement().then(function () {

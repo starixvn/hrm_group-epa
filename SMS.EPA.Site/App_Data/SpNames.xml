@@ -13,16 +13,10 @@
         <Setting Key="Employee_Search" SpName="Employee_Search" DbName="bodb_EPA" Plain="0"></Setting>
         <Setting Key="EpaEmployee_GetById" SpName="EpaEmployee_GetById" DbName="bodb_EPA" Plain="0"></Setting>
         <Setting Key="EpaGroup_Get" SpName="EpaGroup_Get" DbName="bodb_EPA" Plain="0"></Setting>
-        <Setting Key="EpaEmployee_Insert" SpName="EpaEmployee_Insert" DbName="bodb_EPA" Plain="0"></Setting>
-        <Setting Key="EpaEmployee_Update" SpName="EpaEmployee_Update" DbName="bodb_EPA" Plain="0"></Setting>
         <Setting Key="EpaJobTitle_Get" SpName="EpaJobTitle_Get" DbName="bodb_EPA" Plain="0"></Setting>
-        <Setting Key="EpaEmployee_ChangePassword" SpName="EpaEmployee_ChangePassword" DbName="bodb_EPA" Plain="0"></Setting>
         <Setting Key="EpaEmployee_AssignRoleToEmployee" SpName="EpaEmployee_AssignRoleToEmployee" DbName="bodb_EPA" Plain="0"></Setting>
         <Setting Key="EpaEmployee_UpdateHasMonthlyEPA" SpName="EpaEmployee_UpdateHasMonthlyEPA" DbName="bodb_EPA" Plain="0" />
-        <Setting Key="EpaEmployee_GetPasswordByEmpId" SpName="EpaEmployee_GetPasswordByEmpId" DbName="bodb_EPA" Plain="0" />
-        <Setting Key="EpaEmployee_UpdateJobLevel" SpName="EpaEmployee_UpdateJobLevel" DbName="bodb_EPA" Plain="0" />
         <Setting Key="Employee_GetByUserId" SpName="Employee_GetByUserId" DbName="bodb_EPA" Plain="0" />
-        <Setting Key="Employee_UpdateUserId" SpName="Employee_UpdateUserId" DbName="bodb_EPA" Plain="0" />
     </Function>
     <Function Name="KPI">
         <Setting Key="KPI_Get" SpName="KPI_Get" DbName="bodb_EPA" Plain="0"></Setting>

@@ -1,37 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GO.UserControl.Client.Core.Models.Role;
-using SMS.EPA.Core.Enumerations;
-using SMS.EPA.Core.Model;
-using SMS.EPA.Core.Security;
-using SMS.EPA.Core.Services;
-using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Criteria.Employee;
 using SMS.EPA.Models.Enitites;
-using SMS.EPA.Repositories.Implement;
 using SMS.EPA.Repositories.Interfaces;
-using SMS.EPA.Resources;
 using SMS.EPA.Services.Interfaces;
 
 namespace SMS.EPA.Services.Implement;
 
-public class EmployeeService(
-    IEmployeeRepository employeeRepository,
-    IBaseService baseService)
-    : IEmployeeService
+public class EmployeeService(IEmployeeRepository employeeRepository) : IEmployeeService
 {
-    private readonly IEmployeeRepository employeeRepository = employeeRepository ?? new EmployeeRepository();
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-
-    public EmployeeService() : this(null, null)
-    {
-    }
-
-    public bool ValidatePassword(string enterPassword, string employeePassword)
-    {
-        return Encryption.CompareStringToHash(HashProvider.Sha1, enterPassword, employeePassword);
-    }
-
     public IList<Employee> GetEmployee(GetEmployeeCriteria criteria, IList<Role> roles)
     {
         IList<Employee> employees = employeeRepository.GetAllEmployee(criteria).ToList();
@@ -49,67 +27,13 @@ public class EmployeeService(
         {
             EmployeeId = employeeId
         };
-        var employee = new Employee();
+        var employee = employeeRepository.GetEmployeeById(criteria);
 
-        if (criteria.IsValid())
+        if (employee != null)
         {
-            employee = employeeRepository.GetEmployeeById(criteria);
             employee.Roles = roles.Where(x => employee.Roles.Any(r => r.RoleId == x.RoleId)).ToList();
         }
 
         return employee;
-    }
-
-    public CommandResult CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria)
-    {
-        var commandResult = new CommandResult();
-
-        if (criteria != null && criteria.IsValid())
-        {
-            criteria.Password = Encryption.ComputeHash(HashProvider.Sha1, criteria.Password);
-            commandResult = baseService.ExecuteNonQuery(criteria);
-        }
-
-        return commandResult;
-    }
-
-    public CommandResult ChangePassword(ChangePasswordCriteria criteria)
-    {
-        var commandResult = new CommandResult();
-        var oldPassword = GetPasswordByEmployeeId(criteria.EmployeeId);
-        if (ValidatePassword(criteria.OldPassword, oldPassword))
-        {
-            criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
-            criteria.ConfirmPassword = criteria.NewPassword;
-            commandResult = baseService.ExecuteNonQuery(criteria);
-        }
-        else
-        {
-            commandResult.Message = Lang.ValidateWrongPassword;
-        }
-
-        return commandResult;
-    }
-
-    public CommandResult ResetPassword(ResetPasswordCriteria criteria)
-    {
-        criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
-        return baseService.ExecuteNonQuery(criteria);
-    }
-
-    public string GetPasswordByEmployeeId(int employeeId)
-    {
-        var criteria = new GetPasswordByEmpIdCriteria
-        {
-            EmployeeId = employeeId
-        };
-        var password = string.Empty;
-
-        if (criteria.IsValid())
-        {
-            password = baseService.GetDataEntity<string>(criteria);
-        }
-
-        return password;
     }
 }
