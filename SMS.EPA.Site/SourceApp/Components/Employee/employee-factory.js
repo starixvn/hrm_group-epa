@@ -11,7 +11,6 @@
             changePassword,
             createSpecialEmployee,
             getEmployee,
-            getDefaultPassword,
             getUserPermissionOnEmployee,
             resetPassword,
             updateHasMonthlyEPA,
@@ -36,10 +35,6 @@
 
         function createSpecialEmployee(employee) {
             return $http.post(baseUrl + 'Employee/CreateSpecialEmployee', employee);
-        }
-
-        function getDefaultPassword() {
-            return $http.get(baseUrl + 'Employee/GetDefaultPassword');
         }
 
         function getUserPermissionOnEmployee() {

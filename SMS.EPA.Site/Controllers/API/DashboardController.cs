@@ -1,22 +1,21 @@
-using SMS.EPA.Core.Services.Interfaces;
-using SMS.EPA.Models.Dashboard;
-using SMS.EPA.Services.Interfaces;
-
 namespace SMS.EPA.Site.Controllers.API;
 
 using System.Collections.Generic;
-using GO.UserControl.Client.Core.Enumerables;
-using GO.UserControl.Client.Core.Models.Role;
-using GO.UserControl.Client.Core.Session;
 using Core.Attribute;
 using Core.Constants;
 using Core.Enumerations;
 using Criteria.Dashboard;
+using GO.UserControl.Client.Core.Enumerables;
+using GO.UserControl.Client.Core.Models.Role;
+using GO.UserControl.Client.Core.Session;
+using SMS.EPA.Core.Services.Interfaces;
+using SMS.EPA.Models.Dashboard;
+using SMS.EPA.Services.Interfaces;
 
 public class DashboardController(
-    IUserControlSession userControlSession,
+    IUserControlSession session,
     IBaseService baseService,
-    IEmployeeService employeeService) : BaseController(userControlSession)
+    IEmployeeService employeeService) : BaseController(session)
 {
     [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
     public DashboardModel GetDashboard()

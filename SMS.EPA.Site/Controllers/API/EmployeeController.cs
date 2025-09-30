@@ -9,7 +9,6 @@ using GO.UserControl.Client.Core.Models.User;
 using GO.UserControl.Client.Core.Services;
 using GO.UserControl.Client.Core.Session;
 using Microsoft.AspNetCore.Mvc;
-using SMS.EPA.Core.Services;
 using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Criteria.Employee;
 using SMS.EPA.Models.Enitites;
@@ -20,7 +19,6 @@ public class EmployeeController(
     IRoleService roleService,
     IEmployeeService employeeService,
     IBaseService baseService,
-    ICryptoService cryptoService,
     IUserService userService) : BaseController(session)
 {
     [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Read)]
@@ -43,7 +41,7 @@ public class EmployeeController(
             HasMonthlyEPA = hasMonthlyEPA,
             JobLevelId = jobLevelId,
         };
-        var roles = roleService.GetBySiteId(userControlSession.SiteId);
+        var roles = roleService.GetBySiteId(session.SiteId);
         return employeeService.GetEmployee(criteria, roles);
     }
 
@@ -55,7 +53,7 @@ public class EmployeeController(
         var commandResult = baseService.ExecuteNonQuery(criteria);
         if (commandResult.IsSuccessful)
         {
-            var roles = roleService.GetBySiteId(userControlSession.SiteId);
+            var roles = roleService.GetBySiteId(session.SiteId);
             var employee = employeeService.GetEmployeeById(criteria.EmployeeId, roles);
             var result = userService.AssignRole(new AssignRoleParam
             {
@@ -74,12 +72,6 @@ public class EmployeeController(
     {
         criteria.ModifiedBy = CurrentEmployeeId;
         return baseService.ExecuteNonQuery(criteria);
-    }
-
-    [HttpGet]
-    public string GetDefaultPassword()
-    {
-        return ConfigurationManagerService.GetAppSetting("PasswordToReset");
     }
 
     public byte GetUserPermissionOnEmployee()

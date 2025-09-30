@@ -54,10 +54,6 @@
                 vm.jobLevelOptions = CommonModel.jobLevels;
             });
 
-            EmployeeModel.getDefaultPassword().then(function () {
-                vm.defaultPassword = EmployeeModel.defaultPassword;
-            });
-
             EmployeeModel.getUserPermissionOnEmployee().then(function () {
                 vm.permission = EmployeeModel.permission;
             });

@@ -1,27 +1,26 @@
-﻿using GO.UserControl.Client.Core.Enumerables;
-using GO.UserControl.Client.Core.Session;
+﻿namespace SMS.EPA.Site.Controllers.API;
 
-namespace SMS.EPA.Site.Controllers.API;
-
-using Microsoft.AspNetCore.Mvc;
 using Core.Constants;
+using GO.UserControl.Client.Core.Enumerables;
+using GO.UserControl.Client.Core.Session;
+using Microsoft.AspNetCore.Mvc;
 
-public class BaseController(IUserControlSession userControlSession) : Controller
+public class BaseController(IUserControlSession session) : Controller
 {
-    protected IUserControlSession userControlSession = userControlSession;
+    protected IUserControlSession session = session;
 
-    protected int CurrentEmployeeId => userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
+    protected int CurrentEmployeeId => session.Get<int>(Constants.CurrentEmployeeIdKey);
 
     protected byte GetPermissionOnFunction(string functionKey)
     {
         var policy = (byte)Policy.None;
-        if (userControlSession.HasPermissionOnFunction(functionKey, Policy.Host))
+        if (session.HasPermissionOnFunction(functionKey, Policy.Host))
         {
             policy = (byte)Policy.Host;
         }
         else
         {
-            if (userControlSession.HasPermissionOnFunction(functionKey, Policy.Read))
+            if (session.HasPermissionOnFunction(functionKey, Policy.Read))
             {
                 policy = (byte)Policy.Read;
             }

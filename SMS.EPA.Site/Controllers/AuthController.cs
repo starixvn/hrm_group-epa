@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Core.Constants;
 using Core.Model;
 using Fanex.Data;
+using Fanex.Logging;
 using GO.UserControl.Client.Core;
 using GO.UserControl.Client.Core.Models.Auth;
 using GO.UserControl.Client.Core.Services;
@@ -14,12 +15,13 @@ using GO.UserControl.Client.Core.Session;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using SMS.EPA.Core.Services;
+using Newtonsoft.Json;
 using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Criteria.Authentication;
 using SMS.EPA.Models.Authentication;
 
 public class AuthController(
+    ILogger logger,
     IUserControlSession userControlSession,
     ICryptoService cryptoService,
     IAuthService authService,
@@ -64,6 +66,7 @@ public class AuthController(
             userControlSession.Functions = await userService.GetFunctionPermissionAsync(userControlSession.SiteId, userControlSession.UserId);
 
             var employee = await GetEmployeeLogin(loginResult.UserId);
+            await logger.InfoAsync(JsonConvert.SerializeObject(employee));
             if (employee == null)
             {
                 ModelState.AddModelError(string.Empty, "User has not been mapped.");
@@ -119,7 +122,7 @@ public class AuthController(
             }
 
             userControlSession.UserId = Convert.ToInt32(userIdValue);
-            userControlSession.SiteId = short.Parse(ConfigurationManagerService.GetAppSetting("GO.UserControl.Client:SiteId"));
+            userControlSession.SiteId = UserControlClient.SiteId;
             userControlSession.JwtToken = loginResult.JwtToken;
             userControlSession.OnUserId = loginResult.OnUserId;
             userControlSession.MenuItems = await userService.GetMenuItemAsync();
@@ -148,6 +151,7 @@ public class AuthController(
             UserId = userId
         };
         var userSession = await baseService.GetDataEntityAsync<UserSession>(criteria);
+        await logger.InfoAsync(JsonConvert.SerializeObject(userSession));
         if (userSession == null)
         {
             var user = await userService.GetByIdAsync(userId);

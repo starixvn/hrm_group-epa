@@ -34,12 +34,11 @@ using SMS.EPA.Models.TargetType;
 using SMS.EPA.Services.Interfaces;
 
 public class CommonController(
-    IUserControlSession userControlSession,
+    IUserControlSession session,
     IRoleService roleService,
     IBaseService baseService,
     ICommonService commonService,
-    IDepartmentService departmentService)
-    : BaseController(userControlSession)
+    IDepartmentService departmentService) : BaseController(session)
 {
     [HttpGet]
     public IEnumerable<TargetTypeModel> GetTargetType(
@@ -84,7 +83,7 @@ public class CommonController(
 
     public IList<Role> GetSystemRoles(bool? isActive = true)
     {
-        var systemRoles = roleService.GetBySiteId(userControlSession.SiteId, isActive);
+        var systemRoles = roleService.GetBySiteId(session.SiteId, isActive);
         return systemRoles;
     }
 
@@ -113,7 +112,7 @@ public class CommonController(
     [HttpGet]
     public Employee GetEmployeeById(int employeeId)
     {
-        var roles = roleService.GetBySiteId(userControlSession.SiteId);
+        var roles = roleService.GetBySiteId(session.SiteId);
         return commonService.GetEmployeeById(employeeId, roles);
     }
 
@@ -180,7 +179,7 @@ public class CommonController(
     {
         try
         {
-            IEnumerable<MenuItem> menus = userControlSession.MenuItems;
+            IEnumerable<MenuItem> menus = session.MenuItems;
             if (menus == null)
             {
                 return new List<MenuItem>();

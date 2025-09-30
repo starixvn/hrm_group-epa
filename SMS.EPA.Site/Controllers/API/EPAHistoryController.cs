@@ -13,8 +13,8 @@ using Services.Interfaces;
 using SMS.EPA.Models.EPAHistory;
 
 public class EPAHistoryController(
-    IUserControlSession userControlSession,
-    IEPAHistoryService epaHistoryService) : BaseController(userControlSession)
+    IUserControlSession session,
+    IEPAHistoryService epaHistoryService) : BaseController(session)
 {
     [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAHistory, Policy = Policy.Read)]
     public IList<EPAHistoryModel> GetEPAHistory(GetEPAHistoryCriteria criteria)
@@ -40,7 +40,7 @@ public class EPAHistoryController(
 
     public bool HasOnlyEmployeeRole()
     {
-        var roles = userControlSession.Get<IList<Role>>(Constants.CurrentEmployeeRoleKey);
+        var roles = session.Get<IList<Role>>(Constants.CurrentEmployeeRoleKey);
         return roles != null && roles.All(x => x.RoleId == (byte)SystemRole.Employee);
     }
 }

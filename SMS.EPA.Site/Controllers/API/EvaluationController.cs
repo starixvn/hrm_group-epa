@@ -3,7 +3,6 @@ using GO.UserControl.Client.Core.Session;
 using SMS.EPA.Core.Services.Interfaces;
 using SMS.EPA.Criteria.EmployeeEPA;
 using SMS.EPA.Models.EmployeeEPA;
-using SMS.EPA.Services.Implement;
 using SMS.EPA.Services.Interfaces;
 
 namespace SMS.EPA.Site.Controllers.API;
@@ -11,27 +10,17 @@ namespace SMS.EPA.Site.Controllers.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using GO.UserControl.Client.Core.Enumerables;
-    
 using Core.Constants;
 using Core.Enumerations;
 using Core.Model;
-using SMS.EPA.Core.Services;
+using GO.UserControl.Client.Core.Enumerables;
+using Microsoft.AspNetCore.Mvc;
 
 public class EvaluationController(
-    IUserControlSession userControlSession,
+    IUserControlSession session,
     IEmployeeEPAService evaluationService,
-    IBaseService baseService)
-    : BaseController(userControlSession)
+    IBaseService baseService) : BaseController(session)
 {
-    private readonly IEmployeeEPAService evaluationService = evaluationService ?? new EmployeeEPAService();
-    private readonly IBaseService baseService = baseService ?? new BaseService();
-
-    public EvaluationController() : this(null, null, null)
-    {
-    }
-
     public IActionResult GetEPAInfoById(int epaId)
     {
         var epaInfo = new EPAModel();
@@ -49,7 +38,7 @@ public class EvaluationController(
             return NotFound();
         }
 
-        var roles = userControlSession.Get<IList<Role>>(Constants.CurrentEmployeeRoleKey);
+        var roles = session.Get<IList<Role>>(Constants.CurrentEmployeeRoleKey);
         evaluationService.RemoveSensitiveDataOnEmployeeRole(epaInfo, CurrentEmployeeId, roles);
 
         return Ok(epaInfo);
@@ -73,7 +62,7 @@ public class EvaluationController(
     {
         IActionResult response = null;
 
-        var roles = userControlSession.Get<IList<Role>>(Constants.CurrentEmployeeRoleKey);
+        var roles = session.Get<IList<Role>>(Constants.CurrentEmployeeRoleKey);
         if (roles.Select(x => x.RoleId).Contains((byte)SystemRole.SystemAdmin))
         {
             var epaInfo = evaluationService.GetEPAInfoById(criteria.EPAId);

@@ -262,14 +262,6 @@
             return roles;
         };
 
-        model.getDefaultPassword = function () {
-            return employeeFactory.getDefaultPassword().success(function (password) {
-                model.defaultPassword = password;
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        };
-
         model.openPopupResetPassword = function (employee, defaultPassword) {
             var modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/Employee/Templates/resetPassword.html',

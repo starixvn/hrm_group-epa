@@ -9,8 +9,9 @@ using Services.Interfaces;
 using SMS.EPA.Criteria.Discipline;
 using SMS.EPA.Models.Discipline;
 
-public class DisciplineController(IUserControlSession session, IDisciplineService disciplineService)
-    : BaseController(session)
+public class DisciplineController(
+    IUserControlSession session,
+    IDisciplineService disciplineService) : BaseController(session)
 {
     [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Read)]
     public IEnumerable<DisciplineSummaryModel> GetDisciplineSummary(GetDisciplineSummaryCriteria criteria)
